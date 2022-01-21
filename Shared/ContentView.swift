@@ -8,10 +8,27 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var fastingManager = FastingManager()
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        TabView {
+           
+            Home(fastingManager: fastingManager)
+                .onAppear {
+                    Task {
+                        await fastingManager.requestAuthorization()
+                    }
+                }
+                .tabItem { Image(systemName: "house")
+                    Text("Timer")
+                }
+            
+            GoalSettings(fastingManager: fastingManager)
+                .tabItem { Image(systemName: "gear")
+                    Text("Settings")
+                }
+        }
     }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {

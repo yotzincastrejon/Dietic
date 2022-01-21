@@ -7,21 +7,114 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA0081C127206F9B004719BE /* DietTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081C027206F9B004719BE /* DietTitle.swift */; };
+		FA0081C227206F9B004719BE /* DietTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081C027206F9B004719BE /* DietTitle.swift */; };
+		FA0081C427206FDA004719BE /* DietCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081C327206FDA004719BE /* DietCard.swift */; };
+		FA0081C527206FDA004719BE /* DietCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081C327206FDA004719BE /* DietCard.swift */; };
+		FA0081C72720700E004719BE /* DietCardMainLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081C62720700E004719BE /* DietCardMainLabel.swift */; };
+		FA0081C82720700E004719BE /* DietCardMainLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081C62720700E004719BE /* DietCardMainLabel.swift */; };
+		FA0081CA27207039004719BE /* MacroLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081C927207039004719BE /* MacroLabel.swift */; };
+		FA0081CB27207039004719BE /* MacroLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081C927207039004719BE /* MacroLabel.swift */; };
+		FA0081CE272071F6004719BE /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081CD272071F6004719BE /* RoundedCorners.swift */; };
+		FA0081CF272071F6004719BE /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081CD272071F6004719BE /* RoundedCorners.swift */; };
+		FA0081D127207226004719BE /* MealCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081D027207226004719BE /* MealCard.swift */; };
+		FA0081D227207226004719BE /* MealCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081D027207226004719BE /* MealCard.swift */; };
+		FA0081D427207259004719BE /* MealsToday.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081D327207259004719BE /* MealsToday.swift */; };
+		FA0081D527207259004719BE /* MealsToday.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081D327207259004719BE /* MealsToday.swift */; };
+		FA0081D727207286004719BE /* SnackCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081D627207286004719BE /* SnackCard.swift */; };
+		FA0081D827207286004719BE /* SnackCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081D627207286004719BE /* SnackCard.swift */; };
+		FA0081DA272072B5004719BE /* ShadowLevels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081D9272072B5004719BE /* ShadowLevels.swift */; };
+		FA0081DB272072B5004719BE /* ShadowLevels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081D9272072B5004719BE /* ShadowLevels.swift */; };
+		FA0081DD27209455004719BE /* WeightCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DC27209455004719BE /* WeightCard.swift */; };
+		FA0081DE27209455004719BE /* WeightCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DC27209455004719BE /* WeightCard.swift */; };
+		FA0081E027209831004719BE /* DateChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DF27209831004719BE /* DateChanger.swift */; };
+		FA0081E127209831004719BE /* DateChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DF27209831004719BE /* DateChanger.swift */; };
+		FA0D6BBF279A1355002F7AFD /* Welcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0D6BBE279A1355002F7AFD /* Welcome.swift */; };
+		FA0D6BC0279A1355002F7AFD /* Welcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0D6BBE279A1355002F7AFD /* Welcome.swift */; };
 		FAD169BA271DFAAE00C21397 /* Deficit2_0App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AA271DFAAD00C21397 /* Deficit2_0App.swift */; };
 		FAD169BB271DFAAE00C21397 /* Deficit2_0App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AA271DFAAD00C21397 /* Deficit2_0App.swift */; };
 		FAD169BC271DFAAE00C21397 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AB271DFAAD00C21397 /* ContentView.swift */; };
 		FAD169BD271DFAAE00C21397 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AB271DFAAD00C21397 /* ContentView.swift */; };
 		FAD169BE271DFAAE00C21397 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAD169AC271DFAAE00C21397 /* Assets.xcassets */; };
 		FAD169BF271DFAAE00C21397 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAD169AC271DFAAE00C21397 /* Assets.xcassets */; };
+		FAD169E2271DFB1000C21397 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD169E1271DFB1000C21397 /* HealthKit.framework */; };
+		FAD169F0271DFC5A00C21397 /* FastingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169EF271DFC5A00C21397 /* FastingManager.swift */; };
+		FAD169F1271DFC5A00C21397 /* FastingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169EF271DFC5A00C21397 /* FastingManager.swift */; };
+		FAD169F3271DFC9100C21397 /* Calorie.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169F2271DFC9100C21397 /* Calorie.swift */; };
+		FAD169F4271DFC9100C21397 /* Calorie.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169F2271DFC9100C21397 /* Calorie.swift */; };
+		FAD169F6271DFCAA00C21397 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169F5271DFCAA00C21397 /* DateExtension.swift */; };
+		FAD169F7271DFCAA00C21397 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169F5271DFCAA00C21397 /* DateExtension.swift */; };
+		FAD169F9271DFCD400C21397 /* HKBiologicalSex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169F8271DFCD400C21397 /* HKBiologicalSex.swift */; };
+		FAD169FA271DFCD400C21397 /* HKBiologicalSex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169F8271DFCD400C21397 /* HKBiologicalSex.swift */; };
+		FAD169FE271DFD1C00C21397 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169FD271DFD1C00C21397 /* Home.swift */; };
+		FAD169FF271DFD1C00C21397 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169FD271DFD1C00C21397 /* Home.swift */; };
+		FAD16A01271DFEFB00C21397 /* DietDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD16A00271DFEFB00C21397 /* DietDetailView.swift */; };
+		FAD16A02271DFEFB00C21397 /* DietDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD16A00271DFEFB00C21397 /* DietDetailView.swift */; };
+		FAD16A04271E042B00C21397 /* ProgressRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD16A03271E042B00C21397 /* ProgressRingView.swift */; };
+		FAD16A05271E042B00C21397 /* ProgressRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD16A03271E042B00C21397 /* ProgressRingView.swift */; };
+		FAD16A07271E07E400C21397 /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD16A06271E07E400C21397 /* ColorHex.swift */; };
+		FAD16A08271E07E400C21397 /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD16A06271E07E400C21397 /* ColorHex.swift */; };
+		FAD1ADCE272125EA00785223 /* GoalSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD1ADCD272125EA00785223 /* GoalSettings.swift */; };
+		FAD1ADCF272125EA00785223 /* GoalSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD1ADCD272125EA00785223 /* GoalSettings.swift */; };
+		FAF517B327232B2B00BD54E7 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517B227232B2B00BD54E7 /* Bar.swift */; };
+		FAF517B427232B2B00BD54E7 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517B227232B2B00BD54E7 /* Bar.swift */; };
+		FAF517B627232B4400BD54E7 /* BarGraphBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517B527232B4400BD54E7 /* BarGraphBackground.swift */; };
+		FAF517B727232B4400BD54E7 /* BarGraphBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517B527232B4400BD54E7 /* BarGraphBackground.swift */; };
+		FAF517B927232B6400BD54E7 /* DashedLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517B827232B6400BD54E7 /* DashedLine.swift */; };
+		FAF517BA27232B6400BD54E7 /* DashedLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517B827232B6400BD54E7 /* DashedLine.swift */; };
+		FAF517BC27232F3B00BD54E7 /* CapsuleMacroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517BB27232F3B00BD54E7 /* CapsuleMacroView.swift */; };
+		FAF517BD27232F3B00BD54E7 /* CapsuleMacroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517BB27232F3B00BD54E7 /* CapsuleMacroView.swift */; };
+		FAF517BF27232F6D00BD54E7 /* MacronutrientAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517BE27232F6D00BD54E7 /* MacronutrientAnalysis.swift */; };
+		FAF517C027232F6D00BD54E7 /* MacronutrientAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517BE27232F6D00BD54E7 /* MacronutrientAnalysis.swift */; };
+		FAF517C227232F9400BD54E7 /* CompleteGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517C127232F9400BD54E7 /* CompleteGraph.swift */; };
+		FAF517C327232F9400BD54E7 /* CompleteGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517C127232F9400BD54E7 /* CompleteGraph.swift */; };
+		FAF517C527232FA500BD54E7 /* BarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517C427232FA500BD54E7 /* BarGraph.swift */; };
+		FAF517C627232FA500BD54E7 /* BarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517C427232FA500BD54E7 /* BarGraph.swift */; };
+		FAF517C827232FBC00BD54E7 /* TextGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517C727232FBC00BD54E7 /* TextGraph.swift */; };
+		FAF517C927232FBC00BD54E7 /* TextGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517C727232FBC00BD54E7 /* TextGraph.swift */; };
+		FAF517CB27232FCB00BD54E7 /* ArrowViewGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517CA27232FCB00BD54E7 /* ArrowViewGraph.swift */; };
+		FAF517CC27232FCB00BD54E7 /* ArrowViewGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517CA27232FCB00BD54E7 /* ArrowViewGraph.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FA0081C027206F9B004719BE /* DietTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietTitle.swift; sourceTree = "<group>"; };
+		FA0081C327206FDA004719BE /* DietCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietCard.swift; sourceTree = "<group>"; };
+		FA0081C62720700E004719BE /* DietCardMainLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietCardMainLabel.swift; sourceTree = "<group>"; };
+		FA0081C927207039004719BE /* MacroLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacroLabel.swift; sourceTree = "<group>"; };
+		FA0081CD272071F6004719BE /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
+		FA0081D027207226004719BE /* MealCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCard.swift; sourceTree = "<group>"; };
+		FA0081D327207259004719BE /* MealsToday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsToday.swift; sourceTree = "<group>"; };
+		FA0081D627207286004719BE /* SnackCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnackCard.swift; sourceTree = "<group>"; };
+		FA0081D9272072B5004719BE /* ShadowLevels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowLevels.swift; sourceTree = "<group>"; };
+		FA0081DC27209455004719BE /* WeightCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightCard.swift; sourceTree = "<group>"; };
+		FA0081DF27209831004719BE /* DateChanger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateChanger.swift; sourceTree = "<group>"; };
+		FA0D6BBE279A1355002F7AFD /* Welcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Welcome.swift; sourceTree = "<group>"; };
 		FAD169AA271DFAAD00C21397 /* Deficit2_0App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deficit2_0App.swift; sourceTree = "<group>"; };
 		FAD169AB271DFAAD00C21397 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FAD169AC271DFAAE00C21397 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FAD169B1271DFAAE00C21397 /* Deficit2.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Deficit2.0.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAD169B7271DFAAE00C21397 /* Deficit2.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Deficit2.0.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAD169B9271DFAAE00C21397 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
+		FAD169DF271DFB1000C21397 /* Deficit2.0 (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Deficit2.0 (iOS).entitlements"; sourceTree = "<group>"; };
+		FAD169E1271DFB1000C21397 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.0.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
+		FAD169EF271DFC5A00C21397 /* FastingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastingManager.swift; sourceTree = "<group>"; };
+		FAD169F2271DFC9100C21397 /* Calorie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calorie.swift; sourceTree = "<group>"; };
+		FAD169F5271DFCAA00C21397 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		FAD169F8271DFCD400C21397 /* HKBiologicalSex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HKBiologicalSex.swift; sourceTree = "<group>"; };
+		FAD169FD271DFD1C00C21397 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		FAD16A00271DFEFB00C21397 /* DietDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietDetailView.swift; sourceTree = "<group>"; };
+		FAD16A03271E042B00C21397 /* ProgressRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressRingView.swift; sourceTree = "<group>"; };
+		FAD16A06271E07E400C21397 /* ColorHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHex.swift; sourceTree = "<group>"; };
+		FAD1ADCD272125EA00785223 /* GoalSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettings.swift; sourceTree = "<group>"; };
+		FAF517B227232B2B00BD54E7 /* Bar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bar.swift; sourceTree = "<group>"; };
+		FAF517B527232B4400BD54E7 /* BarGraphBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarGraphBackground.swift; sourceTree = "<group>"; };
+		FAF517B827232B6400BD54E7 /* DashedLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashedLine.swift; sourceTree = "<group>"; };
+		FAF517BB27232F3B00BD54E7 /* CapsuleMacroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleMacroView.swift; sourceTree = "<group>"; };
+		FAF517BE27232F6D00BD54E7 /* MacronutrientAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacronutrientAnalysis.swift; sourceTree = "<group>"; };
+		FAF517C127232F9400BD54E7 /* CompleteGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteGraph.swift; sourceTree = "<group>"; };
+		FAF517C427232FA500BD54E7 /* BarGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarGraph.swift; sourceTree = "<group>"; };
+		FAF517C727232FBC00BD54E7 /* TextGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextGraph.swift; sourceTree = "<group>"; };
+		FAF517CA27232FCB00BD54E7 /* ArrowViewGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowViewGraph.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAD169E2271DFB1000C21397 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,12 +136,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FA0081CC2720705A004719BE /* Home Group */ = {
+			isa = PBXGroup;
+			children = (
+				FA0081C927207039004719BE /* MacroLabel.swift */,
+				FA0081D327207259004719BE /* MealsToday.swift */,
+				FA0081D9272072B5004719BE /* ShadowLevels.swift */,
+				FA0081D627207286004719BE /* SnackCard.swift */,
+				FA0081D027207226004719BE /* MealCard.swift */,
+				FA0081C62720700E004719BE /* DietCardMainLabel.swift */,
+				FA0081C327206FDA004719BE /* DietCard.swift */,
+				FA0081C027206F9B004719BE /* DietTitle.swift */,
+				FAD16A03271E042B00C21397 /* ProgressRingView.swift */,
+			);
+			path = "Home Group";
+			sourceTree = "<group>";
+		};
+		FA0D6BC1279A135A002F7AFD /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				FA0D6BBE279A1355002F7AFD /* Welcome.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		FAD169A4271DFAAD00C21397 = {
 			isa = PBXGroup;
 			children = (
+				FAD169DF271DFB1000C21397 /* Deficit2.0 (iOS).entitlements */,
 				FAD169A9271DFAAD00C21397 /* Shared */,
 				FAD169B8271DFAAE00C21397 /* macOS */,
 				FAD169B2271DFAAE00C21397 /* Products */,
+				FAD169E0271DFB1000C21397 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,6 +176,17 @@
 			children = (
 				FAD169AA271DFAAD00C21397 /* Deficit2_0App.swift */,
 				FAD169AB271DFAAD00C21397 /* ContentView.swift */,
+				FAD169FD271DFD1C00C21397 /* Home.swift */,
+				FA0081DF27209831004719BE /* DateChanger.swift */,
+				FA0081DC27209455004719BE /* WeightCard.swift */,
+				FAD1ADCD272125EA00785223 /* GoalSettings.swift */,
+				FA0D6BC1279A135A002F7AFD /* Onboarding */,
+				FA0081CC2720705A004719BE /* Home Group */,
+				FAD16A00271DFEFB00C21397 /* DietDetailView.swift */,
+				FAF517BE27232F6D00BD54E7 /* MacronutrientAnalysis.swift */,
+				FAF517CD27232FFF00BD54E7 /* Graph */,
+				FAD169FC271DFD0900C21397 /* View Model */,
+				FAD169FB271DFCF700C21397 /* Helpers  */,
 				FAD169AC271DFAAE00C21397 /* Assets.xcassets */,
 			);
 			path = Shared;
@@ -76,6 +207,49 @@
 				FAD169B9271DFAAE00C21397 /* macOS.entitlements */,
 			);
 			path = macOS;
+			sourceTree = "<group>";
+		};
+		FAD169E0271DFB1000C21397 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FAD169E1271DFB1000C21397 /* HealthKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FAD169FB271DFCF700C21397 /* Helpers  */ = {
+			isa = PBXGroup;
+			children = (
+				FAD169F2271DFC9100C21397 /* Calorie.swift */,
+				FAD16A06271E07E400C21397 /* ColorHex.swift */,
+				FAD169F5271DFCAA00C21397 /* DateExtension.swift */,
+				FAD169F8271DFCD400C21397 /* HKBiologicalSex.swift */,
+				FA0081CD272071F6004719BE /* RoundedCorners.swift */,
+			);
+			path = "Helpers ";
+			sourceTree = "<group>";
+		};
+		FAD169FC271DFD0900C21397 /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				FAD169EF271DFC5A00C21397 /* FastingManager.swift */,
+			);
+			path = "View Model";
+			sourceTree = "<group>";
+		};
+		FAF517CD27232FFF00BD54E7 /* Graph */ = {
+			isa = PBXGroup;
+			children = (
+				FAF517BB27232F3B00BD54E7 /* CapsuleMacroView.swift */,
+				FAF517B227232B2B00BD54E7 /* Bar.swift */,
+				FAF517B527232B4400BD54E7 /* BarGraphBackground.swift */,
+				FAF517B827232B6400BD54E7 /* DashedLine.swift */,
+				FAF517C127232F9400BD54E7 /* CompleteGraph.swift */,
+				FAF517C427232FA500BD54E7 /* BarGraph.swift */,
+				FAF517C727232FBC00BD54E7 /* TextGraph.swift */,
+				FAF517CA27232FCB00BD54E7 /* ArrowViewGraph.swift */,
+			);
+			path = Graph;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -123,7 +297,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1300;
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1310;
 				TargetAttributes = {
 					FAD169B0271DFAAE00C21397 = {
 						CreatedOnToolsVersion = 13.0;
@@ -176,8 +350,38 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAD169F0271DFC5A00C21397 /* FastingManager.swift in Sources */,
+				FAF517B327232B2B00BD54E7 /* Bar.swift in Sources */,
+				FAF517B627232B4400BD54E7 /* BarGraphBackground.swift in Sources */,
+				FAF517BC27232F3B00BD54E7 /* CapsuleMacroView.swift in Sources */,
+				FA0081CA27207039004719BE /* MacroLabel.swift in Sources */,
+				FAF517C227232F9400BD54E7 /* CompleteGraph.swift in Sources */,
+				FA0081D127207226004719BE /* MealCard.swift in Sources */,
+				FAD1ADCE272125EA00785223 /* GoalSettings.swift in Sources */,
+				FAD16A07271E07E400C21397 /* ColorHex.swift in Sources */,
+				FAD169F6271DFCAA00C21397 /* DateExtension.swift in Sources */,
+				FAD169F9271DFCD400C21397 /* HKBiologicalSex.swift in Sources */,
+				FA0081E027209831004719BE /* DateChanger.swift in Sources */,
+				FA0081D727207286004719BE /* SnackCard.swift in Sources */,
+				FAF517CB27232FCB00BD54E7 /* ArrowViewGraph.swift in Sources */,
+				FAD16A01271DFEFB00C21397 /* DietDetailView.swift in Sources */,
 				FAD169BC271DFAAE00C21397 /* ContentView.swift in Sources */,
 				FAD169BA271DFAAE00C21397 /* Deficit2_0App.swift in Sources */,
+				FAF517B927232B6400BD54E7 /* DashedLine.swift in Sources */,
+				FA0081D427207259004719BE /* MealsToday.swift in Sources */,
+				FAD169F3271DFC9100C21397 /* Calorie.swift in Sources */,
+				FA0D6BBF279A1355002F7AFD /* Welcome.swift in Sources */,
+				FAD169FE271DFD1C00C21397 /* Home.swift in Sources */,
+				FA0081CE272071F6004719BE /* RoundedCorners.swift in Sources */,
+				FA0081C427206FDA004719BE /* DietCard.swift in Sources */,
+				FA0081C72720700E004719BE /* DietCardMainLabel.swift in Sources */,
+				FAF517C827232FBC00BD54E7 /* TextGraph.swift in Sources */,
+				FA0081DA272072B5004719BE /* ShadowLevels.swift in Sources */,
+				FA0081DD27209455004719BE /* WeightCard.swift in Sources */,
+				FA0081C127206F9B004719BE /* DietTitle.swift in Sources */,
+				FAF517BF27232F6D00BD54E7 /* MacronutrientAnalysis.swift in Sources */,
+				FAD16A04271E042B00C21397 /* ProgressRingView.swift in Sources */,
+				FAF517C527232FA500BD54E7 /* BarGraph.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,8 +389,38 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAD169F1271DFC5A00C21397 /* FastingManager.swift in Sources */,
+				FAF517B427232B2B00BD54E7 /* Bar.swift in Sources */,
+				FAF517B727232B4400BD54E7 /* BarGraphBackground.swift in Sources */,
+				FAF517BD27232F3B00BD54E7 /* CapsuleMacroView.swift in Sources */,
+				FA0081CB27207039004719BE /* MacroLabel.swift in Sources */,
+				FAF517C327232F9400BD54E7 /* CompleteGraph.swift in Sources */,
+				FA0081D227207226004719BE /* MealCard.swift in Sources */,
+				FAD1ADCF272125EA00785223 /* GoalSettings.swift in Sources */,
+				FAD16A08271E07E400C21397 /* ColorHex.swift in Sources */,
+				FAD169F7271DFCAA00C21397 /* DateExtension.swift in Sources */,
+				FAD169FA271DFCD400C21397 /* HKBiologicalSex.swift in Sources */,
+				FA0081E127209831004719BE /* DateChanger.swift in Sources */,
+				FA0081D827207286004719BE /* SnackCard.swift in Sources */,
+				FAF517CC27232FCB00BD54E7 /* ArrowViewGraph.swift in Sources */,
+				FAD16A02271DFEFB00C21397 /* DietDetailView.swift in Sources */,
 				FAD169BD271DFAAE00C21397 /* ContentView.swift in Sources */,
 				FAD169BB271DFAAE00C21397 /* Deficit2_0App.swift in Sources */,
+				FAF517BA27232B6400BD54E7 /* DashedLine.swift in Sources */,
+				FA0081D527207259004719BE /* MealsToday.swift in Sources */,
+				FAD169F4271DFC9100C21397 /* Calorie.swift in Sources */,
+				FA0D6BC0279A1355002F7AFD /* Welcome.swift in Sources */,
+				FAD169FF271DFD1C00C21397 /* Home.swift in Sources */,
+				FA0081CF272071F6004719BE /* RoundedCorners.swift in Sources */,
+				FA0081C527206FDA004719BE /* DietCard.swift in Sources */,
+				FA0081C82720700E004719BE /* DietCardMainLabel.swift in Sources */,
+				FAF517C927232FBC00BD54E7 /* TextGraph.swift in Sources */,
+				FA0081DB272072B5004719BE /* ShadowLevels.swift in Sources */,
+				FA0081DE27209455004719BE /* WeightCard.swift in Sources */,
+				FA0081C227206F9B004719BE /* DietTitle.swift in Sources */,
+				FAF517C027232F6D00BD54E7 /* MacronutrientAnalysis.swift in Sources */,
+				FAD16A05271E042B00C21397 /* ProgressRingView.swift in Sources */,
+				FAF517C627232FA500BD54E7 /* BarGraph.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,28 +543,33 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Deficit2.0 (iOS).entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YVJLT6Y577;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "To read your health data to do calculations";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "To read your calories";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "To read your calories";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.yotzincastrejon.Deficit2-0";
 				PRODUCT_NAME = Deficit2.0;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -339,28 +578,33 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Deficit2.0 (iOS).entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YVJLT6Y577;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "To read your health data to do calculations";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "To read your calories";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "To read your calories";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.yotzincastrejon.Deficit2-0";
 				PRODUCT_NAME = Deficit2.0;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -371,6 +615,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -399,6 +644,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
