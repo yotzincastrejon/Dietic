@@ -200,7 +200,11 @@ class FastingManager: ObservableObject {
             self.getWeekLongStats(start: Date.mondayAt12AM())
             await caloriesGoalwithDeficit()
             await caloriesRemaining()
-           caloriesNeededToReachGoalWeight()
+            
+            await MainActor.run {
+                caloriesNeededToReachGoalWeight()
+            }
+          
             
         } catch let error {
             print("An error occurred while requesting HealthKit Authorization: \(error.localizedDescription)")
@@ -210,6 +214,7 @@ class FastingManager: ObservableObject {
     func caloriesNeededToReachGoalWeight() {
         if !simulatedCaloriesBool {
             simulatedCalories = 0
+                
         }
         let bmr = BMR(age: age, weightinPounds: weight, heightinInches: height)
         let eatencalories = consumedCalories

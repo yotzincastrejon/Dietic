@@ -17,7 +17,9 @@ struct ContentView: View {
                     Task {
                         await fastingManager.requestAuthorization()
                     }
+                    
                 }
+                
                 .tabItem { Image(systemName: "house")
                     Text("Timer")
                 }
