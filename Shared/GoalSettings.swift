@@ -88,6 +88,10 @@ struct GoalSettings: View {
                     fastingManager.saveGoalWeight()
                     progress += 0.33
                     fastingManager.saveGoalBodyFat()
+                    fastingManager.saveSimulatedBool()
+                    if fastingManager.simulatedCaloriesBool {
+                    fastingManager.saveSimulatedCalories()
+                    }
                     progress += 0.34
                     showProgressView = false
                     everythingwasSaved = true

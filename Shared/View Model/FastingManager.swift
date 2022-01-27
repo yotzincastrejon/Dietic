@@ -168,6 +168,17 @@ class FastingManager: ObservableObject {
         if goalBodyFat != 0 {
             goalBodyFatPercentage = goalBodyFat
         }
+        
+        let bool = UserDefaults.standard.bool(forKey: "SimulatedBool")
+        if bool == true {
+            simulatedCaloriesBool = bool
+        }
+        
+        let simulatedCal = UserDefaults.standard.integer(forKey: "SimulatedCalories")
+        if simulatedCal != 0 {
+            simulatedCalories = simulatedCal
+        }
+        
     }
     
     
@@ -214,10 +225,9 @@ class FastingManager: ObservableObject {
     func caloriesNeededToReachGoalWeight() {
         if !simulatedCaloriesBool {
             simulatedCalories = 0
-                
         }
         let bmr = BMR(age: age, weightinPounds: weight, heightinInches: height)
-        let eatencalories = consumedCalories
+        var eatencalories = consumedCalories
         let burnedCalories = activeCalories
         let bodyFatinPounds = bodyFat * weight
         let goalBodyFatInPounds = Double(goalWeight) * (goalBodyFatPercentage / 100)
@@ -225,6 +235,19 @@ class FastingManager: ObservableObject {
         let differenceInDays = Calendar.current.dateComponents([.day], from: Date(), to: futureDate)
         let perdayCaloriesNeededToLose = weightToLoseInCalories / Double(differenceInDays.value(for: .day)!)
         let finalAmountOfNeededToBurn = perdayCaloriesNeededToLose - bmr
+        
+        //Here we are checking if simulated calories exceed actual consumed calories. We are showing what a simulated full meal would look like and how much you'd have to burn.
+        if simulatedCaloriesBool && eatencalories < Double(simulatedCalories){
+                eatencalories = 0
+        }
+        
+        if eatencalories > Double(simulatedCalories) {
+            simulatedCaloriesBool = false
+            simulatedCalories = 0
+            saveSimulatedCalories()
+            saveSimulatedBool()
+        }
+        
         let afterMealsAndBurned = finalAmountOfNeededToBurn + eatencalories + Double(simulatedCalories)
         let finalPercentage = burnedCalories / afterMealsAndBurned
         if finalPercentage < 0 {
@@ -242,6 +265,14 @@ class FastingManager: ObservableObject {
         print("Now Accounting for eaten calories: \(afterMealsAndBurned)")
         print("Left to Burn: \(afterMealsAndBurned - burnedCalories)")
         print("PercentageAccomplished: \(finalPercentage)")
+    }
+    
+    func saveSimulatedCalories() {
+        UserDefaults.standard.set(simulatedCalories, forKey: "SimulatedCalories")
+    }
+    
+    func saveSimulatedBool() {
+        UserDefaults.standard.set(simulatedCaloriesBool, forKey: "SimulatedBool")
     }
     
     func saveNewFutureDate() {
@@ -397,9 +428,10 @@ class FastingManager: ObservableObject {
             }
             await MainActor.run {
                 self.consumedCalories = self.caloriesFromEating.map { $0.calories }.reduce(0, +)
-                if simulatedCaloriesBool {
-                    self.consumedCalories += Double(simulatedCalories)
-                }
+                //Here we add simulated calories on top of consumed.
+//                if simulatedCaloriesBool {
+//                    self.consumedCalories += Double(simulatedCalories)
+//                }
             }
         } catch {
             print("An error occured while querying for Active Energy: \(error.localizedDescription)")

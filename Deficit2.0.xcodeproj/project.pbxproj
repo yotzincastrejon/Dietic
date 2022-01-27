@@ -58,6 +58,7 @@
 		FAD16A08271E07E400C21397 /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD16A06271E07E400C21397 /* ColorHex.swift */; };
 		FAD1ADCE272125EA00785223 /* GoalSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD1ADCD272125EA00785223 /* GoalSettings.swift */; };
 		FAD1ADCF272125EA00785223 /* GoalSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD1ADCD272125EA00785223 /* GoalSettings.swift */; };
+		FAEB89EC27A207CC0004FD19 /* WelcomeSheet in Frameworks */ = {isa = PBXBuildFile; productRef = FAEB89EB27A207CC0004FD19 /* WelcomeSheet */; };
 		FAF517B327232B2B00BD54E7 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517B227232B2B00BD54E7 /* Bar.swift */; };
 		FAF517B427232B2B00BD54E7 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517B227232B2B00BD54E7 /* Bar.swift */; };
 		FAF517B627232B4400BD54E7 /* BarGraphBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517B527232B4400BD54E7 /* BarGraphBackground.swift */; };
@@ -126,6 +127,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAD169E2271DFB1000C21397 /* HealthKit.framework in Frameworks */,
+				FAEB89EC27A207CC0004FD19 /* WelcomeSheet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +274,9 @@
 			dependencies = (
 			);
 			name = "Deficit2.0 (iOS)";
+			packageProductDependencies = (
+				FAEB89EB27A207CC0004FD19 /* WelcomeSheet */,
+			);
 			productName = "Deficit2.0 (iOS)";
 			productReference = FAD169B1271DFAAE00C21397 /* Deficit2.0.app */;
 			productType = "com.apple.product-type.application";
@@ -320,6 +325,9 @@
 				Base,
 			);
 			mainGroup = FAD169A4271DFAAD00C21397;
+			packageReferences = (
+				FAEB89EA27A207CC0004FD19 /* XCRemoteSwiftPackageReference "Welcome-Sheet" */,
+			);
 			productRefGroup = FAD169B2271DFAAE00C21397 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -706,6 +714,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FAEB89EA27A207CC0004FD19 /* XCRemoteSwiftPackageReference "Welcome-Sheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MAJKFL/Welcome-Sheet.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FAEB89EB27A207CC0004FD19 /* WelcomeSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FAEB89EA27A207CC0004FD19 /* XCRemoteSwiftPackageReference "Welcome-Sheet" */;
+			productName = WelcomeSheet;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FAD169A5271DFAAD00C21397 /* Project object */;
 }
