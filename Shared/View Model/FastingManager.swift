@@ -195,8 +195,31 @@ class FastingManager: ObservableObject {
             HKObjectType.quantityType(forIdentifier: .dietaryProtein)!,
             HKObjectType.quantityType(forIdentifier: .dietaryFatTotal)!
         ]
+        
+        //We can't set the Date of Birth or Sex the user must enter it in the health app.
+        let typesToShare: Set = [
+            typeToSet(type: .activeEnergyBurned),
+            typeToSet(type: .bodyMass),
+            typeToSet(type: .height),
+            typeToSet(type: .bodyFatPercentage),
+            typeToSet(type: .dietaryEnergyConsumed),
+            typeToSet(type: .dietaryCarbohydrates),
+            typeToSet(type: .dietaryProtein),
+            typeToSet(type: .dietaryFatTotal),
+            typeToSet(type: .dietaryFatSaturated),
+            typeToSet(type: .dietaryCholesterol),
+            typeToSet(type: .dietarySodium),
+            typeToSet(type: .dietaryFiber),
+            typeToSet(type: .dietarySugar),
+            typeToSet(type: .dietaryPotassium)
+        ]
+        
+        func typeToSet(type: HKQuantityTypeIdentifier) -> HKSampleType {
+            return HKQuantityType.quantityType(forIdentifier: type)!
+        }
+        
         do {
-            try await healthStore.requestAuthorization(toShare: [], read: typesToRead)
+            try await healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead)
             //This order matters!
             await getWeight()
             await getHeight()
@@ -247,6 +270,7 @@ class FastingManager: ObservableObject {
             saveSimulatedCalories()
             saveSimulatedBool()
         }
+        
         
         let afterMealsAndBurned = finalAmountOfNeededToBurn + eatencalories + Double(simulatedCalories)
         let finalPercentage = burnedCalories / afterMealsAndBurned

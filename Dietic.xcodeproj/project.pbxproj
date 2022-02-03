@@ -29,10 +29,10 @@
 		FA0081DE27209455004719BE /* WeightCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DC27209455004719BE /* WeightCard.swift */; };
 		FA0081E027209831004719BE /* DateChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DF27209831004719BE /* DateChanger.swift */; };
 		FA0081E127209831004719BE /* DateChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DF27209831004719BE /* DateChanger.swift */; };
-		FA0D6BBF279A1355002F7AFD /* Welcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0D6BBE279A1355002F7AFD /* Welcome.swift */; };
-		FA0D6BC0279A1355002F7AFD /* Welcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0D6BBE279A1355002F7AFD /* Welcome.swift */; };
 		FA719621279B1E6400A50598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA719620279B1E6400A50598 /* LaunchScreen.storyboard */; };
 		FA719622279B1E6400A50598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA719620279B1E6400A50598 /* LaunchScreen.storyboard */; };
+		FAAC72C727A3252600508702 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAC72C627A3252600508702 /* WelcomeView.swift */; };
+		FAAC72C827A3252600508702 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAC72C627A3252600508702 /* WelcomeView.swift */; };
 		FAD169BA271DFAAE00C21397 /* Deficit2_0App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AA271DFAAD00C21397 /* Deficit2_0App.swift */; };
 		FAD169BB271DFAAE00C21397 /* Deficit2_0App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AA271DFAAD00C21397 /* Deficit2_0App.swift */; };
 		FAD169BC271DFAAE00C21397 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AB271DFAAD00C21397 /* ContentView.swift */; };
@@ -58,7 +58,6 @@
 		FAD16A08271E07E400C21397 /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD16A06271E07E400C21397 /* ColorHex.swift */; };
 		FAD1ADCE272125EA00785223 /* GoalSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD1ADCD272125EA00785223 /* GoalSettings.swift */; };
 		FAD1ADCF272125EA00785223 /* GoalSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD1ADCD272125EA00785223 /* GoalSettings.swift */; };
-		FAEB89EC27A207CC0004FD19 /* WelcomeSheet in Frameworks */ = {isa = PBXBuildFile; productRef = FAEB89EB27A207CC0004FD19 /* WelcomeSheet */; };
 		FAF517B327232B2B00BD54E7 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517B227232B2B00BD54E7 /* Bar.swift */; };
 		FAF517B427232B2B00BD54E7 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517B227232B2B00BD54E7 /* Bar.swift */; };
 		FAF517B627232B4400BD54E7 /* BarGraphBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517B527232B4400BD54E7 /* BarGraphBackground.swift */; };
@@ -91,13 +90,13 @@
 		FA0081D9272072B5004719BE /* ShadowLevels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowLevels.swift; sourceTree = "<group>"; };
 		FA0081DC27209455004719BE /* WeightCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightCard.swift; sourceTree = "<group>"; };
 		FA0081DF27209831004719BE /* DateChanger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateChanger.swift; sourceTree = "<group>"; };
-		FA0D6BBE279A1355002F7AFD /* Welcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Welcome.swift; sourceTree = "<group>"; };
 		FA719620279B1E6400A50598 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FAAC72C627A3252600508702 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		FAD169AA271DFAAD00C21397 /* Deficit2_0App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deficit2_0App.swift; sourceTree = "<group>"; };
 		FAD169AB271DFAAD00C21397 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FAD169AC271DFAAE00C21397 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		FAD169B1271DFAAE00C21397 /* Deficit2.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Deficit2.0.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		FAD169B7271DFAAE00C21397 /* Deficit2.0.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Deficit2.0.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAD169B1271DFAAE00C21397 /* Dietic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dietic.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAD169B7271DFAAE00C21397 /* Dietic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dietic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAD169B9271DFAAE00C21397 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		FAD169DF271DFB1000C21397 /* Deficit2.0 (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Deficit2.0 (iOS).entitlements"; sourceTree = "<group>"; };
 		FAD169E1271DFB1000C21397 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.0.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -127,7 +126,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAD169E2271DFB1000C21397 /* HealthKit.framework in Frameworks */,
-				FAEB89EC27A207CC0004FD19 /* WelcomeSheet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,7 +158,7 @@
 		FA0D6BC1279A135A002F7AFD /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				FA0D6BBE279A1355002F7AFD /* Welcome.swift */,
+				FAAC72C627A3252600508702 /* WelcomeView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -201,8 +199,8 @@
 		FAD169B2271DFAAE00C21397 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FAD169B1271DFAAE00C21397 /* Deficit2.0.app */,
-				FAD169B7271DFAAE00C21397 /* Deficit2.0.app */,
+				FAD169B1271DFAAE00C21397 /* Dietic.app */,
+				FAD169B7271DFAAE00C21397 /* Dietic.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -261,9 +259,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FAD169B0271DFAAE00C21397 /* Deficit2.0 (iOS) */ = {
+		FAD169B0271DFAAE00C21397 /* Dietic (iOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FAD169C2271DFAAE00C21397 /* Build configuration list for PBXNativeTarget "Deficit2.0 (iOS)" */;
+			buildConfigurationList = FAD169C2271DFAAE00C21397 /* Build configuration list for PBXNativeTarget "Dietic (iOS)" */;
 			buildPhases = (
 				FAD169AD271DFAAE00C21397 /* Sources */,
 				FAD169AE271DFAAE00C21397 /* Frameworks */,
@@ -273,17 +271,16 @@
 			);
 			dependencies = (
 			);
-			name = "Deficit2.0 (iOS)";
+			name = "Dietic (iOS)";
 			packageProductDependencies = (
-				FAEB89EB27A207CC0004FD19 /* WelcomeSheet */,
 			);
 			productName = "Deficit2.0 (iOS)";
-			productReference = FAD169B1271DFAAE00C21397 /* Deficit2.0.app */;
+			productReference = FAD169B1271DFAAE00C21397 /* Dietic.app */;
 			productType = "com.apple.product-type.application";
 		};
-		FAD169B6271DFAAE00C21397 /* Deficit2.0 (macOS) */ = {
+		FAD169B6271DFAAE00C21397 /* Dietic (macOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FAD169C5271DFAAE00C21397 /* Build configuration list for PBXNativeTarget "Deficit2.0 (macOS)" */;
+			buildConfigurationList = FAD169C5271DFAAE00C21397 /* Build configuration list for PBXNativeTarget "Dietic (macOS)" */;
 			buildPhases = (
 				FAD169B3271DFAAE00C21397 /* Sources */,
 				FAD169B4271DFAAE00C21397 /* Frameworks */,
@@ -293,9 +290,9 @@
 			);
 			dependencies = (
 			);
-			name = "Deficit2.0 (macOS)";
+			name = "Dietic (macOS)";
 			productName = "Deficit2.0 (macOS)";
-			productReference = FAD169B7271DFAAE00C21397 /* Deficit2.0.app */;
+			productReference = FAD169B7271DFAAE00C21397 /* Dietic.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -316,7 +313,7 @@
 					};
 				};
 			};
-			buildConfigurationList = FAD169A8271DFAAD00C21397 /* Build configuration list for PBXProject "Deficit2.0" */;
+			buildConfigurationList = FAD169A8271DFAAD00C21397 /* Build configuration list for PBXProject "Dietic" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -326,14 +323,13 @@
 			);
 			mainGroup = FAD169A4271DFAAD00C21397;
 			packageReferences = (
-				FAEB89EA27A207CC0004FD19 /* XCRemoteSwiftPackageReference "Welcome-Sheet" */,
 			);
 			productRefGroup = FAD169B2271DFAAE00C21397 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FAD169B0271DFAAE00C21397 /* Deficit2.0 (iOS) */,
-				FAD169B6271DFAAE00C21397 /* Deficit2.0 (macOS) */,
+				FAD169B0271DFAAE00C21397 /* Dietic (iOS) */,
+				FAD169B6271DFAAE00C21397 /* Dietic (macOS) */,
 			);
 		};
 /* End PBXProject section */
@@ -369,6 +365,7 @@
 				FAF517B627232B4400BD54E7 /* BarGraphBackground.swift in Sources */,
 				FAF517BC27232F3B00BD54E7 /* CapsuleMacroView.swift in Sources */,
 				FA0081CA27207039004719BE /* MacroLabel.swift in Sources */,
+				FAAC72C727A3252600508702 /* WelcomeView.swift in Sources */,
 				FAF517C227232F9400BD54E7 /* CompleteGraph.swift in Sources */,
 				FA0081D127207226004719BE /* MealCard.swift in Sources */,
 				FAD1ADCE272125EA00785223 /* GoalSettings.swift in Sources */,
@@ -384,7 +381,6 @@
 				FAF517B927232B6400BD54E7 /* DashedLine.swift in Sources */,
 				FA0081D427207259004719BE /* MealsToday.swift in Sources */,
 				FAD169F3271DFC9100C21397 /* Calorie.swift in Sources */,
-				FA0D6BBF279A1355002F7AFD /* Welcome.swift in Sources */,
 				FAD169FE271DFD1C00C21397 /* Home.swift in Sources */,
 				FA0081CE272071F6004719BE /* RoundedCorners.swift in Sources */,
 				FA0081C427206FDA004719BE /* DietCard.swift in Sources */,
@@ -408,6 +404,7 @@
 				FAF517B727232B4400BD54E7 /* BarGraphBackground.swift in Sources */,
 				FAF517BD27232F3B00BD54E7 /* CapsuleMacroView.swift in Sources */,
 				FA0081CB27207039004719BE /* MacroLabel.swift in Sources */,
+				FAAC72C827A3252600508702 /* WelcomeView.swift in Sources */,
 				FAF517C327232F9400BD54E7 /* CompleteGraph.swift in Sources */,
 				FA0081D227207226004719BE /* MealCard.swift in Sources */,
 				FAD1ADCF272125EA00785223 /* GoalSettings.swift in Sources */,
@@ -423,7 +420,6 @@
 				FAF517BA27232B6400BD54E7 /* DashedLine.swift in Sources */,
 				FA0081D527207259004719BE /* MealsToday.swift in Sources */,
 				FAD169F4271DFC9100C21397 /* Calorie.swift in Sources */,
-				FA0D6BC0279A1355002F7AFD /* Welcome.swift in Sources */,
 				FAD169FF271DFD1C00C21397 /* Home.swift in Sources */,
 				FA0081CF272071F6004719BE /* RoundedCorners.swift in Sources */,
 				FA0081C527206FDA004719BE /* DietCard.swift in Sources */,
@@ -564,8 +560,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "To read your health data to do calculations";
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "To read your calories";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "To read your calories";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Dietic will use these metrics for calculations";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Dietic will sync all the data entered to the Health App";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -573,14 +569,14 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.yotzincastrejon.Deficit2-0";
-				PRODUCT_NAME = Deficit2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yotzincastrejon.Dietic;
+				PRODUCT_NAME = Dietic;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -600,8 +596,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "To read your health data to do calculations";
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "To read your calories";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "To read your calories";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Dietic will use these metrics for calculations";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Dietic will sync all the data entered to the Health App";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -609,14 +605,14 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.yotzincastrejon.Deficit2-0";
-				PRODUCT_NAME = Deficit2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yotzincastrejon.Dietic;
+				PRODUCT_NAME = Dietic;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -647,7 +643,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.yotzincastrejon.Deficit2-0";
-				PRODUCT_NAME = Deficit2.0;
+				PRODUCT_NAME = Dietic;
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -676,7 +672,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.yotzincastrejon.Deficit2-0";
-				PRODUCT_NAME = Deficit2.0;
+				PRODUCT_NAME = Dietic;
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -686,7 +682,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FAD169A8271DFAAD00C21397 /* Build configuration list for PBXProject "Deficit2.0" */ = {
+		FAD169A8271DFAAD00C21397 /* Build configuration list for PBXProject "Dietic" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FAD169C0271DFAAE00C21397 /* Debug */,
@@ -695,7 +691,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FAD169C2271DFAAE00C21397 /* Build configuration list for PBXNativeTarget "Deficit2.0 (iOS)" */ = {
+		FAD169C2271DFAAE00C21397 /* Build configuration list for PBXNativeTarget "Dietic (iOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FAD169C3271DFAAE00C21397 /* Debug */,
@@ -704,7 +700,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FAD169C5271DFAAE00C21397 /* Build configuration list for PBXNativeTarget "Deficit2.0 (macOS)" */ = {
+		FAD169C5271DFAAE00C21397 /* Build configuration list for PBXNativeTarget "Dietic (macOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FAD169C6271DFAAE00C21397 /* Debug */,
@@ -714,25 +710,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		FAEB89EA27A207CC0004FD19 /* XCRemoteSwiftPackageReference "Welcome-Sheet" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/MAJKFL/Welcome-Sheet.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		FAEB89EB27A207CC0004FD19 /* WelcomeSheet */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FAEB89EA27A207CC0004FD19 /* XCRemoteSwiftPackageReference "Welcome-Sheet" */;
-			productName = WelcomeSheet;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FAD169A5271DFAAD00C21397 /* Project object */;
 }
