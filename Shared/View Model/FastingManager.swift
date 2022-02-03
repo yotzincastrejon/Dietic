@@ -196,7 +196,7 @@ class FastingManager: ObservableObject {
             HKObjectType.quantityType(forIdentifier: .dietaryFatTotal)!
         ]
         
-        //We can't set the Date of Birth or Sex the user must enter it in the health app.
+        //We can't set the Date of Birth or Sex the user must enter it in the health app. We should deal with missing information another way.
         let typesToShare: Set = [
             typeToSet(type: .activeEnergyBurned),
             typeToSet(type: .bodyMass),

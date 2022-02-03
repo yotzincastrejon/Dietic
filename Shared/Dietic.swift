@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct Deficit2_0App: App {
+struct Dietic: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

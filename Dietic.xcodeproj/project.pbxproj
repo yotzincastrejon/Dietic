@@ -33,8 +33,8 @@
 		FA719622279B1E6400A50598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA719620279B1E6400A50598 /* LaunchScreen.storyboard */; };
 		FAAC72C727A3252600508702 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAC72C627A3252600508702 /* WelcomeView.swift */; };
 		FAAC72C827A3252600508702 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAC72C627A3252600508702 /* WelcomeView.swift */; };
-		FAD169BA271DFAAE00C21397 /* Deficit2_0App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AA271DFAAD00C21397 /* Deficit2_0App.swift */; };
-		FAD169BB271DFAAE00C21397 /* Deficit2_0App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AA271DFAAD00C21397 /* Deficit2_0App.swift */; };
+		FAD169BA271DFAAE00C21397 /* Dietic.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AA271DFAAD00C21397 /* Dietic.swift */; };
+		FAD169BB271DFAAE00C21397 /* Dietic.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AA271DFAAD00C21397 /* Dietic.swift */; };
 		FAD169BC271DFAAE00C21397 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AB271DFAAD00C21397 /* ContentView.swift */; };
 		FAD169BD271DFAAE00C21397 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AB271DFAAD00C21397 /* ContentView.swift */; };
 		FAD169BE271DFAAE00C21397 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAD169AC271DFAAE00C21397 /* Assets.xcassets */; };
@@ -92,13 +92,13 @@
 		FA0081DF27209831004719BE /* DateChanger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateChanger.swift; sourceTree = "<group>"; };
 		FA719620279B1E6400A50598 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FAAC72C627A3252600508702 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
-		FAD169AA271DFAAD00C21397 /* Deficit2_0App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deficit2_0App.swift; sourceTree = "<group>"; };
+		FAD169AA271DFAAD00C21397 /* Dietic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dietic.swift; sourceTree = "<group>"; };
 		FAD169AB271DFAAD00C21397 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FAD169AC271DFAAE00C21397 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FAD169B1271DFAAE00C21397 /* Dietic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dietic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAD169B7271DFAAE00C21397 /* Dietic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dietic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAD169B9271DFAAE00C21397 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
-		FAD169DF271DFB1000C21397 /* Deficit2.0 (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Deficit2.0 (iOS).entitlements"; sourceTree = "<group>"; };
+		FAD169DF271DFB1000C21397 /* Dietic (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Dietic (iOS).entitlements"; sourceTree = "<group>"; };
 		FAD169E1271DFB1000C21397 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.0.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		FAD169EF271DFC5A00C21397 /* FastingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FastingManager.swift; sourceTree = "<group>"; };
 		FAD169F2271DFC9100C21397 /* Calorie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calorie.swift; sourceTree = "<group>"; };
@@ -166,7 +166,7 @@
 		FAD169A4271DFAAD00C21397 = {
 			isa = PBXGroup;
 			children = (
-				FAD169DF271DFB1000C21397 /* Deficit2.0 (iOS).entitlements */,
+				FAD169DF271DFB1000C21397 /* Dietic (iOS).entitlements */,
 				FAD169A9271DFAAD00C21397 /* Shared */,
 				FAD169B8271DFAAE00C21397 /* macOS */,
 				FAD169B2271DFAAE00C21397 /* Products */,
@@ -177,7 +177,7 @@
 		FAD169A9271DFAAD00C21397 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				FAD169AA271DFAAD00C21397 /* Deficit2_0App.swift */,
+				FAD169AA271DFAAD00C21397 /* Dietic.swift */,
 				FAD169AB271DFAAD00C21397 /* ContentView.swift */,
 				FAD169FD271DFD1C00C21397 /* Home.swift */,
 				FA0081DF27209831004719BE /* DateChanger.swift */,
@@ -377,7 +377,7 @@
 				FAF517CB27232FCB00BD54E7 /* ArrowViewGraph.swift in Sources */,
 				FAD16A01271DFEFB00C21397 /* DietDetailView.swift in Sources */,
 				FAD169BC271DFAAE00C21397 /* ContentView.swift in Sources */,
-				FAD169BA271DFAAE00C21397 /* Deficit2_0App.swift in Sources */,
+				FAD169BA271DFAAE00C21397 /* Dietic.swift in Sources */,
 				FAF517B927232B6400BD54E7 /* DashedLine.swift in Sources */,
 				FA0081D427207259004719BE /* MealsToday.swift in Sources */,
 				FAD169F3271DFC9100C21397 /* Calorie.swift in Sources */,
@@ -416,7 +416,7 @@
 				FAF517CC27232FCB00BD54E7 /* ArrowViewGraph.swift in Sources */,
 				FAD16A02271DFEFB00C21397 /* DietDetailView.swift in Sources */,
 				FAD169BD271DFAAE00C21397 /* ContentView.swift in Sources */,
-				FAD169BB271DFAAE00C21397 /* Deficit2_0App.swift in Sources */,
+				FAD169BB271DFAAE00C21397 /* Dietic.swift in Sources */,
 				FAF517BA27232B6400BD54E7 /* DashedLine.swift in Sources */,
 				FA0081D527207259004719BE /* MealsToday.swift in Sources */,
 				FAD169F4271DFC9100C21397 /* Calorie.swift in Sources */,
