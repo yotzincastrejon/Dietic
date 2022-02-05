@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MealsToday: View {
+    @ObservedObject var fastingManager: FastingManager
     var body: some View {
         ZStack {
             VStack {
@@ -35,7 +36,9 @@ struct MealsToday: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
+                    Button(action: {
+                        fastingManager.saveThing()
+                    }) {
                         Image(systemName: "plus")
                             .foregroundColor(Color("D10"))
                     }
@@ -59,6 +62,6 @@ struct MealsToday: View {
 
 struct MealsToday_Previews: PreviewProvider {
     static var previews: some View {
-        MealsToday()
+        MealsToday(fastingManager: FastingManager())
     }
 }

@@ -28,7 +28,7 @@ struct Home: View {
                         DietTitle(title: "Meals today", view: AnyView(DietDetailView()), imageStringText: "Customize", imageSystemName: "arrow.right")
                             .padding(.top)
                         
-                        MealsToday()
+                        MealsToday(fastingManager: fastingManager)
                         
                         DietTitle(title: "Body measurement", view: AnyView(DietDetailView()), imageStringText: "Today", imageSystemName: "arrow.right")
                         

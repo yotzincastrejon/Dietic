@@ -245,6 +245,24 @@ class FastingManager: ObservableObject {
         }
     }
     
+    func saveThing() {
+        guard let something = HKQuantityType.quantityType(forIdentifier: .dietaryEnergyConsumed) else { fatalError("It's not available anymore") }
+        let value = 20.0
+        
+        let quantity = HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: value)
+        
+        let sample = HKQuantitySample(type: something, quantity: quantity, start: Date.now, end: Date.now)
+        
+        
+        healthStore.save(sample) { (success, error) in
+            if let error = error {
+                print("Error Saving Sample \(error.localizedDescription)")
+            } else {
+                print("Success in saving sample")
+            }
+        }
+    }
+    
     func caloriesNeededToReachGoalWeight() {
         if !simulatedCaloriesBool {
             simulatedCalories = 0

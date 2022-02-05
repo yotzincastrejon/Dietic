@@ -33,6 +33,8 @@
 		FA719622279B1E6400A50598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA719620279B1E6400A50598 /* LaunchScreen.storyboard */; };
 		FAAC72C727A3252600508702 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAC72C627A3252600508702 /* WelcomeView.swift */; };
 		FAAC72C827A3252600508702 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAC72C627A3252600508702 /* WelcomeView.swift */; };
+		FAB2BEEA27AC8A38009DA8E4 /* AddingFoodScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */; };
+		FAB2BEEB27AC8A38009DA8E4 /* AddingFoodScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */; };
 		FAD169BA271DFAAE00C21397 /* Dietic.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AA271DFAAD00C21397 /* Dietic.swift */; };
 		FAD169BB271DFAAE00C21397 /* Dietic.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AA271DFAAD00C21397 /* Dietic.swift */; };
 		FAD169BC271DFAAE00C21397 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AB271DFAAD00C21397 /* ContentView.swift */; };
@@ -92,6 +94,7 @@
 		FA0081DF27209831004719BE /* DateChanger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateChanger.swift; sourceTree = "<group>"; };
 		FA719620279B1E6400A50598 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FAAC72C627A3252600508702 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingFoodScreen.swift; sourceTree = "<group>"; };
 		FAD169AA271DFAAD00C21397 /* Dietic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dietic.swift; sourceTree = "<group>"; };
 		FAD169AB271DFAAD00C21397 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FAD169AC271DFAAE00C21397 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -181,6 +184,7 @@
 				FAD169AB271DFAAD00C21397 /* ContentView.swift */,
 				FAD169FD271DFD1C00C21397 /* Home.swift */,
 				FA0081DF27209831004719BE /* DateChanger.swift */,
+				FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */,
 				FA0081DC27209455004719BE /* WeightCard.swift */,
 				FAD1ADCD272125EA00785223 /* GoalSettings.swift */,
 				FA0D6BC1279A135A002F7AFD /* Onboarding */,
@@ -370,6 +374,7 @@
 				FA0081D127207226004719BE /* MealCard.swift in Sources */,
 				FAD1ADCE272125EA00785223 /* GoalSettings.swift in Sources */,
 				FAD16A07271E07E400C21397 /* ColorHex.swift in Sources */,
+				FAB2BEEA27AC8A38009DA8E4 /* AddingFoodScreen.swift in Sources */,
 				FAD169F6271DFCAA00C21397 /* DateExtension.swift in Sources */,
 				FAD169F9271DFCD400C21397 /* HKBiologicalSex.swift in Sources */,
 				FA0081E027209831004719BE /* DateChanger.swift in Sources */,
@@ -409,6 +414,7 @@
 				FA0081D227207226004719BE /* MealCard.swift in Sources */,
 				FAD1ADCF272125EA00785223 /* GoalSettings.swift in Sources */,
 				FAD16A08271E07E400C21397 /* ColorHex.swift in Sources */,
+				FAB2BEEB27AC8A38009DA8E4 /* AddingFoodScreen.swift in Sources */,
 				FAD169F7271DFCAA00C21397 /* DateExtension.swift in Sources */,
 				FAD169FA271DFCD400C21397 /* HKBiologicalSex.swift in Sources */,
 				FA0081E127209831004719BE /* DateChanger.swift in Sources */,
@@ -553,7 +559,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Deficit2.0 (iOS).entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Dietic (iOS).entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YVJLT6Y577;
@@ -568,7 +574,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -589,7 +595,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "Deficit2.0 (iOS).entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Dietic (iOS).entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = YVJLT6Y577;
@@ -604,7 +610,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
