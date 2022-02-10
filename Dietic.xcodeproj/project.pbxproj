@@ -29,6 +29,7 @@
 		FA0081DE27209455004719BE /* WeightCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DC27209455004719BE /* WeightCard.swift */; };
 		FA0081E027209831004719BE /* DateChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DF27209831004719BE /* DateChanger.swift */; };
 		FA0081E127209831004719BE /* DateChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DF27209831004719BE /* DateChanger.swift */; };
+		FA43D71D27B48EB800A709B3 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = FA43D71C27B48EB800A709B3 /* CodeScanner */; };
 		FA719621279B1E6400A50598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA719620279B1E6400A50598 /* LaunchScreen.storyboard */; };
 		FA719622279B1E6400A50598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA719620279B1E6400A50598 /* LaunchScreen.storyboard */; };
 		FAAC72C727A3252600508702 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAC72C627A3252600508702 /* WelcomeView.swift */; };
@@ -128,6 +129,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA43D71D27B48EB800A709B3 /* CodeScanner in Frameworks */,
 				FAD169E2271DFB1000C21397 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -277,6 +279,7 @@
 			);
 			name = "Dietic (iOS)";
 			packageProductDependencies = (
+				FA43D71C27B48EB800A709B3 /* CodeScanner */,
 			);
 			productName = "Deficit2.0 (iOS)";
 			productReference = FAD169B1271DFAAE00C21397 /* Dietic.app */;
@@ -327,6 +330,7 @@
 			);
 			mainGroup = FAD169A4271DFAAD00C21397;
 			packageReferences = (
+				FA43D71B27B48EB800A709B3 /* XCRemoteSwiftPackageReference "CodeScanner" */,
 			);
 			productRefGroup = FAD169B2271DFAAE00C21397 /* Products */;
 			projectDirPath = "";
@@ -716,6 +720,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FA43D71B27B48EB800A709B3 /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twostraws/CodeScanner";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FA43D71C27B48EB800A709B3 /* CodeScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA43D71B27B48EB800A709B3 /* XCRemoteSwiftPackageReference "CodeScanner" */;
+			productName = CodeScanner;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FAD169A5271DFAAD00C21397 /* Project object */;
 }

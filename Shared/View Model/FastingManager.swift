@@ -88,6 +88,7 @@ class FastingManager: ObservableObject {
     @Published var fat: Double = 0
     @Published var poundsPerWeekYouWantToLose: Double = 0
     @Published var day: Int = 0
+    @Published var todaysDate = Date.now
     
     /// - Tag: Weight loss goal
     @Published var weightLossGoalInPounds = 50
@@ -107,6 +108,10 @@ class FastingManager: ObservableObject {
     var cancellable: Cancellable?
     
     func start() -> Date {
+        let modifiedDate = Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .day, value: day,to: Date())!)
+        DispatchQueue.main.async { [self] in
+            todaysDate = Calendar.current.date(byAdding: .day, value: day, to: Date.now)!
+        }
        return Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .day, value: day,to: Date())!)
     }
     
@@ -220,6 +225,7 @@ class FastingManager: ObservableObject {
         
         do {
             try await healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead)
+            try await printTheCorrelation(results: getCorrelationQuery())
             //This order matters!
             await getWeight()
             await getHeight()
@@ -238,7 +244,7 @@ class FastingManager: ObservableObject {
             await MainActor.run {
                 caloriesNeededToReachGoalWeight()
             }
-          
+            
             
         } catch let error {
             print("An error occurred while requesting HealthKit Authorization: \(error.localizedDescription)")
@@ -246,14 +252,12 @@ class FastingManager: ObservableObject {
     }
     
     func saveThing() {
-        guard let something = HKQuantityType.quantityType(forIdentifier: .dietaryEnergyConsumed) else { fatalError("It's not available anymore") }
+        guard let quantityType = HKQuantityType.quantityType(forIdentifier: .dietaryEnergyConsumed) else { fatalError("It's not available anymore") }
         let value = 20.0
-        
         let quantity = HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: value)
-        
-        let sample = HKQuantitySample(type: something, quantity: quantity, start: Date.now, end: Date.now)
-        
-        
+        let date = Date.now
+        let pastDate = Calendar.current.date(byAdding: .day, value: -1, to: Date()) // Substituting this for date doesn't change when the date of creation for the sample. In HealthKit it shows the same as date.
+        let sample = HKQuantitySample(type: quantityType, quantity: quantity, start: date, end: date)
         healthStore.save(sample) { (success, error) in
             if let error = error {
                 print("Error Saving Sample \(error.localizedDescription)")
@@ -300,13 +304,13 @@ class FastingManager: ObservableObject {
         leftToBurn = afterMealsAndBurned - burnedCalories
         dailyDeficitForGoal = perdayCaloriesNeededToLose
         currentDeficitForDay = eatencalories - bmr - burnedCalories
-        print("weight to lose: \(weightToLoseInCalories)")
-        print("differenceInDays: \(differenceInDays)")
-        print("perdayCalories Loss Goal: \(perdayCaloriesNeededToLose)")
-        print("After accounting for BMR: \(finalAmountOfNeededToBurn)")
-        print("Now Accounting for eaten calories: \(afterMealsAndBurned)")
-        print("Left to Burn: \(afterMealsAndBurned - burnedCalories)")
-        print("PercentageAccomplished: \(finalPercentage)")
+//        print("weight to lose: \(weightToLoseInCalories)")
+//        print("differenceInDays: \(differenceInDays)")
+//        print("perdayCalories Loss Goal: \(perdayCaloriesNeededToLose)")
+//        print("After accounting for BMR: \(finalAmountOfNeededToBurn)")
+//        print("Now Accounting for eaten calories: \(afterMealsAndBurned)")
+//        print("Left to Burn: \(afterMealsAndBurned - burnedCalories)")
+//        print("PercentageAccomplished: \(finalPercentage)")
     }
     
     func saveSimulatedCalories() {
@@ -635,6 +639,144 @@ class FastingManager: ObservableObject {
         return (currentAmount / goal,Int(goal - currentAmount))
     }
     
+    // MARK: - Eaten Foods Entry
+    //Create an empty array to store food samples
+    @Published var theSamples = [HKSampleWithDescription]()
+    
+    func saveCorrelation() {
+//        let foodName: String
+//        let brandName: String
+//        let servingQuantity: Double
+//        let servingUnit: String
+//        let servingWeightGrams: Int
+        let foodType: HKCorrelationType = HKCorrelationType.correlationType(forIdentifier: .food)!
+        let foodCorrelationMetadata: [String: Any] = [HKMetadataKeyFoodType: UUID().uuidString, "Food Name": "Corn", "Brand Name": "Del Oro", "Serving Quantity": "2", "Serving Unit": "g", "Serving Weight Grams":"2"]
+        
+        //Here we enter the sample types with value. We have to enter each quantity and type individually. But we'll save it as a correlation to be able to access all the objects together.
+        let consumedSamples: Set = [
+            HKSampleReturn(type: .dietaryEnergyConsumed, value: Double(Int.random(in: 1..<100)), quantity: .kilocalorie(), metadata: foodCorrelationMetadata),
+            HKSampleReturn(type: .dietarySugar, value: 1, quantity: .gram(), metadata: foodCorrelationMetadata),
+            HKSampleReturn(type: .dietaryFatTotal, value: 1, quantity: .gram(), metadata: foodCorrelationMetadata),
+            HKSampleReturn(type: .dietaryFatSaturated, value: 1, quantity: .gram(), metadata: foodCorrelationMetadata),
+            HKSampleReturn(type: .dietarySodium, value: 1, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
+            HKSampleReturn(type: .dietaryCarbohydrates, value: 1, quantity: .gram(), metadata: foodCorrelationMetadata),
+            HKSampleReturn(type: .dietaryFiber, value: 1, quantity: .gram(), metadata: foodCorrelationMetadata),
+            HKSampleReturn(type: .dietaryProtein, value: 1, quantity: .gram(), metadata: foodCorrelationMetadata),
+            HKSampleReturn(type: .dietaryPotassium, value: 1, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata)
+        ]
+        let foodCorrelation: HKCorrelation = HKCorrelation(type: foodType, start: todaysDate, end: todaysDate, objects: consumedSamples, metadata: foodCorrelationMetadata)
+        healthStore.save(foodCorrelation) { (success, error) in
+            if let error = error {
+                print("Error Saving Correlation Sample \(error.localizedDescription)")
+            } else {
+                print("Sucess in saving correlation sample")
+            }
+        }
+    }
+    
+    func HKSampleReturn(type: HKQuantityTypeIdentifier, value: Double, quantity: HKUnit, metadata: [String: Any]) -> HKSample {
+        return HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: type)!, quantity: HKQuantity(unit: quantity, doubleValue: value), start: todaysDate, end: todaysDate, metadata: metadata)
+    }
+    
+    //Read Correlation Samples
+    var correlationQuery: HKCorrelationQuery?
+    func getCorrelationQuery() async throws -> ([HKCorrelation]) {
+        return try await withCheckedThrowingContinuation { continuation in
+            let foodType = HKCorrelationType.correlationType(forIdentifier: .food)!
+            let mostRecentPredicate = HKQuery.predicateForSamples(withStart: start(), end: end(), options: .strictStartDate)
+            let myAppPredicate = HKQuery.predicateForObjects(from: HKSource.default()) //This retrieve's only my app
+//            let notMyAppPredicate = NSCompoundPredicate(notPredicateWithSubpredicate: myAppPredicate) // This would retrieve everything aside from my app
+            let queryPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [mostRecentPredicate, myAppPredicate])
+            correlationQuery = HKCorrelationQuery(type: foodType, predicate: queryPredicate, samplePredicates: nil) { query, results, error in
+                if let error = error {
+                    print("Reading correlation query wasn't completed.")
+                    continuation.resume(throwing: error)
+                } else {
+                    print("Success in reading correlation query")
+                    continuation.resume(returning: results!)
+                }
+            }
+            healthStore.execute(correlationQuery!)
+        }
+    }
+    
+    
+    //Manipulating the results from the Correlation Query
+    func printTheCorrelation(results: [HKCorrelation]?) async {
+        DispatchQueue.main.async { [self] in
+            theSamples.removeAll()
+            for i in 0..<results!.count {
+                let currentData: HKCorrelation = results![i]
+                let foodName = currentData.metadata?["Food Name"]
+                print("Food name: \(foodName)")
+                let calories = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryEnergyConsumed)!).first as! HKQuantitySample?
+                let sugars = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietarySugar)!).first as! HKQuantitySample?
+                let totalFat = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryFatTotal)!).first as! HKQuantitySample?
+                let saturatedFat = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryFatSaturated)!).first as! HKQuantitySample?
+                let cholesterol = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryCholesterol)!).first as! HKQuantitySample?
+                let sodium = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietarySodium)!).first as! HKQuantitySample?
+                let totalCarbohydrate = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryCarbohydrates)!).first as! HKQuantitySample?
+                let dietaryFiber = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryFiber)!).first as! HKQuantitySample?
+                let protein = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryProtein)!).first as! HKQuantitySample?
+                let potassium = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryPotassium)!).first as! HKQuantitySample?
+
+                //FIXME: Need to add meta data to the correlation to include foodname, brabdname, serving quantity, and serving weight grams.
+                theSamples.append(HKSampleWithDescription(foodName: foodName as! String,
+                                                          brandName: "",
+                                                          servingQuantity: 0.0,
+                                                          servingUnit: "",
+                                                          servingWeightGrams: 0,
+                                                          calories: calories?.quantity.doubleValue(for: .kilocalorie()) ?? 0,
+                                                          sugars: sugars?.quantity.doubleValue(for: .gram()) ?? 0,
+                                                          totalFat: Int(totalFat?.quantity.doubleValue(for: .gram()) ?? 0),
+                                                          saturatedFat: saturatedFat?.quantity.doubleValue(for: .gram()) ?? 0,
+                                                          cholesterol: Int(cholesterol?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0),
+                                                          sodium: Int(sodium?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0),
+                                                          totalCarbohydrate: Int(totalCarbohydrate?.quantity.doubleValue(for: .gram()) ?? 0),
+                                                          dietaryFiber: Int(dietaryFiber?.quantity.doubleValue(for: .gram()) ?? 0),
+                                                          protein: Int(protein?.quantity.doubleValue(for: .gram()) ?? 0),
+                                                          potassium: Int(potassium?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0),
+                                                          meta: currentData.metadata!["HKFoodType"] as! String))
+            }
+        
+        }
+    }
+    
+    //Deleting the correlation object
+    func deleteTheCorrelationObject(uuid: String) {
+        let predicate = HKQuery.predicateForObjects(withMetadataKey: HKMetadataKeyFoodType, allowedValues: [uuid])
+        healthStore.deleteObjects(of: HKCorrelationType.correlationType(forIdentifier: .food)!, predicate: predicate) { success, _, error in
+            if success {
+                print("Delete of correlation was successful for \(HKCorrelationType.correlationType(forIdentifier: .food)!)")
+            } else {
+                print("Deletion of correlation failed for \(HKCorrelationType.correlationType(forIdentifier: .food)!)")
+            }
+        }
+        
+        correlationObjectDeletion(predicate: predicate, identifier: .dietaryEnergyConsumed)
+        correlationObjectDeletion(predicate: predicate, identifier: .dietarySugar)
+        correlationObjectDeletion(predicate: predicate, identifier: .dietaryFatTotal)
+        correlationObjectDeletion(predicate: predicate, identifier: .dietaryFatSaturated)
+        correlationObjectDeletion(predicate: predicate, identifier: .dietaryCholesterol)
+        correlationObjectDeletion(predicate: predicate, identifier: .dietarySodium)
+        correlationObjectDeletion(predicate: predicate, identifier: .dietaryCarbohydrates)
+        correlationObjectDeletion(predicate: predicate, identifier: .dietaryFiber)
+        correlationObjectDeletion(predicate: predicate, identifier: .dietaryProtein)
+        correlationObjectDeletion(predicate: predicate, identifier: .dietaryPotassium)
+    }
+    
+    func correlationObjectDeletion(predicate: NSPredicate, identifier: HKQuantityTypeIdentifier) {
+        healthStore.deleteObjects(of: HKQuantityType.quantityType(forIdentifier: identifier)!, predicate: predicate) { success, _, error in
+            if success {
+                print("Delete of correlation was successful for \(HKQuantityType.quantityType(forIdentifier: identifier)!)")
+            } else {
+                print("Deletion of correlation failed for \(HKQuantityType.quantityType(forIdentifier: identifier)!)")
+            }
+        }
+    }
+    
+    
+    
     
     
     // MARK: - Caloric Calculations
@@ -878,3 +1020,22 @@ class FastingManager: ObservableObject {
 }
 
 
+struct HKSampleWithDescription: Identifiable {
+    let id = UUID()
+    let foodName: String
+    let brandName: String
+    let servingQuantity: Double
+    let servingUnit: String
+    let servingWeightGrams: Int
+    let calories: Double
+    let sugars: Double
+    let totalFat: Int
+    let saturatedFat: Double
+    let cholesterol: Int
+    let sodium: Int
+    let totalCarbohydrate: Int
+    let dietaryFiber: Int
+    let protein: Int
+    let potassium: Int
+    let meta: String
+}

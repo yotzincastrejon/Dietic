@@ -32,6 +32,10 @@ struct ContentView: View {
                 .tabItem { Image(systemName: "gear")
                     Text("Settings")
                 }
+            AddingFoodScreen(fastingManager: fastingManager)
+                .tabItem { Image(systemName: "gear")
+                    Text("Adding Food")
+                }
         }
 //        .sheet(isPresented: $showSheet, onDismiss: didDismiss) {
 //            WelcomeView(showSheet: $showSheet)

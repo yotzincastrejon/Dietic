@@ -32,7 +32,10 @@ struct DateChanger: View {
                     .renderingMode(.template)
                     .foregroundColor(Color(uiColor: .label))
                     .frame(width: 16, height: 16)
-                Text(addingDate().formatted(.dateTime.month().day()))
+//                Text(addingDate().formatted(.dateTime.month().day()))
+//                    .font(.subheadline).monospacedDigit()
+//                    .frame(width: 50)
+                Text(fastingManager.todaysDate.formatted(.dateTime.month().day()))
                     .font(.subheadline).monospacedDigit()
                     .frame(width: 50)
                 
