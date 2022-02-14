@@ -30,8 +30,12 @@
 		FA0081E027209831004719BE /* DateChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DF27209831004719BE /* DateChanger.swift */; };
 		FA0081E127209831004719BE /* DateChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DF27209831004719BE /* DateChanger.swift */; };
 		FA43D71D27B48EB800A709B3 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = FA43D71C27B48EB800A709B3 /* CodeScanner */; };
+		FA43D71F27B4988000A709B3 /* JsonResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA43D71E27B4988000A709B3 /* JsonResponseView.swift */; };
+		FA43D72027B4988000A709B3 /* JsonResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA43D71E27B4988000A709B3 /* JsonResponseView.swift */; };
 		FA719621279B1E6400A50598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA719620279B1E6400A50598 /* LaunchScreen.storyboard */; };
 		FA719622279B1E6400A50598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA719620279B1E6400A50598 /* LaunchScreen.storyboard */; };
+		FA95577627B57B1A009FFE27 /* DiaryViewBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */; };
+		FA95577727B57B1A009FFE27 /* DiaryViewBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */; };
 		FAAC72C727A3252600508702 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAC72C627A3252600508702 /* WelcomeView.swift */; };
 		FAAC72C827A3252600508702 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAC72C627A3252600508702 /* WelcomeView.swift */; };
 		FAB2BEEA27AC8A38009DA8E4 /* AddingFoodScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */; };
@@ -93,7 +97,9 @@
 		FA0081D9272072B5004719BE /* ShadowLevels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowLevels.swift; sourceTree = "<group>"; };
 		FA0081DC27209455004719BE /* WeightCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightCard.swift; sourceTree = "<group>"; };
 		FA0081DF27209831004719BE /* DateChanger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateChanger.swift; sourceTree = "<group>"; };
+		FA43D71E27B4988000A709B3 /* JsonResponseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonResponseView.swift; sourceTree = "<group>"; };
 		FA719620279B1E6400A50598 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewBackground.swift; sourceTree = "<group>"; };
 		FAAC72C627A3252600508702 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingFoodScreen.swift; sourceTree = "<group>"; };
 		FAD169AA271DFAAD00C21397 /* Dietic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dietic.swift; sourceTree = "<group>"; };
@@ -187,8 +193,10 @@
 				FAD169FD271DFD1C00C21397 /* Home.swift */,
 				FA0081DF27209831004719BE /* DateChanger.swift */,
 				FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */,
+				FA43D71E27B4988000A709B3 /* JsonResponseView.swift */,
 				FA0081DC27209455004719BE /* WeightCard.swift */,
 				FAD1ADCD272125EA00785223 /* GoalSettings.swift */,
+				FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */,
 				FA0D6BC1279A135A002F7AFD /* Onboarding */,
 				FA0081CC2720705A004719BE /* Home Group */,
 				FAD16A00271DFEFB00C21397 /* DietDetailView.swift */,
@@ -371,12 +379,14 @@
 				FAD169F0271DFC5A00C21397 /* FastingManager.swift in Sources */,
 				FAF517B327232B2B00BD54E7 /* Bar.swift in Sources */,
 				FAF517B627232B4400BD54E7 /* BarGraphBackground.swift in Sources */,
+				FA43D71F27B4988000A709B3 /* JsonResponseView.swift in Sources */,
 				FAF517BC27232F3B00BD54E7 /* CapsuleMacroView.swift in Sources */,
 				FA0081CA27207039004719BE /* MacroLabel.swift in Sources */,
 				FAAC72C727A3252600508702 /* WelcomeView.swift in Sources */,
 				FAF517C227232F9400BD54E7 /* CompleteGraph.swift in Sources */,
 				FA0081D127207226004719BE /* MealCard.swift in Sources */,
 				FAD1ADCE272125EA00785223 /* GoalSettings.swift in Sources */,
+				FA95577627B57B1A009FFE27 /* DiaryViewBackground.swift in Sources */,
 				FAD16A07271E07E400C21397 /* ColorHex.swift in Sources */,
 				FAB2BEEA27AC8A38009DA8E4 /* AddingFoodScreen.swift in Sources */,
 				FAD169F6271DFCAA00C21397 /* DateExtension.swift in Sources */,
@@ -411,12 +421,14 @@
 				FAD169F1271DFC5A00C21397 /* FastingManager.swift in Sources */,
 				FAF517B427232B2B00BD54E7 /* Bar.swift in Sources */,
 				FAF517B727232B4400BD54E7 /* BarGraphBackground.swift in Sources */,
+				FA43D72027B4988000A709B3 /* JsonResponseView.swift in Sources */,
 				FAF517BD27232F3B00BD54E7 /* CapsuleMacroView.swift in Sources */,
 				FA0081CB27207039004719BE /* MacroLabel.swift in Sources */,
 				FAAC72C827A3252600508702 /* WelcomeView.swift in Sources */,
 				FAF517C327232F9400BD54E7 /* CompleteGraph.swift in Sources */,
 				FA0081D227207226004719BE /* MealCard.swift in Sources */,
 				FAD1ADCF272125EA00785223 /* GoalSettings.swift in Sources */,
+				FA95577727B57B1A009FFE27 /* DiaryViewBackground.swift in Sources */,
 				FAD16A08271E07E400C21397 /* ColorHex.swift in Sources */,
 				FAB2BEEB27AC8A38009DA8E4 /* AddingFoodScreen.swift in Sources */,
 				FAD169F7271DFCAA00C21397 /* DateExtension.swift in Sources */,
@@ -569,6 +581,7 @@
 				DEVELOPMENT_TEAM = YVJLT6Y577;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "To scan your barcodes";
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "To read your health data to do calculations";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Dietic will use these metrics for calculations";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Dietic will sync all the data entered to the Health App";
@@ -605,6 +618,7 @@
 				DEVELOPMENT_TEAM = YVJLT6Y577;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "To scan your barcodes";
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "To read your health data to do calculations";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Dietic will use these metrics for calculations";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Dietic will sync all the data entered to the Health App";

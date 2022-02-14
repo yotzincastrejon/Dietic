@@ -280,7 +280,9 @@ class FastingManager: ObservableObject {
         let differenceInDays = Calendar.current.dateComponents([.day], from: Date(), to: futureDate)
         let perdayCaloriesNeededToLose = weightToLoseInCalories / Double(differenceInDays.value(for: .day)!)
         let finalAmountOfNeededToBurn = perdayCaloriesNeededToLose - bmr
-        
+        print("Bmr: \(bmr)")
+        print("perdayCaloriesNeededToLose: \(perdayCaloriesNeededToLose)")
+        print("finalAmountNeededToBurn: \(finalAmountOfNeededToBurn)")
         //Here we are checking if simulated calories exceed actual consumed calories. We are showing what a simulated full meal would look like and how much you'd have to burn.
         if simulatedCaloriesBool && eatencalories < Double(simulatedCalories){
                 eatencalories = 0
@@ -294,16 +296,24 @@ class FastingManager: ObservableObject {
         }
         
         
-        let afterMealsAndBurned = finalAmountOfNeededToBurn + eatencalories + Double(simulatedCalories)
-        let finalPercentage = burnedCalories / afterMealsAndBurned
-        if finalPercentage < 0 {
+        var afterMealsAndBurned = finalAmountOfNeededToBurn + eatencalories + Double(simulatedCalories)
+        if afterMealsAndBurned == 0 {
+            afterMealsAndBurned = 1
+        }
+        let finalPercentage = Double(burnedCalories / afterMealsAndBurned)
+        print("finalAmountNeededToBurn: \(finalAmountOfNeededToBurn)")
+        print("Burned Calories: \(burnedCalories)")
+        print("After Meals and Burned: \(afterMealsAndBurned)")
+        print("Final Percentage: \(finalPercentage)")
+        if finalPercentage < 0 || finalPercentage >= 1{
             percentageAccomplished = 1
         } else {
-            percentageAccomplished = burnedCalories / afterMealsAndBurned
+            percentageAccomplished = Double(burnedCalories / afterMealsAndBurned)
+            print("percentage Accomplished: \(percentageAccomplished)")
         }
-        leftToBurn = afterMealsAndBurned - burnedCalories
-        dailyDeficitForGoal = perdayCaloriesNeededToLose
-        currentDeficitForDay = eatencalories - bmr - burnedCalories
+        leftToBurn = Double(afterMealsAndBurned - burnedCalories)
+        dailyDeficitForGoal = Double(perdayCaloriesNeededToLose)
+        currentDeficitForDay = Double(eatencalories - bmr - burnedCalories)
 //        print("weight to lose: \(weightToLoseInCalories)")
 //        print("differenceInDays: \(differenceInDays)")
 //        print("perdayCalories Loss Goal: \(perdayCaloriesNeededToLose)")
@@ -639,30 +649,88 @@ class FastingManager: ObservableObject {
         return (currentAmount / goal,Int(goal - currentAmount))
     }
     
+    // MARK: - Requesting JSON from Nutrionix
+    func jsonRequestToNutrionix(upc: String) {
+        let url = URL(string: "https://trackapi.nutritionix.com/v2/search/item?upc=\(upc)")! //PUT Your URL
+                var request = URLRequest(url: url)
+                request.httpMethod = "GET"
+        request.setValue("f806ed02", forHTTPHeaderField: "x-app-id")
+        request.setValue("37f6225583fc587c2f9a3d8e772e865d", forHTTPHeaderField: "x-app-key")
+        let task = URLSession.shared.dataTask(with: request) { [self] data, response, error in
+                    guard let safeData = data,
+                          let response = response as? HTTPURLResponse,
+                          error == nil else {                                              // check for fundamental networking error
+                              print("error", error ?? "Unknown error")
+
+                              return
+                          }
+
+                    guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
+                        print("statusCode should be 2xx, but is \(response.statusCode)")
+                        print("response = \(response)")
+                        return
+                    }
+
+//                    var responseString = String(data: safeData, encoding: .utf8)
+//                    print(responseString)
+        //            responseString = (responseString as! NSString).replacingOccurrences(of: "\"", with: "")
+        //            print(responseString)
+                    print("We are decoding directly from the response")
+//                    decode(json: data!)
+                    decodeJSONResponse(json: data!)
+                }
+                task.resume()
+    }
+    @Published var currentScannedItem: HKSampleWithDescription?
+    func decodeJSONResponse(json: Data) {
+        do {
+            let product = try JSONDecoder().decode(GroceryProduct.self, from: json)
+            let info = product.foods[0]
+            DispatchQueue.main.async { [self] in
+                
+            
+            currentScannedItem = HKSampleWithDescription(foodName: info.foodName ?? "",
+                                                         brandName: info.brandName ?? "",
+                                                         servingQuantity: info.servingQuantity ?? 0,
+                                                         servingUnit: info.servingUnit ?? "",
+                                                         servingWeightGrams: info.servingWeightGrams ?? 0,
+                                                         calories: info.calories ?? 0,
+                                                         sugars: info.sugars ?? 0,
+                                                         totalFat: info.totalFat ?? 0,
+                                                         saturatedFat: info.saturatedFat ?? 0,
+                                                         cholesterol: info.cholesterol ?? 0,
+                                                         sodium: info.sodium ?? 0,
+                                                         totalCarbohydrate: info.totalCarbohydrate ?? 0,
+                                                         dietaryFiber: info.dietaryFiber ?? 0,
+                                                         protein: info.protein ?? 0,
+                                                         potassium: info.potassium ?? 0,
+                                                         meta: "")
+            }
+        } catch {
+            print("Decoding the JSON failed \(error.localizedDescription)")
+        }
+    }
+    
     // MARK: - Eaten Foods Entry
     //Create an empty array to store food samples
     @Published var theSamples = [HKSampleWithDescription]()
     
-    func saveCorrelation() {
-//        let foodName: String
-//        let brandName: String
-//        let servingQuantity: Double
-//        let servingUnit: String
-//        let servingWeightGrams: Int
+    func saveCorrelation(sample: HKSampleWithDescription) {
+        
         let foodType: HKCorrelationType = HKCorrelationType.correlationType(forIdentifier: .food)!
-        let foodCorrelationMetadata: [String: Any] = [HKMetadataKeyFoodType: UUID().uuidString, "Food Name": "Corn", "Brand Name": "Del Oro", "Serving Quantity": "2", "Serving Unit": "g", "Serving Weight Grams":"2"]
+        let foodCorrelationMetadata: [String: Any] = [HKMetadataKeyFoodType: UUID().uuidString, "Food Name": sample.foodName, "Brand Name": sample.brandName, "Serving Quantity": sample.servingQuantity, "Serving Unit": sample.servingUnit, "Serving Weight Grams":sample.servingWeightGrams]
         
         //Here we enter the sample types with value. We have to enter each quantity and type individually. But we'll save it as a correlation to be able to access all the objects together.
         let consumedSamples: Set = [
-            HKSampleReturn(type: .dietaryEnergyConsumed, value: Double(Int.random(in: 1..<100)), quantity: .kilocalorie(), metadata: foodCorrelationMetadata),
-            HKSampleReturn(type: .dietarySugar, value: 1, quantity: .gram(), metadata: foodCorrelationMetadata),
-            HKSampleReturn(type: .dietaryFatTotal, value: 1, quantity: .gram(), metadata: foodCorrelationMetadata),
-            HKSampleReturn(type: .dietaryFatSaturated, value: 1, quantity: .gram(), metadata: foodCorrelationMetadata),
-            HKSampleReturn(type: .dietarySodium, value: 1, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
-            HKSampleReturn(type: .dietaryCarbohydrates, value: 1, quantity: .gram(), metadata: foodCorrelationMetadata),
-            HKSampleReturn(type: .dietaryFiber, value: 1, quantity: .gram(), metadata: foodCorrelationMetadata),
-            HKSampleReturn(type: .dietaryProtein, value: 1, quantity: .gram(), metadata: foodCorrelationMetadata),
-            HKSampleReturn(type: .dietaryPotassium, value: 1, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata)
+            HKSampleReturn(type: .dietaryEnergyConsumed, value: Double(sample.calories), quantity: .kilocalorie(), metadata: foodCorrelationMetadata),
+            HKSampleReturn(type: .dietarySugar, value: sample.sugars, quantity: .gram(), metadata: foodCorrelationMetadata),
+            HKSampleReturn(type: .dietaryFatTotal, value: Double(sample.totalFat), quantity: .gram(), metadata: foodCorrelationMetadata),
+            HKSampleReturn(type: .dietaryFatSaturated, value: sample.saturatedFat, quantity: .gram(), metadata: foodCorrelationMetadata),
+            HKSampleReturn(type: .dietarySodium, value: Double(sample.sodium), quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
+            HKSampleReturn(type: .dietaryCarbohydrates, value: Double(sample.totalCarbohydrate), quantity: .gram(), metadata: foodCorrelationMetadata),
+            HKSampleReturn(type: .dietaryFiber, value: Double(sample.dietaryFiber), quantity: .gram(), metadata: foodCorrelationMetadata),
+            HKSampleReturn(type: .dietaryProtein, value: Double(sample.protein), quantity: .gram(), metadata: foodCorrelationMetadata),
+            HKSampleReturn(type: .dietaryPotassium, value: Double(sample.potassium), quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata)
         ]
         let foodCorrelation: HKCorrelation = HKCorrelation(type: foodType, start: todaysDate, end: todaysDate, objects: consumedSamples, metadata: foodCorrelationMetadata)
         healthStore.save(foodCorrelation) { (success, error) in
@@ -670,6 +738,7 @@ class FastingManager: ObservableObject {
                 print("Error Saving Correlation Sample \(error.localizedDescription)")
             } else {
                 print("Sucess in saving correlation sample")
+                
             }
         }
     }
@@ -726,7 +795,7 @@ class FastingManager: ObservableObject {
                                                           servingQuantity: 0.0,
                                                           servingUnit: "",
                                                           servingWeightGrams: 0,
-                                                          calories: calories?.quantity.doubleValue(for: .kilocalorie()) ?? 0,
+                                                          calories: Int(calories?.quantity.doubleValue(for: .kilocalorie()) ?? 0),
                                                           sugars: sugars?.quantity.doubleValue(for: .gram()) ?? 0,
                                                           totalFat: Int(totalFat?.quantity.doubleValue(for: .gram()) ?? 0),
                                                           saturatedFat: saturatedFat?.quantity.doubleValue(for: .gram()) ?? 0,
@@ -1027,7 +1096,7 @@ struct HKSampleWithDescription: Identifiable {
     let servingQuantity: Double
     let servingUnit: String
     let servingWeightGrams: Int
-    let calories: Double
+    let calories: Int
     let sugars: Double
     let totalFat: Int
     let saturatedFat: Double
@@ -1038,4 +1107,44 @@ struct HKSampleWithDescription: Identifiable {
     let protein: Int
     let potassium: Int
     let meta: String
+}
+
+struct GroceryProduct: Codable {
+    let foods: [Food]
+}
+// MARK: - Food
+struct Food: Codable {
+    let foodName: String?
+    let brandName: String?
+    let servingQuantity: Double?
+    let servingUnit: String?
+    let servingWeightGrams: Int?
+    let calories: Int?
+    let totalFat: Int?
+    let saturatedFat: Double?
+    let cholesterol: Int?
+    let sodium: Int?
+    let totalCarbohydrate: Int?
+    let dietaryFiber: Int?
+    let sugars: Double?
+    let protein: Int?
+    let potassium: Int?
+    
+    enum CodingKeys: String, CodingKey {
+        case foodName = "food_name"
+        case brandName = "brand_name"
+        case servingQuantity = "serving_qty"
+        case servingUnit = "serving_unit"
+        case servingWeightGrams = "serving_weight_grams"
+        case calories = "nf_calories"
+        case totalFat = "nf_total_fat"
+        case saturatedFat = "nf_saturated_fat"
+        case cholesterol = "nf_cholesterol"
+        case sodium = "nf_sodium"
+        case totalCarbohydrate = "nf_total_carbohydrate"
+        case dietaryFiber = "nf_dietary_fiber"
+        case sugars = "nf_sugars"
+        case protein = "nf_protein"
+        case potassium = "nf_potassium"
+    }
 }

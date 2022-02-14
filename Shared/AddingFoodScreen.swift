@@ -6,16 +6,13 @@
 //
 
 import SwiftUI
+import CodeScanner
 
 struct AddingFoodScreen: View {
     @State var searchText = ""
     @ObservedObject var fastingManager: FastingManager
-    var eatenFoods = [
-        EatenFood(name: "Salmon"),
-        EatenFood(name: "Mixed Veggies"),
-        EatenFood(name: "Avocado")
-    ]
-
+    @State var showingImagePicker = false
+@State var showingAddingView = false
     var body: some View {
          
         NavigationView {
@@ -33,7 +30,8 @@ struct AddingFoodScreen: View {
                     .tint(.blue)
                     
                     Button(action: {
-                        fastingManager.saveCorrelation()
+                        //WE will call in a new view to handle scanning
+//                        fastingManager.saveCorrelation()
                         Task {
                         await fastingManager.requestAuthorization()
                         }
@@ -43,25 +41,18 @@ struct AddingFoodScreen: View {
                         .buttonStyle(.bordered)
                         .tint(.green)
                     }
-    //                List {
-    //                    Section(header: Text("Recent")) {
-    //                        ForEach(eatenFoods) { eaten in
-    //                            HStack {
-    //                                Text("\(eaten.name)")
-    //                                    .fontWeight(.semibold)
-    //                                Spacer()
-    //                                Text("\(Int.random(in: 100..<600)) kcal")
-    //                                    .foregroundColor(Color(red: 0.43529411764705883, green: 0.5607843137254902, blue: 0.9176470588235294))
-    //                                Image(systemName: "plus.circle.fill")
-    //                                    .symbolRenderingMode(.palette)
-    //                                    .foregroundStyle(Color.black, Color(red: 0.9176470588235294, green: 0.9333333333333333, blue: 0.9882352941176471))
-    //                            }
-    //                        }
-    //                    }
-    //                }
-    //                .listStyle(.insetGrouped)
-    //                .searchable(text: $searchText)
-                    
+                Button(action: {
+                    showingImagePicker = true
+                }) {
+                    VStack {
+                    Image(systemName: "barcode.viewfinder")
+                        .font(.largeTitle)
+                    Text("Scan Barcode")
+                    }
+                }
+                .frame(width: 150, height: 150)
+                .background(Color(uiColor: .systemGroupedBackground))
+                .cornerRadius(20)
                     List {
                         ForEach(fastingManager.theSamples) { sample in
                             HStack {
@@ -80,6 +71,23 @@ struct AddingFoodScreen: View {
                 DateChanger(fastingManager: fastingManager)
             }
             }
+               
+        }
+        .sheet(isPresented: $showingImagePicker) {
+            CodeScannerView(codeTypes: [.qr,
+                                        .code128,
+                                        .code39,
+                                        .code39Mod43,
+                                        .code93,
+                                        .ean13,
+                                        .ean8,
+                                        .interleaved2of5,
+                                        .itf14,
+                                        .pdf417,
+                                        .upce], simulatedData: "Paul Hudson\npaul@hackingwithswift.com", completion: handleScan)
+        }
+        .sheet(isPresented: $showingAddingView) {
+            JsonResponseView(isShowing: $showingAddingView, fastingManager: fastingManager)
         }
         
     }
@@ -92,6 +100,20 @@ struct AddingFoodScreen: View {
         fastingManager.theSamples.remove(atOffsets: offsets)
         Task {
             await fastingManager.requestAuthorization()
+        }
+    }
+    
+    func handleScan(result: Result<ScanResult, ScanError>) {
+        showingImagePicker = false
+        
+        switch result {
+        case .success(let result):
+//            something = result.string
+//            request(upc: result.string)
+            fastingManager.jsonRequestToNutrionix(upc: result.string)
+            showingAddingView = true
+        case .failure(let error):
+            print("Scanning failed: \(error.localizedDescription)")
         }
     }
 }
