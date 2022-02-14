@@ -108,7 +108,6 @@ class FastingManager: ObservableObject {
     var cancellable: Cancellable?
     
     func start() -> Date {
-        let modifiedDate = Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .day, value: day,to: Date())!)
         DispatchQueue.main.async { [self] in
             todaysDate = Calendar.current.date(byAdding: .day, value: day, to: Date.now)!
         }
@@ -256,7 +255,6 @@ class FastingManager: ObservableObject {
         let value = 20.0
         let quantity = HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: value)
         let date = Date.now
-        let pastDate = Calendar.current.date(byAdding: .day, value: -1, to: Date()) // Substituting this for date doesn't change when the date of creation for the sample. In HealthKit it shows the same as date.
         let sample = HKQuantitySample(type: quantityType, quantity: quantity, start: date, end: date)
         healthStore.save(sample) { (success, error) in
             if let error = error {
@@ -673,11 +671,14 @@ class FastingManager: ObservableObject {
 
 //                    var responseString = String(data: safeData, encoding: .utf8)
 //                    print(responseString)
-        //            responseString = (responseString as! NSString).replacingOccurrences(of: "\"", with: "")
-        //            print(responseString)
+//                    responseString = (responseString as! NSString).replacingOccurrences(of: "\"", with: "")
+//                    print(responseString)
                     print("We are decoding directly from the response")
 //                    decode(json: data!)
-                    decodeJSONResponse(json: data!)
+            
+                    decodeJSONResponse(json: safeData)
+            
+            //Or the current working model is decodeJSONResponse(json: data!)
                 }
                 task.resume()
     }
@@ -704,7 +705,8 @@ class FastingManager: ObservableObject {
                                                          dietaryFiber: info.dietaryFiber ?? 0,
                                                          protein: info.protein ?? 0,
                                                          potassium: info.potassium ?? 0,
-                                                         meta: "")
+                                                         meta: "",
+                                                         mealPeriod: "")
             }
         } catch {
             print("Decoding the JSON failed \(error.localizedDescription)")
@@ -715,10 +717,12 @@ class FastingManager: ObservableObject {
     //Create an empty array to store food samples
     @Published var theSamples = [HKSampleWithDescription]()
     
-    func saveCorrelation(sample: HKSampleWithDescription) {
+    
+    
+    func saveCorrelation(sample: HKSampleWithDescription, mealPeriod: String) {
         
         let foodType: HKCorrelationType = HKCorrelationType.correlationType(forIdentifier: .food)!
-        let foodCorrelationMetadata: [String: Any] = [HKMetadataKeyFoodType: UUID().uuidString, "Food Name": sample.foodName, "Brand Name": sample.brandName, "Serving Quantity": sample.servingQuantity, "Serving Unit": sample.servingUnit, "Serving Weight Grams":sample.servingWeightGrams]
+        let foodCorrelationMetadata: [String: Any] = [HKMetadataKeyFoodType: UUID().uuidString, "Food Name": sample.foodName, "Brand Name": sample.brandName, "Serving Quantity": sample.servingQuantity, "Serving Unit": sample.servingUnit, "Serving Weight Grams":sample.servingWeightGrams, "Meal Period": mealPeriod]
         
         //Here we enter the sample types with value. We have to enter each quantity and type individually. But we'll save it as a correlation to be able to access all the objects together.
         let consumedSamples: Set = [
@@ -777,7 +781,11 @@ class FastingManager: ObservableObject {
             for i in 0..<results!.count {
                 let currentData: HKCorrelation = results![i]
                 let foodName = currentData.metadata?["Food Name"]
-                print("Food name: \(foodName)")
+                let brandName = currentData.metadata?["Brand Name"]
+                let servingQuantity = currentData.metadata?["Serving Quantity"]
+                let servingUnit = currentData.metadata?["Serving Unit"]
+                let servingWeightGrams = currentData.metadata?["Serving Weight Grams"]
+                let mealPeriod = currentData.metadata?["Meal Period"]
                 let calories = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryEnergyConsumed)!).first as! HKQuantitySample?
                 let sugars = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietarySugar)!).first as! HKQuantitySample?
                 let totalFat = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryFatTotal)!).first as! HKQuantitySample?
@@ -789,12 +797,11 @@ class FastingManager: ObservableObject {
                 let protein = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryProtein)!).first as! HKQuantitySample?
                 let potassium = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryPotassium)!).first as! HKQuantitySample?
 
-                //FIXME: Need to add meta data to the correlation to include foodname, brabdname, serving quantity, and serving weight grams.
                 theSamples.append(HKSampleWithDescription(foodName: foodName as! String,
-                                                          brandName: "",
-                                                          servingQuantity: 0.0,
-                                                          servingUnit: "",
-                                                          servingWeightGrams: 0,
+                                                          brandName: brandName as! String,
+                                                          servingQuantity: servingQuantity as! Double,
+                                                          servingUnit: servingUnit as! String,
+                                                          servingWeightGrams: servingWeightGrams as! Int,
                                                           calories: Int(calories?.quantity.doubleValue(for: .kilocalorie()) ?? 0),
                                                           sugars: sugars?.quantity.doubleValue(for: .gram()) ?? 0,
                                                           totalFat: Int(totalFat?.quantity.doubleValue(for: .gram()) ?? 0),
@@ -805,7 +812,8 @@ class FastingManager: ObservableObject {
                                                           dietaryFiber: Int(dietaryFiber?.quantity.doubleValue(for: .gram()) ?? 0),
                                                           protein: Int(protein?.quantity.doubleValue(for: .gram()) ?? 0),
                                                           potassium: Int(potassium?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0),
-                                                          meta: currentData.metadata!["HKFoodType"] as! String))
+                                                          meta: currentData.metadata!["HKFoodType"] as! String,
+                                                          mealPeriod: mealPeriod as! String))
             }
         
         }
@@ -1107,6 +1115,7 @@ struct HKSampleWithDescription: Identifiable {
     let protein: Int
     let potassium: Int
     let meta: String
+    let mealPeriod: String
 }
 
 struct GroceryProduct: Codable {
@@ -1146,5 +1155,21 @@ struct Food: Codable {
         case sugars = "nf_sugars"
         case protein = "nf_protein"
         case potassium = "nf_potassium"
+    }
+}
+
+enum EatingTime: CustomStringConvertible {
+    case breakfast
+    case lunch
+    case dinner
+    case snack
+    
+    var description: String {
+        switch self {
+        case .breakfast: return "Breakfast"
+        case .lunch: return "Lunch"
+        case .dinner: return "Dinner"
+        case .snack: return "Snack"
+        }
     }
 }

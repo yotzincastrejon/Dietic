@@ -30,7 +30,7 @@ struct JsonResponseView: View {
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        fastingManager.saveCorrelation(sample: fastingManager.currentScannedItem!)
+                        fastingManager.saveCorrelation(sample: fastingManager.currentScannedItem!, mealPeriod: EatingTime.breakfast.description)
                         Task {
                             await fastingManager.requestAuthorization()
                         }
