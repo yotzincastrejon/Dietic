@@ -719,10 +719,10 @@ class FastingManager: ObservableObject {
     
     
     
-    func saveCorrelation(sample: HKSampleWithDescription, mealPeriod: String) {
+    func saveCorrelation(sample: HKSampleWithDescription) {
         
         let foodType: HKCorrelationType = HKCorrelationType.correlationType(forIdentifier: .food)!
-        let foodCorrelationMetadata: [String: Any] = [HKMetadataKeyFoodType: UUID().uuidString, "Food Name": sample.foodName, "Brand Name": sample.brandName, "Serving Quantity": sample.servingQuantity, "Serving Unit": sample.servingUnit, "Serving Weight Grams":sample.servingWeightGrams, "Meal Period": mealPeriod]
+        let foodCorrelationMetadata: [String: Any] = [HKMetadataKeyFoodType: UUID().uuidString, "Food Name": sample.foodName, "Brand Name": sample.brandName, "Serving Quantity": sample.servingQuantity, "Serving Unit": sample.servingUnit, "Serving Weight Grams":sample.servingWeightGrams, "Meal Period": sample.mealPeriod]
         
         //Here we enter the sample types with value. We have to enter each quantity and type individually. But we'll save it as a correlation to be able to access all the objects together.
         let consumedSamples: Set = [
@@ -1115,7 +1115,7 @@ struct HKSampleWithDescription: Identifiable {
     let protein: Int
     let potassium: Int
     let meta: String
-    let mealPeriod: String
+    var mealPeriod: String
 }
 
 struct GroceryProduct: Codable {
@@ -1158,7 +1158,7 @@ struct Food: Codable {
     }
 }
 
-enum EatingTime: CustomStringConvertible {
+enum EatingTime: CustomStringConvertible, CaseIterable {
     case breakfast
     case lunch
     case dinner

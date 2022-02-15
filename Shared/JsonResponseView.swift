@@ -10,13 +10,25 @@ import SwiftUI
 struct JsonResponseView: View {
     @Binding var isShowing: Bool
     @ObservedObject var fastingManager: FastingManager
-    
+    @State var selection = EatingTime.breakfast
     var body: some View {
         NavigationView {
             VStack {
+                Picker("Something", selection: $selection) {
+                    ForEach(EatingTime.allCases, id: \.self) { value in
+                        Text(value.description)
+                           
+                    }
+                }
+                .pickerStyle(.segmented)
+                Spacer()
                 Text(fastingManager.currentScannedItem?.foodName ?? "")
                 Text("Calories:\(String(fastingManager.currentScannedItem?.calories ?? 0))cal")
-
+                Spacer()
+                   
+                    
+                
+                
             }
             .navigationTitle("We fucking did it!")
             .toolbar {
@@ -30,7 +42,8 @@ struct JsonResponseView: View {
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        fastingManager.saveCorrelation(sample: fastingManager.currentScannedItem!, mealPeriod: EatingTime.breakfast.description)
+                        fastingManager.currentScannedItem?.mealPeriod = selection.description
+                        fastingManager.saveCorrelation(sample: fastingManager.currentScannedItem!)
                         Task {
                             await fastingManager.requestAuthorization()
                         }

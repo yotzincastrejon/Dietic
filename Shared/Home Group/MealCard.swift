@@ -63,16 +63,21 @@ struct MealCard: View {
             
             HStack {
                 VStack(alignment: .leading, spacing: 0) {
-                    Spacer()
+                    
                     Text(title)
                         .font(.callout)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
-                        .padding(.bottom, 9)
+//                        .padding(.bottom, 9)
+                        .padding(.top, 47)
+                    Spacer()
                     Text(text)
                         .font(.caption2)
                         .foregroundColor(.white)
-                        .padding(.bottom, 15)
+//                        .padding(.bottom, 15)
+//                        .fixedSize(horizontal: false, vertical: true)
+                        
+                    Spacer()
                     HStack(alignment: .firstTextBaseline, spacing: 0) {
                         Text(cal)
                             .font(.title)
@@ -93,8 +98,10 @@ struct MealCard: View {
     }
 }
 
-//struct MealCard_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MealCard()
-//    }
-//}
+struct MealCard_Previews: PreviewProvider {
+    static var previews: some View {
+        MealCard(topLeadingColor: Color("OGT"), bottomTrailingColor: Color("OGB"), backgroundShadow: Color("OGB"), image: "bread", imageShadow: "EggSandwichShadow", imageShadowAlpha: 0.3, title: "Breakfast", text: "Bread,\nPeanut butter,\nApple", cal: "525")
+    }
+}
+
+
