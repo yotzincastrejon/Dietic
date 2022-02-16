@@ -84,11 +84,14 @@ struct AddingFoodScreen: View {
                                         .interleaved2of5,
                                         .itf14,
                                         .pdf417,
-                                        .upce], simulatedData: "Paul Hudson\npaul@hackingwithswift.com", completion: handleScan)
+                                        .upce],showViewfinder: true, simulatedData: "Paul Hudson\npaul@hackingwithswift.com", completion: handleScan)
+            
         }
         .sheet(isPresented: $showingAddingView) {
             JsonResponseView(isShowing: $showingAddingView, fastingManager: fastingManager)
         }
+        .navigationViewStyle(StackNavigationViewStyle())
+
         
     }
     func delete(at offsets: IndexSet) {

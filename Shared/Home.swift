@@ -58,7 +58,7 @@ struct Home: View {
             
           
         }
-//        .navigationViewStyle(StackNavigationViewStyle())
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

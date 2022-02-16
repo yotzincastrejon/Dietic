@@ -278,9 +278,9 @@ class FastingManager: ObservableObject {
         let differenceInDays = Calendar.current.dateComponents([.day], from: Date(), to: futureDate)
         let perdayCaloriesNeededToLose = weightToLoseInCalories / Double(differenceInDays.value(for: .day)!)
         let finalAmountOfNeededToBurn = perdayCaloriesNeededToLose - bmr
-        print("Bmr: \(bmr)")
-        print("perdayCaloriesNeededToLose: \(perdayCaloriesNeededToLose)")
-        print("finalAmountNeededToBurn: \(finalAmountOfNeededToBurn)")
+//        print("Bmr: \(bmr)")
+//        print("perdayCaloriesNeededToLose: \(perdayCaloriesNeededToLose)")
+//        print("finalAmountNeededToBurn: \(finalAmountOfNeededToBurn)")
         //Here we are checking if simulated calories exceed actual consumed calories. We are showing what a simulated full meal would look like and how much you'd have to burn.
         if simulatedCaloriesBool && eatencalories < Double(simulatedCalories){
                 eatencalories = 0
@@ -299,15 +299,15 @@ class FastingManager: ObservableObject {
             afterMealsAndBurned = 1
         }
         let finalPercentage = Double(burnedCalories / afterMealsAndBurned)
-        print("finalAmountNeededToBurn: \(finalAmountOfNeededToBurn)")
-        print("Burned Calories: \(burnedCalories)")
-        print("After Meals and Burned: \(afterMealsAndBurned)")
-        print("Final Percentage: \(finalPercentage)")
+//        print("finalAmountNeededToBurn: \(finalAmountOfNeededToBurn)")
+//        print("Burned Calories: \(burnedCalories)")
+//        print("After Meals and Burned: \(afterMealsAndBurned)")
+//        print("Final Percentage: \(finalPercentage)")
         if finalPercentage < 0 || finalPercentage >= 1{
             percentageAccomplished = 1
         } else {
             percentageAccomplished = Double(burnedCalories / afterMealsAndBurned)
-            print("percentage Accomplished: \(percentageAccomplished)")
+//            print("percentage Accomplished: \(percentageAccomplished)")
         }
         leftToBurn = Double(afterMealsAndBurned - burnedCalories)
         dailyDeficitForGoal = Double(perdayCaloriesNeededToLose)
@@ -683,6 +683,7 @@ class FastingManager: ObservableObject {
                 task.resume()
     }
     @Published var currentScannedItem: HKSampleWithDescription?
+    
     func decodeJSONResponse(json: Data) {
         do {
             let product = try JSONDecoder().decode(GroceryProduct.self, from: json)
@@ -742,7 +743,9 @@ class FastingManager: ObservableObject {
                 print("Error Saving Correlation Sample \(error.localizedDescription)")
             } else {
                 print("Sucess in saving correlation sample")
-                
+                DispatchQueue.main.async {
+                self.currentScannedItem = nil
+                }
             }
         }
     }
@@ -1104,17 +1107,17 @@ struct HKSampleWithDescription: Identifiable {
     let servingQuantity: Double
     let servingUnit: String
     let servingWeightGrams: Int
-    let calories: Int
-    let sugars: Double
-    let totalFat: Int
-    let saturatedFat: Double
-    let cholesterol: Int
-    let sodium: Int
-    let totalCarbohydrate: Int
-    let dietaryFiber: Int
-    let protein: Int
-    let potassium: Int
-    let meta: String
+    var calories: Int
+    var sugars: Double
+    var totalFat: Int
+    var saturatedFat: Double
+    var cholesterol: Int
+    var sodium: Int
+    var totalCarbohydrate: Int
+    var dietaryFiber: Int
+    var protein: Int
+    var potassium: Int
+    var meta: String
     var mealPeriod: String
 }
 
