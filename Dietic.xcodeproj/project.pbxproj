@@ -34,6 +34,8 @@
 		FA43D72027B4988000A709B3 /* JsonResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA43D71E27B4988000A709B3 /* JsonResponseView.swift */; };
 		FA719621279B1E6400A50598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA719620279B1E6400A50598 /* LaunchScreen.storyboard */; };
 		FA719622279B1E6400A50598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA719620279B1E6400A50598 /* LaunchScreen.storyboard */; };
+		FA84808327BCBEF10085E42C /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA84808227BCBEF10085E42C /* TestView.swift */; };
+		FA84808427BCBEF10085E42C /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA84808227BCBEF10085E42C /* TestView.swift */; };
 		FA95577627B57B1A009FFE27 /* DiaryViewBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */; };
 		FA95577727B57B1A009FFE27 /* DiaryViewBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */; };
 		FAAC72C727A3252600508702 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAC72C627A3252600508702 /* WelcomeView.swift */; };
@@ -99,6 +101,7 @@
 		FA0081DF27209831004719BE /* DateChanger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateChanger.swift; sourceTree = "<group>"; };
 		FA43D71E27B4988000A709B3 /* JsonResponseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonResponseView.swift; sourceTree = "<group>"; };
 		FA719620279B1E6400A50598 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FA84808227BCBEF10085E42C /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewBackground.swift; sourceTree = "<group>"; };
 		FAAC72C627A3252600508702 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingFoodScreen.swift; sourceTree = "<group>"; };
@@ -193,6 +196,7 @@
 				FAD169FD271DFD1C00C21397 /* Home.swift */,
 				FA0081DF27209831004719BE /* DateChanger.swift */,
 				FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */,
+				FA84808227BCBEF10085E42C /* TestView.swift */,
 				FA43D71E27B4988000A709B3 /* JsonResponseView.swift */,
 				FA0081DC27209455004719BE /* WeightCard.swift */,
 				FAD1ADCD272125EA00785223 /* GoalSettings.swift */,
@@ -400,6 +404,7 @@
 				FAF517B927232B6400BD54E7 /* DashedLine.swift in Sources */,
 				FA0081D427207259004719BE /* MealsToday.swift in Sources */,
 				FAD169F3271DFC9100C21397 /* Calorie.swift in Sources */,
+				FA84808327BCBEF10085E42C /* TestView.swift in Sources */,
 				FAD169FE271DFD1C00C21397 /* Home.swift in Sources */,
 				FA0081CE272071F6004719BE /* RoundedCorners.swift in Sources */,
 				FA0081C427206FDA004719BE /* DietCard.swift in Sources */,
@@ -442,6 +447,7 @@
 				FAF517BA27232B6400BD54E7 /* DashedLine.swift in Sources */,
 				FA0081D527207259004719BE /* MealsToday.swift in Sources */,
 				FAD169F4271DFC9100C21397 /* Calorie.swift in Sources */,
+				FA84808427BCBEF10085E42C /* TestView.swift in Sources */,
 				FAD169FF271DFD1C00C21397 /* Home.swift in Sources */,
 				FA0081CF272071F6004719BE /* RoundedCorners.swift in Sources */,
 				FA0081C527206FDA004719BE /* DietCard.swift in Sources */,

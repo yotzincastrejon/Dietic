@@ -13,6 +13,8 @@ struct AddingFoodScreen: View {
     @ObservedObject var fastingManager: FastingManager
     @State var showingImagePicker = false
 @State var showingAddingView = false
+    @State var isTorchOn = false
+    @State var dragAmount: CGPoint?
     var body: some View {
          
         NavigationView {
@@ -84,8 +86,30 @@ struct AddingFoodScreen: View {
                                         .interleaved2of5,
                                         .itf14,
                                         .pdf417,
-                                        .upce],showViewfinder: true, simulatedData: "Paul Hudson\npaul@hackingwithswift.com", completion: handleScan)
-            
+                                        .upce],showViewfinder: true, simulatedData: "Paul Hudson\npaul@hackingwithswift.com",isTorchOn: isTorchOn, completion: handleScan)
+                .overlay(
+                    GeometryReader { g in
+                        HStack {
+                            Button(action: {
+                                isTorchOn.toggle()
+                            }) {
+                                Image(systemName: isTorchOn ? "lightbulb.circle.fill" : "lightbulb.circle")
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .foregroundColor(isTorchOn ? .yellow : .gray)
+                                    .frame(width: 70, height: 70)
+                            }
+                            .animation(.linear(duration: 0.15), value: dragAmount)
+                            .position(dragAmount ?? CGPoint(x: g.size.width / 2, y: g.size.height / 2))
+                            .highPriorityGesture(
+                            DragGesture()
+                                .onChanged { dragAmount = $0.location }
+                            )
+                            .offset(y: 200)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    }
+                )
         }
         .sheet(isPresented: $showingAddingView) {
             JsonResponseView(isShowing: $showingAddingView, fastingManager: fastingManager)
