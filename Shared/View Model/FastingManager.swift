@@ -711,6 +711,7 @@ class FastingManager: ObservableObject {
             }
         } catch {
             print("Decoding the JSON failed \(error.localizedDescription)")
+            print(String(describing: error))
         }
     }
     
@@ -807,7 +808,7 @@ class FastingManager: ObservableObject {
                                                           servingWeightGrams: servingWeightGrams as! Int,
                                                           calories: Int(calories?.quantity.doubleValue(for: .kilocalorie()) ?? 0),
                                                           sugars: sugars?.quantity.doubleValue(for: .gram()) ?? 0,
-                                                          totalFat: Int(totalFat?.quantity.doubleValue(for: .gram()) ?? 0),
+                                                          totalFat: totalFat?.quantity.doubleValue(for: .gram()) ?? 0,
                                                           saturatedFat: saturatedFat?.quantity.doubleValue(for: .gram()) ?? 0,
                                                           cholesterol: Int(cholesterol?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0),
                                                           sodium: Int(sodium?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0),
@@ -1109,7 +1110,7 @@ struct HKSampleWithDescription: Identifiable {
     let servingWeightGrams: Int
     var calories: Int
     var sugars: Double
-    var totalFat: Int
+    var totalFat: Double
     var saturatedFat: Double
     var cholesterol: Int
     var sodium: Int
@@ -1132,7 +1133,7 @@ struct Food: Codable {
     let servingUnit: String?
     let servingWeightGrams: Int?
     let calories: Int?
-    let totalFat: Int?
+    let totalFat: Double?
     let saturatedFat: Double?
     let cholesterol: Int?
     let sodium: Int?

@@ -48,15 +48,14 @@ struct AddingFromJSONResultView: View {
             Picker("Something", selection: $selection) {
                 ForEach(EatingTime.allCases, id: \.self) { value in
                     Text(value.description)
-                    
                 }
             }
             .pickerStyle(.segmented)
-            Spacer()
-            Text(fastingManager.currentScannedItem?.foodName ?? "")
-            Text("Calories:\(String(fastingManager.currentScannedItem?.calories ?? 0))cal")
+//            Spacer()
+//            Text(fastingManager.currentScannedItem?.foodName ?? "")
+//            Text("Calories:\(String(fastingManager.currentScannedItem?.calories ?? 0))cal")
             
-            Spacer()
+//            Spacer()
             VStack(spacing: 0) {
                 VStack(spacing: 2) {
                     HStack {
@@ -67,7 +66,7 @@ struct AddingFromJSONResultView: View {
                     }
                     
                     HStack {
-                        Text("\(Int(fastingManager.currentScannedItem?.servingQuantity ?? 0))\(fastingManager.currentScannedItem?.servingUnit ?? "")")
+                        Text("\(Int(fastingManager.currentScannedItem?.servingQuantity ?? 0)) \(fastingManager.currentScannedItem?.servingUnit ?? "g")")
                             .font(.caption)
                             .foregroundColor(.secondary)
                         Spacer()
@@ -223,7 +222,7 @@ struct AddingFromJSONResultView: View {
     func saveNewValue() {
         fastingManager.currentScannedItem?.calories = Int(Double(fastingManager.currentScannedItem?.calories ?? 0) * (Double(text) ?? 0))
         fastingManager.currentScannedItem?.sugars = (fastingManager.currentScannedItem?.sugars ?? 0) * (Double(text) ?? 0)
-        fastingManager.currentScannedItem?.totalFat = Int(Double(fastingManager.currentScannedItem?.totalFat ?? 0) * (Double(text) ?? 0))
+        fastingManager.currentScannedItem?.totalFat = Double(fastingManager.currentScannedItem?.totalFat ?? 0) * (Double(text) ?? 0)
         fastingManager.currentScannedItem?.saturatedFat = (fastingManager.currentScannedItem?.saturatedFat ?? 0) * (Double(text) ?? 0)
         fastingManager.currentScannedItem?.cholesterol = Int(Double(fastingManager.currentScannedItem?.cholesterol ?? 0) * (Double(text) ?? 0))
         fastingManager.currentScannedItem?.sodium = Int(Double(fastingManager.currentScannedItem?.sodium ?? 0) * (Double(text) ?? 0))

@@ -76,8 +76,7 @@ struct AddingFoodScreen: View {
                
         }
         .sheet(isPresented: $showingImagePicker) {
-            CodeScannerView(codeTypes: [.qr,
-                                        .code128,
+            CodeScannerView(codeTypes: [.code128,
                                         .code39,
                                         .code39Mod43,
                                         .code93,
@@ -139,6 +138,7 @@ struct AddingFoodScreen: View {
 //            request(upc: result.string)
             fastingManager.jsonRequestToNutrionix(upc: result.string)
             showingAddingView = true
+            print(result.string)
         case .failure(let error):
             print("Scanning failed: \(error.localizedDescription)")
         }
