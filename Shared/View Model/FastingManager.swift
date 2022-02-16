@@ -805,17 +805,17 @@ class FastingManager: ObservableObject {
                                                           brandName: brandName as! String,
                                                           servingQuantity: servingQuantity as! Double,
                                                           servingUnit: servingUnit as! String,
-                                                          servingWeightGrams: servingWeightGrams as! Int,
-                                                          calories: Int(calories?.quantity.doubleValue(for: .kilocalorie()) ?? 0),
+                                                          servingWeightGrams: servingWeightGrams as! Double,
+                                                          calories: calories?.quantity.doubleValue(for: .kilocalorie()) ?? 0,
                                                           sugars: sugars?.quantity.doubleValue(for: .gram()) ?? 0,
                                                           totalFat: totalFat?.quantity.doubleValue(for: .gram()) ?? 0,
                                                           saturatedFat: saturatedFat?.quantity.doubleValue(for: .gram()) ?? 0,
-                                                          cholesterol: Int(cholesterol?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0),
-                                                          sodium: Int(sodium?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0),
-                                                          totalCarbohydrate: Int(totalCarbohydrate?.quantity.doubleValue(for: .gram()) ?? 0),
-                                                          dietaryFiber: Int(dietaryFiber?.quantity.doubleValue(for: .gram()) ?? 0),
-                                                          protein: Int(protein?.quantity.doubleValue(for: .gram()) ?? 0),
-                                                          potassium: Int(potassium?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0),
+                                                          cholesterol: cholesterol?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
+                                                          sodium: sodium?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
+                                                          totalCarbohydrate: totalCarbohydrate?.quantity.doubleValue(for: .gram()) ?? 0,
+                                                          dietaryFiber: dietaryFiber?.quantity.doubleValue(for: .gram()) ?? 0,
+                                                          protein: protein?.quantity.doubleValue(for: .gram()) ?? 0,
+                                                          potassium: potassium?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
                                                           meta: currentData.metadata!["HKFoodType"] as! String,
                                                           mealPeriod: mealPeriod as! String))
             }
@@ -1107,17 +1107,17 @@ struct HKSampleWithDescription: Identifiable {
     let brandName: String
     let servingQuantity: Double
     let servingUnit: String
-    let servingWeightGrams: Int
-    var calories: Int
+    let servingWeightGrams: Double
+    var calories: Double
     var sugars: Double
     var totalFat: Double
     var saturatedFat: Double
-    var cholesterol: Int
-    var sodium: Int
-    var totalCarbohydrate: Int
-    var dietaryFiber: Int
-    var protein: Int
-    var potassium: Int
+    var cholesterol: Double
+    var sodium: Double
+    var totalCarbohydrate: Double
+    var dietaryFiber: Double
+    var protein: Double
+    var potassium: Double
     var meta: String
     var mealPeriod: String
 }
@@ -1131,17 +1131,17 @@ struct Food: Codable {
     let brandName: String?
     let servingQuantity: Double?
     let servingUnit: String?
-    let servingWeightGrams: Int?
-    let calories: Int?
+    let servingWeightGrams: Double?
+    let calories: Double?
     let totalFat: Double?
     let saturatedFat: Double?
-    let cholesterol: Int?
-    let sodium: Int?
-    let totalCarbohydrate: Int?
-    let dietaryFiber: Int?
+    let cholesterol: Double?
+    let sodium: Double?
+    let totalCarbohydrate: Double?
+    let dietaryFiber: Double?
     let sugars: Double?
-    let protein: Int?
-    let potassium: Int?
+    let protein: Double?
+    let potassium: Double?
     
     enum CodingKeys: String, CodingKey {
         case foodName = "food_name"

@@ -16,7 +16,7 @@ struct MealCard: View {
     let imageShadowAlpha: Double
     let title: String
     let text: String
-    let cal: String
+    let cal: Double
     var body: some View {
         ZStack {
             
@@ -79,7 +79,7 @@ struct MealCard: View {
                         
                     Spacer()
                     HStack(alignment: .firstTextBaseline, spacing: 0) {
-                        Text(cal)
+                        Text("\(Int(cal))")
                             .font(.title)
                             .foregroundColor(.white)
                         Text("kcal")
@@ -100,7 +100,7 @@ struct MealCard: View {
 
 struct MealCard_Previews: PreviewProvider {
     static var previews: some View {
-        MealCard(topLeadingColor: Color("OGT"), bottomTrailingColor: Color("OGB"), backgroundShadow: Color("OGB"), image: "bread", imageShadow: "EggSandwichShadow", imageShadowAlpha: 0.3, title: "Breakfast", text: "Bread,\nPeanut butter,\nApple", cal: "525")
+        MealCard(topLeadingColor: Color("OGT"), bottomTrailingColor: Color("OGB"), backgroundShadow: Color("OGB"), image: "bread", imageShadow: "EggSandwichShadow", imageShadowAlpha: 0.3, title: "Breakfast", text: "Bread,\nPeanut butter,\nApple", cal: 525)
     }
 }
 

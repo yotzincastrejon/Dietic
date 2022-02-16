@@ -220,16 +220,16 @@ struct AddingFromJSONResultView: View {
     }
     
     func saveNewValue() {
-        fastingManager.currentScannedItem?.calories = Int(Double(fastingManager.currentScannedItem?.calories ?? 0) * (Double(text) ?? 0))
+        fastingManager.currentScannedItem?.calories = Double(fastingManager.currentScannedItem?.calories ?? 0) * (Double(text) ?? 0)
         fastingManager.currentScannedItem?.sugars = (fastingManager.currentScannedItem?.sugars ?? 0) * (Double(text) ?? 0)
         fastingManager.currentScannedItem?.totalFat = Double(fastingManager.currentScannedItem?.totalFat ?? 0) * (Double(text) ?? 0)
         fastingManager.currentScannedItem?.saturatedFat = (fastingManager.currentScannedItem?.saturatedFat ?? 0) * (Double(text) ?? 0)
-        fastingManager.currentScannedItem?.cholesterol = Int(Double(fastingManager.currentScannedItem?.cholesterol ?? 0) * (Double(text) ?? 0))
-        fastingManager.currentScannedItem?.sodium = Int(Double(fastingManager.currentScannedItem?.sodium ?? 0) * (Double(text) ?? 0))
-        fastingManager.currentScannedItem?.totalCarbohydrate = Int(Double(fastingManager.currentScannedItem?.totalCarbohydrate ?? 0) * (Double(text) ?? 0))
-        fastingManager.currentScannedItem?.dietaryFiber = Int(Double(fastingManager.currentScannedItem?.dietaryFiber ?? 0) * (Double(text) ?? 0))
-        fastingManager.currentScannedItem?.protein = Int(Double(fastingManager.currentScannedItem?.protein ?? 0) * (Double(text) ?? 0))
-        fastingManager.currentScannedItem?.potassium = Int(Double(fastingManager.currentScannedItem?.potassium ?? 0) * (Double(text) ?? 0))
+        fastingManager.currentScannedItem?.cholesterol = Double(fastingManager.currentScannedItem?.cholesterol ?? 0) * (Double(text) ?? 0)
+        fastingManager.currentScannedItem?.sodium = Double(fastingManager.currentScannedItem?.sodium ?? 0) * (Double(text) ?? 0)
+        fastingManager.currentScannedItem?.totalCarbohydrate = Double(fastingManager.currentScannedItem?.totalCarbohydrate ?? 0) * (Double(text) ?? 0)
+        fastingManager.currentScannedItem?.dietaryFiber = Double(fastingManager.currentScannedItem?.dietaryFiber ?? 0) * (Double(text) ?? 0)
+        fastingManager.currentScannedItem?.protein = Double(fastingManager.currentScannedItem?.protein ?? 0) * (Double(text) ?? 0)
+        fastingManager.currentScannedItem?.potassium = Double(fastingManager.currentScannedItem?.potassium ?? 0) * (Double(text) ?? 0)
     }
     
     
