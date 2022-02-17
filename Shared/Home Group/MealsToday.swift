@@ -43,7 +43,7 @@ struct MealsToday: View {
                 HStack {
                     Spacer()
                     Button(action: {
-                        fastingManager.saveCorrelation(sample: HKSampleWithDescription(foodName: names.randomElement()!, brandName: "", servingQuantity: 1.1, servingUnit: "", servingWeightGrams: 2, calories: Double.random(in: 1..<100), sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, meta: "", mealPeriod: timeOfMeal.randomElement()!))
+//                        fastingManager.saveCorrelation(sample: HKSampleWithDescription(foodName: names.randomElement()!, brandName: "", servingQuantity: 1.1, servingUnit: "", servingWeightGrams: 2, calories: Double.random(in: 1..<100), sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, meta: "", mealPeriod: timeOfMeal.randomElement()!))
                         Task {
                             await fastingManager.requestAuthorization()
                         }
