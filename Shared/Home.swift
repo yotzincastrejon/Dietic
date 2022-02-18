@@ -9,6 +9,9 @@ import SwiftUI
 
 struct Home: View {
     @ObservedObject var fastingManager: FastingManager
+    @Namespace var namespace
+    @State var show = false
+    @State var showStatusBar = false
         var body: some View {
         NavigationView {
             ZStack {
@@ -17,7 +20,7 @@ struct Home: View {
                     .ignoresSafeArea()
                 
                 
-                
+                if !show {
                 ScrollView(showsIndicators: false) {
                     VStack {
                         DietTitle(title: "Mediterranean diet", view: AnyView(DietDetailView()), imageStringText: "Details", imageSystemName: "arrow.right")
@@ -28,13 +31,26 @@ struct Home: View {
                         DietTitle(title: "Meals today", view: AnyView(DietDetailView()), imageStringText: "Customize", imageSystemName: "arrow.right")
                             .padding(.top)
                         
-                        MealsToday(fastingManager: fastingManager)
+                        
+                            MealsToday(fastingManager: fastingManager, namespace: namespace, show: $show, showStatusBar: $showStatusBar)
+                            .zIndex(-1)
+                        
                         
                         DietTitle(title: "Body measurement", view: AnyView(DietDetailView()), imageStringText: "Today", imageSystemName: "arrow.right")
                         
                         WeightCard(fastingManager: fastingManager)
                     }
                     .padding()
+                }
+                }
+                
+                if show {
+                    MatchedView(fastingManager: fastingManager, namespace: namespace, show: $show, showStatusBar: $showStatusBar)
+                        .zIndex(1)
+                        .transition(.asymmetric(
+                            insertion: .opacity.animation(.easeInOut(duration: 0.1)),
+                            removal: .opacity.animation(.easeInOut(duration: 0.3))))
+//                        .rotation3DEffect(show ? Angle(degrees: 180): Angle(degrees: 0), axis: (x: CGFloat(0), y: CGFloat(10), z: CGFloat(0)))
                 }
                 
             }
@@ -53,6 +69,16 @@ struct Home: View {
                         Text("Refresh")
                     }
                     
+                }
+            }
+            .statusBar(hidden: !showStatusBar)
+            .onChange(of: show) { newValue in
+                withAnimation(.closeCard) {
+                    if newValue {
+                        showStatusBar = false
+                    } else {
+                        showStatusBar = true
+                    }
                 }
             }
             

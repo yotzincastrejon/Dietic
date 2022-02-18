@@ -937,7 +937,10 @@ class FastingManager: ObservableObject {
                                                              vitaminK: nutrient.filter { $0.attrID == 430 }.map { $0.value }.first ?? 0,
                                                              zinc: nutrient.filter { $0.attrID == 309 }.map { $0.value }.first ?? 0,
                                                              meta: "",
-                                                             mealPeriod: "")
+                                                             mealPeriod: "",
+                                                             numberOfServings: 1,
+                                                             uuid: UUID().uuidString
+                                                            )
             }
         } catch {
             print("Decoding the JSON failed \(error.localizedDescription)")
@@ -954,7 +957,7 @@ class FastingManager: ObservableObject {
     func saveCorrelation(sample: HKSampleWithDescription) {
         
         let foodType: HKCorrelationType = HKCorrelationType.correlationType(forIdentifier: .food)!
-        let foodCorrelationMetadata: [String: Any] = [HKMetadataKeyFoodType: UUID().uuidString, "Food Name": sample.foodName, "Brand Name": sample.brandName, "Serving Quantity": sample.servingQuantity, "Serving Unit": sample.servingUnit, "Serving Weight Grams":sample.servingWeightGrams, "Meal Period": sample.mealPeriod]
+        let foodCorrelationMetadata: [String: Any] = [HKMetadataKeyFoodType: sample.uuid, "Food Name": sample.foodName, "Brand Name": sample.brandName, "Serving Quantity": sample.servingQuantity, "Serving Unit": sample.servingUnit, "Serving Weight Grams":sample.servingWeightGrams, "Meal Period": sample.mealPeriod, "Number Of Servings": sample.numberOfServings]
         
         var fromNutrientArray = Set<HKSample>()
         let attrIDArray:[Int: HKSample] = [
@@ -1032,41 +1035,10 @@ class FastingManager: ObservableObject {
 //            HKSampleReturn(type: .dietaryZinc, value: sample.zinc, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata)
 //        ]
         
-//        var secondSamples: Set = [
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryEnergyConsumed)!, quantity: HKQuantity(unit: .kilocalorie(), doubleValue: sample.calories), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietarySugar)!, quantity: HKQuantity(unit: .gram(), doubleValue: sample.sugars), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryFatTotal)!, quantity: HKQuantity(unit: .gram(), doubleValue: sample.totalFat), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryFatSaturated)!, quantity: HKQuantity(unit: .gram(), doubleValue: sample.saturatedFat), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietarySodium)!, quantity: HKQuantity(unit: .gramUnit(with: .milli), doubleValue: sample.sodium), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryCarbohydrates)!, quantity: HKQuantity(unit: .gram(), doubleValue: sample.totalCarbohydrate), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryFiber)!, quantity: HKQuantity(unit: .gram(), doubleValue: sample.dietaryFiber), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryProtein)!, quantity: HKQuantity(unit: .gram(), doubleValue: sample.protein), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryPotassium)!, quantity: HKQuantity(unit: .gramUnit(with: .milli), doubleValue: sample.potassium), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryCalcium)!, quantity: HKQuantity(unit: .gramUnit(with: .milli), doubleValue: sample.calcium), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryIron)!, quantity: HKQuantity(unit: .gramUnit(with: .milli), doubleValue: sample.iron), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryFatMonounsaturated)!, quantity: HKQuantity(unit: .gram(), doubleValue: sample.monounsaturatedFat), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryFatPolyunsaturated)!, quantity: HKQuantity(unit: .gram(), doubleValue: sample.polyunsaturatedFat), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryCaffeine)!, quantity: HKQuantity(unit: .gramUnit(with: .milli), doubleValue: sample.caffeine), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryCopper)!, quantity: HKQuantity(unit: .gramUnit(with: .milli), doubleValue: sample.copper), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryFolate)!, quantity: HKQuantity(unit: .gramUnit(with: .micro), doubleValue: sample.folate), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryMagnesium)!, quantity: HKQuantity(unit: .gramUnit(with: .milli), doubleValue: sample.magnesium), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryManganese)!, quantity: HKQuantity(unit: .gramUnit(with: .milli), doubleValue: sample.manganese), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryNiacin)!, quantity: HKQuantity(unit: .gramUnit(with: .milli), doubleValue: sample.niacin), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryPhosphorus)!, quantity: HKQuantity(unit: .gramUnit(with: .milli), doubleValue: sample.phosphorus), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryRiboflavin)!, quantity: HKQuantity(unit: .gramUnit(with: .milli), doubleValue: sample.riboflavin), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietarySelenium)!, quantity: HKQuantity(unit: .gramUnit(with: .micro), doubleValue: sample.selenium), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryThiamin)!, quantity: HKQuantity(unit: .gramUnit(with: .milli), doubleValue: sample.thiamin), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminA)!, quantity: HKQuantity(unit: .gramUnit(with: .micro), doubleValue: sample.vitaminA), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminC)!, quantity: HKQuantity(unit: .gramUnit(with: .milli), doubleValue: sample.vitaminC), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminB6)!, quantity: HKQuantity(unit: .gramUnit(with: .milli), doubleValue: sample.vitaminB6), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminB12)!, quantity: HKQuantity(unit: .gramUnit(with: .micro), doubleValue: sample.vitaminB12), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminD)!, quantity: HKQuantity(unit: .gramUnit(with: .micro), doubleValue: sample.vitaminD), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminE)!, quantity: HKQuantity(unit: .gramUnit(with: .milli), doubleValue: sample.vitaminE), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminK)!, quantity: HKQuantity(unit: .gramUnit(with: .micro), doubleValue: sample.vitaminK), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata),
-//            HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: .dietaryZinc)!, quantity: HKQuantity(unit: .gramUnit(with: .milli), doubleValue: sample.zinc), start: todaysDate, end: todaysDate, metadata: foodCorrelationMetadata)
-//        ]
+
         
         let foodCorrelation: HKCorrelation = HKCorrelation(type: foodType, start: todaysDate, end: todaysDate, objects: fromNutrientArray, metadata: foodCorrelationMetadata)
+  
         healthStore.save(foodCorrelation) { (success, error) in
             if let error = error {
                 print("Error Saving Correlation Sample \(error.localizedDescription)")
@@ -1121,6 +1093,8 @@ class FastingManager: ObservableObject {
                 let servingUnit = currentData.metadata?["Serving Unit"]
                 let servingWeightGrams = currentData.metadata?["Serving Weight Grams"]
                 let mealPeriod = currentData.metadata?["Meal Period"]
+                let numberOfServings = currentData.metadata?["Number Of Servings"]
+                let uuid = currentData.metadata?[HKMetadataKeyFoodType]
                 let calories = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryEnergyConsumed)!).first as! HKQuantitySample?
                 let sugars = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietarySugar)!).first as! HKQuantitySample?
                 let totalFat = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryFatTotal)!).first as! HKQuantitySample?
@@ -1153,6 +1127,7 @@ class FastingManager: ObservableObject {
                 let vitaminE = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminE)!).first as! HKQuantitySample?
                 let vitaminK = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminK)!).first as! HKQuantitySample?
                 let zinc = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryZinc)!).first as! HKQuantitySample?
+                
                 
                 theSamples.append(HKSampleWithDescription(foodName: foodName as! String,
                                                           brandName: brandName as! String,
@@ -1192,7 +1167,11 @@ class FastingManager: ObservableObject {
                                                           vitaminK: vitaminK?.quantity.doubleValue(for: .gramUnit(with: .micro)) ?? 0,
                                                           zinc: zinc?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
                                                           meta: currentData.metadata!["HKFoodType"] as! String,
-                                                          mealPeriod: mealPeriod as! String))
+                                                          mealPeriod: mealPeriod as! String,
+                                                          numberOfServings: numberOfServings as! Double,
+                                                          uuid: uuid as! String
+                                                         
+                                                         ))
             }
             
         }
@@ -1539,6 +1518,8 @@ struct HKSampleWithDescription: Identifiable {
     var zinc: Double
     var meta: String
     var mealPeriod: String
+    var numberOfServings: Double
+    let uuid: String
 }
 
 struct GroceryProduct: Codable {

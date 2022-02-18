@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MealCard: View {
+    var namespace: Namespace.ID
     let topLeadingColor: Color
     let bottomTrailingColor: Color
     let backgroundShadow: Color
@@ -31,6 +32,7 @@ struct MealCard: View {
             //Visibile View without shadow.
             LinearGradient(colors: [topLeadingColor, bottomTrailingColor], startPoint: .topLeading, endPoint: .bottomTrailing)
                 .mask(RoundedCorners(color: [.blue], tl: 8, tr: 100, bl: 8, br: 8))
+                .matchedGeometryEffect(id: "background", in: namespace)
             
             
             
@@ -39,6 +41,7 @@ struct MealCard: View {
                     Circle()
                         .fill(.white).opacity(0.2)
                         .frame(width: 88,height: 88)
+                        .matchedGeometryEffect(id: "circle", in: namespace)
                     Spacer()
                 }
                 Spacer()
@@ -51,7 +54,7 @@ struct MealCard: View {
                 HStack {
                     Image(image)
                         .frame(width: 64, height: 64)
-                    
+                        .matchedGeometryEffect(id: "image", in: namespace)
                     Spacer()
                 }
                 .padding(.leading, 4)
@@ -59,6 +62,7 @@ struct MealCard: View {
             }
             .offset(x: 0, y: -21)
             .shadow(color: Color(imageShadow).opacity(imageShadowAlpha), radius: 16, x: 6, y: 10)
+            
             
             
             HStack {
@@ -70,21 +74,25 @@ struct MealCard: View {
                         .foregroundColor(.white)
 //                        .padding(.bottom, 9)
                         .padding(.top, 47)
+                        .matchedGeometryEffect(id: "title", in: namespace)
                     Spacer()
                     Text(text)
                         .font(.caption2)
                         .foregroundColor(.white)
 //                        .padding(.bottom, 15)
 //                        .fixedSize(horizontal: false, vertical: true)
+                        .matchedGeometryEffect(id: "text", in: namespace)
                         
                     Spacer()
                     HStack(alignment: .firstTextBaseline, spacing: 0) {
                         Text("\(Int(cal))")
                             .font(.title)
                             .foregroundColor(.white)
+                            .matchedGeometryEffect(id: "calories", in: namespace)
                         Text("kcal")
                             .font(.caption)
                             .foregroundColor(.white)
+                            .matchedGeometryEffect(id: "kcal", in: namespace)
                     }
                     .padding(.bottom, 12)
                 }
@@ -99,8 +107,10 @@ struct MealCard: View {
 }
 
 struct MealCard_Previews: PreviewProvider {
+    @Namespace static var namespace
+
     static var previews: some View {
-        MealCard(topLeadingColor: Color("OGT"), bottomTrailingColor: Color("OGB"), backgroundShadow: Color("OGB"), image: "bread", imageShadow: "EggSandwichShadow", imageShadowAlpha: 0.3, title: "Breakfast", text: "Bread,\nPeanut butter,\nApple", cal: 525)
+        MealCard(namespace: namespace, topLeadingColor: Color("OGT"), bottomTrailingColor: Color("OGB"), backgroundShadow: Color("OGB"), image: "bread", imageShadow: "EggSandwichShadow", imageShadowAlpha: 0.3, title: "Breakfast", text: "Bread,\nPeanut butter,\nApple", cal: 525)
     }
 }
 

@@ -29,6 +29,8 @@
 		FA0081DE27209455004719BE /* WeightCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DC27209455004719BE /* WeightCard.swift */; };
 		FA0081E027209831004719BE /* DateChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DF27209831004719BE /* DateChanger.swift */; };
 		FA0081E127209831004719BE /* DateChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DF27209831004719BE /* DateChanger.swift */; };
+		FA17BF4827C0528C00F662C6 /* EditingResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17BF4727C0528C00F662C6 /* EditingResultsView.swift */; };
+		FA17BF4927C0528C00F662C6 /* EditingResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17BF4727C0528C00F662C6 /* EditingResultsView.swift */; };
 		FA43D71D27B48EB800A709B3 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = FA43D71C27B48EB800A709B3 /* CodeScanner */; };
 		FA43D71F27B4988000A709B3 /* JsonResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA43D71E27B4988000A709B3 /* JsonResponseView.swift */; };
 		FA43D72027B4988000A709B3 /* JsonResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA43D71E27B4988000A709B3 /* JsonResponseView.swift */; };
@@ -36,6 +38,8 @@
 		FA719622279B1E6400A50598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA719620279B1E6400A50598 /* LaunchScreen.storyboard */; };
 		FA84808327BCBEF10085E42C /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA84808227BCBEF10085E42C /* TestView.swift */; };
 		FA84808427BCBEF10085E42C /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA84808227BCBEF10085E42C /* TestView.swift */; };
+		FA8E989827BEAB8E00EA297B /* MatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E989727BEAB8E00EA297B /* MatchedView.swift */; };
+		FA8E989927BEAB8E00EA297B /* MatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E989727BEAB8E00EA297B /* MatchedView.swift */; };
 		FA95577627B57B1A009FFE27 /* DiaryViewBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */; };
 		FA95577727B57B1A009FFE27 /* DiaryViewBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */; };
 		FAAC72C727A3252600508702 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAC72C627A3252600508702 /* WelcomeView.swift */; };
@@ -99,9 +103,11 @@
 		FA0081D9272072B5004719BE /* ShadowLevels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowLevels.swift; sourceTree = "<group>"; };
 		FA0081DC27209455004719BE /* WeightCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightCard.swift; sourceTree = "<group>"; };
 		FA0081DF27209831004719BE /* DateChanger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateChanger.swift; sourceTree = "<group>"; };
+		FA17BF4727C0528C00F662C6 /* EditingResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingResultsView.swift; sourceTree = "<group>"; };
 		FA43D71E27B4988000A709B3 /* JsonResponseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonResponseView.swift; sourceTree = "<group>"; };
 		FA719620279B1E6400A50598 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FA84808227BCBEF10085E42C /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		FA8E989727BEAB8E00EA297B /* MatchedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedView.swift; sourceTree = "<group>"; };
 		FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewBackground.swift; sourceTree = "<group>"; };
 		FAAC72C627A3252600508702 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingFoodScreen.swift; sourceTree = "<group>"; };
@@ -158,6 +164,7 @@
 			children = (
 				FA0081C927207039004719BE /* MacroLabel.swift */,
 				FA0081D327207259004719BE /* MealsToday.swift */,
+				FA8E989727BEAB8E00EA297B /* MatchedView.swift */,
 				FA0081D9272072B5004719BE /* ShadowLevels.swift */,
 				FA0081D627207286004719BE /* SnackCard.swift */,
 				FA0081D027207226004719BE /* MealCard.swift */,
@@ -198,6 +205,7 @@
 				FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */,
 				FA84808227BCBEF10085E42C /* TestView.swift */,
 				FA43D71E27B4988000A709B3 /* JsonResponseView.swift */,
+				FA17BF4727C0528C00F662C6 /* EditingResultsView.swift */,
 				FA0081DC27209455004719BE /* WeightCard.swift */,
 				FAD1ADCD272125EA00785223 /* GoalSettings.swift */,
 				FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */,
@@ -387,6 +395,7 @@
 				FAF517BC27232F3B00BD54E7 /* CapsuleMacroView.swift in Sources */,
 				FA0081CA27207039004719BE /* MacroLabel.swift in Sources */,
 				FAAC72C727A3252600508702 /* WelcomeView.swift in Sources */,
+				FA8E989827BEAB8E00EA297B /* MatchedView.swift in Sources */,
 				FAF517C227232F9400BD54E7 /* CompleteGraph.swift in Sources */,
 				FA0081D127207226004719BE /* MealCard.swift in Sources */,
 				FAD1ADCE272125EA00785223 /* GoalSettings.swift in Sources */,
@@ -415,6 +424,7 @@
 				FA0081C127206F9B004719BE /* DietTitle.swift in Sources */,
 				FAF517BF27232F6D00BD54E7 /* MacronutrientAnalysis.swift in Sources */,
 				FAD16A04271E042B00C21397 /* ProgressRingView.swift in Sources */,
+				FA17BF4827C0528C00F662C6 /* EditingResultsView.swift in Sources */,
 				FAF517C527232FA500BD54E7 /* BarGraph.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -430,6 +440,7 @@
 				FAF517BD27232F3B00BD54E7 /* CapsuleMacroView.swift in Sources */,
 				FA0081CB27207039004719BE /* MacroLabel.swift in Sources */,
 				FAAC72C827A3252600508702 /* WelcomeView.swift in Sources */,
+				FA8E989927BEAB8E00EA297B /* MatchedView.swift in Sources */,
 				FAF517C327232F9400BD54E7 /* CompleteGraph.swift in Sources */,
 				FA0081D227207226004719BE /* MealCard.swift in Sources */,
 				FAD1ADCF272125EA00785223 /* GoalSettings.swift in Sources */,
@@ -458,6 +469,7 @@
 				FA0081C227206F9B004719BE /* DietTitle.swift in Sources */,
 				FAF517C027232F6D00BD54E7 /* MacronutrientAnalysis.swift in Sources */,
 				FAD16A05271E042B00C21397 /* ProgressRingView.swift in Sources */,
+				FA17BF4927C0528C00F662C6 /* EditingResultsView.swift in Sources */,
 				FAF517C627232FA500BD54E7 /* BarGraph.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

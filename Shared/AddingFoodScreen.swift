@@ -15,6 +15,8 @@ struct AddingFoodScreen: View {
 @State var showingAddingView = false
     @State var isTorchOn = false
     @State var dragAmount: CGPoint?
+    @State var selection = EatingTime.breakfast
+    @State var showingOnTap = false
     var body: some View {
          
         NavigationView {
@@ -57,10 +59,19 @@ struct AddingFoodScreen: View {
                 .cornerRadius(20)
                     List {
                         ForEach(fastingManager.theSamples) { sample in
-                            HStack {
-    //                            Text(workoutManager.heartRate.formatted(.number.precision(.fractionLength(0))) + " bpm")
-                                Text("Calorie: \(sample.calories)")
+//                            HStack {
+//    //                            Text(workoutManager.heartRate.formatted(.number.precision(.fractionLength(0))) + " bpm")
+//                                Text("Calorie: \(sample.calories)")
+//
+//                            }
+                            NavigationLink(destination: EditingResultsView(selection: $selection, fastingManager: fastingManager, isShowing: .constant(false), sample: sample)) {
+                                HStack {
+                                    Text("\(sample.uuid)")
+                                    Spacer()
+                                    Text("\(Int(sample.calories))")
+                                }
                             }
+                            
                         }
                         .onDelete(perform: delete)
                     }
@@ -111,8 +122,11 @@ struct AddingFoodScreen: View {
                 )
         }
         .sheet(isPresented: $showingAddingView) {
-            JsonResponseView(isShowing: $showingAddingView, fastingManager: fastingManager)
+            JsonResponseView(isShowing: $showingAddingView, fastingManager: fastingManager, sample: fastingManager.currentScannedItem ?? HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, meta: "", mealPeriod: "", numberOfServings: 1, uuid: ""))
         }
+//        .sheet(isPresented: $showingOnTap) {
+//            AddingFromJSONResultView(selection: $selection, fastingManager: <#T##FastingManager#>, isShowing: <#T##Binding<Bool>#>, sample: <#T##HKSampleWithDescription#>)
+//        }
         .navigationViewStyle(StackNavigationViewStyle())
 
         

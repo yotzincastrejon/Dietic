@@ -11,11 +11,12 @@ struct JsonResponseView: View {
     @Binding var isShowing: Bool
     @ObservedObject var fastingManager: FastingManager
     @State var selection = EatingTime.breakfast
+    var sample: HKSampleWithDescription
     var body: some View {
         NavigationView {
            
             if fastingManager.currentScannedItem != nil {
-                AddingFromJSONResultView(selection: $selection, fastingManager: fastingManager, isShowing: $isShowing)
+                AddingFromJSONResultView(selection: $selection, fastingManager: fastingManager, isShowing: $isShowing, sample: sample)
             } else {
                 ProgressView()
             }
@@ -27,9 +28,13 @@ struct JsonResponseView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
 //            JsonResponseView(isShowing: Binding.constant(true), fastingManager: FastingManager())
-            AddingFromJSONResultView(selection: Binding.constant(.breakfast), fastingManager: FastingManager(), isShowing: Binding.constant(true))
-            AddingFromJSONResultView(selection: Binding.constant(.breakfast), fastingManager: FastingManager(), isShowing: Binding.constant(true))
-                .preferredColorScheme(.dark)
+            NavigationView {
+                AddingFromJSONResultView(selection: Binding.constant(.breakfast), fastingManager: FastingManager(), isShowing: Binding.constant(true), sample: HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, meta: "", mealPeriod: "", numberOfServings: 1, uuid: ""))
+            }
+            NavigationView {
+                AddingFromJSONResultView(selection: Binding.constant(.breakfast), fastingManager: FastingManager(), isShowing: Binding.constant(true), sample: HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, meta: "", mealPeriod: "", numberOfServings: 1, uuid: ""))
+                    .preferredColorScheme(.dark)
+            }
 
 //            JsonResponseView(isShowing: Binding.constant(true), fastingManager: FastingManager())
 //                .preferredColorScheme(.dark)
@@ -37,12 +42,15 @@ struct JsonResponseView_Previews: PreviewProvider {
     }
 }
 
+
+
 struct AddingFromJSONResultView: View {
     @Binding var selection: EatingTime
     @ObservedObject var fastingManager: FastingManager
     @Binding var isShowing: Bool
     @State var text = "1"
     @State var numberOfServings = 1
+    var sample: HKSampleWithDescription
     var body: some View {
         VStack {
             Picker("Something", selection: $selection) {
@@ -252,6 +260,7 @@ struct AddingFromJSONResultView: View {
         fastingManager.currentScannedItem?.vitaminE = Double(fastingManager.currentScannedItem?.vitaminE ?? 0) * (Double(text) ?? 0)
         fastingManager.currentScannedItem?.vitaminK = Double(fastingManager.currentScannedItem?.vitaminK ?? 0) * (Double(text) ?? 0)
         fastingManager.currentScannedItem?.zinc = Double(fastingManager.currentScannedItem?.zinc ?? 0) * (Double(text) ?? 0)
+        fastingManager.currentScannedItem?.numberOfServings = (Double(text) ?? 0)
     }
     
     
