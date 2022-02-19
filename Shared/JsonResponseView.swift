@@ -200,7 +200,7 @@ struct AddingFromJSONResultView: View {
             
         }
         
-        .navigationTitle("We fucking did it!")
+        .navigationTitle("Adding Food")
 //        .toolbar {
 //            ToolbarItem(placement: .navigationBarLeading){
 //                Button(action: {

@@ -174,7 +174,7 @@ struct EditingResultsView: View {
             
         }
         
-        .navigationTitle("We fucking did it!")
+        .navigationTitle("Edit Entry")
         .toolbar {
 //            ToolbarItem(placement: .navigationBarLeading){
 //                Button(action: {
