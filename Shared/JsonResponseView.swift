@@ -29,10 +29,10 @@ struct JsonResponseView_Previews: PreviewProvider {
         Group {
 //            JsonResponseView(isShowing: Binding.constant(true), fastingManager: FastingManager())
             NavigationView {
-                AddingFromJSONResultView(selection: Binding.constant(.breakfast), fastingManager: FastingManager(), isShowing: Binding.constant(true), sample: HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, meta: "", mealPeriod: "", numberOfServings: 1, uuid: ""))
+                AddingFromJSONResultView(selection: Binding.constant(.breakfast), fastingManager: FastingManager(), isShowing: Binding.constant(true), sample: HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, meta: "", mealPeriod: "", numberOfServings: 1, uuid: "", date: Date.now))
             }
             NavigationView {
-                AddingFromJSONResultView(selection: Binding.constant(.breakfast), fastingManager: FastingManager(), isShowing: Binding.constant(true), sample: HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, meta: "", mealPeriod: "", numberOfServings: 1, uuid: ""))
+                AddingFromJSONResultView(selection: Binding.constant(.breakfast), fastingManager: FastingManager(), isShowing: Binding.constant(true), sample: HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, meta: "", mealPeriod: "", numberOfServings: 1, uuid: "", date: Date.now))
                     .preferredColorScheme(.dark)
             }
 
@@ -155,9 +155,10 @@ struct AddingFromJSONResultView: View {
                 
                 HStack(spacing: 15) {
                     Button(action: {
-                        
+                        isShowing = false
+                        fastingManager.currentScannedItem = nil
                     }){
-                        Text("Delete")
+                        Text("Cancel")
                             .fontWeight(.medium)
                             .frame(height: 48)
                             .frame(maxWidth: .infinity)
@@ -170,7 +171,14 @@ struct AddingFromJSONResultView: View {
                     
                     
                     Button(action: {
+                        saveNewValue()
                         
+                        fastingManager.currentScannedItem?.mealPeriod = selection.description
+                        fastingManager.saveCorrelation(sample: fastingManager.currentScannedItem!)
+                        Task {
+                            await fastingManager.requestAuthorization()
+                        }
+                        isShowing = false
                     }){
                         Text("Add")
                             .fontWeight(.medium)
@@ -193,37 +201,37 @@ struct AddingFromJSONResultView: View {
         }
         
         .navigationTitle("We fucking did it!")
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading){
-                Button(action: {
-                    isShowing = false
-                    fastingManager.currentScannedItem = nil
-                }){
-                    Text("Cancel")
-                    
-                }
-                
-            }
-            
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    //We'll have to manually adjust every single nutrient by either multiplying by number of servings or the number of grams.
-//                    fastingManager.currentScannedItem?.calories = Int(Double(fastingManager.currentScannedItem?.calories ?? 0) * (Double(text) ?? 0))
-                    
-                    saveNewValue()
-                    
-                    fastingManager.currentScannedItem?.mealPeriod = selection.description
-                    fastingManager.saveCorrelation(sample: fastingManager.currentScannedItem!)
-                    Task {
-                        await fastingManager.requestAuthorization()
-                    }
-                    isShowing = false
-                }){
-                    Text("Add").bold()
-                }
-                
-            }
-        }
+//        .toolbar {
+//            ToolbarItem(placement: .navigationBarLeading){
+//                Button(action: {
+//                    isShowing = false
+//                    fastingManager.currentScannedItem = nil
+//                }){
+//                    Text("Cancel")
+//                    
+//                }
+//                
+//            }
+//            
+//            ToolbarItem(placement: .navigationBarTrailing) {
+//                Button(action: {
+//                    //We'll have to manually adjust every single nutrient by either multiplying by number of servings or the number of grams.
+////                    fastingManager.currentScannedItem?.calories = Int(Double(fastingManager.currentScannedItem?.calories ?? 0) * (Double(text) ?? 0))
+//                    
+//                    saveNewValue()
+//                    
+//                    fastingManager.currentScannedItem?.mealPeriod = selection.description
+//                    fastingManager.saveCorrelation(sample: fastingManager.currentScannedItem!)
+//                    Task {
+//                        await fastingManager.requestAuthorization()
+//                    }
+//                    isShowing = false
+//                }){
+//                    Text("Add").bold()
+//                }
+//                
+//            }
+//        }
         .navigationBarTitleDisplayMode(.inline)
     }
     
