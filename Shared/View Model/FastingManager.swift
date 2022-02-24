@@ -947,7 +947,8 @@ class FastingManager: ObservableObject {
                                                              meta: "",
                                                              mealPeriod: "",
                                                              numberOfServings: 1,
-                                                             uuid: UUID().uuidString, date: Date.now
+                                                             uuid: UUID().uuidString, date: Date.now,
+                                                             attrIDArray: [Int]()
                                                             )
             }
         } catch {
@@ -962,7 +963,7 @@ class FastingManager: ObservableObject {
     
     
     
-    func saveCorrelation(sample: HKSampleWithDescription) {
+    func saveCorrelation(sample: HKSampleWithDescription, editing: Bool) {
         
         let foodType: HKCorrelationType = HKCorrelationType.correlationType(forIdentifier: .food)!
         let foodCorrelationMetadata: [String: Any] = [HKMetadataKeyFoodType: sample.uuid, "Food Name": sample.foodName, "Brand Name": sample.brandName, "Serving Quantity": sample.servingQuantity, "Serving Unit": sample.servingUnit, "Serving Weight Grams":sample.servingWeightGrams, "Meal Period": sample.mealPeriod, "Number Of Servings": sample.numberOfServings]
@@ -1002,9 +1003,18 @@ class FastingManager: ObservableObject {
             645:HKSampleReturn(type: .dietaryFatMonounsaturated, value: sample.monounsaturatedFat, quantity: .gram(), metadata: foodCorrelationMetadata, date: sample.date),
             646:HKSampleReturn(type: .dietaryFatPolyunsaturated, value: sample.polyunsaturatedFat, quantity: .gram(), metadata: foodCorrelationMetadata, date: sample.date)
         ]
-        for i in 0..<fullNutrientArray.count {
-            guard attrIDArray[fullNutrientArray[i].attrID] != nil else { continue }
-            fromNutrientArray.insert(attrIDArray[fullNutrientArray[i].attrID]!)
+       
+        
+        if editing {
+            for i in 0..<sample.attrIDArray.count {
+                guard attrIDArray[sample.attrIDArray[i]] != nil else { continue }
+                fromNutrientArray.insert(attrIDArray[sample.attrIDArray[i]]!)
+            }
+        } else {
+            for i in 0..<fullNutrientArray.count {
+                guard attrIDArray[fullNutrientArray[i].attrID] != nil else { continue }
+                fromNutrientArray.insert(attrIDArray[fullNutrientArray[i].attrID]!)
+            }
         }
 //        print(fromNutrientArray)
         //Here we enter the sample types with value. We have to enter each quantity and type individually. But we'll save it as a correlation to be able to access all the objects together.
@@ -1052,7 +1062,7 @@ class FastingManager: ObservableObject {
                 print("Error Saving Correlation Sample \(error.localizedDescription)")
                 print(String(describing: error))
             } else {
-                print("Sucess in saving correlation sample")
+                print("Success in saving correlation sample")
                 DispatchQueue.main.async {
                     self.currentScannedItem = nil
                 }
@@ -1091,10 +1101,88 @@ class FastingManager: ObservableObject {
     
     //Manipulating the results from the Correlation Query
     func printTheCorrelation(results: [HKCorrelation]?) async {
+        let quantityIdentifierArray: [HKQuantityTypeIdentifier] = [ .dietaryEnergyConsumed,
+                                                                        .dietarySugar,
+                                                                        .dietaryFatTotal,
+                                                                        .dietaryFatSaturated,
+                                                                        .dietaryCholesterol,
+                                                                        .dietarySodium,
+                                                                        .dietaryCarbohydrates,
+                                                                        .dietaryFiber,
+                                                                        .dietaryProtein,
+                                                                        .dietaryPotassium,
+                                                                        .dietaryCalcium,
+                                                                        .dietaryIron,
+                                                                        .dietaryFatMonounsaturated,
+                                                                        .dietaryFatPolyunsaturated,
+                                                                        .dietaryCaffeine,
+                                                                        .dietaryCopper,
+                                                                        .dietaryFolate,
+                                                                        .dietaryMagnesium,
+                                                                        .dietaryManganese,
+                                                                        .dietaryNiacin,
+                                                                        .dietaryPhosphorus,
+                                                                        .dietaryRiboflavin,
+                                                                        .dietarySelenium,
+                                                                        .dietaryThiamin,
+                                                                        .dietaryVitaminA,
+                                                                        .dietaryVitaminC,
+                                                                        .dietaryVitaminB6,
+                                                                        .dietaryVitaminB12,
+                                                                        .dietaryVitaminD,
+                                                                        .dietaryVitaminE,
+                                                                        .dietaryVitaminK,
+                                                                        .dietaryZinc]
+        
+        let dictionaryForHKQuantity: [HKQuantityTypeIdentifier: Int] = [
+            .dietaryProtein:203,
+                    .dietaryFatTotal:204,
+                    .dietaryCarbohydrates:205,
+                    .dietaryEnergyConsumed:208,
+                    .dietaryCaffeine:262,
+                    .dietarySugar:269,
+                    .dietaryFiber:291,
+                    .dietaryCalcium:301,
+                    .dietaryIron:303,
+                    .dietaryMagnesium:304,
+                    .dietaryPhosphorus:305,
+                    .dietaryPotassium:306,
+                    .dietarySodium:307,
+                    .dietaryZinc:309,
+                    .dietaryCopper:312,
+                    .dietaryManganese:315,
+                    .dietarySelenium:317,
+                    .dietaryVitaminA:320,
+                    .dietaryVitaminE:323,
+                    .dietaryVitaminD:328,
+                    .dietaryVitaminC:401,
+                    .dietaryThiamin:404,
+                    .dietaryRiboflavin:405,
+                    .dietaryNiacin:406,
+                    .dietaryVitaminB6:415,
+                    .dietaryFolate:417,
+                    .dietaryVitaminB12:418,
+                    .dietaryVitaminK:430,
+                    .dietaryCholesterol:601,
+                    .dietaryFatSaturated:606,
+                    .dietaryFatMonounsaturated:645,
+                    .dietaryFatPolyunsaturated:646
+        ]
+        
         DispatchQueue.main.async { [self] in
+            var correlationArrayWithAttrID = [Int]()
+            correlationArrayWithAttrID.removeAll()
             theSamples.removeAll()
             for i in 0..<results!.count {
                 let currentData: HKCorrelation = results![i]
+                correlationArrayWithAttrID.removeAll()
+                for j in 0..<quantityIdentifierArray.count {
+                    if !currentData.objects(for: HKQuantityType.quantityType(forIdentifier: quantityIdentifierArray[j])!).isEmpty {
+                        correlationArrayWithAttrID.append(dictionaryForHKQuantity[quantityIdentifierArray[j]]!)
+                    }
+                }
+                //When a item is missing it returns nil. So we can filter any thing here that returns nil. Maybe The HKSampleWithDescription should have optionals for certain things or we need to figure out how to replicate the first way we receive things from the JSON.
+                //I'll need to make an array here that checks for how many values there should be. Then check each type for nil. Only add values that aren't nil and then from there we can go onto the next phase which is editing. We wouldn't use HKSampleWithDescription. We'd need to do something else. Next we'd have to figure out how to display such an array so we won't have to big of a deal when dealing with the data.
                 let foodName = currentData.metadata?["Food Name"]
                 let brandName = currentData.metadata?["Brand Name"]
                 let servingQuantity = currentData.metadata?["Serving Quantity"]
@@ -1179,8 +1267,8 @@ class FastingManager: ObservableObject {
                                                           mealPeriod: mealPeriod as! String,
                                                           numberOfServings: numberOfServings as! Double,
                                                           uuid: uuid as! String,
-                                                          date: time
-                                                          
+                                                          date: time,
+                                                          attrIDArray: correlationArrayWithAttrID
                                                          ))
             }
             
@@ -1531,6 +1619,7 @@ struct HKSampleWithDescription: Identifiable {
     var numberOfServings: Double
     var uuid: String
     var date: Date
+    var attrIDArray: [Int]
 }
 
 struct GroceryProduct: Codable {

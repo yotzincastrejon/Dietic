@@ -37,10 +37,10 @@ struct JsonResponseView_Previews: PreviewProvider {
         Group {
 //            JsonResponseView(isShowing: Binding.constant(true), fastingManager: FastingManager())
             NavigationView {
-                AddingFromJSONResultView(selection: Binding.constant(.breakfast), fastingManager: FastingManager(), isShowing: Binding.constant(true), sample: HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, meta: "", mealPeriod: "", numberOfServings: 1, uuid: "", date: Date.now))
+                AddingFromJSONResultView(selection: Binding.constant(.breakfast), fastingManager: FastingManager(), isShowing: Binding.constant(true), sample: HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, meta: "", mealPeriod: "", numberOfServings: 1, uuid: "", date: Date.now, attrIDArray: [Int]()))
             }
             NavigationView {
-                AddingFromJSONResultView(selection: Binding.constant(.breakfast), fastingManager: FastingManager(), isShowing: Binding.constant(true), sample: HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, meta: "", mealPeriod: "", numberOfServings: 1, uuid: "", date: Date.now))
+                AddingFromJSONResultView(selection: Binding.constant(.breakfast), fastingManager: FastingManager(), isShowing: Binding.constant(true), sample: HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, meta: "", mealPeriod: "", numberOfServings: 1, uuid: "", date: Date.now, attrIDArray: [Int]()))
                     .preferredColorScheme(.dark)
             }
 
@@ -50,7 +50,10 @@ struct JsonResponseView_Previews: PreviewProvider {
     }
 }
 
-
+enum ServingType: CaseIterable {
+    case serving
+    case gram
+}
 
 struct AddingFromJSONResultView: View {
     @Binding var selection: EatingTime
@@ -58,15 +61,18 @@ struct AddingFromJSONResultView: View {
     @Binding var isShowing: Bool
     @State var text = "1"
     @State var numberOfServings = 1
+    @State var servingTypeSelection = ServingType.serving
     var sample: HKSampleWithDescription
     var body: some View {
         VStack {
-            Picker("Something", selection: $selection) {
+            Picker("", selection: $selection) {
                 ForEach(EatingTime.allCases, id: \.self) { value in
                     Text(value.description)
                 }
             }
             .pickerStyle(.segmented)
+            .labelsHidden()
+            
 //            Spacer()
 //            Text(fastingManager.currentScannedItem?.foodName ?? "")
 //            Text("Calories:\(String(fastingManager.currentScannedItem?.calories ?? 0))cal")
@@ -88,6 +94,15 @@ struct AddingFromJSONResultView: View {
                         Spacer()
                     }
                 }
+                
+                Picker("", selection: $servingTypeSelection) {
+                    Text("Serving").tag(ServingType.serving)
+                    Text("Serving Weight").tag(ServingType.gram)
+                }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+                
+                .padding(.top)
                 HStack(spacing: 15) {
                     Text("Number of Servings")
                     TextField("Text", text: $text)
@@ -182,7 +197,7 @@ struct AddingFromJSONResultView: View {
                         saveNewValue()
                         
                         fastingManager.currentScannedItem?.mealPeriod = selection.description
-                        fastingManager.saveCorrelation(sample: fastingManager.currentScannedItem!)
+                        fastingManager.saveCorrelation(sample: fastingManager.currentScannedItem!, editing: false)
                         Task {
                             await fastingManager.requestAuthorization()
                         }

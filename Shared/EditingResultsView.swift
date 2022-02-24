@@ -9,7 +9,8 @@ import SwiftUI
 
 struct EditingResultsView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @Binding var selection: EatingTime
+//    @Binding var selection: EatingTime
+    @State var selection: EatingTime = .breakfast
     @ObservedObject var fastingManager: FastingManager
     @Binding var isShowing: Bool
     @State var text = "1"
@@ -28,6 +29,18 @@ struct EditingResultsView: View {
                 text = sample?.numberOfServings.description ?? 0.description
                 numberOfServings = sample?.numberOfServings ?? 0
                 oldDate = sample?.date ?? Date.now
+                switch sample?.mealPeriod {
+                    case "Breakfast":
+                        selection = .breakfast
+                    case "Lunch":
+                        selection = .lunch
+                    case "Dinner":
+                        selection = .dinner
+                    case "Snack":
+                        selection = .snack
+                    default:
+                        selection = .breakfast
+                }
             }
 //            Spacer()
 //            Text(sample?.foodName ?? "")
@@ -148,7 +161,7 @@ struct EditingResultsView: View {
                         fastingManager.deleteTheCorrelationObject(uuid: sample?.uuid ?? "")
                         saveNewValue()
                         sample?.mealPeriod = selection.description
-                        fastingManager.saveCorrelation(sample: sample!)
+                        fastingManager.saveCorrelation(sample: sample!, editing: true)
                         presentationMode.wrappedValue.dismiss()
                         Task {
                             await fastingManager.requestAuthorization()
