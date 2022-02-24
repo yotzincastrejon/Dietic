@@ -19,8 +19,16 @@ struct JsonResponseView: View {
                 AddingFromJSONResultView(selection: $selection, fastingManager: fastingManager, isShowing: $isShowing, sample: sample)
             } else {
                 ProgressView()
+                    .alert(isPresented: $fastingManager.itemIsMissingBool) {
+                        Alert(title: Text("Error"), message: Text("The item that you've scanned doesn't exist in our database, sorry!🥺 "), dismissButton: .default(Text("Got it!"), action: {
+                            isShowing = false
+                            print("Cancelled")
+                        }))
+                        
+                    }
             }
         }
+        
     }
 }
 

@@ -24,6 +24,7 @@ struct Home: View {
                 ScrollView(showsIndicators: false) {
                     VStack {
                         DietTitle(title: "Mediterranean diet", view: AnyView(DietDetailView()), imageStringText: "Details", imageSystemName: "arrow.right")
+                            
                        
                         DietCard(fastingManager: fastingManager)
                             
@@ -96,6 +97,8 @@ struct Home_Previews: PreviewProvider {
             Home(fastingManager: FastingManager())
                 .preferredColorScheme(.dark)
                 .previewInterfaceOrientation(.portrait)
+            
+            
         }
     }
 }
