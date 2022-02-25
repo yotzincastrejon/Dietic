@@ -946,7 +946,7 @@ class FastingManager: ObservableObject {
                                                              zinc: nutrient.filter { $0.attrID == 309 }.map { $0.value }.first ?? 0,
                                                              meta: "",
                                                              mealPeriod: "",
-                                                             numberOfServings: 1,
+                                                             numberOfServings: 1, servingSelection: "",
                                                              uuid: UUID().uuidString, date: Date.now,
                                                              attrIDArray: [Int]()
                                                             )
@@ -966,7 +966,7 @@ class FastingManager: ObservableObject {
     func saveCorrelation(sample: HKSampleWithDescription, editing: Bool) {
         
         let foodType: HKCorrelationType = HKCorrelationType.correlationType(forIdentifier: .food)!
-        let foodCorrelationMetadata: [String: Any] = [HKMetadataKeyFoodType: sample.uuid, "Food Name": sample.foodName, "Brand Name": sample.brandName, "Serving Quantity": sample.servingQuantity, "Serving Unit": sample.servingUnit, "Serving Weight Grams":sample.servingWeightGrams, "Meal Period": sample.mealPeriod, "Number Of Servings": sample.numberOfServings]
+        let foodCorrelationMetadata: [String: Any] = [HKMetadataKeyFoodType: sample.uuid, "Food Name": sample.foodName, "Brand Name": sample.brandName, "Serving Quantity": sample.servingQuantity, "Serving Unit": sample.servingUnit, "Serving Weight Grams":sample.servingWeightGrams, "Meal Period": sample.mealPeriod, "Number Of Servings": sample.numberOfServings, "Serving Selection": sample.servingSelection]
         
         var fromNutrientArray = Set<HKSample>()
         let attrIDArray:[Int: HKSample] = [
@@ -1175,14 +1175,14 @@ class FastingManager: ObservableObject {
             theSamples.removeAll()
             for i in 0..<results!.count {
                 let currentData: HKCorrelation = results![i]
+                
                 correlationArrayWithAttrID.removeAll()
                 for j in 0..<quantityIdentifierArray.count {
                     if !currentData.objects(for: HKQuantityType.quantityType(forIdentifier: quantityIdentifierArray[j])!).isEmpty {
                         correlationArrayWithAttrID.append(dictionaryForHKQuantity[quantityIdentifierArray[j]]!)
                     }
                 }
-                //When a item is missing it returns nil. So we can filter any thing here that returns nil. Maybe The HKSampleWithDescription should have optionals for certain things or we need to figure out how to replicate the first way we receive things from the JSON.
-                //I'll need to make an array here that checks for how many values there should be. Then check each type for nil. Only add values that aren't nil and then from there we can go onto the next phase which is editing. We wouldn't use HKSampleWithDescription. We'd need to do something else. Next we'd have to figure out how to display such an array so we won't have to big of a deal when dealing with the data.
+                
                 let foodName = currentData.metadata?["Food Name"]
                 let brandName = currentData.metadata?["Brand Name"]
                 let servingQuantity = currentData.metadata?["Serving Quantity"]
@@ -1190,6 +1190,7 @@ class FastingManager: ObservableObject {
                 let servingWeightGrams = currentData.metadata?["Serving Weight Grams"]
                 let mealPeriod = currentData.metadata?["Meal Period"]
                 let numberOfServings = currentData.metadata?["Number Of Servings"]
+                let servingSelection = currentData.metadata?["Serving Selection"]
                 let uuid = currentData.metadata?[HKMetadataKeyFoodType]
                 let time = currentData.startDate
                 let calories = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryEnergyConsumed)!).first as! HKQuantitySample?
@@ -1266,6 +1267,7 @@ class FastingManager: ObservableObject {
                                                           meta: currentData.metadata!["HKFoodType"] as! String,
                                                           mealPeriod: mealPeriod as! String,
                                                           numberOfServings: numberOfServings as! Double,
+                                                          servingSelection: servingSelection as! String,
                                                           uuid: uuid as! String,
                                                           date: time,
                                                           attrIDArray: correlationArrayWithAttrID
@@ -1617,6 +1619,7 @@ struct HKSampleWithDescription: Identifiable {
     var meta: String
     var mealPeriod: String
     var numberOfServings: Double
+    var servingSelection: String
     var uuid: String
     var date: Date
     var attrIDArray: [Int]
@@ -1676,6 +1679,18 @@ enum EatingTime: CustomStringConvertible, CaseIterable {
             case .lunch: return "Lunch"
             case .dinner: return "Dinner"
             case .snack: return "Snack"
+        }
+    }
+}
+
+enum ServingType: CaseIterable {
+    case serving
+    case gram
+    
+    var description: String {
+        switch self {
+            case .serving: return "Serving"
+            case .gram: return "Serving Weight"
         }
     }
 }
