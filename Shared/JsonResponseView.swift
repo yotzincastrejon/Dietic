@@ -84,10 +84,18 @@ struct AddingFromJSONResultView: View {
                     }
                     
                     HStack {
-                        Text("\(Int(fastingManager.currentScannedItem?.servingQuantity ?? 0)) \(fastingManager.currentScannedItem?.servingUnit ?? "g")")
+                        Text("Serving size: \(Int(fastingManager.currentScannedItem?.servingQuantity ?? 0)) \(fastingManager.currentScannedItem?.servingUnit ?? "g")")
                             .font(.caption)
                             .foregroundColor(.secondary)
                         Spacer()
+                    }
+                    if fastingManager.currentScannedItem?.servingWeightGrams != 0 {
+                    HStack {
+                        Text("Serving weight in grams: \(Int(fastingManager.currentScannedItem?.servingWeightGrams ?? 0))g")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                        Spacer()
+                    }
                     }
                 }
                 
@@ -114,20 +122,6 @@ struct AddingFromJSONResultView: View {
                         .background(Capsule().stroke())
                         .keyboardType(.decimalPad)
                     Spacer()
-                    VStack {
-                        Text("1 serving")
-                        Text("\(Int(fastingManager.currentScannedItem?.servingQuantity ?? 0)) \(fastingManager.currentScannedItem?.servingUnit ?? "g")")
-                            .font(.caption)
-                        .foregroundColor(.secondary)
-                        Text("\(fastingManager.currentScannedItem?.servingWeightGrams ?? 1)")
-                    }
-                        
-//                    Text("\(String(format: "%.2f",fastingManager.currentScannedItem?.servingQuantity ?? 0))")
-                        
-//                    Text("\(fastingManager.currentScannedItem?.servingUnit ?? "")")
-//                        .frame(maxWidth: .infinity)
-//                        .frame(height: 44)
-//                        .background(Capsule().stroke())
                 }
                 .padding(.top, 40)
                 Divider()

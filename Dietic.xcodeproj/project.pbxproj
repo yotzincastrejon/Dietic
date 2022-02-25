@@ -31,11 +31,11 @@
 		FA0081E127209831004719BE /* DateChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DF27209831004719BE /* DateChanger.swift */; };
 		FA17BF4827C0528C00F662C6 /* EditingResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17BF4727C0528C00F662C6 /* EditingResultsView.swift */; };
 		FA17BF4927C0528C00F662C6 /* EditingResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17BF4727C0528C00F662C6 /* EditingResultsView.swift */; };
-		FA43D71D27B48EB800A709B3 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = FA43D71C27B48EB800A709B3 /* CodeScanner */; };
 		FA43D71F27B4988000A709B3 /* JsonResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA43D71E27B4988000A709B3 /* JsonResponseView.swift */; };
 		FA43D72027B4988000A709B3 /* JsonResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA43D71E27B4988000A709B3 /* JsonResponseView.swift */; };
 		FA719621279B1E6400A50598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA719620279B1E6400A50598 /* LaunchScreen.storyboard */; };
 		FA719622279B1E6400A50598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA719620279B1E6400A50598 /* LaunchScreen.storyboard */; };
+		FA7BC5BA27C9822500816E59 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = FA7BC5B927C9822500816E59 /* CodeScanner */; };
 		FA84808327BCBEF10085E42C /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA84808227BCBEF10085E42C /* TestView.swift */; };
 		FA84808427BCBEF10085E42C /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA84808227BCBEF10085E42C /* TestView.swift */; };
 		FA8E989827BEAB8E00EA297B /* MatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E989727BEAB8E00EA297B /* MatchedView.swift */; };
@@ -144,7 +144,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA43D71D27B48EB800A709B3 /* CodeScanner in Frameworks */,
+				FA7BC5BA27C9822500816E59 /* CodeScanner in Frameworks */,
 				FAD169E2271DFB1000C21397 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -299,7 +299,7 @@
 			);
 			name = "Dietic (iOS)";
 			packageProductDependencies = (
-				FA43D71C27B48EB800A709B3 /* CodeScanner */,
+				FA7BC5B927C9822500816E59 /* CodeScanner */,
 			);
 			productName = "Deficit2.0 (iOS)";
 			productReference = FAD169B1271DFAAE00C21397 /* Dietic.app */;
@@ -350,7 +350,7 @@
 			);
 			mainGroup = FAD169A4271DFAAD00C21397;
 			packageReferences = (
-				FA43D71B27B48EB800A709B3 /* XCRemoteSwiftPackageReference "CodeScanner" */,
+				FA7BC5B827C9822500816E59 /* XCRemoteSwiftPackageReference "CodeScanner" */,
 			);
 			productRefGroup = FAD169B2271DFAAE00C21397 /* Products */;
 			projectDirPath = "";
@@ -754,7 +754,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		FA43D71B27B48EB800A709B3 /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
+		FA7BC5B827C9822500816E59 /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/twostraws/CodeScanner";
 			requirement = {
@@ -765,9 +765,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		FA43D71C27B48EB800A709B3 /* CodeScanner */ = {
+		FA7BC5B927C9822500816E59 /* CodeScanner */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FA43D71B27B48EB800A709B3 /* XCRemoteSwiftPackageReference "CodeScanner" */;
+			package = FA7BC5B827C9822500816E59 /* XCRemoteSwiftPackageReference "CodeScanner" */;
 			productName = CodeScanner;
 		};
 /* End XCSwiftPackageProductDependency section */

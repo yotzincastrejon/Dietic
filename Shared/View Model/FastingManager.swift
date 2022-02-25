@@ -1690,7 +1690,7 @@ enum ServingType: CaseIterable {
     var description: String {
         switch self {
             case .serving: return "Serving"
-            case .gram: return "Serving Weight"
+            case .gram: return "Per gram"
         }
     }
 }
