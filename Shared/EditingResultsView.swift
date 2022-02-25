@@ -31,21 +31,21 @@ struct EditingResultsView: View {
                 numberOfServings = sample?.numberOfServings ?? 0
                 oldDate = sample?.date ?? Date.now
                 switch sample?.mealPeriod {
-                    case "Breakfast":
+                    case EatingTime.breakfast.description:
                         selection = .breakfast
-                    case "Lunch":
+                    case EatingTime.lunch.description:
                         selection = .lunch
-                    case "Dinner":
+                    case EatingTime.dinner.description:
                         selection = .dinner
-                    case "Snack":
+                    case EatingTime.snack.description:
                         selection = .snack
                     default:
                         selection = .breakfast
                 }
                 switch sample?.servingSelection {
-                    case "Serving":
+                    case ServingType.serving.description:
                         servingTypeSelection = .serving
-                    case "Per gram":
+                    case ServingType.gram.description:
                         servingTypeSelection = .gram
                     default:
                         servingTypeSelection = .serving
