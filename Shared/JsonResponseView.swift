@@ -91,7 +91,7 @@ struct AddingFromJSONResultView: View {
                     }
                 }
                 
-            
+                if fastingManager.currentScannedItem?.servingWeightGrams != 0 {
                 Picker("", selection: $servingTypeSelection) {
                     ForEach(ServingType.allCases, id: \.self) { value in
                         Text(value.description)
@@ -100,10 +100,14 @@ struct AddingFromJSONResultView: View {
                 .pickerStyle(.segmented)
                 .labelsHidden()
                 .padding(.top)
-                
+                }
                 
                 HStack(spacing: 15) {
+                    if servingTypeSelection == .serving {
                     Text("Number of Servings")
+                    } else {
+                        Text("Number of grams")
+                    }
                     TextField("Text", text: $text)
                         .padding(.leading)
                         .frame(width: 105, height: 44)
@@ -115,6 +119,7 @@ struct AddingFromJSONResultView: View {
                         Text("\(Int(fastingManager.currentScannedItem?.servingQuantity ?? 0)) \(fastingManager.currentScannedItem?.servingUnit ?? "g")")
                             .font(.caption)
                         .foregroundColor(.secondary)
+                        Text("\(fastingManager.currentScannedItem?.servingWeightGrams ?? 1)")
                     }
                         
 //                    Text("\(String(format: "%.2f",fastingManager.currentScannedItem?.servingQuantity ?? 0))")
@@ -133,7 +138,7 @@ struct AddingFromJSONResultView: View {
                         Text("Calories")
                             .font(.caption)
                             .foregroundColor(.secondary)
-                        Text("\(Int(Double(fastingManager.currentScannedItem?.calories ?? 0) * Double(Double(text) ?? 0)) ) kcal")
+                        Text("\(nutrientCalculation(mainNumber:fastingManager.currentScannedItem?.calories ?? 0)) kcal")
                             .font(.callout).bold()
                         
                     }
@@ -145,7 +150,7 @@ struct AddingFromJSONResultView: View {
                             Text("Carbs")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
-                            Text("\(Int(Double(fastingManager.currentScannedItem?.totalCarbohydrate ?? 0) * (Double(text) ?? 0)))g")
+                            Text("\(nutrientCalculation(mainNumber:fastingManager.currentScannedItem?.totalCarbohydrate ?? 0))g")
                                 .font(.callout)
                         }
                         Spacer()
@@ -153,7 +158,7 @@ struct AddingFromJSONResultView: View {
                             Text("Protein")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
-                            Text("\(Int(Double(fastingManager.currentScannedItem?.protein ?? 0) * (Double(text) ?? 0)))g")
+                            Text("\(nutrientCalculation(mainNumber:fastingManager.currentScannedItem?.protein ?? 0))g")
                                 .font(.callout)
                         }
                         Spacer()
@@ -161,8 +166,11 @@ struct AddingFromJSONResultView: View {
                             Text("Fat")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
-                            Text("\(Int(Double(fastingManager.currentScannedItem?.totalFat ?? 0) * (Double(text) ?? 0)))g")
+//                            Text("\(Int(Double(fastingManager.currentScannedItem?.totalFat ?? 0) * (Double(text) ?? 0)))g")
+//                                .font(.callout)
+                            Text("\(nutrientCalculation(mainNumber:fastingManager.currentScannedItem?.totalFat ?? 0))g")
                                 .font(.callout)
+                            
                         }
                         Spacer()
                     }
@@ -230,7 +238,16 @@ struct AddingFromJSONResultView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
     
+    func nutrientCalculation(mainNumber: Double) -> String {
+        if servingTypeSelection == .serving {
+            return String(Int(Double(mainNumber) * Double(Double(text) ?? 0)))
+        } else {
+            return String(Int(Double(mainNumber)/(fastingManager.currentScannedItem?.servingWeightGrams ?? 1) * Double(Double(text) ?? 0)))
+        }
+    }
+    
     func saveNewValue() {
+        if servingTypeSelection == .serving {
         fastingManager.currentScannedItem?.calories = Double(fastingManager.currentScannedItem?.calories ?? 0) * (Double(text) ?? 0)
         fastingManager.currentScannedItem?.sugars = (fastingManager.currentScannedItem?.sugars ?? 0) * (Double(text) ?? 0)
         fastingManager.currentScannedItem?.totalFat = Double(fastingManager.currentScannedItem?.totalFat ?? 0) * (Double(text) ?? 0)
@@ -266,7 +283,47 @@ struct AddingFromJSONResultView: View {
         fastingManager.currentScannedItem?.numberOfServings = (Double(text) ?? 0)
         fastingManager.currentScannedItem?.servingSelection = servingTypeSelection.description
         fastingManager.currentScannedItem?.mealPeriod = selection.description
+        } else {
+            let servingWeightGrams = fastingManager.currentScannedItem?.servingWeightGrams
+            fastingManager.currentScannedItem?.calories = Double(fastingManager.currentScannedItem?.calories ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.sugars = (fastingManager.currentScannedItem?.sugars ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.totalFat = Double(fastingManager.currentScannedItem?.totalFat ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.saturatedFat = (fastingManager.currentScannedItem?.saturatedFat ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.cholesterol = Double(fastingManager.currentScannedItem?.cholesterol ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.sodium = Double(fastingManager.currentScannedItem?.sodium ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.totalCarbohydrate = Double(fastingManager.currentScannedItem?.totalCarbohydrate ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.dietaryFiber = Double(fastingManager.currentScannedItem?.dietaryFiber ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.protein = Double(fastingManager.currentScannedItem?.protein ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.potassium = Double(fastingManager.currentScannedItem?.potassium ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.calcium = Double(fastingManager.currentScannedItem?.calcium ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.iron = Double(fastingManager.currentScannedItem?.iron ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.monounsaturatedFat = Double(fastingManager.currentScannedItem?.monounsaturatedFat ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.polyunsaturatedFat = Double(fastingManager.currentScannedItem?.polyunsaturatedFat ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.caffeine = Double(fastingManager.currentScannedItem?.caffeine ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.copper = Double(fastingManager.currentScannedItem?.copper ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.folate = Double(fastingManager.currentScannedItem?.folate ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.magnesium = Double(fastingManager.currentScannedItem?.magnesium ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.manganese = Double(fastingManager.currentScannedItem?.manganese ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.niacin = Double(fastingManager.currentScannedItem?.niacin ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.phosphorus = Double(fastingManager.currentScannedItem?.phosphorus ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.riboflavin = Double(fastingManager.currentScannedItem?.riboflavin ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.selenium = Double(fastingManager.currentScannedItem?.selenium ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.thiamin = Double(fastingManager.currentScannedItem?.thiamin ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.vitaminA = Double(fastingManager.currentScannedItem?.vitaminA ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.vitaminC = Double(fastingManager.currentScannedItem?.vitaminC ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.vitaminB6 = Double(fastingManager.currentScannedItem?.vitaminB6 ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.vitaminB12 = Double(fastingManager.currentScannedItem?.vitaminB12 ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.vitaminD = Double(fastingManager.currentScannedItem?.vitaminD ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.vitaminE = Double(fastingManager.currentScannedItem?.vitaminE ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.vitaminK = Double(fastingManager.currentScannedItem?.vitaminK ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.zinc = Double(fastingManager.currentScannedItem?.zinc ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.numberOfServings = (Double(text) ?? 0)
+            fastingManager.currentScannedItem?.servingSelection = servingTypeSelection.description
+            fastingManager.currentScannedItem?.mealPeriod = selection.description
+        }
     }
+    
+    
     
     
 }
