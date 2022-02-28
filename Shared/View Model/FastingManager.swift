@@ -698,10 +698,78 @@ class FastingManager: ObservableObject {
         return (currentAmount / goal,Int(goal - currentAmount))
     }
     
+    // MARK: - Requesting Instant Response from Nutrionix
+    @Published var instantResponse = [InstantSearchModel]()
+    func instantRequestToNutrionix(string: String) async {
+        var queryString = string
+        queryString = queryString.replacingOccurrences(of: " ", with: "-")
+        print("String: \(queryString)")
+        let url = URL(string: "https://trackapi.nutritionix.com/v2/search/instant?query=\(queryString)")! //PUT your string
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("f806ed02", forHTTPHeaderField: "x-app-id")
+        request.setValue("37f6225583fc587c2f9a3d8e772e865d", forHTTPHeaderField: "x-app-key")
+        let task = URLSession.shared.dataTask(with: request) { [self] data, response, error in
+            guard let safeData = data,
+                  let response = response as? HTTPURLResponse,
+                  error == nil else {                                              // check for fundamental networking error
+                      print("error", error ?? "Unknown error")
+                      return
+                  }
+//            guard response.statusCode != 404  else {                        // check if item is missing or doesn't exist in the database.
+//                print("item is missing/doesn't exist")
+//                DispatchQueue.main.async {
+//                itemIsMissingBool = true
+//                }
+//                return
+//            }
+            guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
+                print("statusCode should be 2xx, but is \(response.statusCode)")
+                print("response = \(response)")
+                return
+            }
+            
+            
+            
+            //                    var responseString = String(data: safeData, encoding: .utf8)
+            //                    print(responseString)
+            //                    responseString = (responseString as! NSString).replacingOccurrences(of: "\"", with: "")
+            //                    print(responseString)
+            print("We are decoding directly from the response")
+            //                    decode(json: data!)
+            
+            decodeInstantReponse(data: safeData)
+            
+            //Or the current working model is decodeJSONResponse(json: data!)
+        }
+        task.resume()
+    }
+    
+    func decodeInstantReponse(data: Data) {
+        DispatchQueue.main.async { [self] in
+        do {
+        let response = try? JSONDecoder().decode(Instant.self,from: data)
+//            print(response)
+//            print(response?.branded)
+//            print(response?.branded?.count)
+            instantResponse.removeAll()
+            if response?.branded?.count ?? 0 > 1 {
+                for i in 0..<((response?.branded?.count)!) {
+                    let title = response?.branded?[i].foodName
+                    let calories = response?.branded?[i].nfCalories
+                    instantResponse.append(InstantSearchModel(title: title ?? "" , calories: calories ?? 0))
+            }
+            }
+        } catch {
+            print(String(describing: error))
+        }
+        }
+    }
+    
     // MARK: - Requesting JSON from Nutrionix
     @Published var itemIsMissingBool: Bool = false
     func jsonRequestToNutrionix(upc: String) {
-        let url = URL(string: "https://trackapi.nutritionix.com/v2/search/item?upc=\(upc)")! //PUT Your URL
+        let url = URL(string: "https://trackapi.nutritionix.com/v2/search/item?upc=\(upc)")! //PUT your URL
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue("f806ed02", forHTTPHeaderField: "x-app-id")
@@ -742,158 +810,6 @@ class FastingManager: ObservableObject {
         task.resume()
     }
     @Published var currentScannedItem: HKSampleWithDescription?
-    var nutrientArray:[Int: Any] = [203:"Protein",
-                                    204:"Total Fat",
-                                    205:"Total Carbohydrate",
-                                    207:"Ash",
-                                    208:"Calories",
-                                    209:"Starch",
-                                    210:"Sucrose",
-                                    211:"Glucose(dextrose)",
-                                    212:"Fructose",
-                                    213:"Lactose",
-                                    214:"Maltose",
-                                    221:"Alcohol, ethyl",
-                                    255:"Water",
-                                    257:"Adjusted Protein",
-                                    262:"Caffeine",
-                                    263:"Theobromine",
-                                    268:"Energy",
-                                    269:"Sugars, total",
-                                    287:"Galactose",
-                                    291:"Fiber, total dietary",
-                                    301:"Calcium, Ca",
-                                    303:"Iron, Fe",
-                                    304:"Magnesium, Mg",
-                                    305:"Phosphorus, P",
-                                    306:"Potassium, K",
-                                    307:"Sodium, Na",
-                                    309:"Zinc, Zn",
-                                    312:"Copper, Cu",
-                                    313:"Fluoride, F",
-                                    315:"Manganese, Mn",
-                                    317:"Selenium, Se",
-                                    318:"Vitamin A, IU",
-                                    319:"Retinol",
-                                    320:"Vitamin A, RAE",
-                                    321:"Carotene, beta",
-                                    322:"Carotene, alpha",
-                                    323:"Vitamin E (alpha-tocopherol)",
-                                    324:"Vitamin D",
-                                    325:"Vitamin D2 (ergocalciferol)",
-                                    326:"Vitamin D3 (cholecalciferol)",
-                                    328:"Vitamin D (D2 + D3)",
-                                    334:"Cryptoxanthin, beta",
-                                    337:"Lycopene",
-                                    338:"Lutein + zeaxanthin",
-                                    341:"Tocopherol, beta",
-                                    342:"Tocopherol, gamma",
-                                    343:"Tocopherol, delta",
-                                    344:"Tocotrienol, alpha",
-                                    345:"Tocotrienol, beta",
-                                    346:"Tocotrienol, gamma",
-                                    347:"Tocotrienol,delta",
-                                    401:"Vitamin C, total ascorbic acid",
-                                    404:"Thiamin",
-                                    405:"Riboflavin",
-                                    406:"Niacin",
-                                    410:"Pantothenic acid",
-                                    415:"Vitamin B-6",
-                                    417:"Folate, total",
-                                    418:"Vitamin B-12",
-                                    421:"Choline, total",
-                                    428:"Menaquinone-4",
-                                    429:"Dihydrophylloquinone",
-                                    430:"Vitamin K (phylloquinone)",
-                                    431:"Folic acid",
-                                    432:"Folate, food",
-                                    435:"Folate, DFE",
-                                    454:"Betaine",
-                                    501:"Tryptophan",
-                                    502:"Threonine",
-                                    503:"Isoleucine",
-                                    504:"Leucine",
-                                    505:"Lysine",
-                                    506:"Methionine",
-                                    507:"Cystine",
-                                    508:"Phenylalanine",
-                                    509:"Tyrosine",
-                                    510:"Valine",
-                                    511:"Arginine",
-                                    512:"Histidine",
-                                    513:"Alanine",
-                                    514:"Aspartic acid",
-                                    515:"Glutamic acid",
-                                    516:"Glycine",
-                                    517:"Proline",
-                                    518:"Serine",
-                                    521:"Hydroxyproline",
-                                    539:"Sugars, added",
-                                    573:"Vitamin E, added",
-                                    578:"Vitamin B-12, added",
-                                    601:"Cholesterol",
-                                    605:"Fatty acids, total trans",
-                                    606:"Fatty acids, total saturated",
-                                    607:"4:00",
-                                    608:"6:00",
-                                    609:"8:00",
-                                    610:"10:00",
-                                    611:"12:00",
-                                    612:"14:00",
-                                    613:"16:00",
-                                    614:"18:00",
-                                    615:"20:00",
-                                    617:"18:1 undifferentiated",
-                                    618:"18:2 undifferentiated",
-                                    619:"18:3 undifferentiated",
-                                    620:"20:4 undifferentiated",
-                                    621:"22:6 n-3 (DHA)",
-                                    624:"22:00",
-                                    625:"14:01",
-                                    626:"16:1 undifferentiated",
-                                    627:"18:04",
-                                    628:"20:01",
-                                    629:"20:5 n-3 (EPA)",
-                                    630:"22:1 undifferentiated",
-                                    631:"22:5 n-3 (DPA)",
-                                    636:"Phytosterols",
-                                    638:"Stigmasterol",
-                                    639:"Campesterol",
-                                    641:"Beta-sitosterol",
-                                    645:"Fatty acids, total monounsaturated",
-                                    646:"Fatty acids, total polyunsaturated",
-                                    652:"15:00",
-                                    653:"17:00",
-                                    654:"24:00:00",
-                                    662:"16:1 t",
-                                    663:"18:1 t",
-                                    664:"22:1 t",
-                                    665:"18:2 t not further defined",
-                                    666:"18:2 i",
-                                    669:"18:2 t,t",
-                                    670:"18:2 CLAs",
-                                    671:"24:1 c",
-                                    672:"20:2 n-6 c,c",
-                                    673:"16:1 c",
-                                    674:"18:1 c",
-                                    675:"18:2 n-6 c,c",
-                                    676:"22:1 c",
-                                    685:"18:3 n-6 c,c,c",
-                                    687:"17:01",
-                                    689:"20:3 undifferentiated",
-                                    693:"Fatty acids, total trans-monoenoic",
-                                    695:"Fatty acids, total trans-polyenoic",
-                                    696:"13:00",
-                                    697:"15:01",
-                                    851:"18:3 n-3 c,c,c (ALA)",
-                                    852:"20:3 n-3",
-                                    853:"20:3 n-6",
-                                    855:"20:4 n-6",
-                                    856:"18:3i",
-                                    857:"21:05",
-                                    858:"22:04",
-                                    859:"18:1-11t (18:1t n-7)"
-    ]
     var fullNutrientArray = [FullNutrient]()
     
     func decodeJSONResponse(json: Data) {
@@ -1702,5 +1618,59 @@ struct FullNutrient: Codable {
     enum CodingKeys: String, CodingKey {
         case attrID = "attr_id"
         case value
+    }
+}
+
+
+struct Instant: Codable {
+    let branded: [Branded]?
+    let common: [Common]?
+}
+
+struct Branded: Codable {
+    let foodName: String?
+    let image: String?
+    let servingUnit, nixBrandID, brandNameItemName: String?
+    let servingQty, nfCalories: Int?
+    let brandName: String?
+    let brandType: Int?
+    let nixItemID: String?
+
+    enum CodingKeys: String, CodingKey {
+        case foodName = "food_name"
+        case image
+        case servingUnit = "serving_unit"
+        case nixBrandID = "nix_brand_id"
+        case brandNameItemName = "brand_name_item_name"
+        case servingQty = "serving_qty"
+        case nfCalories = "nf_calories"
+        case brandName = "brand_name"
+        case brandType = "brand_type"
+        case nixItemID = "nix_item_id"
+    }
+}
+
+struct Common: Codable {
+    let foodName: String?
+    let image: String?
+    let tagID, tagName: String?
+
+    enum CodingKeys: String, CodingKey {
+        case foodName = "food_name"
+        case image
+        case tagID = "tag_id"
+        case tagName = "tag_name"
+    }
+}
+
+struct InstantSearchModel: Identifiable {
+    let id = UUID()
+    let title: String
+    let calories: Int
+}
+
+extension String {
+    func trimmed() -> String {
+        self.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 }

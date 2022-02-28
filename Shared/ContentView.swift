@@ -36,6 +36,11 @@ struct ContentView: View {
                 .tabItem { Image(systemName: "gear")
                     Text("Adding Food")
                 }
+            
+           SwiftUIView(fastingManager: fastingManager)
+                .tabItem { Image(systemName: "gear")
+                    Text("Test")
+                }
         }
 //        .sheet(isPresented: $showSheet, onDismiss: didDismiss) {
 //            WelcomeView(showSheet: $showSheet)
