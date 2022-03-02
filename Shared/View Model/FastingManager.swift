@@ -745,20 +745,62 @@ class FastingManager: ObservableObject {
         task.resume()
     }
     
+    func instantQueryFullRequest(string: String) async {
+        let url = URL(string: "https://trackapi.nutritionix.com/v2/search/item?nix_item_id=\(string)")! //PUT your string
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("f806ed02", forHTTPHeaderField: "x-app-id")
+        request.setValue("37f6225583fc587c2f9a3d8e772e865d", forHTTPHeaderField: "x-app-key")
+        let task = URLSession.shared.dataTask(with: request) { [self] data, response, error in
+            guard let safeData = data,
+                  let response = response as? HTTPURLResponse,
+                  error == nil else {                                              // check for fundamental networking error
+                      print("error", error ?? "Unknown error")
+                      return
+                  }
+//            guard response.statusCode != 404  else {                        // check if item is missing or doesn't exist in the database.
+//                print("item is missing/doesn't exist")
+//                DispatchQueue.main.async {
+//                itemIsMissingBool = true
+//                }
+//                return
+//            }
+            guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
+                print("statusCode should be 2xx, but is \(response.statusCode)")
+                print("response = \(response)")
+                return
+            }
+            
+            
+            
+            //                    var responseString = String(data: safeData, encoding: .utf8)
+            //                    print(responseString)
+            //                    responseString = (responseString as! NSString).replacingOccurrences(of: "\"", with: "")
+            //                    print(responseString)
+            print("We are decoding directly from the response")
+            //                    decode(json: data!)
+            
+            decodeJSONResponse(json: safeData)
+            
+            //Or the current working model is decodeJSONResponse(json: data!)
+        }
+        task.resume()
+    }
+    
     func decodeInstantReponse(data: Data) {
         DispatchQueue.main.async { [self] in
         do {
-        let response = try? JSONDecoder().decode(Instant.self,from: data)
+        let response = try JSONDecoder().decode(Instant.self,from: data)
 //            print(response)
 //            print(response?.branded)
 //            print(response?.branded?.count)
             instantResponse.removeAll()
-            if response?.branded?.count ?? 0 > 1 {
-                for i in 0..<((response?.branded?.count)!) {
-                    let title = response?.branded?[i].foodName
-                    let calories = response?.branded?[i].nfCalories
-                    instantResponse.append(InstantSearchModel(title: title ?? "" , calories: calories ?? 0))
-            }
+            guard response.branded!.count > 0 else { return }
+                for i in 0..<((response.branded?.count)!) {
+                    let title = response.branded?[i].foodName
+                    let calories = response.branded?[i].nfCalories
+                    let id = response.branded?[i].nixItemID
+                    instantResponse.append(InstantSearchModel(title: title ?? "" , calories: calories ?? 0, nixID: id ?? ""))
             }
         } catch {
             print(String(describing: error))
@@ -1667,6 +1709,7 @@ struct InstantSearchModel: Identifiable {
     let id = UUID()
     let title: String
     let calories: Int
+    let nixID: String
 }
 
 extension String {

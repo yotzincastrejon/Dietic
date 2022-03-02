@@ -22,11 +22,27 @@ struct SwiftUIView: View {
                 }
                 
                 List(fastingManager.instantResponse) { value in
-                    HStack {
-                        Text(value.title)
-                        Spacer() 
-                        Text("\(value.calories)")
+                    
+                    VStack {
+                        NavigationLink(destination: JsonResponseView(isShowing: .constant(false), fastingManager: fastingManager, sample: fastingManager.currentScannedItem ?? HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, meta: "", mealPeriod: "", numberOfServings: 1, servingSelection: "", uuid: "", date: Date.now, attrIDArray: [Int]())).onAppear {
+                            Task {
+                            await fastingManager.instantQueryFullRequest(string: value.nixID)
+                            }
+                            
+                        }) {
+                                HStack {
+                                    Text(value.title)
+                                    Spacer()
+                                    Text("\(value.calories)")
+                            }
+                        }
+                        
                     }
+                    
+                    
+                    
+                    //We can add on tap feature if you wished, then since this doesn't contain any more than the face value of the item we'll have to call the server for more information, with the nix_item_id. Like so https://trackapi.nutritionix.com/v2/search/item?nix_item_id=513fc9e73fe3ffd40300109f
+                    
                     
                 }.listStyle(.plain)
                     .searchable(text: $searchText)

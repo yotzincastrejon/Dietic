@@ -34,9 +34,10 @@ struct MealsToday: View {
                 //                                            }
                 //                                        }
                 
-            
+                NavigationLink(destination: DiaryViewBackground(fastingManager: fastingManager, mealPeriod: .lunch)) {
                 MealCard(namespace: emptyName, topLeadingColor: Color("BGT"), bottomTrailingColor: Color("BGB"), backgroundShadow: Color("Shadowblue"), image: "noodle bowl", imageShadow: "noodleShadow", imageShadowAlpha: 0.4, title: "Lunch", text: fastingManager.theSamples.filter { $0.mealPeriod == "Lunch" }.map { $0.foodName }.joined(separator: ", "), cal: fastingManager.theSamples.filter { $0.mealPeriod == "Lunch" }.map { $0.calories }.reduce(0, +))
-                
+                }
+                .accentColor(.white)
                 SnackCard()
             }
             .padding(.leading, 30)
@@ -46,28 +47,7 @@ struct MealsToday: View {
         }
         .frame(height: 200)
         .padding(.horizontal, -30)
-        .overlay(
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        Task {
-                            await fastingManager.requestAuthorization()
-                        }
-                    }) {
-                        Image(systemName: "plus")
-                            .foregroundColor(Color("D10"))
-                    }
-                    .frame(width: 40, height: 40)
-                    .background(Color.white)
-                    .clipShape(Circle())
-                    .modifier(Shadow(level: 1))
-                }
-//                .padding(.trailing, 25)
-                .padding(.bottom, 27)
-            }
-        )
+       
         
     }
 }
@@ -76,7 +56,9 @@ struct MealsToday_Previews: PreviewProvider {
     @Namespace static var namespace
 
     static var previews: some View {
+        NavigationView {
         MealsToday(fastingManager: FastingManager(), namespace: namespace, show: .constant(true), showStatusBar: .constant(true))
+        }
     }
 }
 
