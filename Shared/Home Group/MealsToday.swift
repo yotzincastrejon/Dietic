@@ -9,55 +9,47 @@ import SwiftUI
 
 struct MealsToday: View {
     @ObservedObject var fastingManager: FastingManager
-    @State var names = ["Bread", "Peanut Butter", "Apple"]
-    @State var timeOfMeal = ["Lunch", "Breakfast"]
-    @Namespace var emptyName
-    var namespace: Namespace.ID
-    @Binding var show: Bool
-    @Binding var showStatusBar: Bool
+    @Binding var accentColor: Color
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 16) {
-                if !show {
-                MealCard(namespace: namespace, topLeadingColor: Color("OGT"), bottomTrailingColor: Color("OGB"), backgroundShadow: Color("OGB"), image: "bread", imageShadow: "EggSandwichShadow", imageShadowAlpha: 0.3, title: "Breakfast", text: fastingManager.theSamples.filter { $0.mealPeriod == "Breakfast" }.map { $0.foodName }.joined(separator: ", "), cal: fastingManager.theSamples.filter { $0.mealPeriod == "Breakfast" }.map { $0.calories }.reduce(0, +))
-                    .onTapGesture {
-                        withAnimation(.openCard) {
-                            show.toggle()
-                            showStatusBar = false
-                        }
-                    }
+                NavigationLink(destination: DiaryViewBackground(fastingManager: fastingManager, mealPeriod: .breakfast, themeColor: [Color("OGT"), Color("OGB")]).onAppear {
+                    accentColor = .white
+                }){
+                    MealCard(topLeadingColor: Color("OGT"), bottomTrailingColor: Color("OGB"), backgroundShadow: Color("OGB"), image: "bread", imageShadow: "EggSandwichShadow", imageShadowAlpha: 0.3, title: "Breakfast", text: fastingManager.theSamples.filter { $0.mealPeriod == "Breakfast" }.map { $0.foodName }.joined(separator: ", "), cal: fastingManager.theSamples.filter { $0.mealPeriod == "Breakfast" }.map { $0.calories }.reduce(0, +))
                 }
-                //                                        .onTapGesture {
-                //                                            withAnimation(.openCard) {
-                //                                                show.toggle()
-                //                                                showStatusBar = false
-                //                                            }
-                //                                        }
                 
-                NavigationLink(destination: DiaryViewBackground(fastingManager: fastingManager, mealPeriod: .lunch)) {
-                MealCard(namespace: emptyName, topLeadingColor: Color("BGT"), bottomTrailingColor: Color("BGB"), backgroundShadow: Color("Shadowblue"), image: "noodle bowl", imageShadow: "noodleShadow", imageShadowAlpha: 0.4, title: "Lunch", text: fastingManager.theSamples.filter { $0.mealPeriod == "Lunch" }.map { $0.foodName }.joined(separator: ", "), cal: fastingManager.theSamples.filter { $0.mealPeriod == "Lunch" }.map { $0.calories }.reduce(0, +))
+                NavigationLink(destination: DiaryViewBackground(fastingManager: fastingManager, mealPeriod: .lunch, themeColor: [Color("B10"), Color("B00")]).onAppear {
+                    accentColor = .white
+                }) {
+                    MealCard(topLeadingColor: Color("BGT"), bottomTrailingColor: Color("BGB"), backgroundShadow: Color("Shadowblue"), image: "noodle bowl", imageShadow: "noodleShadow", imageShadowAlpha: 0.4, title: "Lunch", text: fastingManager.theSamples.filter { $0.mealPeriod == "Lunch" }.map { $0.foodName }.joined(separator: ", "), cal: fastingManager.theSamples.filter { $0.mealPeriod == "Lunch" }.map { $0.calories }.reduce(0, +))
                 }
-                .accentColor(.white)
+                
                 SnackCard()
+                
+                NavigationLink(destination: DiaryViewBackground(fastingManager: fastingManager, mealPeriod: .dinner, themeColor: [Color("PurpleTop"), Color("PurpleBottom")]).onAppear {
+                    accentColor = .white
+                }) {
+                    MealCard(topLeadingColor: Color("PurpleTop"), bottomTrailingColor: Color("PurpleBottom"), backgroundShadow: Color("Shadowblue"), image: "steak", imageShadow: "steakShadow", imageShadowAlpha: 0.4, title: "Dinner", text: fastingManager.theSamples.filter { $0.mealPeriod == "Dinner" }.map { $0.foodName }.joined(separator: ", "), cal: fastingManager.theSamples.filter { $0.mealPeriod == "Dinner" }.map { $0.calories }.reduce(0, +))
+                }
             }
             .padding(.leading, 30)
             .padding(.vertical, 80)
             .padding(.trailing, 50)
-           
+            
         }
         .frame(height: 200)
         .padding(.horizontal, -30)
-       
+        
         
     }
 }
 
 struct MealsToday_Previews: PreviewProvider {
-    @Namespace static var namespace
-
+    
     static var previews: some View {
         NavigationView {
-        MealsToday(fastingManager: FastingManager(), namespace: namespace, show: .constant(true), showStatusBar: .constant(true))
+            MealsToday(fastingManager: FastingManager(), accentColor: Binding.constant(.blue))
         }
     }
 }

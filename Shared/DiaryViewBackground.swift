@@ -11,22 +11,23 @@ struct DiaryViewBackground: View {
     @ObservedObject var fastingManager: FastingManager
     @State var mealPeriod: EatingTime
     @State var resize = false
+    @State var themeColor: [Color]
     var body: some View {
         GeometryReader { g in
             ZStack {
                 ZStack {
                     VStack {
                         Rectangle()
-                            .fill(LinearGradient(colors: [Color("B10"), Color("B00")], startPoint: .topLeading, endPoint: .bottomTrailing))
+                            .fill(LinearGradient(colors: themeColor, startPoint: .topLeading, endPoint: .bottomTrailing))
                             .frame(height: g.size.height / 2.5)
                         Spacer()
                     }
-                    VStack {
-                        Rectangle()
-                            .fill(LinearGradient(colors: [Color("B00").opacity(0), Color(#colorLiteral(red: 0, green: 0.02745098039, blue: 0.1647058824, alpha: 1))], startPoint: .center, endPoint: .bottom)).opacity(0.5)
-                            .frame(height: g.size.height / 2.5)
-                        Spacer()
-                    }
+//                    VStack {
+//                        Rectangle()
+//                            .fill(LinearGradient(colors: [Color("B00").opacity(0), Color(#colorLiteral(red: 0, green: 0.02745098039, blue: 0.1647058824, alpha: 1))], startPoint: .center, endPoint: .bottom)).opacity(0.5)
+//                            .frame(height: g.size.height / 2.5)
+//                        Spacer()
+//                    }
                     
                     VStack {
                         VStack {
@@ -48,13 +49,12 @@ struct DiaryViewBackground: View {
                 
                 VStack {
                     Spacer()
-                    DiaryView(fastingManager: fastingManager, mealPeriod: mealPeriod)
+                    DiaryView(fastingManager: fastingManager, mealPeriod: mealPeriod, themeColor: themeColor)
                         .frame(height: g.size.height / 1.1)
                     
                 }
             }
         }
-        
     }
 }
 
@@ -62,10 +62,12 @@ struct DiaryViewBackground_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             NavigationView {
-                DiaryViewBackground(fastingManager: FastingManager(), mealPeriod: .lunch)
+                DiaryViewBackground(fastingManager: FastingManager(), mealPeriod: .lunch, themeColor: [Color("B10"), Color("B00")])
             }
-            DiaryViewBackground(fastingManager: FastingManager(), mealPeriod: .lunch)
-                .preferredColorScheme(.dark)
+            NavigationView {
+                DiaryViewBackground(fastingManager: FastingManager(), mealPeriod: .lunch, themeColor: [Color("B10"), Color("B00")])
+                    .preferredColorScheme(.dark)
+            }
             //            DiaryView()
             //                .preferredColorScheme(.dark)
         }
@@ -77,6 +79,7 @@ struct DiaryView: View {
     @ObservedObject var fastingManager: FastingManager
     @State var mealPeriod: EatingTime
     @Environment(\.defaultMinListRowHeight) var minRowHeight
+    @State var themeColor: [Color]
     var body: some View {
         GeometryReader { g in
             VStack {
@@ -105,30 +108,13 @@ struct DiaryView: View {
                                             .font(.caption)
                                     }
                                 }
-                                .foregroundColor(Color("B00"))
+                                .foregroundColor(themeColor.last)
                             }
                             .padding(.top, 24)
                             .padding(.horizontal, 30)
                             
                             List {
                                 ForEach(fastingManager.theSamples.filter { $0.mealPeriod == mealPeriod.description }) { sample in
-                                    //                            VStack {
-                                    //                                HStack {
-                                    //                                    VStack(alignment: .leading) {
-                                    //                                        Text(item)
-                                    //                                        .font(.subheadline)
-                                    //                                        .fontWeight(.semibold)
-                                    //                                        Text("Toasted • 100g")
-                                    //                                            .font(.caption2)
-                                    //                                            .foregroundColor(Color(uiColor: .secondaryLabel))
-                                    //                                    }
-                                    //                                    Spacer()
-                                    //                                    Text("540 kcal")
-                                    //                                        .font(.subheadline)
-                                    //                                        .foregroundColor(Color("B10"))
-                                    //                                }
-                                    //
-                                    //                            }
                                     NavigationLink(destination: EditingResultsView(fastingManager: fastingManager, isShowing: .constant(false), sample: sample)) {
                                         HStack {
                                             VStack(alignment: .leading) {
@@ -142,7 +128,7 @@ struct DiaryView: View {
                                             Spacer()
                                             Text("\(Int(sample.calories)) kcal")
                                                 .font(.subheadline)
-                                                .foregroundColor(Color("B10"))
+                                                .foregroundColor(themeColor.first)
                                             
                                         }
                                     }
@@ -157,11 +143,12 @@ struct DiaryView: View {
                             .padding(.leading, 10)
                             
                             Button(action: {
+                                //Add action here
                                 
                             }) {
                                 ZStack {
                                     Capsule()
-                                        .fill(LinearGradient(colors: [Color("B10"), Color("B00")], startPoint: .topLeading, endPoint: .bottomTrailing))
+                                        .fill(LinearGradient(colors: themeColor, startPoint: .topLeading, endPoint: .bottomTrailing))
                                     Text("Add More Food")
                                         .fontWeight(.medium)
                                         .foregroundColor(.white)
@@ -178,10 +165,6 @@ struct DiaryView: View {
                     .mask {
                         RoundedCorners(color: [Color(uiColor: .green)], tl: 0, tr: 64, bl: 0, br: 0)
                     }
-                    //                Rectangle()
-                    //                    .fill(.blue)
-                    //                    .frame(width: 2, height: 300)
-                    //                    .offset(x: -183, y: -200)
                 }
                 
                 
@@ -193,8 +176,6 @@ struct DiaryView: View {
         print("Deleting sample")
         let index = offsets.first
         fastingManager.deleteTheCorrelationObject(uuid: fastingManager.theSamples[index!].meta)
-        //        healthkitManager.correlationArray.remove(atOffsets: offsets)
-        //        healthkitManager.deleteIT(uuid: healthkitManager.theSamples[index!].meta["HKMetadataKeySyncIdentifier"] as! String)
         fastingManager.theSamples.remove(atOffsets: offsets)
         Task {
             await fastingManager.requestAuthorization()

@@ -9,10 +9,8 @@ import SwiftUI
 
 struct Home: View {
     @ObservedObject var fastingManager: FastingManager
-    @Namespace var namespace
-    @State var show = false
-    @State var showStatusBar = false
     @State var plusButtonTapped = false
+    @State var accentColor: Color = .blue
     var body: some View {
         NavigationView {
             ZStack {
@@ -21,7 +19,6 @@ struct Home: View {
                     .ignoresSafeArea()
                 
                 
-                if !show {
                     ScrollView(showsIndicators: false) {
                         ZStack {
                             VStack {
@@ -35,7 +32,7 @@ struct Home: View {
                                     .padding(.top)
                                 
                                 
-                                MealsToday(fastingManager: fastingManager, namespace: namespace, show: $show, showStatusBar: $showStatusBar)
+                                MealsToday(fastingManager: fastingManager, accentColor: $accentColor)
                                     .zIndex(-1)
                                     
                                     
@@ -51,18 +48,13 @@ struct Home: View {
                             
                         }
                     }
+                    .onAppear {
+                        accentColor = .blue
+                    }
                     
                     
-                }
                 
-                if show {
-                    MatchedView(fastingManager: fastingManager, namespace: namespace, show: $show, showStatusBar: $showStatusBar)
-                        .zIndex(1)
-                        .transition(.asymmetric(
-                            insertion: .opacity.animation(.easeInOut(duration: 0.1)),
-                            removal: .opacity.animation(.easeInOut(duration: 0.3))))
-                    //                        .rotation3DEffect(show ? Angle(degrees: 180): Angle(degrees: 0), axis: (x: CGFloat(0), y: CGFloat(10), z: CGFloat(0)))
-                }
+                
                 
                 if plusButtonTapped {
                     
@@ -119,21 +111,9 @@ struct Home: View {
                     
                 }
             }
-            .statusBar(hidden: !showStatusBar)
-            .onChange(of: show) { newValue in
-                withAnimation(.closeCard) {
-                    if newValue {
-                        showStatusBar = false
-                    } else {
-                        showStatusBar = true
-                    }
-                }
-            }
-            
-            
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .accentColor(.blue)
+        .accentColor(accentColor)
     }
 }
 
