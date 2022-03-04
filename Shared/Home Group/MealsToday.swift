@@ -16,13 +16,13 @@ struct MealsToday: View {
                 NavigationLink(destination: DiaryViewBackground(fastingManager: fastingManager, mealPeriod: .breakfast, themeColor: [Color("OGT"), Color("OGB")]).onAppear {
                     accentColor = .white
                 }){
-                    MealCard(topLeadingColor: Color("OGT"), bottomTrailingColor: Color("OGB"), backgroundShadow: Color("OGB"), image: "bread", imageShadow: "EggSandwichShadow", imageShadowAlpha: 0.3, title: "Breakfast", text: fastingManager.theSamples.filter { $0.mealPeriod == "Breakfast" }.map { $0.foodName }.joined(separator: ", "), cal: fastingManager.theSamples.filter { $0.mealPeriod == "Breakfast" }.map { $0.calories }.reduce(0, +))
+                    MealCard(fastingManager: fastingManager, topLeadingColor: Color("OGT"), bottomTrailingColor: Color("OGB"), backgroundShadow: Color("OGB"), image: "bread", imageShadow: "EggSandwichShadow", imageShadowAlpha: 0.3, mealPeriod: .breakfast)
                 }
                 
                 NavigationLink(destination: DiaryViewBackground(fastingManager: fastingManager, mealPeriod: .lunch, themeColor: [Color("B10"), Color("B00")]).onAppear {
                     accentColor = .white
                 }) {
-                    MealCard(topLeadingColor: Color("BGT"), bottomTrailingColor: Color("BGB"), backgroundShadow: Color("Shadowblue"), image: "noodle bowl", imageShadow: "noodleShadow", imageShadowAlpha: 0.4, title: "Lunch", text: fastingManager.theSamples.filter { $0.mealPeriod == "Lunch" }.map { $0.foodName }.joined(separator: ", "), cal: fastingManager.theSamples.filter { $0.mealPeriod == "Lunch" }.map { $0.calories }.reduce(0, +))
+                    MealCard(fastingManager: fastingManager, topLeadingColor: Color("BGT"), bottomTrailingColor: Color("BGB"), backgroundShadow: Color("Shadowblue"), image: "noodle bowl", imageShadow: "noodleShadow", imageShadowAlpha: 0.4, mealPeriod: .lunch)
                 }
                 
                 SnackCard()
@@ -30,7 +30,7 @@ struct MealsToday: View {
                 NavigationLink(destination: DiaryViewBackground(fastingManager: fastingManager, mealPeriod: .dinner, themeColor: [Color("PurpleTop"), Color("PurpleBottom")]).onAppear {
                     accentColor = .white
                 }) {
-                    MealCard(topLeadingColor: Color("PurpleTop"), bottomTrailingColor: Color("PurpleBottom"), backgroundShadow: Color("Shadowblue"), image: "steak", imageShadow: "steakShadow", imageShadowAlpha: 0.4, title: "Dinner", text: fastingManager.theSamples.filter { $0.mealPeriod == "Dinner" }.map { $0.foodName }.joined(separator: ", "), cal: fastingManager.theSamples.filter { $0.mealPeriod == "Dinner" }.map { $0.calories }.reduce(0, +))
+                    MealCard(fastingManager: fastingManager, topLeadingColor: Color("PurpleTop"), bottomTrailingColor: Color("PurpleBottom"), backgroundShadow: Color("Shadowblue"), image: "steak", imageShadow: "steakShadow", imageShadowAlpha: 0.4, mealPeriod: .dinner)
                 }
             }
             .padding(.leading, 30)

@@ -8,15 +8,14 @@
 import SwiftUI
 
 struct MealCard: View {
+    @ObservedObject var fastingManager: FastingManager
     let topLeadingColor: Color
     let bottomTrailingColor: Color
     let backgroundShadow: Color
     let image: String
     let imageShadow: String
     let imageShadowAlpha: Double
-    let title: String
-    let text: String
-    let cal: Double
+    let mealPeriod: EatingTime
     var body: some View {
         ZStack {
             
@@ -64,43 +63,50 @@ struct MealCard: View {
             
             
             
-            HStack {
-                VStack(alignment: .leading, spacing: 0) {
-                    
-                    Text(title)
-                        .font(.callout)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-//                        .padding(.bottom, 9)
-                        .padding(.top, 47)
+            GeometryReader { g in
+                HStack {
+                    VStack(alignment: .leading, spacing: 0) {
                         
-                    Spacer()
-                    Text(text)
-                        .font(.caption2)
-                        .foregroundColor(.white)
-//                        .padding(.bottom, 15)
-//                        .fixedSize(horizontal: false, vertical: true)
-                        
-                        
-                    Spacer()
-                    HStack(alignment: .firstTextBaseline, spacing: 0) {
-                        Text("\(Int(cal))")
-                            .font(.title)
+                        Text(mealPeriod.description)
+                            .font(.callout)
+                            .fontWeight(.bold)
                             .foregroundColor(.white)
+    //                        .padding(.bottom, 9)
+                            .padding(.top, 47)
                             
-                        Text("kcal")
-                            .font(.caption)
+                        Spacer()
+                        Text(fastingManager.theSamples.filter { $0.mealPeriod == mealPeriod.description }.map { $0.foodName }.joined(separator: ", "))
+                            .font(.caption2)
                             .foregroundColor(.white)
+    //                        .padding(.bottom, 15)
+    //                        .fixedSize(horizontal: false, vertical: true)
                             
+                            
+                        Spacer()
+                        HStack(alignment: .firstTextBaseline, spacing: 0) {
+                            Text("\(Int(fastingManager.theSamples.filter { $0.mealPeriod == mealPeriod.description }.map { $0.calories }.reduce(0, +)))")
+                                .font(.title)
+                                .foregroundColor(.white)
+                                
+
+                                
+                            Text("kcal")
+                                .font(.caption)
+                                .foregroundColor(.white)
+                                
+                        }
+                        .padding(.bottom, 12)
                     }
-                    .padding(.bottom, 12)
+                    .padding(.leading, 16)
+                    Spacer()
                 }
-                .padding(.leading, 16)
-                Spacer()
+                
             }
+//            .fixedSize(horizontal: true, vertical: false)
             
         }
         .frame(width: 116, height: 178)
+        
         
     }
 }
@@ -109,7 +115,8 @@ struct MealCard_Previews: PreviewProvider {
     @Namespace static var namespace
 
     static var previews: some View {
-        MealCard(topLeadingColor: Color("OGT"), bottomTrailingColor: Color("OGB"), backgroundShadow: Color("OGB"), image: "bread", imageShadow: "EggSandwichShadow", imageShadowAlpha: 0.3, title: "Breakfast", text: "Bread,\nPeanut butter,\nApple", cal: 525)
+        MealCard(fastingManager: FastingManager(), topLeadingColor: Color("OGT"), bottomTrailingColor: Color("OGB"), backgroundShadow: Color("OGB"), image: "bread", imageShadow: "EggSandwichShadow", imageShadowAlpha: 0.3, mealPeriod: .breakfast)
+            .fixedSize(horizontal: true, vertical: false)
     }
 }
 
