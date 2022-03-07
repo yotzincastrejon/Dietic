@@ -20,41 +20,52 @@ struct AddMoreFoodView: View {
         ZStack {
             Color(uiColor: .systemGroupedBackground)
                 .ignoresSafeArea()
-            VStack {
-                RoundedCorners(color: topHeaderColors, tl: 0, tr: 0, bl: 64, br: 0, startPoint: .topLeading, endPoint: .bottomTrailing)
-                    .frame(height: 180)
-                Spacer()
-            }
-            .ignoresSafeArea()
+            
             
             VStack {
                 // MARK: - History
                 List {
-                    ForEach(items) { item in
-                        NavigationLink(destination: AddingFromCoreData(fastingManager: fastingManager, sample: fastingManager.decodeJsonFromCoreData(data: item.jsonData!), shouldPopToRootView: $rootIsActive)) {
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text("\(item.name ?? "No Name")")
+                    Section("History") {
+                        ForEach(items) { item in
+                            NavigationLink(destination: AddingFromCoreData(fastingManager: fastingManager, sample: fastingManager.decodeJsonFromCoreData(data: item.jsonData!), shouldPopToRootView: $rootIsActive).onAppear {
+                                item.timestamp = Date.now
+                            }) {
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text("\(item.name ?? "No Name")")
+                                        .font(.subheadline)
+                                    .fontWeight(.semibold)
+                                    Text("\(item.brandName ??  "No brand")")
+                                        .font(.caption2)
+                                        .foregroundColor(Color(uiColor: .secondaryLabel))
+                                }
+                                Spacer()
+                                Text("\(Int(item.calories)) kcal")
                                     .font(.subheadline)
-                                .fontWeight(.semibold)
-                                Text("\(item.brandName ??  "No brand")")
-                                    .font(.caption2)
-                                    .foregroundColor(Color(uiColor: .secondaryLabel))
-                            }
-                            Spacer()
-                            Text("\(Int(item.calories)) kcal")
-                                .font(.subheadline)
-                                .foregroundColor(Color("B10"))
+                                    .foregroundColor(Color("B10"))
 
-                        }
-                        }
-                        .isDetailLink(false)
-                                            }
-                    .onDelete(perform: deleteItems)
+                            }
+                            }
+                            .isDetailLink(false)
+                                                }
+                        .onDelete(perform: deleteItems)
+                    }
 
                 }
-                .padding(.top, 200)
+                .listStyle(InsetGroupedListStyle())
+                .padding(.top, 80)
             }
+           
+            VStack {
+                LinearGradient(colors: topHeaderColors, startPoint: .topLeading, endPoint: .bottomTrailing)
+                    .frame(height: 180)
+                    .mask(RoundedCorners(color: topHeaderColors, tl: 0, tr: 0, bl: 64, br: 0, startPoint: .topLeading, endPoint: .bottomTrailing))
+                    
+                    Spacer()
+            }
+            .ignoresSafeArea()
+           
+            
             .navigationTitle(mealPeriod.description)
         .navigationBarTitleDisplayMode(.inline)
         }
