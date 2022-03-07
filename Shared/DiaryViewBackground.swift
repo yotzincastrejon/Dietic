@@ -80,6 +80,7 @@ struct DiaryView: View {
     @State var mealPeriod: EatingTime
     @Environment(\.defaultMinListRowHeight) var minRowHeight
     @State var themeColor: [Color]
+    @State var isActive: Bool = false
     var body: some View {
         GeometryReader { g in
             VStack {
@@ -142,10 +143,7 @@ struct DiaryView: View {
                             .padding(.top, 32)
                             .padding(.leading, 10)
                             
-                            Button(action: {
-                                //Add action here
-                                
-                            }) {
+                            NavigationLink(destination: AddMoreFoodView(fastingManager: fastingManager, mealPeriod: mealPeriod, topHeaderColors: themeColor, rootIsActive: $isActive), isActive: $isActive) {
                                 ZStack {
                                     Capsule()
                                         .fill(LinearGradient(colors: themeColor, startPoint: .topLeading, endPoint: .bottomTrailing))
@@ -155,7 +153,9 @@ struct DiaryView: View {
                                 }
                                 .frame(width: 175, height: 48)
                             }
+                            .isDetailLink(false)
                             .padding(.top, 32)
+                            
                             
                             NutritionFacts(fastingManager: fastingManager, mealPeriod: mealPeriod)
                                 .padding(.top, 48)
@@ -176,7 +176,9 @@ struct DiaryView: View {
         print("Deleting sample")
         let index = offsets.first
         fastingManager.deleteTheCorrelationObject(uuid: fastingManager.theSamples[index!].meta)
-        fastingManager.theSamples.remove(atOffsets: offsets)
+//        fastingManager.theSamples.remove(atOffsets: offsets)
+        fastingManager.theSamples.removeAll(where: { $0.uuid == fastingManager.theSamples[index!].meta})
+//        fastingManager.theSamples.filter { $0.mealPeriod == mealPeriod.description }.remove(atOffsets: offsets)
         Task {
             await fastingManager.requestAuthorization()
         }

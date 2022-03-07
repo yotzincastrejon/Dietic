@@ -865,7 +865,8 @@ class FastingManager: ObservableObject {
             let product = try JSONDecoder().decode(GroceryProduct.self, from: json)
             let info = product.foods[0]
             let nutrient = info.fullNutrients
-            print(nutrient)
+            print("decoding From JSON Response")
+//            print(nutrient)
             fullNutrientArray.removeAll()
             fullNutrientArray = nutrient
             DispatchQueue.main.async { [self] in
@@ -928,13 +929,14 @@ class FastingManager: ObservableObject {
             let product = try JSONDecoder().decode(GroceryProduct.self, from: data)
             let info = product.foods[0]
             let nutrient = info.fullNutrients
-            print(nutrient)
+            print("Decoding from JSON provided from Core Data")
+//            print(nutrient)
             fullNutrientArray.removeAll()
             fullNutrientArray = nutrient
-            DispatchQueue.main.async {
+            
                 
                 
-             sample = HKSampleWithDescription(foodName: info.foodName ?? "",
+             sample =  HKSampleWithDescription(foodName: info.foodName ?? "",
                                                              brandName: info.brandName ?? "",
                                                              servingQuantity: info.servingQuantity ?? 0,
                                                              servingUnit: info.servingUnit ?? "",
@@ -977,9 +979,9 @@ class FastingManager: ObservableObject {
                                                              uuid: UUID().uuidString, date: Date.now,
                                                              attrIDArray: [Int]()
                                                             )
-                self.currentScannedItem = sample
-            }
-            
+
+                
+            return sample!
         } catch {
             print("Decoding the JSON failed \(error.localizedDescription)")
             print(String(describing: error))
