@@ -787,6 +787,8 @@ class FastingManager: ObservableObject {
         task.resume()
     }
     
+    
+    
     func decodeInstantReponse(data: Data) {
         DispatchQueue.main.async { [self] in
         do {
@@ -844,15 +846,19 @@ class FastingManager: ObservableObject {
             //                    print(responseString)
             print("We are decoding directly from the response")
             //                    decode(json: data!)
-            
+                        
             decodeJSONResponse(json: safeData)
-            
+            DispatchQueue.main.async {
+                currentScannedItemJSON = safeData
+            }
             //Or the current working model is decodeJSONResponse(json: data!)
         }
         task.resume()
     }
     @Published var currentScannedItem: HKSampleWithDescription?
+    @Published var currentScannedItemJSON: Data?
     var fullNutrientArray = [FullNutrient]()
+    
     
     func decodeJSONResponse(json: Data) {
         do {
@@ -913,6 +919,74 @@ class FastingManager: ObservableObject {
             print("Decoding the JSON failed \(error.localizedDescription)")
             print(String(describing: error))
         }
+    }
+    
+    func decodeJsonFromCoreData(data: Data) -> HKSampleWithDescription {
+        var sample: HKSampleWithDescription?
+        do {
+            
+            let product = try JSONDecoder().decode(GroceryProduct.self, from: data)
+            let info = product.foods[0]
+            let nutrient = info.fullNutrients
+            print(nutrient)
+            fullNutrientArray.removeAll()
+            fullNutrientArray = nutrient
+            DispatchQueue.main.async {
+                
+                
+             sample = HKSampleWithDescription(foodName: info.foodName ?? "",
+                                                             brandName: info.brandName ?? "",
+                                                             servingQuantity: info.servingQuantity ?? 0,
+                                                             servingUnit: info.servingUnit ?? "",
+                                                             servingWeightGrams: info.servingWeightGrams ?? 0,
+                                                             calories: info.calories ?? 0,
+                                                             sugars: info.sugars ?? 0,
+                                                             totalFat: info.totalFat ?? 0,
+                                                             saturatedFat: info.saturatedFat ?? 0,
+                                                             cholesterol: info.cholesterol ?? 0,
+                                                             sodium: info.sodium ?? 0,
+                                                             totalCarbohydrate: info.totalCarbohydrate ?? 0,
+                                                             dietaryFiber: info.dietaryFiber ?? 0,
+                                                             protein: info.protein ?? 0,
+                                                             potassium: info.potassium ?? 0,
+                                                             calcium: nutrient.filter { $0.attrID == 301 }.map { $0.value }.first ?? 0,
+                                                             iron: nutrient.filter { $0.attrID == 303 }.map { $0.value }.first ?? 0,
+                                                             monounsaturatedFat: nutrient.filter { $0.attrID == 645 }.map { $0.value }.first ?? 0,
+                                                             polyunsaturatedFat: nutrient.filter { $0.attrID == 646 }.map { $0.value }.first ?? 0,
+                                                             caffeine: nutrient.filter { $0.attrID == 262 }.map { $0.value }.first ?? 0,
+                                                             copper: nutrient.filter { $0.attrID == 312 }.map { $0.value }.first ?? 0,
+                                                             folate: nutrient.filter { $0.attrID == 417 }.map { $0.value }.first ?? 0,
+                                                             magnesium: nutrient.filter { $0.attrID == 304 }.map { $0.value }.first ?? 0,
+                                                             manganese: nutrient.filter { $0.attrID == 315 }.map { $0.value }.first ?? 0,
+                                                             niacin: nutrient.filter { $0.attrID == 406 }.map { $0.value }.first ?? 0,
+                                                             phosphorus: nutrient.filter { $0.attrID == 305 }.map { $0.value }.first ?? 0,
+                                                             riboflavin: nutrient.filter { $0.attrID == 405 }.map { $0.value }.first ?? 0,
+                                                             selenium: nutrient.filter { $0.attrID == 317 }.map { $0.value }.first ?? 0,
+                                                             thiamin: nutrient.filter { $0.attrID == 404 }.map { $0.value }.first ?? 0,
+                                                             vitaminA: nutrient.filter { $0.attrID == 320 }.map { $0.value }.first ?? 0,
+                                                             vitaminC: nutrient.filter { $0.attrID == 401 }.map { $0.value }.first ?? 0,
+                                                             vitaminB6: nutrient.filter { $0.attrID == 415 }.map { $0.value }.first ?? 0,
+                                                             vitaminB12: nutrient.filter { $0.attrID == 418 }.map { $0.value }.first ?? 0,
+                                                             vitaminD: nutrient.filter { $0.attrID == 328 }.map { $0.value }.first ?? 0,
+                                                             vitaminE: nutrient.filter { $0.attrID == 323 }.map { $0.value }.first ?? 0,
+                                                             vitaminK: nutrient.filter { $0.attrID == 430 }.map { $0.value }.first ?? 0,
+                                                             zinc: nutrient.filter { $0.attrID == 309 }.map { $0.value }.first ?? 0,
+                                                             meta: "",
+                                                             mealPeriod: "",
+                                                             numberOfServings: 1, servingSelection: "",
+                                                             uuid: UUID().uuidString, date: Date.now,
+                                                             attrIDArray: [Int]()
+                                                            )
+                self.currentScannedItem = sample
+            }
+            
+        } catch {
+            print("Decoding the JSON failed \(error.localizedDescription)")
+            print(String(describing: error))
+        }
+        
+        
+        return sample ??  HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, meta: "", mealPeriod: "", numberOfServings: 1, servingSelection: "", uuid: "", date: Date.now, attrIDArray: [Int]())
     }
     
     // MARK: - Eaten Foods Entry
@@ -1023,6 +1097,7 @@ class FastingManager: ObservableObject {
                 print("Success in saving correlation sample")
                 DispatchQueue.main.async {
                     self.currentScannedItem = nil
+                    self.currentScannedItemJSON = nil
                 }
             }
         }

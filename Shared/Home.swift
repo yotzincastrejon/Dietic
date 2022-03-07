@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct Home: View {
     @ObservedObject var fastingManager: FastingManager

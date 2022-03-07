@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct JsonResponseView: View {
     @Binding var isShowing: Bool
@@ -52,6 +53,7 @@ struct JsonResponseView_Previews: PreviewProvider {
 
 
 struct AddingFromJSONResultView: View {
+    @Environment(\.managedObjectContext) private var viewContext
     @State var selection = EatingTime.breakfast
     @State var servingTypeSelection = ServingType.serving
     @ObservedObject var fastingManager: FastingManager
@@ -187,6 +189,7 @@ struct AddingFromJSONResultView: View {
                     Button(action: {
                         isShowing = false
                         fastingManager.currentScannedItem = nil
+                        fastingManager.currentScannedItemJSON = nil
                     }){
                         Text("Cancel")
                             .fontWeight(.medium)
@@ -201,8 +204,10 @@ struct AddingFromJSONResultView: View {
                     
                     
                     Button(action: {
+                        addItemToCoreData()
                         saveNewValue()
                         fastingManager.saveCorrelation(sample: fastingManager.currentScannedItem!, editing: false)
+                        
                         Task {
                             await fastingManager.requestAuthorization()
                         }
@@ -316,8 +321,22 @@ struct AddingFromJSONResultView: View {
             fastingManager.currentScannedItem?.mealPeriod = selection.description
         }
     }
-    
-    
-    
-    
+    private func addItemToCoreData() {
+        withAnimation {
+            let newItem = SearchedFoods(context: viewContext)
+            newItem.timestamp = Date()
+            newItem.name = fastingManager.currentScannedItem?.foodName
+            newItem.brandName = fastingManager.currentScannedItem?.brandName
+            newItem.calories = fastingManager.currentScannedItem?.calories ?? 0
+            newItem.jsonData = fastingManager.currentScannedItemJSON
+            do {
+                try viewContext.save()
+            } catch {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nsError = error as NSError
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            }
+        }
+    }
 }

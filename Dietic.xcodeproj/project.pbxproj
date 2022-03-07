@@ -31,10 +31,13 @@
 		FA0081E127209831004719BE /* DateChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DF27209831004719BE /* DateChanger.swift */; };
 		FA17BF4827C0528C00F662C6 /* EditingResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17BF4727C0528C00F662C6 /* EditingResultsView.swift */; };
 		FA17BF4927C0528C00F662C6 /* EditingResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17BF4727C0528C00F662C6 /* EditingResultsView.swift */; };
+		FA24FDCD27D3F9B9003EE197 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA24FDCC27D3F9B9003EE197 /* CloudKit.framework */; };
 		FA43D71F27B4988000A709B3 /* JsonResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA43D71E27B4988000A709B3 /* JsonResponseView.swift */; };
 		FA43D72027B4988000A709B3 /* JsonResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA43D71E27B4988000A709B3 /* JsonResponseView.swift */; };
 		FA719621279B1E6400A50598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA719620279B1E6400A50598 /* LaunchScreen.storyboard */; };
 		FA719622279B1E6400A50598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA719620279B1E6400A50598 /* LaunchScreen.storyboard */; };
+		FA72D58427D2E76C00EFFCC4 /* AddMoreFoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA72D58327D2E76C00EFFCC4 /* AddMoreFoodView.swift */; };
+		FA72D58527D2E76C00EFFCC4 /* AddMoreFoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA72D58327D2E76C00EFFCC4 /* AddMoreFoodView.swift */; };
 		FA7BC5BA27C9822500816E59 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = FA7BC5B927C9822500816E59 /* CodeScanner */; };
 		FA84808327BCBEF10085E42C /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA84808227BCBEF10085E42C /* TestView.swift */; };
 		FA84808427BCBEF10085E42C /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA84808227BCBEF10085E42C /* TestView.swift */; };
@@ -48,6 +51,10 @@
 		FAAC72C827A3252600508702 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAC72C627A3252600508702 /* WelcomeView.swift */; };
 		FAB2BEEA27AC8A38009DA8E4 /* AddingFoodScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */; };
 		FAB2BEEB27AC8A38009DA8E4 /* AddingFoodScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */; };
+		FAC7DEEF27D3F75200006BE1 /* SavedFoodsHistory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FAC7DEED27D3F75200006BE1 /* SavedFoodsHistory.xcdatamodeld */; };
+		FAC7DEF027D3F75200006BE1 /* SavedFoodsHistory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FAC7DEED27D3F75200006BE1 /* SavedFoodsHistory.xcdatamodeld */; };
+		FAC7DEF227D3F7D400006BE1 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7DEF127D3F7D400006BE1 /* Persistence.swift */; };
+		FAC7DEF327D3F7D400006BE1 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7DEF127D3F7D400006BE1 /* Persistence.swift */; };
 		FAD169BA271DFAAE00C21397 /* Dietic.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AA271DFAAD00C21397 /* Dietic.swift */; };
 		FAD169BB271DFAAE00C21397 /* Dietic.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AA271DFAAD00C21397 /* Dietic.swift */; };
 		FAD169BC271DFAAE00C21397 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AB271DFAAD00C21397 /* ContentView.swift */; };
@@ -106,14 +113,19 @@
 		FA0081DC27209455004719BE /* WeightCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightCard.swift; sourceTree = "<group>"; };
 		FA0081DF27209831004719BE /* DateChanger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateChanger.swift; sourceTree = "<group>"; };
 		FA17BF4727C0528C00F662C6 /* EditingResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingResultsView.swift; sourceTree = "<group>"; };
+		FA24FDCC27D3F9B9003EE197 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.2.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		FA43D71E27B4988000A709B3 /* JsonResponseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonResponseView.swift; sourceTree = "<group>"; };
 		FA719620279B1E6400A50598 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FA72D58327D2E76C00EFFCC4 /* AddMoreFoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMoreFoodView.swift; sourceTree = "<group>"; };
 		FA84808227BCBEF10085E42C /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		FA8E989727BEAB8E00EA297B /* MatchedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedView.swift; sourceTree = "<group>"; };
 		FA92EFAD27CD3A0A00FF9028 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewBackground.swift; sourceTree = "<group>"; };
 		FAAC72C627A3252600508702 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingFoodScreen.swift; sourceTree = "<group>"; };
+		FAC7DEEE27D3F75200006BE1 /* SavedFoodsHistory.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SavedFoodsHistory.xcdatamodel; sourceTree = "<group>"; };
+		FAC7DEF127D3F7D400006BE1 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		FAC7DEF427D3F81A00006BE1 /* Dietic--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Dietic--iOS--Info.plist"; sourceTree = "<group>"; };
 		FAD169AA271DFAAD00C21397 /* Dietic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dietic.swift; sourceTree = "<group>"; };
 		FAD169AB271DFAAD00C21397 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FAD169AC271DFAAE00C21397 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -147,6 +159,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA24FDCD27D3F9B9003EE197 /* CloudKit.framework in Frameworks */,
 				FA7BC5BA27C9822500816E59 /* CodeScanner in Frameworks */,
 				FAD169E2271DFB1000C21397 /* HealthKit.framework in Frameworks */,
 			);
@@ -190,6 +203,7 @@
 		FAD169A4271DFAAD00C21397 = {
 			isa = PBXGroup;
 			children = (
+				FAC7DEF427D3F81A00006BE1 /* Dietic--iOS--Info.plist */,
 				FAD169DF271DFB1000C21397 /* Dietic (iOS).entitlements */,
 				FAD169A9271DFAAD00C21397 /* Shared */,
 				FAD169B8271DFAAE00C21397 /* macOS */,
@@ -213,6 +227,9 @@
 				FA0081DC27209455004719BE /* WeightCard.swift */,
 				FAD1ADCD272125EA00785223 /* GoalSettings.swift */,
 				FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */,
+				FA72D58327D2E76C00EFFCC4 /* AddMoreFoodView.swift */,
+				FAC7DEED27D3F75200006BE1 /* SavedFoodsHistory.xcdatamodeld */,
+				FAC7DEF127D3F7D400006BE1 /* Persistence.swift */,
 				FA0D6BC1279A135A002F7AFD /* Onboarding */,
 				FA0081CC2720705A004719BE /* Home Group */,
 				FAD16A00271DFEFB00C21397 /* DietDetailView.swift */,
@@ -246,6 +263,7 @@
 		FAD169E0271DFB1000C21397 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FA24FDCC27D3F9B9003EE197 /* CloudKit.framework */,
 				FAD169E1271DFB1000C21397 /* HealthKit.framework */,
 			);
 			name = Frameworks;
@@ -395,6 +413,7 @@
 				FAD169F0271DFC5A00C21397 /* FastingManager.swift in Sources */,
 				FAF517B327232B2B00BD54E7 /* Bar.swift in Sources */,
 				FAF517B627232B4400BD54E7 /* BarGraphBackground.swift in Sources */,
+				FAC7DEF227D3F7D400006BE1 /* Persistence.swift in Sources */,
 				FA43D71F27B4988000A709B3 /* JsonResponseView.swift in Sources */,
 				FAF517BC27232F3B00BD54E7 /* CapsuleMacroView.swift in Sources */,
 				FA0081CA27207039004719BE /* MacroLabel.swift in Sources */,
@@ -431,6 +450,8 @@
 				FAD16A04271E042B00C21397 /* ProgressRingView.swift in Sources */,
 				FA17BF4827C0528C00F662C6 /* EditingResultsView.swift in Sources */,
 				FAF517C527232FA500BD54E7 /* BarGraph.swift in Sources */,
+				FAC7DEEF27D3F75200006BE1 /* SavedFoodsHistory.xcdatamodeld in Sources */,
+				FA72D58427D2E76C00EFFCC4 /* AddMoreFoodView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,6 +462,7 @@
 				FAD169F1271DFC5A00C21397 /* FastingManager.swift in Sources */,
 				FAF517B427232B2B00BD54E7 /* Bar.swift in Sources */,
 				FAF517B727232B4400BD54E7 /* BarGraphBackground.swift in Sources */,
+				FAC7DEF327D3F7D400006BE1 /* Persistence.swift in Sources */,
 				FA43D72027B4988000A709B3 /* JsonResponseView.swift in Sources */,
 				FAF517BD27232F3B00BD54E7 /* CapsuleMacroView.swift in Sources */,
 				FA0081CB27207039004719BE /* MacroLabel.swift in Sources */,
@@ -477,6 +499,8 @@
 				FAD16A05271E042B00C21397 /* ProgressRingView.swift in Sources */,
 				FA17BF4927C0528C00F662C6 /* EditingResultsView.swift in Sources */,
 				FAF517C627232FA500BD54E7 /* BarGraph.swift in Sources */,
+				FAC7DEF027D3F75200006BE1 /* SavedFoodsHistory.xcdatamodeld in Sources */,
+				FA72D58527D2E76C00EFFCC4 /* AddMoreFoodView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -605,6 +629,7 @@
 				DEVELOPMENT_TEAM = YVJLT6Y577;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Dietic--iOS--Info.plist";
 				INFOPLIST_KEY_NSCameraUsageDescription = "To scan your barcodes";
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "To read your health data to do calculations";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Dietic will use these metrics for calculations";
@@ -642,6 +667,7 @@
 				DEVELOPMENT_TEAM = YVJLT6Y577;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Dietic--iOS--Info.plist";
 				INFOPLIST_KEY_NSCameraUsageDescription = "To scan your barcodes";
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "To read your health data to do calculations";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Dietic will use these metrics for calculations";
@@ -777,6 +803,19 @@
 			productName = CodeScanner;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		FAC7DEED27D3F75200006BE1 /* SavedFoodsHistory.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				FAC7DEEE27D3F75200006BE1 /* SavedFoodsHistory.xcdatamodel */,
+			);
+			currentVersion = FAC7DEEE27D3F75200006BE1 /* SavedFoodsHistory.xcdatamodel */;
+			path = SavedFoodsHistory.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = FAD169A5271DFAAD00C21397 /* Project object */;
 }

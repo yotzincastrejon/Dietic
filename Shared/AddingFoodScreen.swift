@@ -7,8 +7,10 @@
 
 import SwiftUI
 import CodeScanner
+import CoreData
 
 struct AddingFoodScreen: View {
+
     @State var searchText = ""
     @ObservedObject var fastingManager: FastingManager
     @State var showingImagePicker = false
@@ -17,6 +19,7 @@ struct AddingFoodScreen: View {
     @State var dragAmount: CGPoint?
     @State var selection = EatingTime.breakfast
     @State var showingOnTap = false
+
     var body: some View {
          
         NavigationView {
@@ -57,13 +60,13 @@ struct AddingFoodScreen: View {
                 .frame(width: 150, height: 150)
                 .background(Color(uiColor: .systemGroupedBackground))
                 .cornerRadius(20)
+                
+
+                
+                
+                // MARK: - The Samples
                     List {
                         ForEach(fastingManager.theSamples) { sample in
-//                            HStack {
-//    //                            Text(workoutManager.heartRate.formatted(.number.precision(.fractionLength(0))) + " bpm")
-//                                Text("Calorie: \(sample.calories)")
-//
-//                            }
                             NavigationLink(destination: EditingResultsView(fastingManager: fastingManager, isShowing: .constant(false), sample: sample)) {
                                 HStack {
                                     VStack(alignment: .leading) {
@@ -168,6 +171,8 @@ struct AddingFoodScreen: View {
             print("Scanning failed: \(error.localizedDescription)")
         }
     }
+    
+
 }
 
 struct AddingFoodScreen_Previews: PreviewProvider {
