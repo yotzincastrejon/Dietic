@@ -31,7 +31,10 @@ struct SwiftUIView: View {
                             
                         }) {
                                 HStack {
-                                    Text(value.title)
+                                    VStack {
+                                        Text(value.title)
+                                        Text(value.brandName)
+                                    }
                                     Spacer()
                                     Text("\(value.calories)")
                             }
@@ -47,11 +50,17 @@ struct SwiftUIView: View {
                 }.listStyle(.plain)
                     .searchable(text: $searchText)
                     .onChange(of: searchText) { value in
-                        if !value.isEmpty && value.count > 3 {
-                           
+//                        if !value.isEmpty && value.count > 3 {
+//
+//                        Task {
+//                            await fastingManager.instantRequestToNutrionix(string: value)
+//                        }
+//                        }
+                        print(value)
+                    }
+                    .onSubmit(of: .search) {
                         Task {
-                            await fastingManager.instantRequestToNutrionix(string: value)
-                        }
+                            await fastingManager.instantRequestToNutrionix(string: searchText)
                         }
                     }
             }

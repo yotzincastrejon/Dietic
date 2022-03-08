@@ -787,6 +787,9 @@ class FastingManager: ObservableObject {
         task.resume()
     }
     
+    func printTest() {
+        print("Submitted From Fasting Manager")
+    }
     
     
     func decodeInstantReponse(data: Data) {
@@ -800,9 +803,10 @@ class FastingManager: ObservableObject {
             guard response.branded!.count > 0 else { return }
                 for i in 0..<((response.branded?.count)!) {
                     let title = response.branded?[i].foodName
+                    let brandName = response.branded?[i].brandName
                     let calories = response.branded?[i].nfCalories
                     let id = response.branded?[i].nixItemID
-                    instantResponse.append(InstantSearchModel(title: title ?? "" , calories: calories ?? 0, nixID: id ?? ""))
+                    instantResponse.append(InstantSearchModel(title: title ?? "", brandName: brandName ?? "" , calories: Int(calories ?? 0), nixID: id ?? ""))
             }
         } catch {
             print(String(describing: error))
@@ -1750,9 +1754,9 @@ struct Branded: Codable {
     let foodName: String?
     let image: String?
     let servingUnit, nixBrandID, brandNameItemName: String?
-    let servingQty, nfCalories: Int?
+    let servingQty, nfCalories: Double?
     let brandName: String?
-    let brandType: Int?
+    let brandType: Double?
     let nixItemID: String?
 
     enum CodingKeys: String, CodingKey {
@@ -1785,6 +1789,7 @@ struct Common: Codable {
 struct InstantSearchModel: Identifiable {
     let id = UUID()
     let title: String
+    let brandName: String
     let calories: Int
     let nixID: String
 }

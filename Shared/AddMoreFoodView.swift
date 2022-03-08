@@ -6,72 +6,141 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct AddMoreFoodView: View {
     @ObservedObject var fastingManager: FastingManager
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.isSearching) var isSearching
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \SearchedFoods.timestamp, ascending: false)],
                   animation: .default)
     private var items: FetchedResults<SearchedFoods>
     @State var mealPeriod: EatingTime
     @State var topHeaderColors: [Color]
     @Binding var rootIsActive: Bool
+    @State private var searchText = ""
+    @State private var isSearchingNutritionixDatabase = false
+        init(fastingManager: FastingManager, mealPeriod: EatingTime, topHeaderColors: [Color], rootIsActive: Binding<Bool>) {
+            self.fastingManager = fastingManager
+            _mealPeriod = State(initialValue: mealPeriod)
+            _topHeaderColors = State(initialValue: topHeaderColors)
+            self._rootIsActive = rootIsActive
+    
+            UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = .systemGroupedBackground
+            UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = .label
+        }
     var body: some View {
         ZStack {
             Color(uiColor: .systemGroupedBackground)
                 .ignoresSafeArea()
+            SearchableListView(topHeaderColors: topHeaderColors)
+            
+                .navigationTitle(mealPeriod.description)
+                .navigationBarTitleDisplayMode(.inline)
             
             
-            VStack {
-                // MARK: - History
+            
+            if !isSearchingNutritionixDatabase {
                 List {
                     Section("History") {
                         ForEach(items) { item in
-                            NavigationLink(destination: AddingFromCoreData(fastingManager: fastingManager, sample: fastingManager.decodeJsonFromCoreData(data: item.jsonData!), shouldPopToRootView: $rootIsActive).onAppear {
+                            NavigationLink(destination: AddingFromCoreData(fastingManager: fastingManager, sample: fastingManager.decodeJsonFromCoreData(data: (item.jsonData ?? "".data(using: .utf8))!), shouldPopToRootView: $rootIsActive).onAppear {
                                 item.timestamp = Date.now
                             }) {
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text("\(item.name ?? "No Name")")
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Text("\(item.name ?? "No Name")")
+                                            .font(.subheadline)
+                                            .fontWeight(.semibold)
+                                        Text("\(item.brandName ??  "No brand")")
+                                            .font(.caption2)
+                                            .foregroundColor(Color(uiColor: .secondaryLabel))
+                                    }
+                                    Spacer()
+                                    Text("\(Int(item.calories)) kcal")
                                         .font(.subheadline)
-                                    .fontWeight(.semibold)
-                                    Text("\(item.brandName ??  "No brand")")
-                                        .font(.caption2)
-                                        .foregroundColor(Color(uiColor: .secondaryLabel))
+                                        .foregroundColor(Color("B10"))
+                                    
                                 }
-                                Spacer()
-                                Text("\(Int(item.calories)) kcal")
-                                    .font(.subheadline)
-                                    .foregroundColor(Color("B10"))
-
-                            }
                             }
                             .isDetailLink(false)
-                                                }
+                        }
                         .onDelete(perform: deleteItems)
+                        
                     }
-
-                }
-                .listStyle(InsetGroupedListStyle())
-                .padding(.top, 80)
-            }
-           
-            VStack {
-                LinearGradient(colors: topHeaderColors, startPoint: .topLeading, endPoint: .bottomTrailing)
-                    .frame(height: 180)
-                    .mask(RoundedCorners(color: topHeaderColors, tl: 0, tr: 0, bl: 64, br: 0, startPoint: .topLeading, endPoint: .bottomTrailing))
                     
-                    Spacer()
+                }
+                .listStyle(.plain)
+                .searchable(text: $searchText)
+                .onSubmit(of: .search) {
+                    Task {
+                        print("Submitted")
+                        isSearchingNutritionixDatabase = true
+                        await fastingManager.instantRequestToNutrionix(string: searchText)
+                    }
+                    
+                }
+                .onChange(of: searchText, perform: { newValue in
+                    items.nsPredicate = newValue.isEmpty ? nil : NSPredicate(format: "name CONTAINS %@", newValue)
+                })
+                
+                .environment(\.defaultMinListRowHeight, 52)
+//                .frame(minHeight: 52 * CGFloat(items.count))
+                .padding(.top, 80)
+                
+            } else {
+                // MARK: - Nutrionix Database
+                VStack {
+                    List {
+                        Section("Best Matches") {
+                            ForEach(fastingManager.instantResponse) { item in
+                                NavigationLink(destination: JsonResponseView(isShowing: .constant(false), fastingManager: fastingManager, sample: fastingManager.currentScannedItem ?? HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, meta: "", mealPeriod: "", numberOfServings: 1, servingSelection: "", uuid: "", date: Date.now, attrIDArray: [Int]())).onAppear {
+                                    Task {
+                                        await fastingManager.instantQueryFullRequest(string: item.nixID)
+                                    }
+                                    
+                                }) {
+                                    HStack {
+                                        VStack(alignment: .leading) {
+                                            Text(item.title)
+                                                .font(.subheadline)
+                                                .fontWeight(.semibold)
+                                            Text(item.brandName)
+                                                .font(.caption2)
+                                                .foregroundColor(Color(uiColor: .secondaryLabel))
+                                        }
+                                        Spacer()
+                                        Text("\(Int(item.calories)) kcal")
+                                            .font(.subheadline)
+                                            .foregroundColor(Color("B10"))
+                                        
+                                    }
+                                }
+                                .isDetailLink(false)
+                            }
+                            .onDelete(perform: deleteItems)
+                        }
+                        
+                    }
+                    .onSubmit(of: .search) {
+                        Task {
+                            await fastingManager.instantRequestToNutrionix(string: searchText)
+                        }
+                    }
+                    .searchable(text: $searchText)
+                    .onChange(of: searchText, perform: { newValue in
+                        isSearchingNutritionixDatabase = false
+                        items.nsPredicate = newValue.isEmpty ? nil : NSPredicate(format: "name CONTAINS %@", newValue)
+                    })
+                    
+                    .environment(\.defaultMinListRowHeight, 52)
+//                    .frame(minHeight: 52 * CGFloat(fastingManager.instantResponse.count))
+                    .listStyle(.plain)
+                    .padding(.top, 80)
+                }
             }
-            .ignoresSafeArea()
-           
-            
-            .navigationTitle(mealPeriod.description)
-        .navigationBarTitleDisplayMode(.inline)
         }
     }
-
-    
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
             offsets.map { items[$0] }.forEach(viewContext.delete)
@@ -85,19 +154,39 @@ struct AddMoreFoodView: View {
             }
         }
     }
+    
+    
+    
 }
 
 struct AddMoreFoodView_Previews: PreviewProvider {
-
+    
     static var previews: some View {
         Group {
-        NavigationView {
-            AddMoreFoodView(fastingManager: FastingManager(), mealPeriod: .breakfast, topHeaderColors: [Color("B10"), Color("B00")], rootIsActive: Binding.constant(false))
+            TabView {
+                NavigationView {
+                    AddMoreFoodView(fastingManager: FastingManager(), mealPeriod: .breakfast, topHeaderColors: [Color("B10"), Color("B00")], rootIsActive: Binding.constant(false))
+                    
+                }
+                .tabItem { Image(systemName: "gear")
+                    Text("Test")
+                }
+            }
             
-        }
-        NavigationView{
-            AddingFromCoreData(fastingManager: FastingManager(), sample: HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, meta: "", mealPeriod: "", numberOfServings: 1, servingSelection: "", uuid: "", date: Date.now, attrIDArray: [Int]()), shouldPopToRootView: Binding.constant(false))
-        }
+            //            TabView {
+            //                NavigationView {
+            //                    AddMoreFoodView(fastingManager: FastingManager(), mealPeriod: .breakfast, topHeaderColors: [Color("B10"), Color("B00")], rootIsActive: Binding.constant(false))
+            //
+            //                }
+            //                .tabItem { Image(systemName: "gear")
+            //                    Text("Test")
+            //                }
+            //            }
+            //            .previewDevice("iPhone 8")
+            
+            NavigationView{
+                AddingFromCoreData(fastingManager: FastingManager(), sample: HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, meta: "", mealPeriod: "", numberOfServings: 1, servingSelection: "", uuid: "", date: Date.now, attrIDArray: [Int]()), shouldPopToRootView: Binding.constant(false))
+            }
         }
         
     }
@@ -107,6 +196,7 @@ struct AddMoreFoodView_Previews: PreviewProvider {
 struct AddingFromCoreData: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dismiss) var dismiss
+    @Environment(\.defaultMinListRowHeight) var minRowHeight
     @State var selection = EatingTime.breakfast
     @State var servingTypeSelection = ServingType.serving
     @ObservedObject var fastingManager: FastingManager
@@ -124,11 +214,11 @@ struct AddingFromCoreData: View {
             .pickerStyle(.segmented)
             .labelsHidden()
             
-//            Spacer()
-//            Text(sample?.foodName ?? "")
-//            Text("Calories:\(String(sample?.calories ?? 0))cal")
+            //            Spacer()
+            //            Text(sample?.foodName ?? "")
+            //            Text("Calories:\(String(sample?.calories ?? 0))cal")
             
-//            Spacer()
+            //            Spacer()
             VStack(spacing: 0) {
                 VStack(spacing: 2) {
                     HStack {
@@ -145,29 +235,29 @@ struct AddingFromCoreData: View {
                         Spacer()
                     }
                     if sample?.servingWeightGrams != 0 {
-                    HStack {
-                        Text("Serving weight in grams: \(Int(sample?.servingWeightGrams ?? 0))g")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                        Spacer()
-                    }
+                        HStack {
+                            Text("Serving weight in grams: \(Int(sample?.servingWeightGrams ?? 0))g")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            Spacer()
+                        }
                     }
                 }
                 
                 if sample?.servingWeightGrams != 0 {
-                Picker("", selection: $servingTypeSelection) {
-                    ForEach(ServingType.allCases, id: \.self) { value in
-                        Text(value.description)
+                    Picker("", selection: $servingTypeSelection) {
+                        ForEach(ServingType.allCases, id: \.self) { value in
+                            Text(value.description)
+                        }
                     }
-                }
-                .pickerStyle(.segmented)
-                .labelsHidden()
-                .padding(.top)
+                    .pickerStyle(.segmented)
+                    .labelsHidden()
+                    .padding(.top)
                 }
                 
                 HStack(spacing: 15) {
                     if servingTypeSelection == .serving {
-                    Text("Number of Servings")
+                        Text("Number of Servings")
                     } else {
                         Text("Number of grams")
                     }
@@ -215,8 +305,8 @@ struct AddingFromCoreData: View {
                             Text("Fat")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
-//                            Text("\(Int(Double(sample?.totalFat ?? 0) * (Double(text) ?? 0)))g")
-//                                .font(.callout)
+                            //                            Text("\(Int(Double(sample?.totalFat ?? 0) * (Double(text) ?? 0)))g")
+                            //                                .font(.callout)
                             Text("\(nutrientCalculation(mainNumber:sample?.totalFat ?? 0))g")
                                 .font(.callout)
                             
@@ -299,40 +389,40 @@ struct AddingFromCoreData: View {
     func saveNewValue() {
         if servingTypeSelection == .serving {
             sample?.calories = Double(sample?.calories ?? 0) * (Double(text) ?? 0)
-        sample?.sugars = (sample?.sugars ?? 0) * (Double(text) ?? 0)
-        sample?.totalFat = Double(sample?.totalFat ?? 0) * (Double(text) ?? 0)
-        sample?.saturatedFat = (sample?.saturatedFat ?? 0) * (Double(text) ?? 0)
-        sample?.cholesterol = Double(sample?.cholesterol ?? 0) * (Double(text) ?? 0)
-        sample?.sodium = Double(sample?.sodium ?? 0) * (Double(text) ?? 0)
-        sample?.totalCarbohydrate = Double(sample?.totalCarbohydrate ?? 0) * (Double(text) ?? 0)
-        sample?.dietaryFiber = Double(sample?.dietaryFiber ?? 0) * (Double(text) ?? 0)
-        sample?.protein = Double(sample?.protein ?? 0) * (Double(text) ?? 0)
-        sample?.potassium = Double(sample?.potassium ?? 0) * (Double(text) ?? 0)
-        sample?.calcium = Double(sample?.calcium ?? 0) * (Double(text) ?? 0)
-        sample?.iron = Double(sample?.iron ?? 0) * (Double(text) ?? 0)
-        sample?.monounsaturatedFat = Double(sample?.monounsaturatedFat ?? 0) * (Double(text) ?? 0)
-        sample?.polyunsaturatedFat = Double(sample?.polyunsaturatedFat ?? 0) * (Double(text) ?? 0)
-        sample?.caffeine = Double(sample?.caffeine ?? 0) * (Double(text) ?? 0)
-        sample?.copper = Double(sample?.copper ?? 0) * (Double(text) ?? 0)
-        sample?.folate = Double(sample?.folate ?? 0) * (Double(text) ?? 0)
-        sample?.magnesium = Double(sample?.magnesium ?? 0) * (Double(text) ?? 0)
-        sample?.manganese = Double(sample?.manganese ?? 0) * (Double(text) ?? 0)
-        sample?.niacin = Double(sample?.niacin ?? 0) * (Double(text) ?? 0)
-        sample?.phosphorus = Double(sample?.phosphorus ?? 0) * (Double(text) ?? 0)
-        sample?.riboflavin = Double(sample?.riboflavin ?? 0) * (Double(text) ?? 0)
-        sample?.selenium = Double(sample?.selenium ?? 0) * (Double(text) ?? 0)
-        sample?.thiamin = Double(sample?.thiamin ?? 0) * (Double(text) ?? 0)
-        sample?.vitaminA = Double(sample?.vitaminA ?? 0) * (Double(text) ?? 0)
-        sample?.vitaminC = Double(sample?.vitaminC ?? 0) * (Double(text) ?? 0)
-        sample?.vitaminB6 = Double(sample?.vitaminB6 ?? 0) * (Double(text) ?? 0)
-        sample?.vitaminB12 = Double(sample?.vitaminB12 ?? 0) * (Double(text) ?? 0)
-        sample?.vitaminD = Double(sample?.vitaminD ?? 0) * (Double(text) ?? 0)
-        sample?.vitaminE = Double(sample?.vitaminE ?? 0) * (Double(text) ?? 0)
-        sample?.vitaminK = Double(sample?.vitaminK ?? 0) * (Double(text) ?? 0)
-        sample?.zinc = Double(sample?.zinc ?? 0) * (Double(text) ?? 0)
-        sample?.numberOfServings = (Double(text) ?? 0)
-        sample?.servingSelection = servingTypeSelection.description
-        sample?.mealPeriod = selection.description
+            sample?.sugars = (sample?.sugars ?? 0) * (Double(text) ?? 0)
+            sample?.totalFat = Double(sample?.totalFat ?? 0) * (Double(text) ?? 0)
+            sample?.saturatedFat = (sample?.saturatedFat ?? 0) * (Double(text) ?? 0)
+            sample?.cholesterol = Double(sample?.cholesterol ?? 0) * (Double(text) ?? 0)
+            sample?.sodium = Double(sample?.sodium ?? 0) * (Double(text) ?? 0)
+            sample?.totalCarbohydrate = Double(sample?.totalCarbohydrate ?? 0) * (Double(text) ?? 0)
+            sample?.dietaryFiber = Double(sample?.dietaryFiber ?? 0) * (Double(text) ?? 0)
+            sample?.protein = Double(sample?.protein ?? 0) * (Double(text) ?? 0)
+            sample?.potassium = Double(sample?.potassium ?? 0) * (Double(text) ?? 0)
+            sample?.calcium = Double(sample?.calcium ?? 0) * (Double(text) ?? 0)
+            sample?.iron = Double(sample?.iron ?? 0) * (Double(text) ?? 0)
+            sample?.monounsaturatedFat = Double(sample?.monounsaturatedFat ?? 0) * (Double(text) ?? 0)
+            sample?.polyunsaturatedFat = Double(sample?.polyunsaturatedFat ?? 0) * (Double(text) ?? 0)
+            sample?.caffeine = Double(sample?.caffeine ?? 0) * (Double(text) ?? 0)
+            sample?.copper = Double(sample?.copper ?? 0) * (Double(text) ?? 0)
+            sample?.folate = Double(sample?.folate ?? 0) * (Double(text) ?? 0)
+            sample?.magnesium = Double(sample?.magnesium ?? 0) * (Double(text) ?? 0)
+            sample?.manganese = Double(sample?.manganese ?? 0) * (Double(text) ?? 0)
+            sample?.niacin = Double(sample?.niacin ?? 0) * (Double(text) ?? 0)
+            sample?.phosphorus = Double(sample?.phosphorus ?? 0) * (Double(text) ?? 0)
+            sample?.riboflavin = Double(sample?.riboflavin ?? 0) * (Double(text) ?? 0)
+            sample?.selenium = Double(sample?.selenium ?? 0) * (Double(text) ?? 0)
+            sample?.thiamin = Double(sample?.thiamin ?? 0) * (Double(text) ?? 0)
+            sample?.vitaminA = Double(sample?.vitaminA ?? 0) * (Double(text) ?? 0)
+            sample?.vitaminC = Double(sample?.vitaminC ?? 0) * (Double(text) ?? 0)
+            sample?.vitaminB6 = Double(sample?.vitaminB6 ?? 0) * (Double(text) ?? 0)
+            sample?.vitaminB12 = Double(sample?.vitaminB12 ?? 0) * (Double(text) ?? 0)
+            sample?.vitaminD = Double(sample?.vitaminD ?? 0) * (Double(text) ?? 0)
+            sample?.vitaminE = Double(sample?.vitaminE ?? 0) * (Double(text) ?? 0)
+            sample?.vitaminK = Double(sample?.vitaminK ?? 0) * (Double(text) ?? 0)
+            sample?.zinc = Double(sample?.zinc ?? 0) * (Double(text) ?? 0)
+            sample?.numberOfServings = (Double(text) ?? 0)
+            sample?.servingSelection = servingTypeSelection.description
+            sample?.mealPeriod = selection.description
         } else {
             let servingWeightGrams = sample?.servingWeightGrams
             sample?.calories = Double(sample?.calories ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
@@ -372,6 +462,57 @@ struct AddingFromCoreData: View {
             sample?.mealPeriod = selection.description
         }
     }
-
+    
 }
 
+
+struct SearchableListView: View {
+    @Environment(\.isSearching) var isSearching
+    @State var topHeaderColors: [Color]
+    @Namespace private var animation
+    var body: some View {
+        ZStack {
+            VStack {
+                LinearGradient(colors: topHeaderColors, startPoint: .topLeading, endPoint: .bottomTrailing)
+                //                    .opacity(isSearching ? 0.6 : 1)
+                    .frame(height: 180)
+                    .mask(RoundedCorners(color: topHeaderColors, tl: 0, tr: 0, bl: 64, br: 0, startPoint: .topLeading, endPoint: .bottomTrailing))
+                
+                Spacer()
+            }
+            .ignoresSafeArea()
+            
+            //            if !isSearching {
+            //            VStack {
+            //                Rectangle()
+            //                    .fill(.white)
+            //                    .frame(height: 34)
+            //                    .cornerRadius(8)
+            //                    .offset(x: 0, y: -50)
+            //                    .padding(.horizontal, 20)
+            //                    .matchedGeometryEffect(id: "Bar", in: animation)
+            //
+            //                Spacer()
+            //            }
+            //            } else {
+            //                VStack {
+            //                    Rectangle()
+            //                        .fill(.white)
+            //                        .frame(height: 34)
+            //                        .cornerRadius(8)
+            //                        .offset(x: 0, y: -44)
+            //                        .padding(.leading, 20)
+            //                        .padding(.trailing, 84)
+            //                        .matchedGeometryEffect(id: "Bar", in: animation)
+            //                        .transition(.asymmetric(
+            //                            insertion: .opacity.animation(.easeInOut(duration: 1).delay(2)),
+            //                            removal: .opacity.animation(.easeInOut(duration: 0.3).delay(0.2))))
+            //                    Spacer()
+            //                }
+            //
+            //            }
+        }
+        
+        
+    }
+}

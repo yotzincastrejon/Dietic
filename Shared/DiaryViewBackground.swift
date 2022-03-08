@@ -138,7 +138,7 @@ struct DiaryView: View {
                                 .onDelete(perform: delete)
                             }
                             .environment(\.defaultMinListRowHeight, 52)
-                            .frame(minHeight: 52 * CGFloat(strings.count))
+                            .frame(minHeight: 52 * CGFloat(fastingManager.theSamples.filter { $0.mealPeriod == mealPeriod.description }.count))
                             .listStyle(.plain)
                             .padding(.top, 32)
                             .padding(.leading, 10)
