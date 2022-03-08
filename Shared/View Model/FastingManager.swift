@@ -781,7 +781,9 @@ class FastingManager: ObservableObject {
             //                    decode(json: data!)
             
             decodeJSONResponse(json: safeData)
-            
+            DispatchQueue.main.async {
+                currentScannedItemJSON = safeData
+            }
             //Or the current working model is decodeJSONResponse(json: data!)
         }
         task.resume()

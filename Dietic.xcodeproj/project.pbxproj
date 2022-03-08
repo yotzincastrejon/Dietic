@@ -43,6 +43,8 @@
 		FA84808427BCBEF10085E42C /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA84808227BCBEF10085E42C /* TestView.swift */; };
 		FA8E989827BEAB8E00EA297B /* MatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E989727BEAB8E00EA297B /* MatchedView.swift */; };
 		FA8E989927BEAB8E00EA297B /* MatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E989727BEAB8E00EA297B /* MatchedView.swift */; };
+		FA90011827D80CC8003A8F81 /* InstantQueryResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */; };
+		FA90011927D80CC8003A8F81 /* InstantQueryResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */; };
 		FA92EFAE27CD3A0A00FF9028 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA92EFAD27CD3A0A00FF9028 /* SwiftUIView.swift */; };
 		FA92EFAF27CD3A0A00FF9028 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA92EFAD27CD3A0A00FF9028 /* SwiftUIView.swift */; };
 		FA95577627B57B1A009FFE27 /* DiaryViewBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */; };
@@ -119,6 +121,7 @@
 		FA72D58327D2E76C00EFFCC4 /* AddMoreFoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMoreFoodView.swift; sourceTree = "<group>"; };
 		FA84808227BCBEF10085E42C /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		FA8E989727BEAB8E00EA297B /* MatchedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedView.swift; sourceTree = "<group>"; };
+		FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstantQueryResponseView.swift; sourceTree = "<group>"; };
 		FA92EFAD27CD3A0A00FF9028 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewBackground.swift; sourceTree = "<group>"; };
 		FAAC72C627A3252600508702 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
@@ -228,6 +231,7 @@
 				FAD1ADCD272125EA00785223 /* GoalSettings.swift */,
 				FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */,
 				FA72D58327D2E76C00EFFCC4 /* AddMoreFoodView.swift */,
+				FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */,
 				FAC7DEED27D3F75200006BE1 /* SavedFoodsHistory.xcdatamodeld */,
 				FAC7DEF127D3F7D400006BE1 /* Persistence.swift */,
 				FA0D6BC1279A135A002F7AFD /* Onboarding */,
@@ -438,6 +442,7 @@
 				FAD169F3271DFC9100C21397 /* Calorie.swift in Sources */,
 				FA84808327BCBEF10085E42C /* TestView.swift in Sources */,
 				FA92EFAE27CD3A0A00FF9028 /* SwiftUIView.swift in Sources */,
+				FA90011827D80CC8003A8F81 /* InstantQueryResponseView.swift in Sources */,
 				FAD169FE271DFD1C00C21397 /* Home.swift in Sources */,
 				FA0081CE272071F6004719BE /* RoundedCorners.swift in Sources */,
 				FA0081C427206FDA004719BE /* DietCard.swift in Sources */,
@@ -487,6 +492,7 @@
 				FAD169F4271DFC9100C21397 /* Calorie.swift in Sources */,
 				FA84808427BCBEF10085E42C /* TestView.swift in Sources */,
 				FA92EFAF27CD3A0A00FF9028 /* SwiftUIView.swift in Sources */,
+				FA90011927D80CC8003A8F81 /* InstantQueryResponseView.swift in Sources */,
 				FAD169FF271DFD1C00C21397 /* Home.swift in Sources */,
 				FA0081CF272071F6004719BE /* RoundedCorners.swift in Sources */,
 				FA0081C527206FDA004719BE /* DietCard.swift in Sources */,

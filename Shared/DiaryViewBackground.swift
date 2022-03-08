@@ -12,6 +12,7 @@ struct DiaryViewBackground: View {
     @State var mealPeriod: EatingTime
     @State var resize = false
     @State var themeColor: [Color]
+    @Binding var accentColor: Color
     var body: some View {
         GeometryReader { g in
             ZStack {
@@ -62,10 +63,10 @@ struct DiaryViewBackground_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             NavigationView {
-                DiaryViewBackground(fastingManager: FastingManager(), mealPeriod: .lunch, themeColor: [Color("B10"), Color("B00")])
+                DiaryViewBackground(fastingManager: FastingManager(), mealPeriod: .lunch, themeColor: [Color("B10"), Color("B00")], accentColor: Binding.constant(.white))
             }
             NavigationView {
-                DiaryViewBackground(fastingManager: FastingManager(), mealPeriod: .lunch, themeColor: [Color("B10"), Color("B00")])
+                DiaryViewBackground(fastingManager: FastingManager(), mealPeriod: .lunch, themeColor: [Color("B10"), Color("B00")], accentColor: Binding.constant(.white))
                     .preferredColorScheme(.dark)
             }
             //            DiaryView()
