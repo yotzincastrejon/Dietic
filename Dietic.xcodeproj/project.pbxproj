@@ -45,6 +45,8 @@
 		FA8E989927BEAB8E00EA297B /* MatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E989727BEAB8E00EA297B /* MatchedView.swift */; };
 		FA90011827D80CC8003A8F81 /* InstantQueryResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */; };
 		FA90011927D80CC8003A8F81 /* InstantQueryResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */; };
+		FA90011B27D82D48003A8F81 /* TextTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90011A27D82D48003A8F81 /* TextTest.swift */; };
+		FA90011C27D82D48003A8F81 /* TextTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90011A27D82D48003A8F81 /* TextTest.swift */; };
 		FA92EFAE27CD3A0A00FF9028 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA92EFAD27CD3A0A00FF9028 /* SwiftUIView.swift */; };
 		FA92EFAF27CD3A0A00FF9028 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA92EFAD27CD3A0A00FF9028 /* SwiftUIView.swift */; };
 		FA95577627B57B1A009FFE27 /* DiaryViewBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */; };
@@ -122,6 +124,7 @@
 		FA84808227BCBEF10085E42C /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		FA8E989727BEAB8E00EA297B /* MatchedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedView.swift; sourceTree = "<group>"; };
 		FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstantQueryResponseView.swift; sourceTree = "<group>"; };
+		FA90011A27D82D48003A8F81 /* TextTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTest.swift; sourceTree = "<group>"; };
 		FA92EFAD27CD3A0A00FF9028 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewBackground.swift; sourceTree = "<group>"; };
 		FAAC72C627A3252600508702 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
@@ -187,6 +190,7 @@
 				FA0081D9272072B5004719BE /* ShadowLevels.swift */,
 				FA0081D627207286004719BE /* SnackCard.swift */,
 				FA0081D027207226004719BE /* MealCard.swift */,
+				FA90011A27D82D48003A8F81 /* TextTest.swift */,
 				FA0081C62720700E004719BE /* DietCardMainLabel.swift */,
 				FA0081C327206FDA004719BE /* DietCard.swift */,
 				FA0081C027206F9B004719BE /* DietTitle.swift */,
@@ -448,6 +452,7 @@
 				FA0081C427206FDA004719BE /* DietCard.swift in Sources */,
 				FA0081C72720700E004719BE /* DietCardMainLabel.swift in Sources */,
 				FAF517C827232FBC00BD54E7 /* TextGraph.swift in Sources */,
+				FA90011B27D82D48003A8F81 /* TextTest.swift in Sources */,
 				FA0081DA272072B5004719BE /* ShadowLevels.swift in Sources */,
 				FA0081DD27209455004719BE /* WeightCard.swift in Sources */,
 				FA0081C127206F9B004719BE /* DietTitle.swift in Sources */,
@@ -498,6 +503,7 @@
 				FA0081C527206FDA004719BE /* DietCard.swift in Sources */,
 				FA0081C82720700E004719BE /* DietCardMainLabel.swift in Sources */,
 				FAF517C927232FBC00BD54E7 /* TextGraph.swift in Sources */,
+				FA90011C27D82D48003A8F81 /* TextTest.swift in Sources */,
 				FA0081DB272072B5004719BE /* ShadowLevels.swift in Sources */,
 				FA0081DE27209455004719BE /* WeightCard.swift in Sources */,
 				FA0081C227206F9B004719BE /* DietTitle.swift in Sources */,

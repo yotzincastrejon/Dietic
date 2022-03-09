@@ -52,48 +52,6 @@ struct Home: View {
                     .onAppear {
                         accentColor = .blue
                     }
-                    
-                    
-                
-                
-                
-                if plusButtonTapped {
-                    
-                    Rectangle()
-                        .fill(.black).opacity(0.6)
-                        .ignoresSafeArea()
-                        .transition(.opacity.animation(.easeInOut(duration: 0.3)))
-                }
-                    
-                
-                
-              
-                    ZStack {
-                        HStack {
-                            Spacer()
-                            Button(action: {
-                                            Task {
-                                                await fastingManager.requestAuthorization()
-                                            }
-                                            plusButtonTapped.toggle()
-                                        }) {
-                                            Image(systemName: "plus")
-                                                .foregroundColor(Color("D10"))
-                                                .rotationEffect(Angle(degrees: plusButtonTapped ? 45 : 0))
-                                                .animation(.linear(duration: 0.1), value: plusButtonTapped)
-                                        }
-                                        .frame(width: 40, height: 40)
-                                        .background(Color.white)
-                                        .clipShape(Circle())
-                                    .modifier(Shadow(level: 1))
-                        }
-                        
-                                
-                                //                .padding(.trailing, 25)
-//                                        .padding(.bottom, 27) old padding
-                        }
-                    
-               
             }
             .navigationTitle("My Diary")
             .toolbar {

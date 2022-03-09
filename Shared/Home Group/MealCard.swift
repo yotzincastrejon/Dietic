@@ -86,6 +86,8 @@ struct MealCard: View {
                         HStack(alignment: .firstTextBaseline, spacing: 0) {
                             Text("\(Int(fastingManager.theSamples.filter { $0.mealPeriod == mealPeriod.description }.map { $0.calories }.reduce(0, +)))")
                                 .font(.title)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.005)
                                 .foregroundColor(.white)
                                 
 

@@ -10,6 +10,7 @@ import SwiftUI
 struct MealsToday: View {
     @ObservedObject var fastingManager: FastingManager
     @Binding var accentColor: Color
+    @State var isActive = false
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 16) {
@@ -40,7 +41,29 @@ struct MealsToday: View {
         }
         .frame(height: 200)
         .padding(.horizontal, -30)
-        
+        .overlay(
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    NavigationLink(destination: AddMoreFoodView(fastingManager: fastingManager, mealPeriod: .snack, topHeaderColors: [Color.cyan, Color.blue], rootIsActive: $isActive).onAppear {
+                        accentColor = .white
+                    }, isActive: $isActive) {
+                        Image(systemName: "plus")
+                            .foregroundColor(Color("D10"))
+                            .frame(width: 40, height: 40)
+                            .background(Color.white)
+                            .clipShape(Circle())
+                            .modifier(Shadow(level: 1))
+                        
+                    }
+                    
+                    
+                }
+                .padding(.trailing, 10)
+                .padding(.bottom, 50)
+            }
+        )
         
     }
 }
@@ -58,3 +81,5 @@ extension Animation {
     static let openCard = Animation.spring(response: 0.5, dampingFraction: 0.7)
     static let closeCard = Animation.spring(response: 0.6, dampingFraction: 0.9)
 }
+
+
