@@ -935,7 +935,7 @@ class FastingManager: ObservableObject {
             let product = try JSONDecoder().decode(GroceryProduct.self, from: data)
             let info = product.foods[0]
             let nutrient = info.fullNutrients
-            print("Decoding from JSON provided from Core Data")
+            print("Decoding from JSON provided from Core Data \(info.foodName ?? "")")
 //            print(nutrient)
             fullNutrientArray.removeAll()
             fullNutrientArray = nutrient

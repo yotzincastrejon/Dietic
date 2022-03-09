@@ -34,7 +34,6 @@ struct PersistenceController {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             } else {
                 print("THIS IS THE STORE THAT WAS LOADED")
-                print(storeDescription.url)
             }
         })
     }

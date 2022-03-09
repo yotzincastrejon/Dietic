@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import CodeScanner
 
 struct AddMoreFoodView: View {
     @ObservedObject var fastingManager: FastingManager
@@ -20,6 +21,11 @@ struct AddMoreFoodView: View {
     @Binding var rootIsActive: Bool
     @State private var searchText = ""
     @State private var isSearchingNutritionixDatabase = false
+    @State private var isShowingBarcodeView: Bool = false
+    @State private var isTorchOn = false
+    @State private var dragAmount: CGPoint?
+    @State private var showingAddingView = false
+
         init(fastingManager: FastingManager, mealPeriod: EatingTime, topHeaderColors: [Color], rootIsActive: Binding<Bool>) {
             self.fastingManager = fastingManager
             _mealPeriod = State(initialValue: mealPeriod)
@@ -91,6 +97,10 @@ struct AddMoreFoodView: View {
 //                .frame(minHeight: 52 * CGFloat(items.count))
                 .padding(.top, 80)
                 
+                BarcodeButton(themeColor: topHeaderColors, isActive: $isShowingBarcodeView)
+                
+                NavigationLink(destination: JsonResponseView(isShowing: $showingAddingView, rootIsActive: $rootIsActive, fastingManager: fastingManager, sample: fastingManager.currentScannedItem ?? HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, meta: "", mealPeriod: "", numberOfServings: 1, servingSelection: "", uuid: "", date: Date.now, attrIDArray: [Int]())).navigationBarBackButtonHidden(true), isActive: $showingAddingView, label: { EmptyView() } )
+                
             } else {
                 // MARK: - Nutrionix Database
                 VStack {
@@ -145,6 +155,44 @@ struct AddMoreFoodView: View {
                 }
             }
         }
+        .sheet(isPresented: $isShowingBarcodeView) {
+            CodeScannerView(codeTypes: [.code128,
+                                        .code39,
+                                        .code39Mod43,
+                                        .code93,
+                                        .ean13,
+                                        .ean8,
+                                        .interleaved2of5,
+                                        .itf14,
+                                        .pdf417,
+                                        .upce],showViewfinder: true, simulatedData: "Paul Hudson\npaul@hackingwithswift.com",isTorchOn: isTorchOn, completion: handleScan)
+                .overlay(
+                    GeometryReader { g in
+                        HStack {
+                            Button(action: {
+                                isTorchOn.toggle()
+                            }) {
+                                Image(systemName: isTorchOn ? "lightbulb.circle.fill" : "lightbulb.circle")
+                                    .renderingMode(.template)
+                                    .resizable()
+                                    .foregroundColor(isTorchOn ? .yellow : .gray)
+                                    .frame(width: 70, height: 70)
+                            }
+                            .animation(.linear(duration: 0.15), value: dragAmount)
+                            .position(dragAmount ?? CGPoint(x: g.size.width / 2, y: g.size.height / 2))
+                            .highPriorityGesture(
+                            DragGesture()
+                                .onChanged { dragAmount = $0.location }
+                            )
+                            .offset(y: 200)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    }
+                )
+        }
+//        .sheet(isPresented: $showingAddingView) {
+//            JsonResponseView(isShowing: $showingAddingView, fastingManager: fastingManager, sample: fastingManager.currentScannedItem ?? HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, meta: "", mealPeriod: "", numberOfServings: 1, servingSelection: "", uuid: "", date: Date.now, attrIDArray: [Int]()))
+//        }
     }
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
@@ -160,6 +208,21 @@ struct AddMoreFoodView: View {
         }
     }
     
+    
+    func handleScan(result: Result<ScanResult, ScanError>) {
+        isShowingBarcodeView = false
+        
+        switch result {
+        case .success(let result):
+//            something = result.string
+//            request(upc: result.string)
+            fastingManager.jsonRequestToNutrionix(upc: result.string)
+            showingAddingView = true
+            print(result.string)
+        case .failure(let error):
+            print("Scanning failed: \(error.localizedDescription)")
+        }
+    }
     
     
 }
