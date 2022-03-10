@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PlanView: View {
+    
     var body: some View {
         HStack {
             Text("Plan: ")

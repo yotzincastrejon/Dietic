@@ -12,85 +12,100 @@ struct Home: View {
     @ObservedObject var fastingManager: FastingManager
     @State var plusButtonTapped = false
     @State var accentColor: Color = .blue
+    @State var isTapped: Bool = false
     var body: some View {
-        NavigationView {
-            ZStack {
-                
-                Color(uiColor: .systemGroupedBackground)
-                    .ignoresSafeArea()
-                
-                
-                    ScrollView(showsIndicators: false) {
-                        ZStack {
-                            VStack {
-//                                PlanView()
-                                DietTitle(title: "Mediterranean diet", view: AnyView(DietDetailView()), imageStringText: "Details", imageSystemName: "arrow.right")
-                                    .overlay(
-                                        VStack {
-                                            LottieView(filename: "cycling", loopMode: .loop)
-                                                .frame(width: 100, height: 100)
-                                                .offset(x: 40, y: -14)
-                                            Spacer()
-                                        }
-                                    )
-                                
-                                DietCard(fastingManager: fastingManager)
+        ZStack {
+            NavigationView {
+                ZStack {
+                    
+                    Color(uiColor: .systemGroupedBackground)
+                        .ignoresSafeArea()
+                    
+                    
+                        ScrollView(showsIndicators: false) {
+                            ZStack {
+                                VStack {
+                                    PlanView()
+    //                                DietTitle(title: "Mediterranean diet", view: AnyView(DietDetailView()), imageStringText: "Details", imageSystemName: "arrow.right")
+    //                                    .overlay(
+    //                                        VStack {
+    //                                            LottieView(filename: "cycling", loopMode: .loop)
+    //                                                .frame(width: 100, height: 100)
+    //                                                .offset(x: 40, y: -14)
+    //                                            Spacer()
+    //                                        }
+    //                                    )
                                     
-//                                    .overlay(
-//                                        VStack {
-//                                            Image("RunningMan")
-//                                            .resizable()
-//                                            .aspectRatio(contentMode: .fit)
-//                                        .frame(height: 200)
-//                                        .offset(x: 0, y: -12)
-//                                            Spacer()
-//                                        }
-//                                    )
-                                
-                                DietTitle(title: "Meals today", view: AnyView(DietDetailView()), imageStringText: "Customize", imageSystemName: "arrow.right")
-                                    .padding(.top)
-                                
-                                
-                                MealsToday(fastingManager: fastingManager, accentColor: $accentColor)
-                                    .zIndex(-1)
+                                    DietCard(fastingManager: fastingManager)
+                                        
+    //                                    .overlay(
+    //                                        VStack {
+    //                                            Image("RunningMan")
+    //                                            .resizable()
+    //                                            .aspectRatio(contentMode: .fit)
+    //                                        .frame(height: 200)
+    //                                        .offset(x: 0, y: -12)
+    //                                            Spacer()
+    //                                        }
+    //                                    )
+                                    
+                                    DietTitle(title: "Meals today", view: AnyView(DietDetailView()), imageStringText: "Customize", imageSystemName: "arrow.right")
+                                        .padding(.top)
                                     
                                     
+                                    MealsToday(fastingManager: fastingManager, accentColor: $accentColor)
+                                        .zIndex(-1)
+                                        
+                                        
+                                    
+                                    DietTitle(title: "Body measurement", view: AnyView(DietDetailView()), imageStringText: "Today", imageSystemName: "arrow.right")
+                                    
+                                    WeightCard(fastingManager: fastingManager)
+                                }
+                                .padding()
                                 
-                                DietTitle(title: "Body measurement", view: AnyView(DietDetailView()), imageStringText: "Today", imageSystemName: "arrow.right")
+                                    
                                 
-                                WeightCard(fastingManager: fastingManager)
+                                
                             }
-                            .padding()
-                            
-                                
-                            
-                            
                         }
-                    }
-                    .onAppear {
-                        accentColor = .blue
-                    }
-            }
-            .navigationTitle("My Diary")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    DateChanger(fastingManager: fastingManager)
-                }
-                
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        Task {
-                            await fastingManager.requestAuthorization()
+                        .onAppear {
+                            accentColor = .blue
                         }
-                    }) {
-                        Text("Refresh")
-                    }
                     
                 }
+                .navigationTitle("My Diary")
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        DateChanger(fastingManager: fastingManager)
+                    }
+                    
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
+                            Task {
+                                await fastingManager.requestAuthorization()
+                            }
+                        }) {
+                            Text("Refresh")
+                        }
+                        
+                    }
+                }
             }
-        }
-        .navigationViewStyle(StackNavigationViewStyle())
+            .navigationViewStyle(StackNavigationViewStyle())
         .accentColor(accentColor)
+            
+            
+            ZStack {
+                BlurView(effect: .systemUltraThinMaterial)
+                    .ignoresSafeArea()
+                VStack {
+                    PlanView()
+                }
+                
+            }
+            
+        }
     }
 }
 

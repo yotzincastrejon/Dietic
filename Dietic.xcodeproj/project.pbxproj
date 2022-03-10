@@ -47,8 +47,6 @@
 		FA8E989927BEAB8E00EA297B /* MatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E989727BEAB8E00EA297B /* MatchedView.swift */; };
 		FA90011827D80CC8003A8F81 /* InstantQueryResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */; };
 		FA90011927D80CC8003A8F81 /* InstantQueryResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */; };
-		FA90011B27D82D48003A8F81 /* TextTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90011A27D82D48003A8F81 /* TextTest.swift */; };
-		FA90011C27D82D48003A8F81 /* TextTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90011A27D82D48003A8F81 /* TextTest.swift */; };
 		FA92EFAE27CD3A0A00FF9028 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA92EFAD27CD3A0A00FF9028 /* SwiftUIView.swift */; };
 		FA92EFAF27CD3A0A00FF9028 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA92EFAD27CD3A0A00FF9028 /* SwiftUIView.swift */; };
 		FA95577627B57B1A009FFE27 /* DiaryViewBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */; };
@@ -109,6 +107,10 @@
 		FAF517C927232FBC00BD54E7 /* TextGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517C727232FBC00BD54E7 /* TextGraph.swift */; };
 		FAF517CB27232FCB00BD54E7 /* ArrowViewGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517CA27232FCB00BD54E7 /* ArrowViewGraph.swift */; };
 		FAF517CC27232FCB00BD54E7 /* ArrowViewGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517CA27232FCB00BD54E7 /* ArrowViewGraph.swift */; };
+		FAFEC33527DA7BBA009BEAE2 /* VisualEffectBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEC33427DA7BBA009BEAE2 /* VisualEffectBlur.swift */; };
+		FAFEC33627DA7BBA009BEAE2 /* VisualEffectBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEC33427DA7BBA009BEAE2 /* VisualEffectBlur.swift */; };
+		FAFEC33827DA7C90009BEAE2 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEC33727DA7C90009BEAE2 /* BlurView.swift */; };
+		FAFEC33927DA7C90009BEAE2 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEC33727DA7C90009BEAE2 /* BlurView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -132,7 +134,6 @@
 		FA84808227BCBEF10085E42C /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		FA8E989727BEAB8E00EA297B /* MatchedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedView.swift; sourceTree = "<group>"; };
 		FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstantQueryResponseView.swift; sourceTree = "<group>"; };
-		FA90011A27D82D48003A8F81 /* TextTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTest.swift; sourceTree = "<group>"; };
 		FA92EFAD27CD3A0A00FF9028 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewBackground.swift; sourceTree = "<group>"; };
 		FAAC72C627A3252600508702 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
@@ -168,6 +169,8 @@
 		FAF517C427232FA500BD54E7 /* BarGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarGraph.swift; sourceTree = "<group>"; };
 		FAF517C727232FBC00BD54E7 /* TextGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextGraph.swift; sourceTree = "<group>"; };
 		FAF517CA27232FCB00BD54E7 /* ArrowViewGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowViewGraph.swift; sourceTree = "<group>"; };
+		FAFEC33427DA7BBA009BEAE2 /* VisualEffectBlur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectBlur.swift; sourceTree = "<group>"; };
+		FAFEC33727DA7C90009BEAE2 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,17 +198,7 @@
 		FA0081CC2720705A004719BE /* Home Group */ = {
 			isa = PBXGroup;
 			children = (
-				FA0081C927207039004719BE /* MacroLabel.swift */,
-				FA0081D327207259004719BE /* MealsToday.swift */,
 				FA8E989727BEAB8E00EA297B /* MatchedView.swift */,
-				FA0081D9272072B5004719BE /* ShadowLevels.swift */,
-				FA0081D627207286004719BE /* SnackCard.swift */,
-				FA0081D027207226004719BE /* MealCard.swift */,
-				FA90011A27D82D48003A8F81 /* TextTest.swift */,
-				FA0081C62720700E004719BE /* DietCardMainLabel.swift */,
-				FA0081C327206FDA004719BE /* DietCard.swift */,
-				FA0081C027206F9B004719BE /* DietTitle.swift */,
-				FAD16A03271E042B00C21397 /* ProgressRingView.swift */,
 			);
 			path = "Home Group";
 			sourceTree = "<group>";
@@ -236,20 +229,16 @@
 				FAD169AA271DFAAD00C21397 /* Dietic.swift */,
 				FAD169AB271DFAAD00C21397 /* ContentView.swift */,
 				FAD169FD271DFD1C00C21397 /* Home.swift */,
+				FA0081C027206F9B004719BE /* DietTitle.swift */,
 				FA0081DF27209831004719BE /* DateChanger.swift */,
-				FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */,
+				FAFEC33127DA5F45009BEAE2 /* Diet Card */,
+				FAFEC33227DA5FEC009BEAE2 /* Meals Today */,
+				FAFEC33327DA60AC009BEAE2 /* Weight Card */,
 				FA84808227BCBEF10085E42C /* TestView.swift */,
+				FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */,
 				FA92EFAD27CD3A0A00FF9028 /* SwiftUIView.swift */,
-				FA43D71E27B4988000A709B3 /* JsonResponseView.swift */,
-				FA17BF4727C0528C00F662C6 /* EditingResultsView.swift */,
-				FA0081DC27209455004719BE /* WeightCard.swift */,
 				FAD1ADCD272125EA00785223 /* GoalSettings.swift */,
-				FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */,
-				FA72D58327D2E76C00EFFCC4 /* AddMoreFoodView.swift */,
-				FAC091C427D9143C00679C75 /* BarcodeButton.swift */,
 				FA80108027D95C77000CADD9 /* PlanView.swift */,
-				FAB25D1F27D9767500033377 /* LottieView.swift */,
-				FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */,
 				FAC7DEED27D3F75200006BE1 /* SavedFoodsHistory.xcdatamodeld */,
 				FAC7DEF127D3F7D400006BE1 /* Persistence.swift */,
 				FA0D6BC1279A135A002F7AFD /* Onboarding */,
@@ -294,6 +283,10 @@
 		FAD169FB271DFCF700C21397 /* Helpers  */ = {
 			isa = PBXGroup;
 			children = (
+				FAB25D1F27D9767500033377 /* LottieView.swift */,
+				FAFEC33427DA7BBA009BEAE2 /* VisualEffectBlur.swift */,
+				FAFEC33727DA7C90009BEAE2 /* BlurView.swift */,
+				FA0081D9272072B5004719BE /* ShadowLevels.swift */,
 				FAD169F2271DFC9100C21397 /* Calorie.swift */,
 				FAD16A06271E07E400C21397 /* ColorHex.swift */,
 				FAD169F5271DFCAA00C21397 /* DateExtension.swift */,
@@ -324,6 +317,41 @@
 				FAF517CA27232FCB00BD54E7 /* ArrowViewGraph.swift */,
 			);
 			path = Graph;
+			sourceTree = "<group>";
+		};
+		FAFEC33127DA5F45009BEAE2 /* Diet Card */ = {
+			isa = PBXGroup;
+			children = (
+				FA0081C327206FDA004719BE /* DietCard.swift */,
+				FA0081C62720700E004719BE /* DietCardMainLabel.swift */,
+				FAD16A03271E042B00C21397 /* ProgressRingView.swift */,
+				FA0081C927207039004719BE /* MacroLabel.swift */,
+			);
+			path = "Diet Card";
+			sourceTree = "<group>";
+		};
+		FAFEC33227DA5FEC009BEAE2 /* Meals Today */ = {
+			isa = PBXGroup;
+			children = (
+				FA0081D327207259004719BE /* MealsToday.swift */,
+				FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */,
+				FA0081D027207226004719BE /* MealCard.swift */,
+				FA0081D627207286004719BE /* SnackCard.swift */,
+				FA72D58327D2E76C00EFFCC4 /* AddMoreFoodView.swift */,
+				FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */,
+				FA43D71E27B4988000A709B3 /* JsonResponseView.swift */,
+				FA17BF4727C0528C00F662C6 /* EditingResultsView.swift */,
+				FAC091C427D9143C00679C75 /* BarcodeButton.swift */,
+			);
+			path = "Meals Today";
+			sourceTree = "<group>";
+		};
+		FAFEC33327DA60AC009BEAE2 /* Weight Card */ = {
+			isa = PBXGroup;
+			children = (
+				FA0081DC27209455004719BE /* WeightCard.swift */,
+			);
+			path = "Weight Card";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -444,6 +472,7 @@
 				FAAC72C727A3252600508702 /* WelcomeView.swift in Sources */,
 				FA8E989827BEAB8E00EA297B /* MatchedView.swift in Sources */,
 				FAF517C227232F9400BD54E7 /* CompleteGraph.swift in Sources */,
+				FAFEC33527DA7BBA009BEAE2 /* VisualEffectBlur.swift in Sources */,
 				FAB25D2027D9767500033377 /* LottieView.swift in Sources */,
 				FA0081D127207226004719BE /* MealCard.swift in Sources */,
 				FAD1ADCE272125EA00785223 /* GoalSettings.swift in Sources */,
@@ -471,10 +500,10 @@
 				FA0081C427206FDA004719BE /* DietCard.swift in Sources */,
 				FA0081C72720700E004719BE /* DietCardMainLabel.swift in Sources */,
 				FAF517C827232FBC00BD54E7 /* TextGraph.swift in Sources */,
-				FA90011B27D82D48003A8F81 /* TextTest.swift in Sources */,
 				FA0081DA272072B5004719BE /* ShadowLevels.swift in Sources */,
 				FA0081DD27209455004719BE /* WeightCard.swift in Sources */,
 				FA0081C127206F9B004719BE /* DietTitle.swift in Sources */,
+				FAFEC33827DA7C90009BEAE2 /* BlurView.swift in Sources */,
 				FAF517BF27232F6D00BD54E7 /* MacronutrientAnalysis.swift in Sources */,
 				FAD16A04271E042B00C21397 /* ProgressRingView.swift in Sources */,
 				FA17BF4827C0528C00F662C6 /* EditingResultsView.swift in Sources */,
@@ -498,6 +527,7 @@
 				FAAC72C827A3252600508702 /* WelcomeView.swift in Sources */,
 				FA8E989927BEAB8E00EA297B /* MatchedView.swift in Sources */,
 				FAF517C327232F9400BD54E7 /* CompleteGraph.swift in Sources */,
+				FAFEC33627DA7BBA009BEAE2 /* VisualEffectBlur.swift in Sources */,
 				FAB25D2127D9767500033377 /* LottieView.swift in Sources */,
 				FA0081D227207226004719BE /* MealCard.swift in Sources */,
 				FAD1ADCF272125EA00785223 /* GoalSettings.swift in Sources */,
@@ -525,10 +555,10 @@
 				FA0081C527206FDA004719BE /* DietCard.swift in Sources */,
 				FA0081C82720700E004719BE /* DietCardMainLabel.swift in Sources */,
 				FAF517C927232FBC00BD54E7 /* TextGraph.swift in Sources */,
-				FA90011C27D82D48003A8F81 /* TextTest.swift in Sources */,
 				FA0081DB272072B5004719BE /* ShadowLevels.swift in Sources */,
 				FA0081DE27209455004719BE /* WeightCard.swift in Sources */,
 				FA0081C227206F9B004719BE /* DietTitle.swift in Sources */,
+				FAFEC33927DA7C90009BEAE2 /* BlurView.swift in Sources */,
 				FAF517C027232F6D00BD54E7 /* MacronutrientAnalysis.swift in Sources */,
 				FAD16A05271E042B00C21397 /* ProgressRingView.swift in Sources */,
 				FA17BF4927C0528C00F662C6 /* EditingResultsView.swift in Sources */,

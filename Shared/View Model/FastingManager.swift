@@ -1724,6 +1724,21 @@ enum EatingTime: CustomStringConvertible, CaseIterable {
     }
 }
 
+enum WorkoutPlan: CustomStringConvertible, CaseIterable {
+    case weightGain
+    case maintain
+    case weightLoss
+   
+    
+    var description: String {
+        switch self {
+            case .weightGain: return "Weight Gain"
+            case .maintain: return "Maintain"
+            case .weightLoss: return "Weight Loss"
+        }
+    }
+}
+
 enum ServingType: CaseIterable {
     case serving
     case gram
