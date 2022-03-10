@@ -26,7 +26,12 @@ struct MealsToday: View {
                     MealCard(fastingManager: fastingManager, topLeadingColor: Color("BGT"), bottomTrailingColor: Color("BGB"), backgroundShadow: Color("Shadowblue"), image: "noodle bowl", imageShadow: "noodleShadow", imageShadowAlpha: 0.4, mealPeriod: .lunch)
                 }
                 
-                SnackCard()
+//                SnackCard()
+                NavigationLink(destination: DiaryViewBackground(fastingManager: fastingManager, mealPeriod: .snack, themeColor: [Color(#colorLiteral(red: 1, green: 0.6745098039, blue: 0.7764705882, alpha: 1)), Color(#colorLiteral(red: 1, green: 0.2862745098, blue: 0.5058823529, alpha: 1))], accentColor: $accentColor).onAppear {
+                    accentColor = .white
+                }) {
+                    MealCard(fastingManager: fastingManager, topLeadingColor: Color(#colorLiteral(red: 1, green: 0.6745098039, blue: 0.7764705882, alpha: 1)), bottomTrailingColor: Color(#colorLiteral(red: 1, green: 0.2862745098, blue: 0.5058823529, alpha: 1)), backgroundShadow: Color("Shadowblue"), image: "melon", imageShadow: "steakShadow", imageShadowAlpha: 0.4, mealPeriod: .snack)
+                }
                 
                 NavigationLink(destination: DiaryViewBackground(fastingManager: fastingManager, mealPeriod: .dinner, themeColor: [Color("PurpleTop"), Color("PurpleBottom")], accentColor: $accentColor).onAppear {
                     accentColor = .white

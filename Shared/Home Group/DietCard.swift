@@ -11,55 +11,61 @@ struct DietCard: View {
     @ObservedObject var fastingManager: FastingManager
     @State private var hasTimeElapsed = false
     var body: some View {
-        VStack {
-            Spacer()
-            HStack {
-                VStack(alignment: .leading) {
-                    
-                    HStack {
-                        DietCardMainLabel(barColor: .blue.opacity(0.5), text: "Eaten", image: "Eaten", amount: $fastingManager.consumedCalories)
+            VStack {
+                Spacer()
+                HStack {
+                    VStack(alignment: .leading) {
+                        
+                        HStack {
+                            DietCardMainLabel(barColor: .blue.opacity(0.5), text: "Eaten", image: "Eaten", amount: $fastingManager.consumedCalories)
 
-                        //Simulation view to show what you have simulated that you've eaten.
-                        if fastingManager.simulatedCaloriesBool {
-                        SimulatedView(fastingManager: fastingManager)
+                            //Simulation view to show what you have simulated that you've eaten.
+                            if fastingManager.simulatedCaloriesBool {
+                            SimulatedView(fastingManager: fastingManager)
+                            }
+                            
                         }
                         
+                        DietCardMainLabel(barColor: .red.opacity(0.5), text: "Burned", image: "Burned", amount: $fastingManager.activeCalories)
                     }
+                    Spacer()
+    //                VStack(alignment: .leading, spacing: 4) {
+    //                    Text("Daily Deficit Goal: \n-\(String(format: "%0.0f",fastingManager.dailyDeficitForGoal))")
+    //                    Text("Current Deficit/Surplus: \n\(String(format: "%0.0f",fastingManager.currentDeficitForDay))")
+    //                }
+    //                .font(.caption2)
+    //                Spacer()
+                                        
+                        ProgressRingView(progress: $fastingManager.percentageAccomplished,thickness: 12, dotOnTip: false, width: 110,gradient: Gradient(colors: [Color(hex: "53b7db"),Color(hex: "75f9d1")]),  backgroundCircleWidth: 12, backgroundCircleColor: Color(hex: "53b7db").opacity(0.1))
+                            .overlay(
+                                caloriesLeft(bool: hasTimeElapsed)
+                        )
                     
-                    DietCardMainLabel(barColor: .red.opacity(0.5), text: "Burned", image: "Burned", amount: $fastingManager.activeCalories)
+                    
+                }
+                Divider()
+                    .padding(.top)
+                
+                HStack {
+                    
+                    MacroLabel(text: "Carbs", backgroundColor: .blue.opacity(0.25), foregroundGradient: [Color.blue, Color.teal], percentage: fastingManager.carbPercentage, remaining: fastingManager.carbRemaining)
+                    Spacer()
+                    MacroLabel(text: "Protein", backgroundColor: .red.opacity(0.25), foregroundGradient: [Color.red, Color.pink], percentage: fastingManager.proteinPercentage, remaining: fastingManager.proteinRemaining)
+                    Spacer()
+                    MacroLabel(text: "Fat", backgroundColor: .yellow.opacity(0.25), foregroundGradient: [Color.yellow, Color.orange], percentage: fastingManager.fatPercentage, remaining: fastingManager.fatRemaining)
+                    
                 }
                 Spacer()
-//                VStack(alignment: .leading, spacing: 4) {
-//                    Text("Daily Deficit Goal: \n-\(String(format: "%0.0f",fastingManager.dailyDeficitForGoal))")
-//                    Text("Current Deficit/Surplus: \n\(String(format: "%0.0f",fastingManager.currentDeficitForDay))")
-//                }
-//                .font(.caption2)
-//                Spacer()
-                ProgressRingView(progress: $fastingManager.percentageAccomplished,thickness: 12, dotOnTip: false, width: 110,gradient: Gradient(colors: [Color(hex: "53b7db"),Color(hex: "75f9d1")]),  backgroundCircleWidth: 12, backgroundCircleColor: Color(hex: "53b7db").opacity(0.1))
-                    .overlay(
-                        caloriesLeft(bool: hasTimeElapsed)
-                    )
-                
             }
-            Divider()
-                .padding(.top)
-            
-            HStack {
-                
-                MacroLabel(text: "Carbs", backgroundColor: .blue.opacity(0.25), foregroundGradient: [Color.blue, Color.teal], percentage: fastingManager.carbPercentage, remaining: fastingManager.carbRemaining)
-                Spacer()
-                MacroLabel(text: "Protein", backgroundColor: .red.opacity(0.25), foregroundGradient: [Color.red, Color.pink], percentage: fastingManager.proteinPercentage, remaining: fastingManager.proteinRemaining)
-                Spacer()
-                MacroLabel(text: "Fat", backgroundColor: .yellow.opacity(0.25), foregroundGradient: [Color.yellow, Color.orange], percentage: fastingManager.fatPercentage, remaining: fastingManager.fatRemaining)
-                
-            }
-            Spacer()
-        }
-        .padding()
-        //        .frame(height: 236)
-        .frame(maxWidth: .infinity)
-        .background(Color(uiColor: .secondarySystemGroupedBackground))
+            .padding()
+            //        .frame(height: 236)
+            .frame(maxWidth: .infinity)
+            .background(Color(uiColor: .secondarySystemGroupedBackground))
         .cornerRadius(20)
+            
+           
+        
+        
     }
     
     @ViewBuilder
@@ -75,12 +81,13 @@ struct DietCard: View {
                         .font(.caption)
                         .foregroundColor(Color(uiColor: .secondaryLabel))
                 } else {
-                Image(systemName: "checkmark.seal.fill")
-                    .font(.title)
-                    .foregroundColor(.green)
-                Text("You did it!")
-                    .font(.caption)
-                    .foregroundColor(Color(uiColor: .secondaryLabel))
+//                Image(systemName: "checkmark.seal.fill")
+//                    .font(.title)
+//                    .foregroundColor(.green)
+//                Text("You did it!")
+//                    .font(.caption)
+//                    .foregroundColor(Color(uiColor: .secondaryLabel))
+                    LottieView(filename: "congrats", loopMode: .playOnce)
                 }
             }
             .task {
@@ -99,7 +106,7 @@ struct DietCard: View {
     }
     
     func delayText() async {
-        try? await Task.sleep(nanoseconds: 1_500_000_000)
+        try? await Task.sleep(nanoseconds: 2_000_000_000)
         hasTimeElapsed = true
     }
     

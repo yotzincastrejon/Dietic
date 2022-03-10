@@ -31,7 +31,8 @@ struct ProgressRingView: View {
     }
     
     var body: some View {
-        ZStack {
+        ZStack {            
+            
             Circle()
                 .stroke(backgroundCircleColor, lineWidth: CGFloat(backgroundCircleWidth))
 

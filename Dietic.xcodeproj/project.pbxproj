@@ -39,6 +39,8 @@
 		FA72D58427D2E76C00EFFCC4 /* AddMoreFoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA72D58327D2E76C00EFFCC4 /* AddMoreFoodView.swift */; };
 		FA72D58527D2E76C00EFFCC4 /* AddMoreFoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA72D58327D2E76C00EFFCC4 /* AddMoreFoodView.swift */; };
 		FA7BC5BA27C9822500816E59 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = FA7BC5B927C9822500816E59 /* CodeScanner */; };
+		FA80108127D95C77000CADD9 /* PlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA80108027D95C77000CADD9 /* PlanView.swift */; };
+		FA80108227D95C77000CADD9 /* PlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA80108027D95C77000CADD9 /* PlanView.swift */; };
 		FA84808327BCBEF10085E42C /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA84808227BCBEF10085E42C /* TestView.swift */; };
 		FA84808427BCBEF10085E42C /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA84808227BCBEF10085E42C /* TestView.swift */; };
 		FA8E989827BEAB8E00EA297B /* MatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E989727BEAB8E00EA297B /* MatchedView.swift */; };
@@ -53,6 +55,9 @@
 		FA95577727B57B1A009FFE27 /* DiaryViewBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */; };
 		FAAC72C727A3252600508702 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAC72C627A3252600508702 /* WelcomeView.swift */; };
 		FAAC72C827A3252600508702 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAC72C627A3252600508702 /* WelcomeView.swift */; };
+		FAB25D1E27D9758900033377 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = FAB25D1D27D9758900033377 /* Lottie */; };
+		FAB25D2027D9767500033377 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB25D1F27D9767500033377 /* LottieView.swift */; };
+		FAB25D2127D9767500033377 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB25D1F27D9767500033377 /* LottieView.swift */; };
 		FAB2BEEA27AC8A38009DA8E4 /* AddingFoodScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */; };
 		FAB2BEEB27AC8A38009DA8E4 /* AddingFoodScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */; };
 		FAC091C527D9143C00679C75 /* BarcodeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC091C427D9143C00679C75 /* BarcodeButton.swift */; };
@@ -123,6 +128,7 @@
 		FA43D71E27B4988000A709B3 /* JsonResponseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonResponseView.swift; sourceTree = "<group>"; };
 		FA719620279B1E6400A50598 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FA72D58327D2E76C00EFFCC4 /* AddMoreFoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMoreFoodView.swift; sourceTree = "<group>"; };
+		FA80108027D95C77000CADD9 /* PlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanView.swift; sourceTree = "<group>"; };
 		FA84808227BCBEF10085E42C /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		FA8E989727BEAB8E00EA297B /* MatchedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedView.swift; sourceTree = "<group>"; };
 		FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstantQueryResponseView.swift; sourceTree = "<group>"; };
@@ -130,6 +136,7 @@
 		FA92EFAD27CD3A0A00FF9028 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewBackground.swift; sourceTree = "<group>"; };
 		FAAC72C627A3252600508702 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		FAB25D1F27D9767500033377 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingFoodScreen.swift; sourceTree = "<group>"; };
 		FAC091C427D9143C00679C75 /* BarcodeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeButton.swift; sourceTree = "<group>"; };
 		FAC7DEEE27D3F75200006BE1 /* SavedFoodsHistory.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SavedFoodsHistory.xcdatamodel; sourceTree = "<group>"; };
@@ -171,6 +178,7 @@
 				FA24FDCD27D3F9B9003EE197 /* CloudKit.framework in Frameworks */,
 				FA7BC5BA27C9822500816E59 /* CodeScanner in Frameworks */,
 				FAD169E2271DFB1000C21397 /* HealthKit.framework in Frameworks */,
+				FAB25D1E27D9758900033377 /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +247,8 @@
 				FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */,
 				FA72D58327D2E76C00EFFCC4 /* AddMoreFoodView.swift */,
 				FAC091C427D9143C00679C75 /* BarcodeButton.swift */,
+				FA80108027D95C77000CADD9 /* PlanView.swift */,
+				FAB25D1F27D9767500033377 /* LottieView.swift */,
 				FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */,
 				FAC7DEED27D3F75200006BE1 /* SavedFoodsHistory.xcdatamodeld */,
 				FAC7DEF127D3F7D400006BE1 /* Persistence.swift */,
@@ -334,6 +344,7 @@
 			name = "Dietic (iOS)";
 			packageProductDependencies = (
 				FA7BC5B927C9822500816E59 /* CodeScanner */,
+				FAB25D1D27D9758900033377 /* Lottie */,
 			);
 			productName = "Deficit2.0 (iOS)";
 			productReference = FAD169B1271DFAAE00C21397 /* Dietic.app */;
@@ -385,6 +396,7 @@
 			mainGroup = FAD169A4271DFAAD00C21397;
 			packageReferences = (
 				FA7BC5B827C9822500816E59 /* XCRemoteSwiftPackageReference "CodeScanner" */,
+				FAB25D1C27D9758900033377 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			productRefGroup = FAD169B2271DFAAE00C21397 /* Products */;
 			projectDirPath = "";
@@ -432,6 +444,7 @@
 				FAAC72C727A3252600508702 /* WelcomeView.swift in Sources */,
 				FA8E989827BEAB8E00EA297B /* MatchedView.swift in Sources */,
 				FAF517C227232F9400BD54E7 /* CompleteGraph.swift in Sources */,
+				FAB25D2027D9767500033377 /* LottieView.swift in Sources */,
 				FA0081D127207226004719BE /* MealCard.swift in Sources */,
 				FAD1ADCE272125EA00785223 /* GoalSettings.swift in Sources */,
 				FAC091C527D9143C00679C75 /* BarcodeButton.swift in Sources */,
@@ -443,6 +456,7 @@
 				FA0081E027209831004719BE /* DateChanger.swift in Sources */,
 				FA0081D727207286004719BE /* SnackCard.swift in Sources */,
 				FAF517CB27232FCB00BD54E7 /* ArrowViewGraph.swift in Sources */,
+				FA80108127D95C77000CADD9 /* PlanView.swift in Sources */,
 				FAD16A01271DFEFB00C21397 /* DietDetailView.swift in Sources */,
 				FAD169BC271DFAAE00C21397 /* ContentView.swift in Sources */,
 				FAD169BA271DFAAE00C21397 /* Dietic.swift in Sources */,
@@ -484,6 +498,7 @@
 				FAAC72C827A3252600508702 /* WelcomeView.swift in Sources */,
 				FA8E989927BEAB8E00EA297B /* MatchedView.swift in Sources */,
 				FAF517C327232F9400BD54E7 /* CompleteGraph.swift in Sources */,
+				FAB25D2127D9767500033377 /* LottieView.swift in Sources */,
 				FA0081D227207226004719BE /* MealCard.swift in Sources */,
 				FAD1ADCF272125EA00785223 /* GoalSettings.swift in Sources */,
 				FAC091C627D9143C00679C75 /* BarcodeButton.swift in Sources */,
@@ -495,6 +510,7 @@
 				FA0081E127209831004719BE /* DateChanger.swift in Sources */,
 				FA0081D827207286004719BE /* SnackCard.swift in Sources */,
 				FAF517CC27232FCB00BD54E7 /* ArrowViewGraph.swift in Sources */,
+				FA80108227D95C77000CADD9 /* PlanView.swift in Sources */,
 				FAD16A02271DFEFB00C21397 /* DietDetailView.swift in Sources */,
 				FAD169BD271DFAAE00C21397 /* ContentView.swift in Sources */,
 				FAD169BB271DFAAE00C21397 /* Dietic.swift in Sources */,
@@ -812,6 +828,14 @@
 				kind = branch;
 			};
 		};
+		FAB25D1C27D9758900033377 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -819,6 +843,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FA7BC5B827C9822500816E59 /* XCRemoteSwiftPackageReference "CodeScanner" */;
 			productName = CodeScanner;
+		};
+		FAB25D1D27D9758900033377 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FAB25D1C27D9758900033377 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */
 

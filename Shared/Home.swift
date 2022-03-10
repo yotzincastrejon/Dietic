@@ -23,11 +23,29 @@ struct Home: View {
                     ScrollView(showsIndicators: false) {
                         ZStack {
                             VStack {
+//                                PlanView()
                                 DietTitle(title: "Mediterranean diet", view: AnyView(DietDetailView()), imageStringText: "Details", imageSystemName: "arrow.right")
-                                
+                                    .overlay(
+                                        VStack {
+                                            LottieView(filename: "cycling", loopMode: .loop)
+                                                .frame(width: 100, height: 100)
+                                                .offset(x: 40, y: -14)
+                                            Spacer()
+                                        }
+                                    )
                                 
                                 DietCard(fastingManager: fastingManager)
-                                
+                                    
+//                                    .overlay(
+//                                        VStack {
+//                                            Image("RunningMan")
+//                                            .resizable()
+//                                            .aspectRatio(contentMode: .fit)
+//                                        .frame(height: 200)
+//                                        .offset(x: 0, y: -12)
+//                                            Spacer()
+//                                        }
+//                                    )
                                 
                                 DietTitle(title: "Meals today", view: AnyView(DietDetailView()), imageStringText: "Customize", imageSystemName: "arrow.right")
                                     .padding(.top)
