@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct PlanView: View {
-    
+    @Binding var isTapped: Bool
     var body: some View {
         HStack {
             Text("Plan: ")
                 .font(.headline)
             Button(action: {
-                
+                isTapped = true
             }) {
                 ZStack {
                     Capsule()
@@ -50,13 +50,13 @@ struct PlanView_Previews: PreviewProvider {
             ZStack {
                 Color(uiColor: .systemGroupedBackground)
                     .ignoresSafeArea()
-                PlanView()
+                PlanView(isTapped: Binding.constant(true))
                     .padding(.horizontal)
             }
             ZStack {
                 Color(uiColor: .systemGroupedBackground)
                     .ignoresSafeArea()
-                PlanView()
+                PlanView(isTapped: Binding.constant(true))
                     .padding(.horizontal)
             }
             .preferredColorScheme(.dark)

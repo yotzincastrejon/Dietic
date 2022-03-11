@@ -11,33 +11,39 @@ struct MealsToday: View {
     @ObservedObject var fastingManager: FastingManager
     @Binding var accentColor: Color
     @State var isActive = false
+//    @State var firstColor = Color(hex: "b06e40")
+//    @State var secondColor = Color(hex: "88292f")
+    
+    @State var firstColor = Color(hex: "f4a261")
+    @State var secondColor = Color(hex: "e76f51")
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 16) {
                 NavigationLink(destination: DiaryViewBackground(fastingManager: fastingManager, mealPeriod: .breakfast, themeColor: [Color("OGT"), Color("OGB")], accentColor: $accentColor).onAppear {
                     accentColor = .white
                 }){
-                    MealCard(fastingManager: fastingManager, topLeadingColor: Color("OGT"), bottomTrailingColor: Color("OGB"), backgroundShadow: Color("OGB"), image: "bread", imageShadow: "EggSandwichShadow", imageShadowAlpha: 0.3, mealPeriod: .breakfast)
+                    MealCard(fastingManager: fastingManager, color: [Color("OGT"), Color("OGB")], backgroundShadow: Color("Shadowblue"), image: "bread", imageShadow: "EggSandwichShadow", imageShadowAlpha: 0.3, mealPeriod: .breakfast)
                 }
                 
                 NavigationLink(destination: DiaryViewBackground(fastingManager: fastingManager, mealPeriod: .lunch, themeColor: [Color("B10"), Color("B00")], accentColor: $accentColor).onAppear {
                     accentColor = .white
                 }) {
-                    MealCard(fastingManager: fastingManager, topLeadingColor: Color("BGT"), bottomTrailingColor: Color("BGB"), backgroundShadow: Color("Shadowblue"), image: "noodle bowl", imageShadow: "noodleShadow", imageShadowAlpha: 0.4, mealPeriod: .lunch)
+                    MealCard(fastingManager: fastingManager, color: [Color("BGT"), Color("BGB")], backgroundShadow: Color("Shadowblue"), image: "noodle bowl", imageShadow: "noodleShadow", imageShadowAlpha: 0.4, mealPeriod: .lunch)
                 }
                 
+                NavigationLink(destination: DiaryViewBackground(fastingManager: fastingManager, mealPeriod: .dinner, themeColor: [Color(hex: "e9c46a"),Color(hex: "f4a261"),Color(hex: "e76f51")], accentColor: $accentColor).onAppear {
+                    accentColor = .white
+                }) {
+                    MealCard(fastingManager: fastingManager,
+                             color: [Color(hex: "e9c46a"),Color(hex: "f4a261"),Color(hex: "e76f51")], backgroundShadow: Color("Shadowblue"), image: "steak", imageShadow: "steakShadow", imageShadowAlpha: 0.4, mealPeriod: .dinner)
+                }
 //                SnackCard()
                 NavigationLink(destination: DiaryViewBackground(fastingManager: fastingManager, mealPeriod: .snack, themeColor: [Color(#colorLiteral(red: 1, green: 0.6745098039, blue: 0.7764705882, alpha: 1)), Color(#colorLiteral(red: 1, green: 0.2862745098, blue: 0.5058823529, alpha: 1))], accentColor: $accentColor).onAppear {
                     accentColor = .white
                 }) {
-                    MealCard(fastingManager: fastingManager, topLeadingColor: Color(#colorLiteral(red: 1, green: 0.6745098039, blue: 0.7764705882, alpha: 1)), bottomTrailingColor: Color(#colorLiteral(red: 1, green: 0.2862745098, blue: 0.5058823529, alpha: 1)), backgroundShadow: Color("Shadowblue"), image: "melon", imageShadow: "steakShadow", imageShadowAlpha: 0.4, mealPeriod: .snack)
+                    MealCard(fastingManager: fastingManager, color: [Color(#colorLiteral(red: 1, green: 0.6745098039, blue: 0.7764705882, alpha: 1)), Color(#colorLiteral(red: 1, green: 0.2862745098, blue: 0.5058823529, alpha: 1))],  backgroundShadow: Color("Shadowblue"), image: "melon", imageShadow: "steakShadow", imageShadowAlpha: 0.4, mealPeriod: .snack)
                 }
                 
-                NavigationLink(destination: DiaryViewBackground(fastingManager: fastingManager, mealPeriod: .dinner, themeColor: [Color("PurpleTop"), Color("PurpleBottom")], accentColor: $accentColor).onAppear {
-                    accentColor = .white
-                }) {
-                    MealCard(fastingManager: fastingManager, topLeadingColor: Color("PurpleTop"), bottomTrailingColor: Color("PurpleBottom"), backgroundShadow: Color("Shadowblue"), image: "steak", imageShadow: "steakShadow", imageShadowAlpha: 0.4, mealPeriod: .dinner)
-                }
             }
             .padding(.leading, 30)
             .padding(.vertical, 80)

@@ -9,8 +9,9 @@ import SwiftUI
 
 struct MealCard: View {
     @ObservedObject var fastingManager: FastingManager
-    let topLeadingColor: Color
-    let bottomTrailingColor: Color
+//    let topLeadingColor: Color
+//    let bottomTrailingColor: Color
+    let color: [Color]
     let backgroundShadow: Color
     let image: String
     let imageShadow: String
@@ -22,13 +23,13 @@ struct MealCard: View {
             //This is a gradient behind the original shape. Since SwiftUI doesn't have a spread feature in shadow the way I calculate it is by scaling down a duplicate view. The Formula that I'm using goes like this (Original Length - spread - spread) / Original Length = Scale Effect
             //That formula works for any spread that is negative. It works also because its pulling from all directions.
             //Duplicate View with shadow
-            LinearGradient(colors: [topLeadingColor, bottomTrailingColor], startPoint: .topLeading, endPoint: .bottomTrailing)
+            LinearGradient(colors: color, startPoint: .topLeading, endPoint: .bottomTrailing)
                 .mask(RoundedCorners(color: [.blue], tl: 8, tr: 100, bl: 8, br: 8))
                 .shadow(color: backgroundShadow.opacity(0.8), radius: 30, x: 4, y: 12)
                 .scaleEffect(0.86)
             
             //Visibile View without shadow.
-            LinearGradient(colors: [topLeadingColor, bottomTrailingColor], startPoint: .topLeading, endPoint: .bottomTrailing)
+            LinearGradient(colors: color, startPoint: .topLeading, endPoint: .bottomTrailing)
                 .mask(RoundedCorners(color: [.blue], tl: 8, tr: 100, bl: 8, br: 8))
                 
             
@@ -117,7 +118,7 @@ struct MealCard_Previews: PreviewProvider {
     @Namespace static var namespace
 
     static var previews: some View {
-        MealCard(fastingManager: FastingManager(), topLeadingColor: Color("OGT"), bottomTrailingColor: Color("OGB"), backgroundShadow: Color("OGB"), image: "bread", imageShadow: "EggSandwichShadow", imageShadowAlpha: 0.3, mealPeriod: .breakfast)
+        MealCard(fastingManager: FastingManager(), color: [Color.red], backgroundShadow: Color("OGB"), image: "bread", imageShadow: "EggSandwichShadow", imageShadowAlpha: 0.3, mealPeriod: .breakfast)
             .fixedSize(horizontal: true, vertical: false)
     }
 }
