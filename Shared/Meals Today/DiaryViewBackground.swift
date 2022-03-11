@@ -176,9 +176,12 @@ struct DiaryView: View {
     func delete(at offsets: IndexSet) {
         print("Deleting sample")
         let index = offsets.first
-        fastingManager.deleteTheCorrelationObject(uuid: fastingManager.theSamples[index!].meta)
+//        fastingManager.deleteTheCorrelationObject(uuid: fastingManager.theSamples[index!].uuid)
+//        fastingManager.theSamples.filter { $0.mealPeriod == mealPeriod.description }
+        fastingManager.deleteTheCorrelationObject(uuid: fastingManager.theSamples.filter { $0.mealPeriod == mealPeriod.description }[index!].uuid)
 //        fastingManager.theSamples.remove(atOffsets: offsets)
-        fastingManager.theSamples.removeAll(where: { $0.uuid == fastingManager.theSamples[index!].meta})
+//        fastingManager.theSamples.removeAll(where: { $0.uuid == fastingManager.theSamples[index!].uuid})
+        fastingManager.theSamples.removeAll(where: { $0.uuid == fastingManager.theSamples.filter { $0.mealPeriod == mealPeriod.description }[index!].uuid})
 //        fastingManager.theSamples.filter { $0.mealPeriod == mealPeriod.description }.remove(atOffsets: offsets)
         Task {
             await fastingManager.requestAuthorization()

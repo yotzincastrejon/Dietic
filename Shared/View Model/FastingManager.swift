@@ -101,6 +101,7 @@ class FastingManager: ObservableObject {
     @Published var currentDeficitForDay = 0.00
     @Published var simulatedCalories = 0
     @Published var simulatedCaloriesBool = false
+    @Published var workoutPlan: WorkoutPlan = .weightLoss
     // MARK: - Timer Setup
     /// - Tag: TimerSetup
     //    var start: Date = Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .day, value:  0,to: Date())!)
@@ -125,32 +126,7 @@ class FastingManager: ObservableObject {
     func subtractDate() {
         day -= 1
     }
-    //FIX ME WE NEED TO FIX THE SETUP TIMER. IT NEEDS TO BE SETUP EVERYTIME THE APP OPENS. BUT AVOID UPDATING THINGS IF THE STATE OF FASTING IS NOT RUNNING
-    // Set up and start the timer.
-    func setUpTimer() {
-        //        start = Date()
-        cancellable = Timer.publish(every: 1, on: .main, in: .default)
-            .autoconnect()
-            .sink { [weak self] _ in
-                guard let self = self else { return }
-                if self.elapsedSeconds >= 86400 {
-                    //                    self.start = Calendar.current.startOfDay(for: Date())
-                }
-                //                self.elapsedSeconds = Int(Date().timeIntervalSince(self.start))
-                
-                //                self.activeCaloriesCalculation()
-                self.totalPassive()
-                
-                self.totalCaloriesCalculation()
-                self.totalFatLossCalculation()
-                
-                
-                self.totalPassiveWL()
-                self.totalCaloriesCalculationWL()
-                self.totalFatLossCalculationWL()
-                
-            }
-    }
+   
     
     //Originally I had it pounds != nil just incase there is no value. We shall see if this works.
     init() {
@@ -187,6 +163,8 @@ class FastingManager: ObservableObject {
     
     
     func requestAuthorization() async {
+        
+        
         let typesToRead: Set = [
             HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
             HKObjectType.quantityType(forIdentifier: .bodyMass)!,
@@ -273,6 +251,9 @@ class FastingManager: ObservableObject {
             return HKObjectType.quantityType(forIdentifier: type)!
         }
         
+        
+        
+        
         do {
             try await healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead)
             try await printTheCorrelation(results: getCorrelationQuery())
@@ -290,12 +271,13 @@ class FastingManager: ObservableObject {
             self.getWeekLongStats(start: Date.mondayAt12AM())
             await caloriesGoalwithDeficit()
             await caloriesRemaining()
-            
+
             await MainActor.run {
-                caloriesNeededToReachGoalWeight()
+//                caloriesNeededToReachGoalWeight()
+                determineCaloricStanding()
             }
-            
-            
+
+
         } catch let error {
             print("An error occurred while requesting HealthKit Authorization: \(error.localizedDescription)")
         }
@@ -314,6 +296,21 @@ class FastingManager: ObservableObject {
                 print("Success in saving sample")
             }
         }
+    }
+    
+    func determineCaloricStanding() {
+        let bmr = BMR(age: age, weightinPounds: weight, heightinInches: height)
+        let eatenCalories = consumedCalories
+        let burnedCalories = activeCalories
+        leftToBurn = eatenCalories - bmr - burnedCalories
+        if leftToBurn < 0 {
+            percentageAccomplished = 1
+        } else {
+            percentageAccomplished = (bmr + burnedCalories) / eatenCalories
+        }
+        //left to burn == the deficit/surplus (the result)
+        //percentage accomplished.
+        
     }
     
     func caloriesNeededToReachGoalWeight() {
@@ -915,7 +912,6 @@ class FastingManager: ObservableObject {
                                                              vitaminE: nutrient.filter { $0.attrID == 323 }.map { $0.value }.first ?? 0,
                                                              vitaminK: nutrient.filter { $0.attrID == 430 }.map { $0.value }.first ?? 0,
                                                              zinc: nutrient.filter { $0.attrID == 309 }.map { $0.value }.first ?? 0,
-                                                             meta: "",
                                                              mealPeriod: "",
                                                              numberOfServings: 1, servingSelection: "",
                                                              uuid: UUID().uuidString, date: Date.now,
@@ -979,7 +975,6 @@ class FastingManager: ObservableObject {
                                                              vitaminE: nutrient.filter { $0.attrID == 323 }.map { $0.value }.first ?? 0,
                                                              vitaminK: nutrient.filter { $0.attrID == 430 }.map { $0.value }.first ?? 0,
                                                              zinc: nutrient.filter { $0.attrID == 309 }.map { $0.value }.first ?? 0,
-                                                             meta: "",
                                                              mealPeriod: "",
                                                              numberOfServings: 1, servingSelection: "",
                                                              uuid: UUID().uuidString, date: Date.now,
@@ -994,7 +989,7 @@ class FastingManager: ObservableObject {
         }
         
         
-        return sample ??  HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, meta: "", mealPeriod: "", numberOfServings: 1, servingSelection: "", uuid: "", date: Date.now, attrIDArray: [Int]())
+        return sample ??  HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, mealPeriod: "", numberOfServings: 1, servingSelection: "", uuid: "", date: Date.now, attrIDArray: [Int]())
     }
     
     // MARK: - Eaten Foods Entry
@@ -1305,7 +1300,6 @@ class FastingManager: ObservableObject {
                                                           vitaminE: vitaminE?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
                                                           vitaminK: vitaminK?.quantity.doubleValue(for: .gramUnit(with: .micro)) ?? 0,
                                                           zinc: zinc?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
-                                                          meta: currentData.metadata!["HKFoodType"] as! String,
                                                           mealPeriod: mealPeriod as! String,
                                                           numberOfServings: numberOfServings as! Double,
                                                           servingSelection: servingSelection as! String,
@@ -1657,7 +1651,6 @@ struct HKSampleWithDescription: Identifiable {
     var vitaminE: Double
     var vitaminK: Double
     var zinc: Double
-    var meta: String
     var mealPeriod: String
     var numberOfServings: Double
     var servingSelection: String

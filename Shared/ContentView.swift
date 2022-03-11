@@ -14,19 +14,19 @@ struct ContentView: View {
     
     
     var body: some View {
-        TabView {
+//        TabView {
             
             Home(fastingManager: fastingManager)
                
             
-                .tabItem { Image(systemName: "house")
-                    Text("Timer")
-                }
+//                .tabItem { Image(systemName: "house")
+//                    Text("Timer")
+//                }
             
-            GoalSettings(fastingManager: fastingManager)
-                .tabItem { Image(systemName: "gear")
-                    Text("Settings")
-                }
+//            GoalSettings(fastingManager: fastingManager)
+//                .tabItem { Image(systemName: "gear")
+//                    Text("Settings")
+//                }
             //            AddingFoodScreen(fastingManager: fastingManager)
             //                .tabItem { Image(systemName: "gear")
             //                    Text("Adding Food")
@@ -36,7 +36,7 @@ struct ContentView: View {
             //                .tabItem { Image(systemName: "gear")
             //                    Text("Test")
             //                }
-        }
+//        }
         //        .sheet(isPresented: $showSheet, onDismiss: didDismiss) {
         //            WelcomeView(showSheet: $showSheet)
         //        }
