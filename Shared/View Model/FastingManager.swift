@@ -126,44 +126,45 @@ class FastingManager: ObservableObject {
     func subtractDate() {
         day -= 1
     }
-   
+    
     
     //Originally I had it pounds != nil just incase there is no value. We shall see if this works.
-    init() {
-        let pounds = UserDefaults.standard.double(forKey: "pounds")
-        if pounds != 0 {
-            poundsPerWeekYouWantToLose = pounds
-        }
-        let date = UserDefaults.standard.object(forKey: "Date") as? Date ?? Date()
-        if date != Date() {
-            futureDate = date
-        }
-        
-        let goalWeightSaved = UserDefaults.standard.integer(forKey: "GoalWeight")
-        if goalWeightSaved != 0 {
-            goalWeight = goalWeightSaved
-        }
-        
-        let goalBodyFat = UserDefaults.standard.double(forKey: "GoalBodyFatPercentage")
-        if goalBodyFat != 0 {
-            goalBodyFatPercentage = goalBodyFat
-        }
-        
-        let bool = UserDefaults.standard.bool(forKey: "SimulatedBool")
-        if bool == true {
-            simulatedCaloriesBool = bool
-        }
-        
-        let simulatedCal = UserDefaults.standard.integer(forKey: "SimulatedCalories")
-        if simulatedCal != 0 {
-            simulatedCalories = simulatedCal
-        }
-        
-    }
+//    init() {
+//        let pounds = UserDefaults.standard.double(forKey: "pounds")
+//        if pounds != 0 {
+//            poundsPerWeekYouWantToLose = pounds
+//        }
+//        let date = UserDefaults.standard.object(forKey: "Date") as? Date ?? Date()
+//        if date != Date() {
+//            futureDate = date
+//        }
+//
+//        let goalWeightSaved = UserDefaults.standard.integer(forKey: "GoalWeight")
+//        if goalWeightSaved != 0 {
+//            goalWeight = goalWeightSaved
+//        }
+//
+//        let goalBodyFat = UserDefaults.standard.double(forKey: "GoalBodyFatPercentage")
+//        if goalBodyFat != 0 {
+//            goalBodyFatPercentage = goalBodyFat
+//        }
+//
+//        let bool = UserDefaults.standard.bool(forKey: "SimulatedBool")
+//        if bool == true {
+//            simulatedCaloriesBool = bool
+//        }
+//
+//        let simulatedCal = UserDefaults.standard.integer(forKey: "SimulatedCalories")
+//        if simulatedCal != 0 {
+//            simulatedCalories = simulatedCal
+//        }
+//
+//    }
     
     
     func requestAuthorization() async {
-        
+        let queue = DispatchQueue.global()
+        let group = DispatchGroup()
         
         let typesToRead: Set = [
             HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
@@ -171,7 +172,9 @@ class FastingManager: ObservableObject {
             HKObjectType.quantityType(forIdentifier: .height)!,
             HKObjectType.characteristicType(forIdentifier: .dateOfBirth)!,
             HKObjectType.characteristicType(forIdentifier: .biologicalSex)!,
+            typeToRead(type: .bodyFatPercentage),
             typeToRead(type: .dietaryEnergyConsumed),
+            typeToRead(type: .dietaryCholesterol),
             typeToRead(type: .dietarySugar),
             typeToRead(type: .dietaryFatTotal),
             typeToRead(type: .dietaryFatSaturated),
@@ -210,6 +213,7 @@ class FastingManager: ObservableObject {
             typeToSet(type: .bodyMass),
             typeToSet(type: .height),
             typeToSet(type: .bodyFatPercentage),
+            typeToSet(type: .dietaryCholesterol),
             typeToSet(type: .dietaryEnergyConsumed),
             typeToSet(type: .dietarySugar),
             typeToSet(type: .dietaryFatTotal),
@@ -251,36 +255,134 @@ class FastingManager: ObservableObject {
             return HKObjectType.quantityType(forIdentifier: type)!
         }
         
-        
-        
-        
-        do {
-            try await healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead)
-            try await printTheCorrelation(results: getCorrelationQuery())
-            //This order matters!
-            await getWeight()
-            await getHeight()
-            await getBodyFat()
-            await loadandDisplayAge()
-            await getActiveEnergy()
-            await getDietaryEnergy()
-            await getProtein()
-            await getFat()
-            await getCarbohydrates()
-            //            self.getConsumedCalories(start: self.start)
-            self.getWeekLongStats(start: Date.mondayAt12AM())
-            await caloriesGoalwithDeficit()
-            await caloriesRemaining()
-
-            await MainActor.run {
-//                caloriesNeededToReachGoalWeight()
-                determineCaloricStanding()
+        queue.async(group: group) {
+            Task {
+                do {
+                    try await self.healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead)
+                } catch {
+                    print("\(error.localizedDescription)")
+                    print(String(describing: error))
+                }
             }
-
-
-        } catch let error {
-            print("An error occurred while requesting HealthKit Authorization: \(error.localizedDescription)")
         }
+        
+        group.wait()
+        
+        queue.async(group: group) { [self] in
+            Task {
+                try await printTheCorrelation(results: getCorrelationQuery())
+            }
+        }
+        
+        queue.async(group: group) { [self] in
+            Task {
+                await getWeight()
+                await getHeight()
+                await getBodyFat()
+                await loadandDisplayAge()
+                await getActiveEnergy()
+                await getDietaryEnergy()
+                await getProtein()
+                await getFat()
+                await getCarbohydrates()
+            }
+        }
+        
+        group.wait()
+        
+//        queue.async(group: group) { [self] in
+//            Task {
+//                self.getWeekLongStats(start: Date.mondayAt12AM())
+//                await caloriesGoalwithDeficit()
+//                await caloriesRemaining()
+//
+//
+//            }
+//        }
+//
+//        group.wait()
+        
+        queue.async(group: group) {
+            Task {
+                await MainActor.run {
+                    //                caloriesNeededToReachGoalWeight()
+                    self.determineCaloricStanding()
+                }
+            }
+        }
+        
+        queue.async(group: group) {
+            checkingAuthorization(type: .dietaryProtein)
+            checkingAuthorization(type: .dietaryFatTotal)
+            checkingAuthorization(type: .dietaryCarbohydrates)
+            checkingAuthorization(type: .dietaryEnergyConsumed)
+            checkingAuthorization(type: .dietaryCaffeine)
+            checkingAuthorization(type: .dietarySugar)
+            checkingAuthorization(type: .dietaryFiber)
+            checkingAuthorization(type: .dietaryCalcium)
+            checkingAuthorization(type: .dietaryIron)
+            checkingAuthorization(type: .dietaryMagnesium)
+            checkingAuthorization(type: .dietaryPhosphorus)
+            checkingAuthorization(type: .dietaryPotassium)
+            checkingAuthorization(type: .dietarySodium)
+            checkingAuthorization(type: .dietaryZinc)
+            checkingAuthorization(type: .dietaryCopper)
+            checkingAuthorization(type: .dietaryManganese)
+            checkingAuthorization(type: .dietarySelenium)
+            checkingAuthorization(type: .dietaryVitaminA)
+            checkingAuthorization(type: .dietaryVitaminE)
+            checkingAuthorization(type: .dietaryVitaminD)
+            checkingAuthorization(type: .dietaryVitaminC)
+            checkingAuthorization(type: .dietaryThiamin)
+            checkingAuthorization(type: .dietaryRiboflavin)
+            checkingAuthorization(type: .dietaryNiacin)
+            checkingAuthorization(type: .dietaryVitaminB6)
+            checkingAuthorization(type: .dietaryFolate)
+            checkingAuthorization(type: .dietaryVitaminB12)
+            checkingAuthorization(type: .dietaryVitaminK)
+            checkingAuthorization(type: .dietaryCholesterol)
+            checkingAuthorization(type: .dietaryFatSaturated)
+            checkingAuthorization(type: .dietaryFatMonounsaturated)
+            checkingAuthorization(type: .dietaryFatPolyunsaturated)
+            checkingAuthorization(type: .dietaryProtein)
+            checkingAuthorization(type: .dietaryFatTotal)
+            checkingAuthorization(type: .dietaryCarbohydrates)
+        }
+        
+        @Sendable func checkingAuthorization(type: HKQuantityTypeIdentifier) {
+            if self.healthStore.authorizationStatus(for: HKObjectType.quantityType(forIdentifier: type)!) == .sharingAuthorized {
+                print("Permission Granted to \(type)")
+            } else {
+                print("Permission Denied to \(type)")
+            }
+        }
+        
+//        do {
+//            //            try await healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead)
+//            //            try await printTheCorrelation(results: getCorrelationQuery())
+//            //This order matters!
+//            //            await getWeight()
+//            //            await getHeight()
+//            //            await getBodyFat()
+//            //            await loadandDisplayAge()
+//            //            await getActiveEnergy()
+//            //            await getDietaryEnergy()
+//            //            await getProtein()
+//            //            await getFat()
+//            //            await getCarbohydrates()
+//            self.getWeekLongStats(start: Date.mondayAt12AM())
+//            await caloriesGoalwithDeficit()
+//            await caloriesRemaining()
+//
+//            await MainActor.run {
+//                //                caloriesNeededToReachGoalWeight()
+//                determineCaloricStanding()
+//            }
+//
+//
+//        } catch let error {
+//            print("An error occurred while requesting HealthKit Authorization: \(error.localizedDescription)")
+//        }
     }
     
     func saveThing() {
@@ -476,7 +578,7 @@ class FastingManager: ObservableObject {
             //Male
             //Other
         } catch let error {
-            print(error)
+            print("error in Load and Display Age \(error.localizedDescription)")
         }
     }
     
@@ -713,13 +815,13 @@ class FastingManager: ObservableObject {
                       print("error", error ?? "Unknown error")
                       return
                   }
-//            guard response.statusCode != 404  else {                        // check if item is missing or doesn't exist in the database.
-//                print("item is missing/doesn't exist")
-//                DispatchQueue.main.async {
-//                itemIsMissingBool = true
-//                }
-//                return
-//            }
+            //            guard response.statusCode != 404  else {                        // check if item is missing or doesn't exist in the database.
+            //                print("item is missing/doesn't exist")
+            //                DispatchQueue.main.async {
+            //                itemIsMissingBool = true
+            //                }
+            //                return
+            //            }
             guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
                 print("statusCode should be 2xx, but is \(response.statusCode)")
                 print("response = \(response)")
@@ -755,13 +857,13 @@ class FastingManager: ObservableObject {
                       print("error", error ?? "Unknown error")
                       return
                   }
-//            guard response.statusCode != 404  else {                        // check if item is missing or doesn't exist in the database.
-//                print("item is missing/doesn't exist")
-//                DispatchQueue.main.async {
-//                itemIsMissingBool = true
-//                }
-//                return
-//            }
+            //            guard response.statusCode != 404  else {                        // check if item is missing or doesn't exist in the database.
+            //                print("item is missing/doesn't exist")
+            //                DispatchQueue.main.async {
+            //                itemIsMissingBool = true
+            //                }
+            //                return
+            //            }
             guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
                 print("statusCode should be 2xx, but is \(response.statusCode)")
                 print("response = \(response)")
@@ -793,23 +895,23 @@ class FastingManager: ObservableObject {
     
     func decodeInstantReponse(data: Data) {
         DispatchQueue.main.async { [self] in
-        do {
-        let response = try JSONDecoder().decode(Instant.self,from: data)
-//            print(response)
-//            print(response?.branded)
-//            print(response?.branded?.count)
-            instantResponse.removeAll()
-            guard response.branded!.count > 0 else { return }
+            do {
+                let response = try JSONDecoder().decode(Instant.self,from: data)
+                //            print(response)
+                //            print(response?.branded)
+                //            print(response?.branded?.count)
+                instantResponse.removeAll()
+                guard response.branded!.count > 0 else { return }
                 for i in 0..<((response.branded?.count)!) {
                     let title = response.branded?[i].foodName
                     let brandName = response.branded?[i].brandName
                     let calories = response.branded?[i].nfCalories
                     let id = response.branded?[i].nixItemID
                     instantResponse.append(InstantSearchModel(title: title ?? "", brandName: brandName ?? "" , calories: Int(calories ?? 0), nixID: id ?? ""))
+                }
+            } catch {
+                print(String(describing: error))
             }
-        } catch {
-            print(String(describing: error))
-        }
         }
     }
     
@@ -831,7 +933,7 @@ class FastingManager: ObservableObject {
             guard response.statusCode != 404  else {                        // check if item is missing or doesn't exist in the database.
                 print("item is missing/doesn't exist")
                 DispatchQueue.main.async {
-                itemIsMissingBool = true
+                    itemIsMissingBool = true
                 }
                 return
             }
@@ -849,7 +951,7 @@ class FastingManager: ObservableObject {
             //                    print(responseString)
             print("We are decoding directly from the response")
             //                    decode(json: data!)
-                        
+            
             decodeJSONResponse(json: safeData)
             DispatchQueue.main.async {
                 currentScannedItemJSON = safeData
@@ -869,7 +971,7 @@ class FastingManager: ObservableObject {
             let info = product.foods[0]
             let nutrient = info.fullNutrients
             print("decoding From JSON Response")
-//            print(nutrient)
+            //            print(nutrient)
             fullNutrientArray.removeAll()
             fullNutrientArray = nutrient
             DispatchQueue.main.async { [self] in
@@ -916,7 +1018,7 @@ class FastingManager: ObservableObject {
                                                              numberOfServings: 1, servingSelection: "",
                                                              uuid: UUID().uuidString, date: Date.now,
                                                              attrIDArray: [Int]()
-                                                            )
+                )
             }
         } catch {
             print("Decoding the JSON failed \(error.localizedDescription)")
@@ -932,56 +1034,56 @@ class FastingManager: ObservableObject {
             let info = product.foods[0]
             let nutrient = info.fullNutrients
             print("Decoding from JSON provided from Core Data \(info.foodName ?? "")")
-//            print(nutrient)
+            //            print(nutrient)
             fullNutrientArray.removeAll()
             fullNutrientArray = nutrient
             
-                
-                
-             sample =  HKSampleWithDescription(foodName: info.foodName ?? "",
-                                                             brandName: info.brandName ?? "",
-                                                             servingQuantity: info.servingQuantity ?? 0,
-                                                             servingUnit: info.servingUnit ?? "",
-                                                             servingWeightGrams: info.servingWeightGrams ?? 0,
-                                                             calories: info.calories ?? 0,
-                                                             sugars: info.sugars ?? 0,
-                                                             totalFat: info.totalFat ?? 0,
-                                                             saturatedFat: info.saturatedFat ?? 0,
-                                                             cholesterol: info.cholesterol ?? 0,
-                                                             sodium: info.sodium ?? 0,
-                                                             totalCarbohydrate: info.totalCarbohydrate ?? 0,
-                                                             dietaryFiber: info.dietaryFiber ?? 0,
-                                                             protein: info.protein ?? 0,
-                                                             potassium: info.potassium ?? 0,
-                                                             calcium: nutrient.filter { $0.attrID == 301 }.map { $0.value }.first ?? 0,
-                                                             iron: nutrient.filter { $0.attrID == 303 }.map { $0.value }.first ?? 0,
-                                                             monounsaturatedFat: nutrient.filter { $0.attrID == 645 }.map { $0.value }.first ?? 0,
-                                                             polyunsaturatedFat: nutrient.filter { $0.attrID == 646 }.map { $0.value }.first ?? 0,
-                                                             caffeine: nutrient.filter { $0.attrID == 262 }.map { $0.value }.first ?? 0,
-                                                             copper: nutrient.filter { $0.attrID == 312 }.map { $0.value }.first ?? 0,
-                                                             folate: nutrient.filter { $0.attrID == 417 }.map { $0.value }.first ?? 0,
-                                                             magnesium: nutrient.filter { $0.attrID == 304 }.map { $0.value }.first ?? 0,
-                                                             manganese: nutrient.filter { $0.attrID == 315 }.map { $0.value }.first ?? 0,
-                                                             niacin: nutrient.filter { $0.attrID == 406 }.map { $0.value }.first ?? 0,
-                                                             phosphorus: nutrient.filter { $0.attrID == 305 }.map { $0.value }.first ?? 0,
-                                                             riboflavin: nutrient.filter { $0.attrID == 405 }.map { $0.value }.first ?? 0,
-                                                             selenium: nutrient.filter { $0.attrID == 317 }.map { $0.value }.first ?? 0,
-                                                             thiamin: nutrient.filter { $0.attrID == 404 }.map { $0.value }.first ?? 0,
-                                                             vitaminA: nutrient.filter { $0.attrID == 320 }.map { $0.value }.first ?? 0,
-                                                             vitaminC: nutrient.filter { $0.attrID == 401 }.map { $0.value }.first ?? 0,
-                                                             vitaminB6: nutrient.filter { $0.attrID == 415 }.map { $0.value }.first ?? 0,
-                                                             vitaminB12: nutrient.filter { $0.attrID == 418 }.map { $0.value }.first ?? 0,
-                                                             vitaminD: nutrient.filter { $0.attrID == 328 }.map { $0.value }.first ?? 0,
-                                                             vitaminE: nutrient.filter { $0.attrID == 323 }.map { $0.value }.first ?? 0,
-                                                             vitaminK: nutrient.filter { $0.attrID == 430 }.map { $0.value }.first ?? 0,
-                                                             zinc: nutrient.filter { $0.attrID == 309 }.map { $0.value }.first ?? 0,
-                                                             mealPeriod: "",
-                                                             numberOfServings: 1, servingSelection: "",
-                                                             uuid: UUID().uuidString, date: Date.now,
-                                                             attrIDArray: [Int]()
-                                                            )
-
-                
+            
+            
+            sample =  HKSampleWithDescription(foodName: info.foodName ?? "",
+                                              brandName: info.brandName ?? "",
+                                              servingQuantity: info.servingQuantity ?? 0,
+                                              servingUnit: info.servingUnit ?? "",
+                                              servingWeightGrams: info.servingWeightGrams ?? 0,
+                                              calories: info.calories ?? 0,
+                                              sugars: info.sugars ?? 0,
+                                              totalFat: info.totalFat ?? 0,
+                                              saturatedFat: info.saturatedFat ?? 0,
+                                              cholesterol: info.cholesterol ?? 0,
+                                              sodium: info.sodium ?? 0,
+                                              totalCarbohydrate: info.totalCarbohydrate ?? 0,
+                                              dietaryFiber: info.dietaryFiber ?? 0,
+                                              protein: info.protein ?? 0,
+                                              potassium: info.potassium ?? 0,
+                                              calcium: nutrient.filter { $0.attrID == 301 }.map { $0.value }.first ?? 0,
+                                              iron: nutrient.filter { $0.attrID == 303 }.map { $0.value }.first ?? 0,
+                                              monounsaturatedFat: nutrient.filter { $0.attrID == 645 }.map { $0.value }.first ?? 0,
+                                              polyunsaturatedFat: nutrient.filter { $0.attrID == 646 }.map { $0.value }.first ?? 0,
+                                              caffeine: nutrient.filter { $0.attrID == 262 }.map { $0.value }.first ?? 0,
+                                              copper: nutrient.filter { $0.attrID == 312 }.map { $0.value }.first ?? 0,
+                                              folate: nutrient.filter { $0.attrID == 417 }.map { $0.value }.first ?? 0,
+                                              magnesium: nutrient.filter { $0.attrID == 304 }.map { $0.value }.first ?? 0,
+                                              manganese: nutrient.filter { $0.attrID == 315 }.map { $0.value }.first ?? 0,
+                                              niacin: nutrient.filter { $0.attrID == 406 }.map { $0.value }.first ?? 0,
+                                              phosphorus: nutrient.filter { $0.attrID == 305 }.map { $0.value }.first ?? 0,
+                                              riboflavin: nutrient.filter { $0.attrID == 405 }.map { $0.value }.first ?? 0,
+                                              selenium: nutrient.filter { $0.attrID == 317 }.map { $0.value }.first ?? 0,
+                                              thiamin: nutrient.filter { $0.attrID == 404 }.map { $0.value }.first ?? 0,
+                                              vitaminA: nutrient.filter { $0.attrID == 320 }.map { $0.value }.first ?? 0,
+                                              vitaminC: nutrient.filter { $0.attrID == 401 }.map { $0.value }.first ?? 0,
+                                              vitaminB6: nutrient.filter { $0.attrID == 415 }.map { $0.value }.first ?? 0,
+                                              vitaminB12: nutrient.filter { $0.attrID == 418 }.map { $0.value }.first ?? 0,
+                                              vitaminD: nutrient.filter { $0.attrID == 328 }.map { $0.value }.first ?? 0,
+                                              vitaminE: nutrient.filter { $0.attrID == 323 }.map { $0.value }.first ?? 0,
+                                              vitaminK: nutrient.filter { $0.attrID == 430 }.map { $0.value }.first ?? 0,
+                                              zinc: nutrient.filter { $0.attrID == 309 }.map { $0.value }.first ?? 0,
+                                              mealPeriod: "",
+                                              numberOfServings: 1, servingSelection: "",
+                                              uuid: UUID().uuidString, date: Date.now,
+                                              attrIDArray: [Int]()
+            )
+            
+            
             return sample!
         } catch {
             print("Decoding the JSON failed \(error.localizedDescription)")
@@ -1038,7 +1140,7 @@ class FastingManager: ObservableObject {
             645:HKSampleReturn(type: .dietaryFatMonounsaturated, value: sample.monounsaturatedFat, quantity: .gram(), metadata: foodCorrelationMetadata, date: sample.date),
             646:HKSampleReturn(type: .dietaryFatPolyunsaturated, value: sample.polyunsaturatedFat, quantity: .gram(), metadata: foodCorrelationMetadata, date: sample.date)
         ]
-       
+        
         
         if editing {
             for i in 0..<sample.attrIDArray.count {
@@ -1051,49 +1153,50 @@ class FastingManager: ObservableObject {
                 fromNutrientArray.insert(attrIDArray[fullNutrientArray[i].attrID]!)
             }
         }
-//        print(fromNutrientArray)
+        //        print(fromNutrientArray)
         //Here we enter the sample types with value. We have to enter each quantity and type individually. But we'll save it as a correlation to be able to access all the objects together.
-//        var consumedSamples: Set = [
-//            HKSampleReturn(type: .dietaryEnergyConsumed, value: sample.calories, quantity: .kilocalorie(), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietarySugar, value: sample.sugars, quantity: .gram(), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryFatTotal, value: sample.totalFat, quantity: .gram(), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryFatSaturated, value: sample.saturatedFat, quantity: .gram(), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryCholesterol, value: sample.cholesterol, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietarySodium, value: sample.sodium, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryCarbohydrates, value: sample.totalCarbohydrate, quantity: .gram(), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryFiber, value: sample.dietaryFiber, quantity: .gram(), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryProtein, value: sample.protein, quantity: .gram(), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryPotassium, value: sample.potassium, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryCalcium, value: sample.calcium, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryIron, value: sample.iron, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryFatMonounsaturated, value: sample.monounsaturatedFat, quantity: .gram(), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryFatPolyunsaturated, value: sample.polyunsaturatedFat, quantity: .gram(), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryCaffeine, value: sample.caffeine, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryCopper, value: sample.copper, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryFolate, value: sample.folate, quantity: .gramUnit(with: .micro), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryMagnesium, value: sample.magnesium, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryManganese, value: sample.manganese, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryNiacin, value: sample.niacin, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryPhosphorus, value: sample.phosphorus, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryRiboflavin, value: sample.riboflavin, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietarySelenium, value: sample.selenium, quantity: .gramUnit(with: .micro), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryThiamin, value: sample.thiamin, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryVitaminA, value: sample.vitaminA, quantity: .gramUnit(with: .micro), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryVitaminC, value: sample.vitaminC, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryVitaminB6, value: sample.vitaminB6, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryVitaminB12, value: sample.vitaminB12, quantity: .gramUnit(with: .micro), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryVitaminD, value: sample.vitaminD, quantity: .gramUnit(with: .micro), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryVitaminE, value: sample.vitaminE, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryVitaminK, value: sample.vitaminK, quantity: .gramUnit(with: .micro), metadata: foodCorrelationMetadata),
-//            HKSampleReturn(type: .dietaryZinc, value: sample.zinc, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata)
-//        ]
+        //        var consumedSamples: Set = [
+        //            HKSampleReturn(type: .dietaryEnergyConsumed, value: sample.calories, quantity: .kilocalorie(), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietarySugar, value: sample.sugars, quantity: .gram(), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryFatTotal, value: sample.totalFat, quantity: .gram(), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryFatSaturated, value: sample.saturatedFat, quantity: .gram(), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryCholesterol, value: sample.cholesterol, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietarySodium, value: sample.sodium, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryCarbohydrates, value: sample.totalCarbohydrate, quantity: .gram(), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryFiber, value: sample.dietaryFiber, quantity: .gram(), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryProtein, value: sample.protein, quantity: .gram(), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryPotassium, value: sample.potassium, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryCalcium, value: sample.calcium, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryIron, value: sample.iron, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryFatMonounsaturated, value: sample.monounsaturatedFat, quantity: .gram(), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryFatPolyunsaturated, value: sample.polyunsaturatedFat, quantity: .gram(), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryCaffeine, value: sample.caffeine, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryCopper, value: sample.copper, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryFolate, value: sample.folate, quantity: .gramUnit(with: .micro), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryMagnesium, value: sample.magnesium, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryManganese, value: sample.manganese, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryNiacin, value: sample.niacin, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryPhosphorus, value: sample.phosphorus, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryRiboflavin, value: sample.riboflavin, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietarySelenium, value: sample.selenium, quantity: .gramUnit(with: .micro), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryThiamin, value: sample.thiamin, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryVitaminA, value: sample.vitaminA, quantity: .gramUnit(with: .micro), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryVitaminC, value: sample.vitaminC, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryVitaminB6, value: sample.vitaminB6, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryVitaminB12, value: sample.vitaminB12, quantity: .gramUnit(with: .micro), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryVitaminD, value: sample.vitaminD, quantity: .gramUnit(with: .micro), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryVitaminE, value: sample.vitaminE, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryVitaminK, value: sample.vitaminK, quantity: .gramUnit(with: .micro), metadata: foodCorrelationMetadata),
+        //            HKSampleReturn(type: .dietaryZinc, value: sample.zinc, quantity: .gramUnit(with: .milli), metadata: foodCorrelationMetadata)
+        //        ]
         
-
+        
         
         let foodCorrelation: HKCorrelation = HKCorrelation(type: foodType, start: sample.date, end: sample.date, objects: fromNutrientArray, metadata: foodCorrelationMetadata)
-  
+        
         healthStore.save(foodCorrelation) { (success, error) in
             if let error = error {
+                
                 print("Error Saving Correlation Sample \(error.localizedDescription)")
                 print(String(describing: error))
             } else {
@@ -1102,14 +1205,17 @@ class FastingManager: ObservableObject {
                     self.currentScannedItem = nil
                     self.currentScannedItemJSON = nil
                 }
+                Task {
+                    await self.requestAuthorization()
+                }
             }
         }
     }
     
     func HKSampleReturn(type: HKQuantityTypeIdentifier, value: Double, quantity: HKUnit, metadata: [String: Any], date: Date) -> HKSample {
-       
+        
         return HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: type)!, quantity: HKQuantity(unit: quantity, doubleValue: value), start: date, end: date, metadata: metadata)
-      
+        
     }
     
     //Read Correlation Samples
@@ -1138,71 +1244,71 @@ class FastingManager: ObservableObject {
     //Manipulating the results from the Correlation Query
     func printTheCorrelation(results: [HKCorrelation]?) async {
         let quantityIdentifierArray: [HKQuantityTypeIdentifier] = [ .dietaryEnergyConsumed,
-                                                                        .dietarySugar,
-                                                                        .dietaryFatTotal,
-                                                                        .dietaryFatSaturated,
-                                                                        .dietaryCholesterol,
-                                                                        .dietarySodium,
-                                                                        .dietaryCarbohydrates,
-                                                                        .dietaryFiber,
-                                                                        .dietaryProtein,
-                                                                        .dietaryPotassium,
-                                                                        .dietaryCalcium,
-                                                                        .dietaryIron,
-                                                                        .dietaryFatMonounsaturated,
-                                                                        .dietaryFatPolyunsaturated,
-                                                                        .dietaryCaffeine,
-                                                                        .dietaryCopper,
-                                                                        .dietaryFolate,
-                                                                        .dietaryMagnesium,
-                                                                        .dietaryManganese,
-                                                                        .dietaryNiacin,
-                                                                        .dietaryPhosphorus,
-                                                                        .dietaryRiboflavin,
-                                                                        .dietarySelenium,
-                                                                        .dietaryThiamin,
-                                                                        .dietaryVitaminA,
-                                                                        .dietaryVitaminC,
-                                                                        .dietaryVitaminB6,
-                                                                        .dietaryVitaminB12,
-                                                                        .dietaryVitaminD,
-                                                                        .dietaryVitaminE,
-                                                                        .dietaryVitaminK,
-                                                                        .dietaryZinc]
+                                                                    .dietarySugar,
+                                                                    .dietaryFatTotal,
+                                                                    .dietaryFatSaturated,
+                                                                    .dietaryCholesterol,
+                                                                    .dietarySodium,
+                                                                    .dietaryCarbohydrates,
+                                                                    .dietaryFiber,
+                                                                    .dietaryProtein,
+                                                                    .dietaryPotassium,
+                                                                    .dietaryCalcium,
+                                                                    .dietaryIron,
+                                                                    .dietaryFatMonounsaturated,
+                                                                    .dietaryFatPolyunsaturated,
+                                                                    .dietaryCaffeine,
+                                                                    .dietaryCopper,
+                                                                    .dietaryFolate,
+                                                                    .dietaryMagnesium,
+                                                                    .dietaryManganese,
+                                                                    .dietaryNiacin,
+                                                                    .dietaryPhosphorus,
+                                                                    .dietaryRiboflavin,
+                                                                    .dietarySelenium,
+                                                                    .dietaryThiamin,
+                                                                    .dietaryVitaminA,
+                                                                    .dietaryVitaminC,
+                                                                    .dietaryVitaminB6,
+                                                                    .dietaryVitaminB12,
+                                                                    .dietaryVitaminD,
+                                                                    .dietaryVitaminE,
+                                                                    .dietaryVitaminK,
+                                                                    .dietaryZinc]
         
         let dictionaryForHKQuantity: [HKQuantityTypeIdentifier: Int] = [
             .dietaryProtein:203,
-                    .dietaryFatTotal:204,
-                    .dietaryCarbohydrates:205,
-                    .dietaryEnergyConsumed:208,
-                    .dietaryCaffeine:262,
-                    .dietarySugar:269,
-                    .dietaryFiber:291,
-                    .dietaryCalcium:301,
-                    .dietaryIron:303,
-                    .dietaryMagnesium:304,
-                    .dietaryPhosphorus:305,
-                    .dietaryPotassium:306,
-                    .dietarySodium:307,
-                    .dietaryZinc:309,
-                    .dietaryCopper:312,
-                    .dietaryManganese:315,
-                    .dietarySelenium:317,
-                    .dietaryVitaminA:320,
-                    .dietaryVitaminE:323,
-                    .dietaryVitaminD:328,
-                    .dietaryVitaminC:401,
-                    .dietaryThiamin:404,
-                    .dietaryRiboflavin:405,
-                    .dietaryNiacin:406,
-                    .dietaryVitaminB6:415,
-                    .dietaryFolate:417,
-                    .dietaryVitaminB12:418,
-                    .dietaryVitaminK:430,
-                    .dietaryCholesterol:601,
-                    .dietaryFatSaturated:606,
-                    .dietaryFatMonounsaturated:645,
-                    .dietaryFatPolyunsaturated:646
+            .dietaryFatTotal:204,
+            .dietaryCarbohydrates:205,
+            .dietaryEnergyConsumed:208,
+            .dietaryCaffeine:262,
+            .dietarySugar:269,
+            .dietaryFiber:291,
+            .dietaryCalcium:301,
+            .dietaryIron:303,
+            .dietaryMagnesium:304,
+            .dietaryPhosphorus:305,
+            .dietaryPotassium:306,
+            .dietarySodium:307,
+            .dietaryZinc:309,
+            .dietaryCopper:312,
+            .dietaryManganese:315,
+            .dietarySelenium:317,
+            .dietaryVitaminA:320,
+            .dietaryVitaminE:323,
+            .dietaryVitaminD:328,
+            .dietaryVitaminC:401,
+            .dietaryThiamin:404,
+            .dietaryRiboflavin:405,
+            .dietaryNiacin:406,
+            .dietaryVitaminB6:415,
+            .dietaryFolate:417,
+            .dietaryVitaminB12:418,
+            .dietaryVitaminK:430,
+            .dietaryCholesterol:601,
+            .dietaryFatSaturated:606,
+            .dietaryFatMonounsaturated:645,
+            .dietaryFatPolyunsaturated:646
         ]
         
         DispatchQueue.main.async { [self] in
@@ -1721,7 +1827,7 @@ enum WorkoutPlan: CustomStringConvertible, CaseIterable {
     case weightGain
     case maintain
     case weightLoss
-   
+    
     
     var description: String {
         switch self {
@@ -1768,7 +1874,7 @@ struct Branded: Codable {
     let brandName: String?
     let brandType: Double?
     let nixItemID: String?
-
+    
     enum CodingKeys: String, CodingKey {
         case foodName = "food_name"
         case image
@@ -1787,7 +1893,7 @@ struct Common: Codable {
     let foodName: String?
     let image: String?
     let tagID, tagName: String?
-
+    
     enum CodingKeys: String, CodingKey {
         case foodName = "food_name"
         case image

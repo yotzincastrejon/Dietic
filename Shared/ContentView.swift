@@ -17,7 +17,11 @@ struct ContentView: View {
 //        TabView {
             
             Home(fastingManager: fastingManager)
-               
+//            .onAppear {
+//                Task {
+//                await fastingManager.requestAuthorization()
+//                }
+//            }
             
 //                .tabItem { Image(systemName: "house")
 //                    Text("Timer")
