@@ -50,7 +50,7 @@ struct DiaryViewBackground: View {
                 
                 VStack {
                     Spacer()
-                    DiaryView(fastingManager: fastingManager, mealPeriod: mealPeriod, themeColor: themeColor)
+                    DiaryView(fastingManager: fastingManager, mealPeriod: mealPeriod, themeColor: themeColor, accentColor: $accentColor)
                         .frame(height: g.size.height / 1.1)
                     
                 }
@@ -82,13 +82,14 @@ struct DiaryView: View {
     @Environment(\.defaultMinListRowHeight) var minRowHeight
     @State var themeColor: [Color]
     @State var isActive: Bool = false
+    @Binding var accentColor: Color
     var body: some View {
         GeometryReader { g in
             VStack {
                 Spacer()
                 ZStack {
                     RoundedCorners(color: [Color(uiColor: .systemBackground)], tl: 0, tr: 64, bl: 0, br: 0)
-                    ScrollView {
+                    ScrollView(showsIndicators: false) {
                         VStack(spacing: 0) {
                             HStack(alignment: .bottom) {
                                 VStack(alignment: .leading) {
@@ -115,9 +116,23 @@ struct DiaryView: View {
                             .padding(.top, 24)
                             .padding(.horizontal, 30)
                             
+                            if fastingManager.theSamples.filter { $0.mealPeriod == mealPeriod.description }.count == 0 {
+                                VStack(spacing: 0) {
+                                    LottieView(filename: "tumbleweed", loopMode: .loop)
+                                        .frame(height: 170)
+//                                        .background(Color.blue)
+                                    LottieView(filename: "downArrow", loopMode: .loop)
+                                        .frame(height: 80)
+//                                        .background(Color.red)
+                                }
+                                .padding(.horizontal)
+                                .transition(.opacity.animation(.easeIn))
+                            } else {
                             List {
                                 ForEach(fastingManager.theSamples.filter { $0.mealPeriod == mealPeriod.description }) { sample in
-                                    NavigationLink(destination: EditingResultsView(fastingManager: fastingManager, isShowing: .constant(false), sample: sample)) {
+                                    NavigationLink(destination: EditingResultsView(fastingManager: fastingManager, isShowing: .constant(false), sample: sample).navigationBarBackButtonHidden(true).onAppear {
+                                        accentColor = .blue
+                                    }) {
                                         HStack {
                                             VStack(alignment: .leading) {
                                                 Text("\(sample.foodName)")
@@ -138,13 +153,15 @@ struct DiaryView: View {
                                 }
                                 .onDelete(perform: delete)
                             }
-                            .environment(\.defaultMinListRowHeight, 52)
-                            .frame(minHeight: 52 * CGFloat(fastingManager.theSamples.filter { $0.mealPeriod == mealPeriod.description }.count))
+                            .environment(\.defaultMinListRowHeight, 62)
+                            .frame(minHeight: fastingManager.theSamples.filter { $0.mealPeriod == mealPeriod.description }.count < 3 ? 64 * 3 : 64 * CGFloat(fastingManager.theSamples.filter { $0.mealPeriod == mealPeriod.description }.count))
                             .listStyle(.plain)
                             .padding(.top, 32)
                             .padding(.leading, 10)
-                            
-                            NavigationLink(destination: AddMoreFoodView(fastingManager: fastingManager, mealPeriod: mealPeriod, topHeaderColors: themeColor, rootIsActive: $isActive), isActive: $isActive) {
+                            }
+                            NavigationLink(destination: AddMoreFoodView(fastingManager: fastingManager, mealPeriod: mealPeriod, topHeaderColors: themeColor, rootIsActive: $isActive, accentColor: $accentColor).onAppear {
+                                accentColor = .white
+                            }, isActive: $isActive) {
                                 ZStack {
                                     Capsule()
                                         .fill(LinearGradient(colors: themeColor, startPoint: .topLeading, endPoint: .bottomTrailing))
@@ -155,7 +172,7 @@ struct DiaryView: View {
                                 .frame(width: 175, height: 48)
                             }
                             .isDetailLink(false)
-                            .padding(.top, 32)
+                            .padding(.top,fastingManager.theSamples.filter { $0.mealPeriod == mealPeriod.description }.count == 0 ? 0 : 32)
                             
                             
                             NutritionFacts(fastingManager: fastingManager, mealPeriod: mealPeriod)
@@ -168,6 +185,16 @@ struct DiaryView: View {
                     }
                 }
                 
+                
+            }
+            .toolbar {
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    if fastingManager.theSamples.filter { $0.mealPeriod == mealPeriod.description }.count != 0 {
+                    EditButton()
+                            .transition(.opacity.animation(.easeIn))
+                    }
+                }
                 
             }
         }

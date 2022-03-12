@@ -25,13 +25,13 @@ struct AddMoreFoodView: View {
     @State private var isTorchOn = false
     @State private var dragAmount: CGPoint?
     @State private var showingAddingView = false
-
-        init(fastingManager: FastingManager, mealPeriod: EatingTime, topHeaderColors: [Color], rootIsActive: Binding<Bool>) {
+    @Binding var accentColor: Color
+    init(fastingManager: FastingManager, mealPeriod: EatingTime, topHeaderColors: [Color], rootIsActive: Binding<Bool>, accentColor: Binding<Color>) {
             self.fastingManager = fastingManager
             _mealPeriod = State(initialValue: mealPeriod)
             _topHeaderColors = State(initialValue: topHeaderColors)
             self._rootIsActive = rootIsActive
-    
+        self._accentColor = accentColor
             UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = .systemGroupedBackground
             UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = .label
         }
@@ -50,9 +50,10 @@ struct AddMoreFoodView: View {
                 List {
                     Section("History") {
                         ForEach(items) { item in
-                            NavigationLink(destination: AddingFromCoreData(fastingManager: fastingManager, sample: fastingManager.decodeJsonFromCoreData(data: (item.jsonData ?? "".data(using: .utf8))!), shouldPopToRootView: $rootIsActive)
+                            NavigationLink(destination: AddingFromCoreData(selection: mealPeriod, fastingManager: fastingManager, sample: fastingManager.decodeJsonFromCoreData(data: (item.jsonData ?? "".data(using: .utf8))!), shouldPopToRootView: $rootIsActive)
                                             .onAppear {
                                 item.timestamp = Date.now
+                                accentColor = .blue
                             }
                                             .navigationBarBackButtonHidden(true)
                             ) {
@@ -233,7 +234,7 @@ struct AddMoreFoodView_Previews: PreviewProvider {
         Group {
             TabView {
                 NavigationView {
-                    AddMoreFoodView(fastingManager: FastingManager(), mealPeriod: .breakfast, topHeaderColors: [Color("B10"), Color("B00")], rootIsActive: Binding.constant(false))
+                    AddMoreFoodView(fastingManager: FastingManager(), mealPeriod: .breakfast, topHeaderColors: [Color("B10"), Color("B00")], rootIsActive: Binding.constant(false), accentColor: Binding.constant(.blue))
                     
                 }
                 .tabItem { Image(systemName: "gear")
@@ -253,7 +254,7 @@ struct AddMoreFoodView_Previews: PreviewProvider {
             //            .previewDevice("iPhone 8")
             
             NavigationView{
-                AddingFromCoreData(fastingManager: FastingManager(), sample: HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, mealPeriod: "", numberOfServings: 1, servingSelection: "", uuid: "", date: Date.now, attrIDArray: [Int]()), shouldPopToRootView: Binding.constant(false))
+                AddingFromCoreData(selection: .breakfast, fastingManager: FastingManager(), sample: HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, mealPeriod: "", numberOfServings: 1, servingSelection: "", uuid: "", date: Date.now, attrIDArray: [Int]()), shouldPopToRootView: Binding.constant(false))
             }
         }
         
@@ -265,13 +266,17 @@ struct AddingFromCoreData: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dismiss) var dismiss
     @Environment(\.defaultMinListRowHeight) var minRowHeight
-    @State var selection = EatingTime.breakfast
+    private enum Field: Hashable {
+        case textField
+    }
+    @State var selection: EatingTime
     @State var servingTypeSelection = ServingType.serving
     @ObservedObject var fastingManager: FastingManager
     @State var text = "1"
     @State var numberOfServings = 1
     @State var sample: HKSampleWithDescription?
     @Binding var shouldPopToRootView: Bool
+    @FocusState private var focusedField: Field?
     var body: some View {
         VStack {
             Picker("", selection: $selection) {
@@ -334,6 +339,7 @@ struct AddingFromCoreData: View {
                         .frame(width: 105, height: 44)
                         .background(Capsule().stroke())
                         .keyboardType(.decimalPad)
+                        .focused($focusedField, equals: .textField)
                     Spacer()
                 }
                 .padding(.top, 40)
@@ -441,9 +447,13 @@ struct AddingFromCoreData: View {
             
             
         }
-        
         .navigationTitle("Adding Food")
         .navigationBarTitleDisplayMode(.inline)
+        .onTapGesture {
+            if focusedField != nil {
+                focusedField = nil
+            }
+        }
     }
     
     func nutrientCalculation(mainNumber: Double) -> String {

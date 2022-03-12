@@ -10,6 +10,9 @@ import SwiftUI
 struct EditingResultsView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 //    @Binding var selection: EatingTime
+    private enum Field: Hashable {
+        case textfield
+    }
     @State var selection: EatingTime = .breakfast
     @State var servingTypeSelection = ServingType.serving
     @ObservedObject var fastingManager: FastingManager
@@ -18,6 +21,9 @@ struct EditingResultsView: View {
     @State var numberOfServings: Double = 1
     @State var sample: HKSampleWithDescription?
     @State var oldDate: Date?
+    @FocusState private var focusedField: Field?
+    
+    
     var body: some View {
         VStack {
             Picker("Something", selection: $selection) {
@@ -108,6 +114,7 @@ struct EditingResultsView: View {
                         .frame(width: 105, height: 44)
                         .background(Capsule().stroke())
                         .keyboardType(.decimalPad)
+                        .focused($focusedField, equals: .textfield)
                     Spacer()
                 }
                 .padding(.top, 40)
@@ -169,13 +176,13 @@ struct EditingResultsView: View {
                 
                 HStack(spacing: 15) {
                     Button(action: {
-                        fastingManager.deleteTheCorrelationObject(uuid: sample?.uuid ?? "")
+//                        fastingManager.deleteTheCorrelationObject(uuid: sample?.uuid ?? "")
                         presentationMode.wrappedValue.dismiss()
                         Task {
                             await fastingManager.requestAuthorization()
                         }
                     }){
-                        Text("Delete")
+                        Text("Cancel")
                             .fontWeight(.medium)
                             .frame(height: 48)
                             .frame(maxWidth: .infinity)
@@ -216,40 +223,13 @@ struct EditingResultsView: View {
             
             
         }
-        
         .navigationTitle("Edit Entry")
-        .toolbar {
-//            ToolbarItem(placement: .navigationBarLeading){
-//                Button(action: {
-//                    isShowing = false
-//                    fastingManager.currentScannedItem = nil
-//                }){
-//                    Text("Cancel")
-//
-//                }
-//
-//            }
-            
-//            ToolbarItem(placement: .navigationBarTrailing) {
-//                Button(action: {
-//                    //We'll have to manually adjust every single nutrient by either multiplying by number of servings or the number of grams.
-////                    sample?.calories = Int(Double(sample?.calories ?? 0) * (Double(text) ?? 0))
-//
-//                    saveNewValue()
-//
-//                    sample?.mealPeriod = selection.description
-//                    fastingManager.saveCorrelation(sample: sample!)
-//                    Task {
-//                        await fastingManager.requestAuthorization()
-//                    }
-//                    isShowing = false
-//                }){
-//                    Text("Add").bold()
-//                }
-//
-//            }
-        }
         .navigationBarTitleDisplayMode(.inline)
+        .onTapGesture {
+            if focusedField != nil {
+                focusedField = nil
+            }
+        }
     }
     
     func nutrientCalculation(mainNumber: Double) -> String {

@@ -57,7 +57,7 @@ struct MealsToday: View {
                 Spacer()
                 HStack {
                     Spacer()
-                    NavigationLink(destination: AddMoreFoodView(fastingManager: fastingManager, mealPeriod: .snack, topHeaderColors: [Color.cyan, Color.blue], rootIsActive: $isActive).onAppear {
+                    NavigationLink(destination: AddMoreFoodView(fastingManager: fastingManager, mealPeriod: mealPeriodTime(), topHeaderColors: [Color.cyan, Color.blue], rootIsActive: $isActive, accentColor: $accentColor).onAppear {
                         accentColor = .white
                     }, isActive: $isActive) {
                         Image(systemName: "plus")
@@ -76,6 +76,23 @@ struct MealsToday: View {
             }
         )
         
+    }
+    
+    func mealPeriodTime() -> EatingTime {
+        let components = Calendar.current.dateComponents([.hour, .minute], from: Date())
+        let currentHour = components.hour
+//        let currentMinutes = components.minute
+        
+        switch currentHour! {
+            case 0..<11:
+                return .breakfast
+            case 11..<17:
+                return .lunch
+            case 17..<22:
+                return .dinner
+            default:
+                return .snack
+        }
     }
 }
 
