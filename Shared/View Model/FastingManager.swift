@@ -255,99 +255,99 @@ class FastingManager: ObservableObject {
             return HKObjectType.quantityType(forIdentifier: type)!
         }
         
-        queue.async(group: group) {
-            Task {
-                do {
-                    try await self.healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead)
-                } catch {
-                    print("\(error.localizedDescription)")
-                    print(String(describing: error))
-                }
-            }
-        }
-        
-        group.wait()
-        
-        queue.async(group: group) { [self] in
-            Task {
-                try await printTheCorrelation(results: getCorrelationQuery())
-            }
-        }
-        
-        queue.async(group: group) { [self] in
-            Task {
-                await getWeight()
-                await getHeight()
-                await getBodyFat()
-                await loadandDisplayAge()
-                await getActiveEnergy()
-                await getDietaryEnergy()
-                await getProtein()
-                await getFat()
-                await getCarbohydrates()
-            }
-        }
-        
-        group.wait()
-        
-//        queue.async(group: group) { [self] in
+//        queue.async(group: group) {
 //            Task {
-//                self.getWeekLongStats(start: Date.mondayAt12AM())
-//                await caloriesGoalwithDeficit()
-//                await caloriesRemaining()
-//
-//
+//                do {
+//                    try await self.healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead)
+//                } catch {
+//                    print("\(error.localizedDescription)")
+//                    print(String(describing: error))
+//                }
 //            }
 //        }
-//
+//        
 //        group.wait()
-        
-        queue.async(group: group) {
-            Task {
-                await MainActor.run {
-                    //                caloriesNeededToReachGoalWeight()
-                    self.determineCaloricStanding()
-                }
-            }
-        }
-        
-        queue.async(group: group) {
-            checkingAuthorization(type: .dietaryProtein)
-            checkingAuthorization(type: .dietaryFatTotal)
-            checkingAuthorization(type: .dietaryCarbohydrates)
-            checkingAuthorization(type: .dietaryEnergyConsumed)
-            checkingAuthorization(type: .dietaryCaffeine)
-            checkingAuthorization(type: .dietarySugar)
-            checkingAuthorization(type: .dietaryFiber)
-            checkingAuthorization(type: .dietaryCalcium)
-            checkingAuthorization(type: .dietaryIron)
-            checkingAuthorization(type: .dietaryMagnesium)
-            checkingAuthorization(type: .dietaryPhosphorus)
-            checkingAuthorization(type: .dietaryPotassium)
-            checkingAuthorization(type: .dietarySodium)
-            checkingAuthorization(type: .dietaryZinc)
-            checkingAuthorization(type: .dietaryCopper)
-            checkingAuthorization(type: .dietaryManganese)
-            checkingAuthorization(type: .dietarySelenium)
-            checkingAuthorization(type: .dietaryVitaminA)
-            checkingAuthorization(type: .dietaryVitaminE)
-            checkingAuthorization(type: .dietaryVitaminD)
-            checkingAuthorization(type: .dietaryVitaminC)
-            checkingAuthorization(type: .dietaryThiamin)
-            checkingAuthorization(type: .dietaryRiboflavin)
-            checkingAuthorization(type: .dietaryNiacin)
-            checkingAuthorization(type: .dietaryVitaminB6)
-            checkingAuthorization(type: .dietaryFolate)
-            checkingAuthorization(type: .dietaryVitaminB12)
-            checkingAuthorization(type: .dietaryVitaminK)
-            checkingAuthorization(type: .dietaryCholesterol)
-            checkingAuthorization(type: .dietaryFatSaturated)
-            checkingAuthorization(type: .dietaryFatMonounsaturated)
-            checkingAuthorization(type: .dietaryFatPolyunsaturated)
-            checkingAuthorization(type: .dietaryProtein)
-            checkingAuthorization(type: .dietaryFatTotal)
-            checkingAuthorization(type: .dietaryCarbohydrates)
-        }
+//        
+//        queue.async(group: group) { [self] in
+//            Task {
+//                try await printTheCorrelation(results: getCorrelationQuery())
+//            }
+//        }
+//        
+//        queue.async(group: group) { [self] in
+//            Task {
+//                await getWeight()
+//                await getHeight()
+//                await getBodyFat()
+//                await loadandDisplayAge()
+//                await getActiveEnergy()
+//                await getDietaryEnergy()
+//                await getProtein()
+//                await getFat()
+//                await getCarbohydrates()
+//            }
+//        }
+//        
+//        group.wait()
+//        
+////        queue.async(group: group) { [self] in
+////            Task {
+////                self.getWeekLongStats(start: Date.mondayAt12AM())
+////                await caloriesGoalwithDeficit()
+////                await caloriesRemaining()
+////
+////
+////            }
+////        }
+////
+////        group.wait()
+//        
+//        queue.async(group: group) {
+//            Task {
+//                await MainActor.run {
+//                    //                caloriesNeededToReachGoalWeight()
+//                    self.determineCaloricStanding()
+//                }
+//            }
+//        }
+//        
+//        queue.async(group: group) {
+//            checkingAuthorization(type: .dietaryProtein)
+//            checkingAuthorization(type: .dietaryFatTotal)
+//            checkingAuthorization(type: .dietaryCarbohydrates)
+//            checkingAuthorization(type: .dietaryEnergyConsumed)
+//            checkingAuthorization(type: .dietaryCaffeine)
+//            checkingAuthorization(type: .dietarySugar)
+//            checkingAuthorization(type: .dietaryFiber)
+//            checkingAuthorization(type: .dietaryCalcium)
+//            checkingAuthorization(type: .dietaryIron)
+//            checkingAuthorization(type: .dietaryMagnesium)
+//            checkingAuthorization(type: .dietaryPhosphorus)
+//            checkingAuthorization(type: .dietaryPotassium)
+//            checkingAuthorization(type: .dietarySodium)
+//            checkingAuthorization(type: .dietaryZinc)
+//            checkingAuthorization(type: .dietaryCopper)
+//            checkingAuthorization(type: .dietaryManganese)
+//            checkingAuthorization(type: .dietarySelenium)
+//            checkingAuthorization(type: .dietaryVitaminA)
+//            checkingAuthorization(type: .dietaryVitaminE)
+//            checkingAuthorization(type: .dietaryVitaminD)
+//            checkingAuthorization(type: .dietaryVitaminC)
+//            checkingAuthorization(type: .dietaryThiamin)
+//            checkingAuthorization(type: .dietaryRiboflavin)
+//            checkingAuthorization(type: .dietaryNiacin)
+//            checkingAuthorization(type: .dietaryVitaminB6)
+//            checkingAuthorization(type: .dietaryFolate)
+//            checkingAuthorization(type: .dietaryVitaminB12)
+//            checkingAuthorization(type: .dietaryVitaminK)
+//            checkingAuthorization(type: .dietaryCholesterol)
+//            checkingAuthorization(type: .dietaryFatSaturated)
+//            checkingAuthorization(type: .dietaryFatMonounsaturated)
+//            checkingAuthorization(type: .dietaryFatPolyunsaturated)
+//            checkingAuthorization(type: .dietaryProtein)
+//            checkingAuthorization(type: .dietaryFatTotal)
+//            checkingAuthorization(type: .dietaryCarbohydrates)
+//        }
         
         @Sendable func checkingAuthorization(type: HKQuantityTypeIdentifier) {
             if self.healthStore.authorizationStatus(for: HKObjectType.quantityType(forIdentifier: type)!) == .sharingAuthorized {
@@ -357,32 +357,32 @@ class FastingManager: ObservableObject {
             }
         }
         
-//        do {
-//            //            try await healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead)
-//            //            try await printTheCorrelation(results: getCorrelationQuery())
-//            //This order matters!
-//            //            await getWeight()
-//            //            await getHeight()
-//            //            await getBodyFat()
-//            //            await loadandDisplayAge()
-//            //            await getActiveEnergy()
-//            //            await getDietaryEnergy()
-//            //            await getProtein()
-//            //            await getFat()
-//            //            await getCarbohydrates()
+        do {
+                        try await healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead)
+                        try await printTheCorrelation(results: getCorrelationQuery())
+            //This order matters!
+                        await getWeight()
+                        await getHeight()
+                        await getBodyFat()
+                        await loadandDisplayAge()
+                        await getActiveEnergy()
+                        await getDietaryEnergy()
+                        await getProtein()
+                        await getFat()
+                        await getCarbohydrates()
 //            self.getWeekLongStats(start: Date.mondayAt12AM())
 //            await caloriesGoalwithDeficit()
 //            await caloriesRemaining()
-//
-//            await MainActor.run {
-//                //                caloriesNeededToReachGoalWeight()
-//                determineCaloricStanding()
-//            }
-//
-//
-//        } catch let error {
-//            print("An error occurred while requesting HealthKit Authorization: \(error.localizedDescription)")
-//        }
+
+            await MainActor.run {
+                //                caloriesNeededToReachGoalWeight()
+                determineCaloricStanding()
+            }
+
+
+        } catch let error {
+            print("An error occurred while requesting HealthKit Authorization: \(error.localizedDescription)")
+        }
     }
     
     func saveThing() {
@@ -1204,9 +1204,6 @@ class FastingManager: ObservableObject {
                 DispatchQueue.main.async {
                     self.currentScannedItem = nil
                     self.currentScannedItemJSON = nil
-                }
-                Task {
-                    await self.requestAuthorization()
                 }
             }
         }

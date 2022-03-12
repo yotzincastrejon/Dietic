@@ -104,7 +104,7 @@ struct Home: View {
             .accentColor(accentColor)
             .onAppear(perform: {
                 Task {
-                    await fastingManager.requestAuthorization()
+//                    await fastingManager.requestAuthorization()
                     fadeIn()
                 }
         })
@@ -173,6 +173,11 @@ struct Home: View {
                         .transition(.asymmetric(
                             insertion: .opacity.animation(.easeInOut(duration: 0.4).delay(0.3)),
                             removal: .opacity.animation(.easeInOut(duration: 0.8).delay(0.6))))
+            }
+        }
+        .onAppear {
+            Task {
+                await fastingManager.requestAuthorization()
             }
         }
             
