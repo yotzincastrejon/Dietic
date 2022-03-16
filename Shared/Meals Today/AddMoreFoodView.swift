@@ -449,11 +449,11 @@ struct AddingFromCoreData: View {
         }
         .navigationTitle("Adding Food")
         .navigationBarTitleDisplayMode(.inline)
-        .onTapGesture {
-            if focusedField != nil {
-                focusedField = nil
-            }
-        }
+//        .onTapGesture {
+//            if focusedField != nil {
+//                focusedField = nil
+//            }
+//        }
     }
     
     func nutrientCalculation(mainNumber: Double) -> String {

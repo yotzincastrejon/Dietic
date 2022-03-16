@@ -225,11 +225,13 @@ struct EditingResultsView: View {
         }
         .navigationTitle("Edit Entry")
         .navigationBarTitleDisplayMode(.inline)
-        .onTapGesture {
-            if focusedField != nil {
-                focusedField = nil
-            }
-        }
+        
+//        .simultaneousGesture(TapGesture()
+//            .onEnded {
+//            if focusedField != nil {
+//                focusedField = nil
+//            }
+//        })
     }
     
     func nutrientCalculation(mainNumber: Double) -> String {
