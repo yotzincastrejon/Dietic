@@ -163,8 +163,8 @@ class FastingManager: ObservableObject {
     
     
     func requestAuthorization() async {
-        let queue = DispatchQueue.global()
-        let group = DispatchGroup()
+//        let queue = DispatchQueue.global()
+//        let group = DispatchGroup()
         
         let typesToRead: Set = [
             HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
@@ -881,7 +881,7 @@ class FastingManager: ObservableObject {
             
             decodeJSONResponse(json: safeData)
             DispatchQueue.main.async {
-                currentScannedItemJSON = safeData
+                self.currentScannedItemJSON = safeData
             }
             //Or the current working model is decodeJSONResponse(json: data!)
         }
@@ -933,7 +933,7 @@ class FastingManager: ObservableObject {
             guard response.statusCode != 404  else {                        // check if item is missing or doesn't exist in the database.
                 print("item is missing/doesn't exist")
                 DispatchQueue.main.async {
-                    itemIsMissingBool = true
+                    self.itemIsMissingBool = true
                 }
                 return
             }
@@ -954,7 +954,7 @@ class FastingManager: ObservableObject {
             
             decodeJSONResponse(json: safeData)
             DispatchQueue.main.async {
-                currentScannedItemJSON = safeData
+                self.currentScannedItemJSON = safeData
             }
             //Or the current working model is decodeJSONResponse(json: data!)
         }
@@ -1145,11 +1145,13 @@ class FastingManager: ObservableObject {
         if editing {
             for i in 0..<sample.attrIDArray.count {
                 guard attrIDArray[sample.attrIDArray[i]] != nil else { continue }
+                guard healthStore.authorizationStatus(for: attrIDArray[sample.attrIDArray[i]]!.sampleType) == .sharingAuthorized else { continue }
                 fromNutrientArray.insert(attrIDArray[sample.attrIDArray[i]]!)
             }
         } else {
             for i in 0..<fullNutrientArray.count {
                 guard attrIDArray[fullNutrientArray[i].attrID] != nil else { continue }
+                guard healthStore.authorizationStatus(for: attrIDArray[fullNutrientArray[i].attrID]!.sampleType) == .sharingAuthorized else { continue }
                 fromNutrientArray.insert(attrIDArray[fullNutrientArray[i].attrID]!)
             }
         }
