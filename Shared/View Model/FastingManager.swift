@@ -801,7 +801,10 @@ class FastingManager: ObservableObject {
     @Published var instantResponse = [InstantSearchModel]()
     func instantRequestToNutrionix(string: String) async {
         var queryString = string
+        queryString = queryString.filter { $0.isPunctuation == false }
+        queryString = queryString.trimmingCharacters(in: .whitespaces)
         queryString = queryString.replacingOccurrences(of: " ", with: "-")
+        
         print("String: \(queryString)")
         let url = URL(string: "https://trackapi.nutritionix.com/v2/search/instant?query=\(queryString)")! //PUT your string
         var request = URLRequest(url: url)
