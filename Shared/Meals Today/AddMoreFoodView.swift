@@ -501,6 +501,7 @@ struct AddingFromCoreData: View {
             sample?.numberOfServings = (Double(text) ?? 0)
             sample?.servingSelection = servingTypeSelection.description
             sample?.mealPeriod = selection.description
+            sample?.date = fastingManager.todaysDate
         } else {
             let servingWeightGrams = sample?.servingWeightGrams
             sample?.calories = Double(sample?.calories ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
@@ -538,6 +539,7 @@ struct AddingFromCoreData: View {
             sample?.numberOfServings = (Double(text) ?? 0)
             sample?.servingSelection = servingTypeSelection.description
             sample?.mealPeriod = selection.description
+            sample?.date = fastingManager.todaysDate
         }
     }
     
