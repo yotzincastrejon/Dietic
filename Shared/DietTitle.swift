@@ -19,11 +19,11 @@ struct DietTitle: View {
                 .font(.headline)
             
             Spacer()
-            NavigationLink(destination: view) {
-                Text(imageStringText)
-                Image(systemName: imageSystemName)
-            }
-            .font(.subheadline)
+//            NavigationLink(destination: view) {
+//                Text(imageStringText)
+//                Image(systemName: imageSystemName)
+//            }
+//            .font(.subheadline)
         }
     }
 }

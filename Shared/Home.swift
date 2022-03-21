@@ -22,37 +22,15 @@ struct Home: View {
                         Color(uiColor: .systemGroupedBackground)
                             .ignoresSafeArea()
                         
-                        
                             ScrollView(showsIndicators: false) {
                                 ZStack {
                                     VStack {
                                         
                                         PlanView(isTapped: $isTapped)
                                             .opacity(appear[0] ? 1 : 0)
-                                            
-        //                                DietTitle(title: "Mediterranean diet", view: AnyView(DietDetailView()), imageStringText: "Details", imageSystemName: "arrow.right")
-        //                                    .overlay(
-        //                                        VStack {
-        //                                            LottieView(filename: "cycling", loopMode: .loop)
-        //                                                .frame(width: 100, height: 100)
-        //                                                .offset(x: 40, y: -14)
-        //                                            Spacer()
-        //                                        }
-        //                                    )
                                         
                                         DietCard(fastingManager: fastingManager)
                                             
-        //                                    .overlay(
-        //                                        VStack {
-        //                                            Image("RunningMan")
-        //                                            .resizable()
-        //                                            .aspectRatio(contentMode: .fit)
-        //                                        .frame(height: 200)
-        //                                        .offset(x: 0, y: -12)
-        //                                            Spacer()
-        //                                        }
-        //                                    )
-                                        
                                         DietTitle(title: "Meals today", view: AnyView(DietDetailView()), imageStringText: "Customize", imageSystemName: "arrow.right")
                                             .padding(.top)
                                             .opacity(appear[1] ? 1 : 0)
@@ -62,7 +40,6 @@ struct Home: View {
                                             .opacity(appear[1] ? 1 : 0)
                                             
                                             
-                                        
                                         DietTitle(title: "Body measurement", view: AnyView(DietDetailView()), imageStringText: "Today", imageSystemName: "arrow.right")
                                             .opacity(appear[2] ? 1 : 0)
                                         
@@ -71,18 +48,15 @@ struct Home: View {
                                     }
                                     .padding()
                                     
-                                        
-                                    
-                                    
                                 }
                             }
                             .onAppear {
                                 accentColor = .blue
                             }
-                        
                     }
                     .navigationTitle("My Diary")
                     .toolbar {
+                        
                         ToolbarItem(placement: .navigationBarTrailing) {
                             DateChanger(fastingManager: fastingManager)
                         }
@@ -98,24 +72,19 @@ struct Home: View {
                             
                         }
                     }
-                    
                 }
                 .navigationViewStyle(StackNavigationViewStyle())
             .accentColor(accentColor)
-            .onAppear(perform: {
+            .onAppear {
                 Task {
-//                    await fastingManager.requestAuthorization()
-                    fadeIn()
+                fadeIn()
                 }
-        })
-//            .blur(radius: 14)
+            }
             .blur(radius:isTapped ? 10 : 0, opaque: true)
             .saturation(isTapped ? 1.5 : 1)
             .ignoresSafeArea()
             if isTapped {
                         ZStack {
-//                            BlurView(effect: .systemUltraThinMaterial)
-//                                .ignoresSafeArea()
                             Rectangle()
                                 .fill(.white).opacity(0.1)
                                 .ignoresSafeArea()
