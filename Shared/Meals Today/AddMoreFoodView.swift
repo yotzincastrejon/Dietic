@@ -25,6 +25,8 @@ struct AddMoreFoodView: View {
     @State private var isTorchOn = false
     @State private var dragAmount: CGPoint?
     @State private var showingAddingView = false
+    @State private var data: Data? = nil
+    @State private var addingFromCoreDataIsShowing = false
     @Binding var accentColor: Color
     init(fastingManager: FastingManager, mealPeriod: EatingTime, topHeaderColors: [Color], rootIsActive: Binding<Bool>, accentColor: Binding<Color>) {
         self.fastingManager = fastingManager
@@ -49,10 +51,14 @@ struct AddMoreFoodView: View {
                 List {
                     Section("History") {
                         ForEach(items) { item in
-                            NavigationLink(destination: AddingFromCoreData(selection: mealPeriod, fastingManager: fastingManager, sample: fastingManager.decodeJsonFromCoreData(data: (item.jsonData ?? "".data(using: .utf8))!), shouldPopToRootView: $rootIsActive)
-                                .onAppear {
+                            ZStack {
+                                Button(action: {
                                     Task {
-                                            item.timestamp = Date.now
+                                        data = item.jsonData
+                                        if data != nil {
+                                            addingFromCoreDataIsShowing = true
+                                        }
+                                        item.timestamp = Date.now
                                         do {
                                             try viewContext.save()
                                         } catch {
@@ -61,31 +67,41 @@ struct AddMoreFoodView: View {
                                         }
                                         accentColor = .blue
                                     }
-                                }
-                                .navigationBarBackButtonHidden(true)
-                            ) {
-                                HStack {
-                                    VStack(alignment: .leading) {
-                                        Text("\(item.name ?? "No Name")")
+                                }) {
+                                    HStack {
+                                        VStack(alignment: .leading) {
+                                            Text("\(item.name ?? "No Name")")
+                                                .font(.subheadline)
+                                                .fontWeight(.semibold)
+                                                .foregroundColor(Color(uiColor: .label))
+                                                .multilineTextAlignment(.leading)
+                                            Text("\(item.brandName ??  "No brand")")
+                                                .font(.caption2)
+                                                .foregroundColor(Color(uiColor: .secondaryLabel))
+                                        }
+                                        Spacer()
+                                        Text("\(Int(item.calories)) kcal")
                                             .font(.subheadline)
-                                            .fontWeight(.semibold)
-                                        Text("\(item.brandName ??  "No brand")")
-                                            .font(.caption2)
-                                            .foregroundColor(Color(uiColor: .secondaryLabel))
+                                            .foregroundColor(Color("B10"))
+                                        
                                     }
-                                    Spacer()
-                                    Text("\(Int(item.calories)) kcal")
-                                        .font(.subheadline)
-                                        .foregroundColor(Color("B10"))
+                                    .padding(.leading)
+                                    .padding(.trailing, 60)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 60)
+                                    .background(Color(uiColor: .secondarySystemGroupedBackground))
                                     
                                 }
+                                PlusToCheckMark()
+//                               
                             }
-                            .isDetailLink(false)
                         }
                         .onDelete(perform: deleteItems)
-                        
+                        .cornerRadius(10)
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color(uiColor: .systemGroupedBackground))
+                        .buttonStyle(BorderlessButtonStyle())
                     }
-                    
                 }
                 .listStyle(.plain)
                 .searchable(text: $searchText)
@@ -101,15 +117,25 @@ struct AddMoreFoodView: View {
                     items.nsPredicate = newValue.isEmpty ? nil : NSPredicate(format: "name CONTAINS %@", newValue)
                 })
                 
-                .environment(\.defaultMinListRowHeight, 52)
+                //                .environment(\.defaultMinListRowHeight, 52)
                 //                .frame(minHeight: 52 * CGFloat(items.count))
                 .padding(.top, 80)
-                
                 BarcodeButton(themeColor: topHeaderColors, isActive: $isShowingBarcodeView)
                 
                 NavigationLink(destination: JsonResponseView(isShowing: $showingAddingView, rootIsActive: $rootIsActive, fastingManager: fastingManager, sample: fastingManager.currentScannedItem ?? HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, mealPeriod: "", numberOfServings: 1, servingSelection: "", uuid: "", date: Date.now, attrIDArray: [Int]()), mealPeriod: mealPeriod).navigationBarBackButtonHidden(true), isActive: $showingAddingView, label: { EmptyView() } )
-                    
-               
+                
+                NavigationLink(destination: AddingFromCoreData(selection: mealPeriod, fastingManager: fastingManager, sample: fastingManager.decodeJsonFromCoreData(data: data ?? "".data(using: .utf8)!), shouldPopToRootView: $rootIsActive)
+                    .onAppear {
+                        Task {
+                            accentColor = .blue
+                        }
+                    }
+                    .navigationBarBackButtonHidden(true)
+                               , isActive: $addingFromCoreDataIsShowing
+                               , label: { EmptyView() }
+                               
+                )
+                .isDetailLink(false)
             } else {
                 // MARK: - Nutrionix Database
                 VStack {
@@ -139,6 +165,7 @@ struct AddMoreFoodView: View {
                                             .foregroundColor(Color("B10"))
                                         
                                     }
+                                    
                                 }
                                 .isDetailLink(false)
                             }
@@ -602,5 +629,40 @@ struct SearchableListView: View {
         }
         
         
+    }
+}
+
+struct PlusToCheckMark: View {
+    @State var isTapped = false
+    var body: some View {
+        HStack {
+            Spacer()
+            Button(action: {
+                
+                isTapped = true
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+//                       isTapped = false
+//                }
+            }) {
+                ZStack {
+                    if isTapped {
+                        LottieView(filename: "checkmark", loopMode: .playOnce)
+                            .frame(width: 60)
+                    } else {
+                        ZStack {
+                            Circle()
+                                .fill(Color(uiColor: .systemGray2))
+                            Image(systemName: "plus")
+                                .font(.system(.body).bold())
+                                .foregroundColor(.white)
+                                
+                        }
+                        .frame(width: 30)
+                    }
+                }
+            }
+            
+        }
+        .padding(.trailing, isTapped ? 5 : 20)
     }
 }

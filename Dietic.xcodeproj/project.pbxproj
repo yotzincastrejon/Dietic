@@ -31,6 +31,8 @@
 		FA0081E127209831004719BE /* DateChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DF27209831004719BE /* DateChanger.swift */; };
 		FA17BF4827C0528C00F662C6 /* EditingResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17BF4727C0528C00F662C6 /* EditingResultsView.swift */; };
 		FA17BF4927C0528C00F662C6 /* EditingResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17BF4727C0528C00F662C6 /* EditingResultsView.swift */; };
+		FA1E35C427ECD20E007864F6 /* ListStyleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E35C327ECD20E007864F6 /* ListStyleTest.swift */; };
+		FA1E35C527ECD20E007864F6 /* ListStyleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E35C327ECD20E007864F6 /* ListStyleTest.swift */; };
 		FA24FDCD27D3F9B9003EE197 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA24FDCC27D3F9B9003EE197 /* CloudKit.framework */; };
 		FA43D71F27B4988000A709B3 /* JsonResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA43D71E27B4988000A709B3 /* JsonResponseView.swift */; };
 		FA43D72027B4988000A709B3 /* JsonResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA43D71E27B4988000A709B3 /* JsonResponseView.swift */; };
@@ -128,6 +130,7 @@
 		FA0081DC27209455004719BE /* WeightCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightCard.swift; sourceTree = "<group>"; };
 		FA0081DF27209831004719BE /* DateChanger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateChanger.swift; sourceTree = "<group>"; };
 		FA17BF4727C0528C00F662C6 /* EditingResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingResultsView.swift; sourceTree = "<group>"; };
+		FA1E35C327ECD20E007864F6 /* ListStyleTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListStyleTest.swift; sourceTree = "<group>"; };
 		FA24FDCC27D3F9B9003EE197 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.2.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		FA43D71E27B4988000A709B3 /* JsonResponseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonResponseView.swift; sourceTree = "<group>"; };
 		FA719620279B1E6400A50598 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -342,6 +345,7 @@
 				FA0081D027207226004719BE /* MealCard.swift */,
 				FA0081D627207286004719BE /* SnackCard.swift */,
 				FA72D58327D2E76C00EFFCC4 /* AddMoreFoodView.swift */,
+				FA1E35C327ECD20E007864F6 /* ListStyleTest.swift */,
 				FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */,
 				FA43D71E27B4988000A709B3 /* JsonResponseView.swift */,
 				FA17BF4727C0528C00F662C6 /* EditingResultsView.swift */,
@@ -495,6 +499,7 @@
 				FAD169BC271DFAAE00C21397 /* ContentView.swift in Sources */,
 				FAD169BA271DFAAE00C21397 /* Dietic.swift in Sources */,
 				FAF517B927232B6400BD54E7 /* DashedLine.swift in Sources */,
+				FA1E35C427ECD20E007864F6 /* ListStyleTest.swift in Sources */,
 				FA0081D427207259004719BE /* MealsToday.swift in Sources */,
 				FAD169F3271DFC9100C21397 /* Calorie.swift in Sources */,
 				FA84808327BCBEF10085E42C /* TestView.swift in Sources */,
@@ -551,6 +556,7 @@
 				FAD169BD271DFAAE00C21397 /* ContentView.swift in Sources */,
 				FAD169BB271DFAAE00C21397 /* Dietic.swift in Sources */,
 				FAF517BA27232B6400BD54E7 /* DashedLine.swift in Sources */,
+				FA1E35C527ECD20E007864F6 /* ListStyleTest.swift in Sources */,
 				FA0081D527207259004719BE /* MealsToday.swift in Sources */,
 				FAD169F4271DFC9100C21397 /* Calorie.swift in Sources */,
 				FA84808427BCBEF10085E42C /* TestView.swift in Sources */,

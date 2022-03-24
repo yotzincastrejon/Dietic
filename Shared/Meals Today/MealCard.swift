@@ -78,6 +78,7 @@ struct MealCard: View {
                         Text(fastingManager.theSamples.filter { $0.mealPeriod == mealPeriod.description }.map { $0.foodName }.joined(separator: ", "))
                             .font(.caption2)
                             .foregroundColor(.white)
+                            .multilineTextAlignment(.leading)
     //                        .padding(.bottom, 15)
     //                        .fixedSize(horizontal: false, vertical: true)
                             
