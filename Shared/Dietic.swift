@@ -11,7 +11,7 @@ import CoreData
 @main
 struct Dietic: App {
     let persistenceController = PersistenceController.shared
-
+//    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     var body: some Scene {
         WindowGroup {
             ContentView()

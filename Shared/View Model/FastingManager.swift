@@ -1168,8 +1168,12 @@ class FastingManager: ObservableObject {
             } else {
                 print("Success in saving correlation sample")
                 DispatchQueue.main.async {
+                    if self.currentScannedItem != nil {
                     self.currentScannedItem = nil
+                    }
+                    if self.currentScannedItemJSON != nil {
                     self.currentScannedItemJSON = nil
+                    }
                 }
             }
         }

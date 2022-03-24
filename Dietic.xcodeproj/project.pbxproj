@@ -41,6 +41,8 @@
 		FA7BC5BA27C9822500816E59 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = FA7BC5B927C9822500816E59 /* CodeScanner */; };
 		FA80108127D95C77000CADD9 /* PlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA80108027D95C77000CADD9 /* PlanView.swift */; };
 		FA80108227D95C77000CADD9 /* PlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA80108027D95C77000CADD9 /* PlanView.swift */; };
+		FA844A0127EA81BC00323570 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA844A0027EA81BC00323570 /* AppDelegate.swift */; };
+		FA844A0227EA81BC00323570 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA844A0027EA81BC00323570 /* AppDelegate.swift */; };
 		FA84808327BCBEF10085E42C /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA84808227BCBEF10085E42C /* TestView.swift */; };
 		FA84808427BCBEF10085E42C /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA84808227BCBEF10085E42C /* TestView.swift */; };
 		FA8E989827BEAB8E00EA297B /* MatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E989727BEAB8E00EA297B /* MatchedView.swift */; };
@@ -131,6 +133,7 @@
 		FA719620279B1E6400A50598 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FA72D58327D2E76C00EFFCC4 /* AddMoreFoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMoreFoodView.swift; sourceTree = "<group>"; };
 		FA80108027D95C77000CADD9 /* PlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanView.swift; sourceTree = "<group>"; };
+		FA844A0027EA81BC00323570 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA84808227BCBEF10085E42C /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		FA8E989727BEAB8E00EA297B /* MatchedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedView.swift; sourceTree = "<group>"; };
 		FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstantQueryResponseView.swift; sourceTree = "<group>"; };
@@ -238,6 +241,7 @@
 				FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */,
 				FA92EFAD27CD3A0A00FF9028 /* SwiftUIView.swift */,
 				FAD1ADCD272125EA00785223 /* GoalSettings.swift */,
+				FA844A0027EA81BC00323570 /* AppDelegate.swift */,
 				FA80108027D95C77000CADD9 /* PlanView.swift */,
 				FAC7DEED27D3F75200006BE1 /* SavedFoodsHistory.xcdatamodeld */,
 				FAC7DEF127D3F7D400006BE1 /* Persistence.swift */,
@@ -473,6 +477,7 @@
 				FA8E989827BEAB8E00EA297B /* MatchedView.swift in Sources */,
 				FAF517C227232F9400BD54E7 /* CompleteGraph.swift in Sources */,
 				FAFEC33527DA7BBA009BEAE2 /* VisualEffectBlur.swift in Sources */,
+				FA844A0127EA81BC00323570 /* AppDelegate.swift in Sources */,
 				FAB25D2027D9767500033377 /* LottieView.swift in Sources */,
 				FA0081D127207226004719BE /* MealCard.swift in Sources */,
 				FAD1ADCE272125EA00785223 /* GoalSettings.swift in Sources */,
@@ -528,6 +533,7 @@
 				FA8E989927BEAB8E00EA297B /* MatchedView.swift in Sources */,
 				FAF517C327232F9400BD54E7 /* CompleteGraph.swift in Sources */,
 				FAFEC33627DA7BBA009BEAE2 /* VisualEffectBlur.swift in Sources */,
+				FA844A0227EA81BC00323570 /* AppDelegate.swift in Sources */,
 				FAB25D2127D9767500033377 /* LottieView.swift in Sources */,
 				FA0081D227207226004719BE /* MealCard.swift in Sources */,
 				FAD1ADCF272125EA00785223 /* GoalSettings.swift in Sources */,

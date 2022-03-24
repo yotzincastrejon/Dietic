@@ -52,8 +52,12 @@ struct AddMoreFoodView: View {
                             NavigationLink(destination: AddingFromCoreData(selection: mealPeriod, fastingManager: fastingManager, sample: fastingManager.decodeJsonFromCoreData(data: (item.jsonData ?? "".data(using: .utf8))!), shouldPopToRootView: $rootIsActive)
                                 .onAppear {
                                     Task {
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                             item.timestamp = Date.now
+                                        do {
+                                            try viewContext.save()
+                                        } catch {
+                                            let nsError = error as NSError
+                                            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
                                         }
                                         accentColor = .blue
                                     }
