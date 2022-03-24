@@ -537,6 +537,7 @@ struct AddingFromCoreData: View {
             sample?.servingSelection = servingTypeSelection.description
             sample?.mealPeriod = selection.description
             sample?.date = fastingManager.todaysDate
+            print(fastingManager.todaysDate)
         } else {
             let servingWeightGrams = sample?.servingWeightGrams
             sample?.calories = Double(sample?.calories ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
@@ -639,7 +640,7 @@ struct PlusToCheckMark: View {
             Spacer()
             Button(action: {
                 
-                isTapped = true
+                isTapped.toggle()
 //                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
 //                       isTapped = false
 //                }
@@ -648,6 +649,7 @@ struct PlusToCheckMark: View {
                     if isTapped {
                         LottieView(filename: "checkmark", loopMode: .playOnce)
                             .frame(width: 60)
+                            .transition(.opacity.animation(.easeInOut(duration: 0.2)))
                     } else {
                         ZStack {
                             Circle()
@@ -658,7 +660,7 @@ struct PlusToCheckMark: View {
                                 
                         }
                         .frame(width: 30)
-                    }
+                        .transition(.opacity.animation(.easeInOut(duration: 0.2)))                    }
                 }
             }
             

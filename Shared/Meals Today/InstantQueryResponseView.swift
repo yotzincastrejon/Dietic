@@ -239,6 +239,7 @@ struct InstantQueryResponseView: View {
         fastingManager.currentScannedItem?.numberOfServings = (Double(text) ?? 0)
         fastingManager.currentScannedItem?.servingSelection = servingTypeSelection.description
         fastingManager.currentScannedItem?.mealPeriod = selection.description
+            fastingManager.currentScannedItem?.date = fastingManager.todaysDate
         } else {
             let servingWeightGrams = fastingManager.currentScannedItem?.servingWeightGrams
             fastingManager.currentScannedItem?.calories = Double(fastingManager.currentScannedItem?.calories ?? 0)/(servingWeightGrams ?? 1) * (Double(text) ?? 0)
@@ -276,6 +277,7 @@ struct InstantQueryResponseView: View {
             fastingManager.currentScannedItem?.numberOfServings = (Double(text) ?? 0)
             fastingManager.currentScannedItem?.servingSelection = servingTypeSelection.description
             fastingManager.currentScannedItem?.mealPeriod = selection.description
+            fastingManager.currentScannedItem?.date = fastingManager.todaysDate
         }
     }
     private func addItemToCoreData() {
