@@ -92,8 +92,8 @@ struct AddMoreFoodView: View {
                                     .background(Color(uiColor: .secondarySystemGroupedBackground))
                                     
                                 }
-                                PlusToCheckMark()
-//                               
+                                PlusToCheckMark(fastingManager: fastingManager, mealPeriod: mealPeriod, sample: fastingManager.decodeJsonFromCoreData(data: item.jsonData!), fetched: item)
+                                //
                             }
                         }
                         .onDelete(perform: deleteItems)
@@ -268,12 +268,12 @@ struct AddMoreFoodView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             
-                NavigationView {
-                    AddMoreFoodView(fastingManager: FastingManager(), mealPeriod: .lunch, topHeaderColors: [Color("B10"), Color("B00")], rootIsActive: Binding.constant(false), accentColor: Binding.constant(.blue))
-                        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-                    
-                }
+            NavigationView {
+                AddMoreFoodView(fastingManager: FastingManager(), mealPeriod: .lunch, topHeaderColors: [Color("B10"), Color("B00")], rootIsActive: Binding.constant(false), accentColor: Binding.constant(.blue))
+                    .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
                 
+            }
+            
             
             
             //            TabView {
@@ -633,16 +633,37 @@ struct SearchableListView: View {
 }
 
 struct PlusToCheckMark: View {
+    @Environment(\.managedObjectContext) private var viewContext
+    @ObservedObject var fastingManager: FastingManager
+    @State var mealPeriod: EatingTime
     @State var isTapped = false
+    @State var text = "1"
+    @State var sample: HKSampleWithDescription?
+    @State var fetched: FetchedResults<SearchedFoods>.Element
     var body: some View {
         HStack {
             Spacer()
             Button(action: {
                 
-                isTapped.toggle()
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-//                       isTapped = false
-//                }
+                if sample != nil && isTapped != true {
+                    saveNewValue()
+                    fastingManager.saveCorrelation(sample: sample! , editing: false)
+                    isTapped = true
+                    fetched.timestamp = Date.now
+                    do {
+                        try viewContext.save()
+                    } catch {
+                        let nsError = error as NSError
+                        fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                    }
+                    Task {
+                        await fastingManager.requestAuthorization()
+                    }
+                }
+                
+                //                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                //                       isTapped = false
+                //                }
             }) {
                 ZStack {
                     if isTapped {
@@ -656,7 +677,7 @@ struct PlusToCheckMark: View {
                             Image(systemName: "plus")
                                 .font(.system(.body).bold())
                                 .foregroundColor(.white)
-                                
+                            
                         }
                         .frame(width: 30)
                         .transition(.opacity.animation(.easeInOut(duration: 0.2)))                    }
@@ -665,5 +686,45 @@ struct PlusToCheckMark: View {
             
         }
         .padding(.trailing, isTapped ? 5 : 20)
+    }
+    
+    func saveNewValue() {
+        sample?.calories = Double(sample?.calories ?? 0) * (Double(text) ?? 0)
+        sample?.sugars = (sample?.sugars ?? 0) * (Double(text) ?? 0)
+        sample?.totalFat = Double(sample?.totalFat ?? 0) * (Double(text) ?? 0)
+        sample?.saturatedFat = (sample?.saturatedFat ?? 0) * (Double(text) ?? 0)
+        sample?.cholesterol = Double(sample?.cholesterol ?? 0) * (Double(text) ?? 0)
+        sample?.sodium = Double(sample?.sodium ?? 0) * (Double(text) ?? 0)
+        sample?.totalCarbohydrate = Double(sample?.totalCarbohydrate ?? 0) * (Double(text) ?? 0)
+        sample?.dietaryFiber = Double(sample?.dietaryFiber ?? 0) * (Double(text) ?? 0)
+        sample?.protein = Double(sample?.protein ?? 0) * (Double(text) ?? 0)
+        sample?.potassium = Double(sample?.potassium ?? 0) * (Double(text) ?? 0)
+        sample?.calcium = Double(sample?.calcium ?? 0) * (Double(text) ?? 0)
+        sample?.iron = Double(sample?.iron ?? 0) * (Double(text) ?? 0)
+        sample?.monounsaturatedFat = Double(sample?.monounsaturatedFat ?? 0) * (Double(text) ?? 0)
+        sample?.polyunsaturatedFat = Double(sample?.polyunsaturatedFat ?? 0) * (Double(text) ?? 0)
+        sample?.caffeine = Double(sample?.caffeine ?? 0) * (Double(text) ?? 0)
+        sample?.copper = Double(sample?.copper ?? 0) * (Double(text) ?? 0)
+        sample?.folate = Double(sample?.folate ?? 0) * (Double(text) ?? 0)
+        sample?.magnesium = Double(sample?.magnesium ?? 0) * (Double(text) ?? 0)
+        sample?.manganese = Double(sample?.manganese ?? 0) * (Double(text) ?? 0)
+        sample?.niacin = Double(sample?.niacin ?? 0) * (Double(text) ?? 0)
+        sample?.phosphorus = Double(sample?.phosphorus ?? 0) * (Double(text) ?? 0)
+        sample?.riboflavin = Double(sample?.riboflavin ?? 0) * (Double(text) ?? 0)
+        sample?.selenium = Double(sample?.selenium ?? 0) * (Double(text) ?? 0)
+        sample?.thiamin = Double(sample?.thiamin ?? 0) * (Double(text) ?? 0)
+        sample?.vitaminA = Double(sample?.vitaminA ?? 0) * (Double(text) ?? 0)
+        sample?.vitaminC = Double(sample?.vitaminC ?? 0) * (Double(text) ?? 0)
+        sample?.vitaminB6 = Double(sample?.vitaminB6 ?? 0) * (Double(text) ?? 0)
+        sample?.vitaminB12 = Double(sample?.vitaminB12 ?? 0) * (Double(text) ?? 0)
+        sample?.vitaminD = Double(sample?.vitaminD ?? 0) * (Double(text) ?? 0)
+        sample?.vitaminE = Double(sample?.vitaminE ?? 0) * (Double(text) ?? 0)
+        sample?.vitaminK = Double(sample?.vitaminK ?? 0) * (Double(text) ?? 0)
+        sample?.zinc = Double(sample?.zinc ?? 0) * (Double(text) ?? 0)
+        sample?.numberOfServings = (Double(text) ?? 0)
+        sample?.servingSelection = ServingType.serving.description
+        sample?.mealPeriod = mealPeriod.description
+        sample?.date = fastingManager.todaysDate
+        print(fastingManager.todaysDate)
     }
 }

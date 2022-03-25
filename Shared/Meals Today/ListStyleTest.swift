@@ -55,7 +55,7 @@ struct ListStyleTest: View {
                                 .background(Color.white)
                             }
                             
-                            PlusToCheckMark()
+//                            PlusToCheckMark()
                         }
                         
                     }
