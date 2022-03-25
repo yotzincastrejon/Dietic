@@ -267,15 +267,14 @@ struct AddMoreFoodView_Previews: PreviewProvider {
     
     static var previews: some View {
         Group {
-            TabView {
+            
                 NavigationView {
                     AddMoreFoodView(fastingManager: FastingManager(), mealPeriod: .lunch, topHeaderColors: [Color("B10"), Color("B00")], rootIsActive: Binding.constant(false), accentColor: Binding.constant(.blue))
+                        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
                     
                 }
-                .tabItem { Image(systemName: "gear")
-                    Text("Test")
-                }
-            }
+                
+            
             
             //            TabView {
             //                NavigationView {

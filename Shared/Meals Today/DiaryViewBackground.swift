@@ -64,6 +64,7 @@ struct DiaryViewBackground_Previews: PreviewProvider {
         Group {
             NavigationView {
                 DiaryViewBackground(fastingManager: FastingManager(), mealPeriod: .lunch, themeColor: [Color("B10"), Color("B00")], accentColor: Binding.constant(.white))
+                   
             }
             NavigationView {
                 DiaryViewBackground(fastingManager: FastingManager(), mealPeriod: .lunch, themeColor: [Color("B10"), Color("B00")], accentColor: Binding.constant(.white))
