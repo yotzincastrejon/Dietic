@@ -92,7 +92,8 @@ struct AddMoreFoodView: View {
                                     .background(Color(uiColor: .secondarySystemGroupedBackground))
                                     
                                 }
-                                PlusToCheckMark(fastingManager: fastingManager, mealPeriod: mealPeriod, sample: fastingManager.decodeJsonFromCoreData(data: item.jsonData!), fetched: item)
+                                
+                                PlusToCheckMark(fastingManager: fastingManager, mealPeriod: mealPeriod, sample: fastingManager.decodeJsonFromCoreData(data: item.jsonData ?? "".data(using: .utf8)!), fetched: item)
                                 //
                             }
                         }
