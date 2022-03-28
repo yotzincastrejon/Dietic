@@ -252,7 +252,7 @@ class FastingManager: ObservableObject {
         }
         
         func typeToRead(type: HKQuantityTypeIdentifier) -> HKObjectType {
-            return HKObjectType.quantityType(forIdentifier: type)!
+            return HKQuantityType.quantityType(forIdentifier: type)!
         }
         
 //        queue.async(group: group) {
