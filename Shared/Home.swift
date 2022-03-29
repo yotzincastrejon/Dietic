@@ -12,7 +12,6 @@ struct Home: View {
     @ObservedObject var fastingManager: FastingManager
     @State var plusButtonTapped = false
     @State var accentColor: Color = .blue
-    @State var isTapped: Bool = false
     @State var appear = [false, false, false]
     var body: some View {
         ZStack {
@@ -26,8 +25,8 @@ struct Home: View {
                                 ZStack {
                                     VStack {
                                         
-                                        PlanView(isTapped: $isTapped)
-                                            .opacity(appear[0] ? 1 : 0)
+//                                        PlanView(isTapped: $isTapped)
+//                                            .opacity(appear[0] ? 1 : 0)
                                         
                                         DietCard(fastingManager: fastingManager)
                                             
@@ -80,69 +79,8 @@ struct Home: View {
                 fadeIn()
                 }
             }
-            .blur(radius:isTapped ? 10 : 0, opaque: true)
-            .saturation(isTapped ? 1.5 : 1)
             .ignoresSafeArea()
-            if isTapped {
-                        ZStack {
-                            Rectangle()
-                                .fill(.white).opacity(0.1)
-                                .ignoresSafeArea()
-                            VStack(spacing: 10) {
-                                Button(action: {
-                                    isTapped = false
-                                }) {
-                                    ZStack {
-                                       
-                                        Text("Weight Gain")
-                                            .foregroundColor(.white)
-                                            .font(.headline)
-                                            
-                                    }
-                                    .frame(height: 58)
-                                    .frame(maxWidth: .infinity)
-                                    .background(
-                                        BlurView(effect: .systemThinMaterialDark)
-                                    )
-                                .clipShape(Capsule())
-                                }
-                                
-                                Button(action: {
-                                    isTapped = false
-                                }) {
-                                    Text("Maintain")
-                                        .foregroundColor(.white)
-                                        .font(.headline)
-                                        .frame(height: 58)
-                                        .frame(maxWidth: .infinity)
-                                        .background(
-                                            BlurView(effect: .systemThinMaterialDark)
-                                        )
-                                        .clipShape(Capsule())
-                                }
-                                
-                                Button(action: {
-                                    isTapped = false
-                                }) {
-                                    Text("Weight Loss")
-                                        .foregroundColor(.white)
-                                        .font(.headline)
-                                        .frame(height: 58)
-                                        .frame(maxWidth: .infinity)
-                                        .background(
-                                            BlurView(effect: .systemThinMaterialDark)
-                                        )
-                                        .clipShape(Capsule())
-                                }
-                            
-                            }
-                            .padding(60)
-            
-                        }
-                        .transition(.asymmetric(
-                            insertion: .opacity.animation(.easeInOut(duration: 0.4).delay(0.3)),
-                            removal: .opacity.animation(.easeInOut(duration: 0.8).delay(0.6))))
-            }
+        
         }
         .onAppear {
             Task {
