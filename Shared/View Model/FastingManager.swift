@@ -802,6 +802,7 @@ class FastingManager: ObservableObject {
     func instantRequestToNutrionix(string: String) async {
         var queryString = string
         queryString = queryString.filter { $0.isPunctuation == false }
+        queryString = queryString.applyingTransform(.stripDiacritics, reverse: false)!
         queryString = queryString.trimmingCharacters(in: .whitespaces)
         queryString = queryString.replacingOccurrences(of: " ", with: "-")
         
