@@ -162,16 +162,16 @@ struct EditingResultsView: View {
                 }
                 .padding(.top, 24)
                 
-                Text("This fruit provides health benefits, high in monounsaturated fat - a \"good\" fat and fiber, that can help you to feel fuller and more satisfied")
-                    .padding(16)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .font(.caption2)
-                    .foregroundColor(.blue)
-                    .frame(height: 66)
-                    .frame(maxWidth: .infinity)
-                    .background(Color("B40"))
-                    .cornerRadius(8)
-                    .padding(.top, 24)
+//                Text("This fruit provides health benefits, high in monounsaturated fat - a \"good\" fat and fiber, that can help you to feel fuller and more satisfied")
+//                    .padding(16)
+//                    .fixedSize(horizontal: false, vertical: true)
+//                    .font(.caption2)
+//                    .foregroundColor(.blue)
+//                    .frame(height: 66)
+//                    .frame(maxWidth: .infinity)
+//                    .background(Color("B40"))
+//                    .cornerRadius(8)
+//                    .padding(.top, 24)
                 
                 
                 HStack(spacing: 15) {
