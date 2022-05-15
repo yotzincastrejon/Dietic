@@ -12,60 +12,66 @@ struct WeightCard: View {
     var body: some View {
         
         
-        VStack(spacing: 0) {
-            HStack {
-                Text("Weight")
-                    .font(.subheadline)
-                Spacer()
-            }
+     
             
-            HStack(alignment: .center) {
-                HStack(alignment: .firstTextBaseline, spacing: 4) {
-                    Text(String(format: "%0.01f", fastingManager.weight))
-                        .font(.largeTitle).monospacedDigit()
-                        .fontWeight(.medium)
-                    Text("lbs")
-                        .font(.callout)
+            
+            
+            VStack(spacing: 0) {
+                HStack {
+                    Text("Weight")
+                        .font(.subheadline)
+                    Spacer()
                 }
-                .foregroundColor(Color.indigo)
                 
-                Spacer()
-                
-                VStack(spacing: 4) {
-                    HStack(spacing: 4) {
-                        Image(systemName: "clock")
-                        //                            Text("\(fastingManager.sampleSourceDate.formatted(.dateTime.month().day().hour().minute()))")
-                        Text("\(dateFormat(date: fastingManager.sampleSourceDate))")
+                HStack(alignment: .center) {
+                    HStack(alignment: .firstTextBaseline, spacing: 4) {
+                        Text(String(format: "%0.01f", fastingManager.weight))
+                            .font(.largeTitle).monospacedDigit()
+                            .fontWeight(.medium)
+                        Text("lbs")
+                            .font(.callout)
                     }
-                    .font(.caption2)
-                    .foregroundColor(Color(uiColor: .secondaryLabel))
-                    Text(fastingManager.sampleSourceName)
+                    .foregroundColor(Color.indigo)
+                    
+                    Spacer()
+                    
+                    VStack(spacing: 4) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "clock")
+                            //                            Text("\(fastingManager.sampleSourceDate.formatted(.dateTime.month().day().hour().minute()))")
+                            Text("\(dateFormat(date: fastingManager.sampleSourceDate))")
+                        }
                         .font(.caption2)
-                        .foregroundColor(Color.indigo)
-                    
-                    
+                        .foregroundColor(Color(uiColor: .secondaryLabel))
+                        Text(fastingManager.sampleSourceName)
+                            .font(.caption2)
+                            .foregroundColor(Color.indigo)
+                        
+                        
+                    }
                 }
+                .padding(.top, 7)
+                
+                Divider()
+                    .padding(.top, 16)
+                
+                HStack {
+                    WeightCardText(topText: "\(String(format: "%0.01f", fastingManager.height)) in", bottomText: "Height")
+                    Spacer()
+                    WeightCardText(topText: BMICalculation(), bottomText: BMIWeightStatus())
+                    Spacer()
+                    WeightCardText(topText: "\(String(format: "%0.01f", fastingManager.bodyFat * 100))%", bottomText: "Body fat")
+                }
+                .padding(.top, 18)
+                
+                
             }
-            .padding(.top, 7)
-            
-            Divider()
-                .padding(.top, 16)
-            
-            HStack {
-                WeightCardText(topText: "\(String(format: "%0.01f", fastingManager.height)) in", bottomText: "Height")
-                Spacer()
-                WeightCardText(topText: BMICalculation(), bottomText: BMIWeightStatus())
-                Spacer()
-                WeightCardText(topText: "\(String(format: "%0.01f", fastingManager.bodyFat * 100))%", bottomText: "Body fat")
-            }
-            .padding(.top, 18)
-            
-            
-        }
-        .padding()
-        .frame(maxWidth: .infinity)
-        .background(Color(uiColor: .secondarySystemGroupedBackground))
+            .padding()
+            .frame(maxWidth: .infinity)
+            .background(Color(uiColor: .secondarySystemGroupedBackground))
         .cornerRadius(20)
+            
+          
         
         
         
@@ -132,7 +138,9 @@ struct WeightCard: View {
 struct WeightCard_Previews: PreviewProvider {
     static var previews: some View {
         WeightCard(fastingManager: FastingManager())
+            .frame(height: 300)
             .background(.blue)
+            
         
     }
 }

@@ -25,7 +25,8 @@ struct AddMoreFoodView: View {
     @State private var isTorchOn = false
     @State private var dragAmount: CGPoint?
     @State private var showingAddingView = false
-    @State private var data: Data? = nil
+    @State private var jsonData: Data? = nil
+    @State private var coreDataElement: FetchedResults<SearchedFoods>.Element?
     @State private var addingFromCoreDataIsShowing = false
     @Binding var accentColor: Color
     init(fastingManager: FastingManager, mealPeriod: EatingTime, topHeaderColors: [Color], rootIsActive: Binding<Bool>, accentColor: Binding<Color>) {
@@ -54,8 +55,9 @@ struct AddMoreFoodView: View {
                             ZStack {
                                 Button(action: {
                                     Task {
-                                        data = item.jsonData
-                                        if data != nil {
+                                        jsonData = item.jsonData
+                                        coreDataElement = item
+                                        if jsonData != nil {
                                             addingFromCoreDataIsShowing = true
                                         }
                                         item.timestamp = Date.now
@@ -96,6 +98,7 @@ struct AddMoreFoodView: View {
                                 PlusToCheckMark(fastingManager: fastingManager, mealPeriod: mealPeriod, sample: fastingManager.decodeJsonFromCoreData(data: item.jsonData ?? "".data(using: .utf8)!), fetched: item)
                                 //
                             }
+                            
                         }
                         .onDelete(perform: deleteItems)
                         .cornerRadius(10)
@@ -125,7 +128,7 @@ struct AddMoreFoodView: View {
                 
                 NavigationLink(destination: JsonResponseView(isShowing: $showingAddingView, rootIsActive: $rootIsActive, fastingManager: fastingManager, sample: fastingManager.currentScannedItem ?? HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, mealPeriod: "", numberOfServings: 1, servingSelection: "", uuid: "", date: Date.now, attrIDArray: [Int]()), mealPeriod: mealPeriod).navigationBarBackButtonHidden(true), isActive: $showingAddingView, label: { EmptyView() } )
                 
-                NavigationLink(destination: AddingFromCoreData(selection: mealPeriod, fastingManager: fastingManager, sample: fastingManager.decodeJsonFromCoreData(data: data ?? "".data(using: .utf8)!), shouldPopToRootView: $rootIsActive)
+                NavigationLink(destination: AddingFromCoreData(selection: mealPeriod, fastingManager: fastingManager, sample: fastingManager.decodeJsonFromCoreData(data: jsonData ?? "".data(using: .utf8)!), shouldPopToRootView: $rootIsActive)
                     .onAppear {
                         Task {
                             accentColor = .blue
@@ -276,20 +279,8 @@ struct AddMoreFoodView_Previews: PreviewProvider {
             }
             
             
-            
-            //            TabView {
-            //                NavigationView {
-            //                    AddMoreFoodView(fastingManager: FastingManager(), mealPeriod: .breakfast, topHeaderColors: [Color("B10"), Color("B00")], rootIsActive: Binding.constant(false))
-            //
-            //                }
-            //                .tabItem { Image(systemName: "gear")
-            //                    Text("Test")
-            //                }
-            //            }
-            //            .previewDevice("iPhone 8")
-            
             NavigationView{
-                AddingFromCoreData(selection: .lunch, fastingManager: FastingManager(), sample: HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, mealPeriod: "", numberOfServings: 1, servingSelection: "", uuid: "", date: Date.now, attrIDArray: [Int]()), shouldPopToRootView: Binding.constant(false))
+                AddingFromCoreData(selection: .lunch, fastingManager: FastingManager(), sample: HKSampleWithDescription(foodName: "Apple", brandName: "Oaks Farms", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, mealPeriod: "", numberOfServings: 1, servingSelection: "", uuid: "", date: Date.now, attrIDArray: [Int]()), shouldPopToRootView: Binding.constant(false))
             }
         }
         
@@ -335,7 +326,6 @@ struct AddingFromCoreData: View {
                             .fontWeight(.medium)
                         Spacer()
                     }
-                    
                     HStack {
                         Text("Serving size: \(Int(sample?.servingQuantity ?? 0)) \(sample?.servingUnit ?? "g")")
                             .font(.caption)
