@@ -37,7 +37,7 @@ struct DateChanger: View {
 //                    .frame(width: 50)
                 Text(fastingManager.todaysDate.formatted(.dateTime.month().day()))
                     .font(.subheadline).monospacedDigit()
-                    .frame(width: 50)
+                    .frame(width: 60)
                 
                 Button(action: {
                     dateDay += 1
