@@ -13,7 +13,7 @@ struct Home: View {
     @State var plusButtonTapped = false
     @State var accentColor: Color = .blue
     @State var appear = [false, false, false]
-    var body: some View {
+    var body: some View { 
         ZStack {
             NavigationView {
                     ZStack {
