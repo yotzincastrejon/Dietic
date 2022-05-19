@@ -45,8 +45,6 @@
 		FA80108227D95C77000CADD9 /* PlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA80108027D95C77000CADD9 /* PlanView.swift */; };
 		FA844A0127EA81BC00323570 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA844A0027EA81BC00323570 /* AppDelegate.swift */; };
 		FA844A0227EA81BC00323570 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA844A0027EA81BC00323570 /* AppDelegate.swift */; };
-		FA84808327BCBEF10085E42C /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA84808227BCBEF10085E42C /* TestView.swift */; };
-		FA84808427BCBEF10085E42C /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA84808227BCBEF10085E42C /* TestView.swift */; };
 		FA8E989827BEAB8E00EA297B /* MatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E989727BEAB8E00EA297B /* MatchedView.swift */; };
 		FA8E989927BEAB8E00EA297B /* MatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E989727BEAB8E00EA297B /* MatchedView.swift */; };
 		FA90011827D80CC8003A8F81 /* InstantQueryResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */; };
@@ -137,7 +135,6 @@
 		FA72D58327D2E76C00EFFCC4 /* AddMoreFoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMoreFoodView.swift; sourceTree = "<group>"; };
 		FA80108027D95C77000CADD9 /* PlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanView.swift; sourceTree = "<group>"; };
 		FA844A0027EA81BC00323570 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		FA84808227BCBEF10085E42C /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 		FA8E989727BEAB8E00EA297B /* MatchedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedView.swift; sourceTree = "<group>"; };
 		FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstantQueryResponseView.swift; sourceTree = "<group>"; };
 		FA92EFAD27CD3A0A00FF9028 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
@@ -240,7 +237,6 @@
 				FAFEC33127DA5F45009BEAE2 /* Diet Card */,
 				FAFEC33227DA5FEC009BEAE2 /* Meals Today */,
 				FAFEC33327DA60AC009BEAE2 /* Weight Card */,
-				FA84808227BCBEF10085E42C /* TestView.swift */,
 				FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */,
 				FA92EFAD27CD3A0A00FF9028 /* SwiftUIView.swift */,
 				FAD1ADCD272125EA00785223 /* GoalSettings.swift */,
@@ -502,7 +498,6 @@
 				FA1E35C427ECD20E007864F6 /* ListStyleTest.swift in Sources */,
 				FA0081D427207259004719BE /* MealsToday.swift in Sources */,
 				FAD169F3271DFC9100C21397 /* Calorie.swift in Sources */,
-				FA84808327BCBEF10085E42C /* TestView.swift in Sources */,
 				FA92EFAE27CD3A0A00FF9028 /* SwiftUIView.swift in Sources */,
 				FA90011827D80CC8003A8F81 /* InstantQueryResponseView.swift in Sources */,
 				FAD169FE271DFD1C00C21397 /* Home.swift in Sources */,
@@ -559,7 +554,6 @@
 				FA1E35C527ECD20E007864F6 /* ListStyleTest.swift in Sources */,
 				FA0081D527207259004719BE /* MealsToday.swift in Sources */,
 				FAD169F4271DFC9100C21397 /* Calorie.swift in Sources */,
-				FA84808427BCBEF10085E42C /* TestView.swift in Sources */,
 				FA92EFAF27CD3A0A00FF9028 /* SwiftUIView.swift in Sources */,
 				FA90011927D80CC8003A8F81 /* InstantQueryResponseView.swift in Sources */,
 				FAD169FF271DFD1C00C21397 /* Home.swift in Sources */,
