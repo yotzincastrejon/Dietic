@@ -36,15 +36,21 @@ struct DietCard: View {
                 //                .font(.caption2)
                 //                Spacer()
                 
-                ProgressRingView(progress: $fastingManager.percentageAccomplished,thickness: 12, dotOnTip: false, width: 110,gradient: Gradient(colors: [Color(hex: "53b7db"),Color(hex: "75f9d1")]),  backgroundCircleWidth: 12, backgroundCircleColor: Color(hex: "53b7db").opacity(0.1))
-                    .overlay(
-                        caloriesLeft(bool: hasTimeElapsed)
+                        
+                        ProgressRingView(progress: $fastingManager.percentageAccomplished,thickness: 12, dotOnTip: false, width: 110,gradient: Gradient(colors: [Color(hex: "53b7db"),Color(hex: "75f9d1")]),  backgroundCircleWidth: 12, backgroundCircleColor: Color(hex: "53b7db").opacity(0.1))
+                            .overlay(
+                                caloriesLeft(bool: hasTimeElapsed)
+    
+                            )
                             
-                    )
+
                     .onTapGesture {
+                        withAnimation(.spring()) {
                         fastingManager.isShowingDeficitByMass.toggle()
                         fastingManager.saveIsShowingDeficitByMass()
-                    }
+                        }
+                }
+
                 
                 
             }
@@ -79,21 +85,31 @@ struct DietCard: View {
             
             VStack {
                 if hasTimeElapsed {
-                    if fastingManager.isShowingDeficitByMass {
-                        Text(String(format: "%0.2f", (fastingManager.leftToBurn * -1) / 3500))
-                            .font(.title)
-                            .foregroundColor(.green)
-                        Text("lbs")
-                            .font(.caption)
-                            .foregroundColor(Color(uiColor: .secondaryLabel))
-                    } else {
-                    Text(String(format: "%0.0f", fastingManager.leftToBurn * -1))
-                        .font(.title)
-                        .foregroundColor(.green)
-                    Text("Deficit")
-                        .font(.caption)
-                        .foregroundColor(Color(uiColor: .secondaryLabel))
+                    ZStack {
+                        VStack {
+                            Text(String(format: "%0.2f", (fastingManager.leftToBurn * -1) / 3500))
+                                .font(.title)
+                                .foregroundColor(.green)
+                            Text("lbs")
+                                .font(.caption)
+                                .foregroundColor(Color(uiColor: .secondaryLabel))
+                        }
+                        .offset(x: 0, y: fastingManager.isShowingDeficitByMass ? 0 : -100)
+                        
+                        VStack {
+                            Text(String(format: "%0.0f", fastingManager.leftToBurn * -1))
+                                .font(.title)
+                                .foregroundColor(.green)
+                            Text("Deficit")
+                                .font(.caption)
+                                .foregroundColor(Color(uiColor: .secondaryLabel))
+                        }
+                        .offset(x: 0, y: fastingManager.isShowingDeficitByMass ? 100 : 0)
                     }
+                    .frame(height: 100)
+                    .padding(20)
+                    .clipShape(Circle())
+
                 } else {
                     //                Image(systemName: "checkmark.seal.fill")
                     //                    .font(.title)
