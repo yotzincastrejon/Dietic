@@ -15,7 +15,7 @@ struct WelcomeView: View {
         VStack(spacing: 0) {
             Spacer()
             VStack {
-                Text("Welcome To Apple Support")
+                Text("Welcome To\n Dietic")
                     .font(.largeTitle)
                     .bold()
                     .multilineTextAlignment(.center)

@@ -127,7 +127,11 @@ class FastingManager: ObservableObject {
         day -= 1
     }
     
-    
+    /// - Tag: Diet Card Variables
+    @Published var isShowingDeficitByMass: Bool = true
+    init() {
+        isShowingDeficitByMass = UserDefaults.standard.bool(forKey: "IsShowingMass")
+    }
     //Originally I had it pounds != nil just incase there is no value. We shall see if this works.
 //    init() {
 //        let pounds = UserDefaults.standard.double(forKey: "pounds")
@@ -489,6 +493,10 @@ class FastingManager: ObservableObject {
     
     func saveGoalBodyFat() {
         UserDefaults.standard.set(goalBodyFatPercentage, forKey: "GoalBodyFatPercentage")
+    }
+    
+    func saveIsShowingDeficitByMass() {
+        UserDefaults.standard.set(isShowingDeficitByMass, forKey: "IsShowingMass")
     }
     
     // MARK: - Health Kit Queries

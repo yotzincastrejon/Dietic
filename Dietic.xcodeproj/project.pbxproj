@@ -8,109 +8,59 @@
 
 /* Begin PBXBuildFile section */
 		FA0081C127206F9B004719BE /* DietTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081C027206F9B004719BE /* DietTitle.swift */; };
-		FA0081C227206F9B004719BE /* DietTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081C027206F9B004719BE /* DietTitle.swift */; };
 		FA0081C427206FDA004719BE /* DietCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081C327206FDA004719BE /* DietCard.swift */; };
-		FA0081C527206FDA004719BE /* DietCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081C327206FDA004719BE /* DietCard.swift */; };
 		FA0081C72720700E004719BE /* DietCardMainLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081C62720700E004719BE /* DietCardMainLabel.swift */; };
-		FA0081C82720700E004719BE /* DietCardMainLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081C62720700E004719BE /* DietCardMainLabel.swift */; };
 		FA0081CA27207039004719BE /* MacroLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081C927207039004719BE /* MacroLabel.swift */; };
-		FA0081CB27207039004719BE /* MacroLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081C927207039004719BE /* MacroLabel.swift */; };
 		FA0081CE272071F6004719BE /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081CD272071F6004719BE /* RoundedCorners.swift */; };
-		FA0081CF272071F6004719BE /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081CD272071F6004719BE /* RoundedCorners.swift */; };
 		FA0081D127207226004719BE /* MealCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081D027207226004719BE /* MealCard.swift */; };
-		FA0081D227207226004719BE /* MealCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081D027207226004719BE /* MealCard.swift */; };
 		FA0081D427207259004719BE /* MealsToday.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081D327207259004719BE /* MealsToday.swift */; };
-		FA0081D527207259004719BE /* MealsToday.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081D327207259004719BE /* MealsToday.swift */; };
 		FA0081D727207286004719BE /* SnackCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081D627207286004719BE /* SnackCard.swift */; };
-		FA0081D827207286004719BE /* SnackCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081D627207286004719BE /* SnackCard.swift */; };
 		FA0081DA272072B5004719BE /* ShadowLevels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081D9272072B5004719BE /* ShadowLevels.swift */; };
-		FA0081DB272072B5004719BE /* ShadowLevels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081D9272072B5004719BE /* ShadowLevels.swift */; };
 		FA0081DD27209455004719BE /* WeightCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DC27209455004719BE /* WeightCard.swift */; };
-		FA0081DE27209455004719BE /* WeightCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DC27209455004719BE /* WeightCard.swift */; };
 		FA0081E027209831004719BE /* DateChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DF27209831004719BE /* DateChanger.swift */; };
-		FA0081E127209831004719BE /* DateChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DF27209831004719BE /* DateChanger.swift */; };
 		FA17BF4827C0528C00F662C6 /* EditingResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17BF4727C0528C00F662C6 /* EditingResultsView.swift */; };
-		FA17BF4927C0528C00F662C6 /* EditingResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17BF4727C0528C00F662C6 /* EditingResultsView.swift */; };
 		FA1E35C427ECD20E007864F6 /* ListStyleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E35C327ECD20E007864F6 /* ListStyleTest.swift */; };
-		FA1E35C527ECD20E007864F6 /* ListStyleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E35C327ECD20E007864F6 /* ListStyleTest.swift */; };
 		FA24FDCD27D3F9B9003EE197 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA24FDCC27D3F9B9003EE197 /* CloudKit.framework */; };
 		FA43D71F27B4988000A709B3 /* JsonResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA43D71E27B4988000A709B3 /* JsonResponseView.swift */; };
-		FA43D72027B4988000A709B3 /* JsonResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA43D71E27B4988000A709B3 /* JsonResponseView.swift */; };
 		FA719621279B1E6400A50598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA719620279B1E6400A50598 /* LaunchScreen.storyboard */; };
-		FA719622279B1E6400A50598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA719620279B1E6400A50598 /* LaunchScreen.storyboard */; };
 		FA72D58427D2E76C00EFFCC4 /* AddMoreFoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA72D58327D2E76C00EFFCC4 /* AddMoreFoodView.swift */; };
-		FA72D58527D2E76C00EFFCC4 /* AddMoreFoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA72D58327D2E76C00EFFCC4 /* AddMoreFoodView.swift */; };
 		FA7BC5BA27C9822500816E59 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = FA7BC5B927C9822500816E59 /* CodeScanner */; };
 		FA80108127D95C77000CADD9 /* PlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA80108027D95C77000CADD9 /* PlanView.swift */; };
-		FA80108227D95C77000CADD9 /* PlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA80108027D95C77000CADD9 /* PlanView.swift */; };
 		FA844A0127EA81BC00323570 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA844A0027EA81BC00323570 /* AppDelegate.swift */; };
-		FA844A0227EA81BC00323570 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA844A0027EA81BC00323570 /* AppDelegate.swift */; };
 		FA8E989827BEAB8E00EA297B /* MatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E989727BEAB8E00EA297B /* MatchedView.swift */; };
-		FA8E989927BEAB8E00EA297B /* MatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E989727BEAB8E00EA297B /* MatchedView.swift */; };
 		FA90011827D80CC8003A8F81 /* InstantQueryResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */; };
-		FA90011927D80CC8003A8F81 /* InstantQueryResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */; };
 		FA95577627B57B1A009FFE27 /* DiaryViewBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */; };
-		FA95577727B57B1A009FFE27 /* DiaryViewBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */; };
 		FAAC72C727A3252600508702 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAC72C627A3252600508702 /* WelcomeView.swift */; };
-		FAAC72C827A3252600508702 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAC72C627A3252600508702 /* WelcomeView.swift */; };
 		FAB25D1E27D9758900033377 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = FAB25D1D27D9758900033377 /* Lottie */; };
 		FAB25D2027D9767500033377 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB25D1F27D9767500033377 /* LottieView.swift */; };
-		FAB25D2127D9767500033377 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB25D1F27D9767500033377 /* LottieView.swift */; };
 		FAB2BEEA27AC8A38009DA8E4 /* AddingFoodScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */; };
-		FAB2BEEB27AC8A38009DA8E4 /* AddingFoodScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */; };
 		FAC091C527D9143C00679C75 /* BarcodeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC091C427D9143C00679C75 /* BarcodeButton.swift */; };
-		FAC091C627D9143C00679C75 /* BarcodeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC091C427D9143C00679C75 /* BarcodeButton.swift */; };
 		FAC7DEEF27D3F75200006BE1 /* SavedFoodsHistory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FAC7DEED27D3F75200006BE1 /* SavedFoodsHistory.xcdatamodeld */; };
-		FAC7DEF027D3F75200006BE1 /* SavedFoodsHistory.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FAC7DEED27D3F75200006BE1 /* SavedFoodsHistory.xcdatamodeld */; };
 		FAC7DEF227D3F7D400006BE1 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7DEF127D3F7D400006BE1 /* Persistence.swift */; };
-		FAC7DEF327D3F7D400006BE1 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC7DEF127D3F7D400006BE1 /* Persistence.swift */; };
 		FAD169BA271DFAAE00C21397 /* Dietic.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AA271DFAAD00C21397 /* Dietic.swift */; };
-		FAD169BB271DFAAE00C21397 /* Dietic.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AA271DFAAD00C21397 /* Dietic.swift */; };
 		FAD169BC271DFAAE00C21397 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AB271DFAAD00C21397 /* ContentView.swift */; };
-		FAD169BD271DFAAE00C21397 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AB271DFAAD00C21397 /* ContentView.swift */; };
 		FAD169BE271DFAAE00C21397 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAD169AC271DFAAE00C21397 /* Assets.xcassets */; };
-		FAD169BF271DFAAE00C21397 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAD169AC271DFAAE00C21397 /* Assets.xcassets */; };
 		FAD169E2271DFB1000C21397 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD169E1271DFB1000C21397 /* HealthKit.framework */; };
 		FAD169F0271DFC5A00C21397 /* FastingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169EF271DFC5A00C21397 /* FastingManager.swift */; };
-		FAD169F1271DFC5A00C21397 /* FastingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169EF271DFC5A00C21397 /* FastingManager.swift */; };
 		FAD169F3271DFC9100C21397 /* Calorie.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169F2271DFC9100C21397 /* Calorie.swift */; };
-		FAD169F4271DFC9100C21397 /* Calorie.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169F2271DFC9100C21397 /* Calorie.swift */; };
 		FAD169F6271DFCAA00C21397 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169F5271DFCAA00C21397 /* DateExtension.swift */; };
-		FAD169F7271DFCAA00C21397 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169F5271DFCAA00C21397 /* DateExtension.swift */; };
 		FAD169F9271DFCD400C21397 /* HKBiologicalSex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169F8271DFCD400C21397 /* HKBiologicalSex.swift */; };
-		FAD169FA271DFCD400C21397 /* HKBiologicalSex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169F8271DFCD400C21397 /* HKBiologicalSex.swift */; };
 		FAD169FE271DFD1C00C21397 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169FD271DFD1C00C21397 /* Home.swift */; };
-		FAD169FF271DFD1C00C21397 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169FD271DFD1C00C21397 /* Home.swift */; };
 		FAD16A01271DFEFB00C21397 /* DietDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD16A00271DFEFB00C21397 /* DietDetailView.swift */; };
-		FAD16A02271DFEFB00C21397 /* DietDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD16A00271DFEFB00C21397 /* DietDetailView.swift */; };
 		FAD16A04271E042B00C21397 /* ProgressRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD16A03271E042B00C21397 /* ProgressRingView.swift */; };
-		FAD16A05271E042B00C21397 /* ProgressRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD16A03271E042B00C21397 /* ProgressRingView.swift */; };
 		FAD16A07271E07E400C21397 /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD16A06271E07E400C21397 /* ColorHex.swift */; };
-		FAD16A08271E07E400C21397 /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD16A06271E07E400C21397 /* ColorHex.swift */; };
 		FAD1ADCE272125EA00785223 /* GoalSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD1ADCD272125EA00785223 /* GoalSettings.swift */; };
-		FAD1ADCF272125EA00785223 /* GoalSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD1ADCD272125EA00785223 /* GoalSettings.swift */; };
 		FAF517B327232B2B00BD54E7 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517B227232B2B00BD54E7 /* Bar.swift */; };
-		FAF517B427232B2B00BD54E7 /* Bar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517B227232B2B00BD54E7 /* Bar.swift */; };
 		FAF517B627232B4400BD54E7 /* BarGraphBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517B527232B4400BD54E7 /* BarGraphBackground.swift */; };
-		FAF517B727232B4400BD54E7 /* BarGraphBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517B527232B4400BD54E7 /* BarGraphBackground.swift */; };
 		FAF517B927232B6400BD54E7 /* DashedLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517B827232B6400BD54E7 /* DashedLine.swift */; };
-		FAF517BA27232B6400BD54E7 /* DashedLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517B827232B6400BD54E7 /* DashedLine.swift */; };
 		FAF517BC27232F3B00BD54E7 /* CapsuleMacroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517BB27232F3B00BD54E7 /* CapsuleMacroView.swift */; };
-		FAF517BD27232F3B00BD54E7 /* CapsuleMacroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517BB27232F3B00BD54E7 /* CapsuleMacroView.swift */; };
 		FAF517BF27232F6D00BD54E7 /* MacronutrientAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517BE27232F6D00BD54E7 /* MacronutrientAnalysis.swift */; };
-		FAF517C027232F6D00BD54E7 /* MacronutrientAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517BE27232F6D00BD54E7 /* MacronutrientAnalysis.swift */; };
 		FAF517C227232F9400BD54E7 /* CompleteGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517C127232F9400BD54E7 /* CompleteGraph.swift */; };
-		FAF517C327232F9400BD54E7 /* CompleteGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517C127232F9400BD54E7 /* CompleteGraph.swift */; };
 		FAF517C527232FA500BD54E7 /* BarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517C427232FA500BD54E7 /* BarGraph.swift */; };
-		FAF517C627232FA500BD54E7 /* BarGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517C427232FA500BD54E7 /* BarGraph.swift */; };
 		FAF517C827232FBC00BD54E7 /* TextGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517C727232FBC00BD54E7 /* TextGraph.swift */; };
-		FAF517C927232FBC00BD54E7 /* TextGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517C727232FBC00BD54E7 /* TextGraph.swift */; };
 		FAF517CB27232FCB00BD54E7 /* ArrowViewGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517CA27232FCB00BD54E7 /* ArrowViewGraph.swift */; };
-		FAF517CC27232FCB00BD54E7 /* ArrowViewGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517CA27232FCB00BD54E7 /* ArrowViewGraph.swift */; };
 		FAFEC33527DA7BBA009BEAE2 /* VisualEffectBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEC33427DA7BBA009BEAE2 /* VisualEffectBlur.swift */; };
-		FAFEC33627DA7BBA009BEAE2 /* VisualEffectBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEC33427DA7BBA009BEAE2 /* VisualEffectBlur.swift */; };
 		FAFEC33827DA7C90009BEAE2 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEC33727DA7C90009BEAE2 /* BlurView.swift */; };
-		FAFEC33927DA7C90009BEAE2 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEC33727DA7C90009BEAE2 /* BlurView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -147,7 +97,6 @@
 		FAD169AB271DFAAD00C21397 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FAD169AC271DFAAE00C21397 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FAD169B1271DFAAE00C21397 /* Dietic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dietic.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		FAD169B7271DFAAE00C21397 /* Dietic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dietic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAD169B9271DFAAE00C21397 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		FAD169DF271DFB1000C21397 /* Dietic (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Dietic (iOS).entitlements"; sourceTree = "<group>"; };
 		FAD169E1271DFB1000C21397 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.0.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -182,13 +131,6 @@
 				FA7BC5BA27C9822500816E59 /* CodeScanner in Frameworks */,
 				FAD169E2271DFB1000C21397 /* HealthKit.framework in Frameworks */,
 				FAB25D1E27D9758900033377 /* Lottie in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FAD169B4271DFAAE00C21397 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,7 +199,6 @@
 			isa = PBXGroup;
 			children = (
 				FAD169B1271DFAAE00C21397 /* Dietic.app */,
-				FAD169B7271DFAAE00C21397 /* Dietic.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -378,23 +319,6 @@
 			productReference = FAD169B1271DFAAE00C21397 /* Dietic.app */;
 			productType = "com.apple.product-type.application";
 		};
-		FAD169B6271DFAAE00C21397 /* Dietic (macOS) */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = FAD169C5271DFAAE00C21397 /* Build configuration list for PBXNativeTarget "Dietic (macOS)" */;
-			buildPhases = (
-				FAD169B3271DFAAE00C21397 /* Sources */,
-				FAD169B4271DFAAE00C21397 /* Frameworks */,
-				FAD169B5271DFAAE00C21397 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Dietic (macOS)";
-			productName = "Deficit2.0 (macOS)";
-			productReference = FAD169B7271DFAAE00C21397 /* Dietic.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -406,9 +330,6 @@
 				LastUpgradeCheck = 1310;
 				TargetAttributes = {
 					FAD169B0271DFAAE00C21397 = {
-						CreatedOnToolsVersion = 13.0;
-					};
-					FAD169B6271DFAAE00C21397 = {
 						CreatedOnToolsVersion = 13.0;
 					};
 				};
@@ -431,7 +352,6 @@
 			projectRoot = "";
 			targets = (
 				FAD169B0271DFAAE00C21397 /* Dietic (iOS) */,
-				FAD169B6271DFAAE00C21397 /* Dietic (macOS) */,
 			);
 		};
 /* End PBXProject section */
@@ -443,15 +363,6 @@
 			files = (
 				FAD169BE271DFAAE00C21397 /* Assets.xcassets in Resources */,
 				FA719621279B1E6400A50598 /* LaunchScreen.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FAD169B5271DFAAE00C21397 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FAD169BF271DFAAE00C21397 /* Assets.xcassets in Resources */,
-				FA719622279B1E6400A50598 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -510,61 +421,6 @@
 				FAF517C527232FA500BD54E7 /* BarGraph.swift in Sources */,
 				FAC7DEEF27D3F75200006BE1 /* SavedFoodsHistory.xcdatamodeld in Sources */,
 				FA72D58427D2E76C00EFFCC4 /* AddMoreFoodView.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FAD169B3271DFAAE00C21397 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FAD169F1271DFC5A00C21397 /* FastingManager.swift in Sources */,
-				FAF517B427232B2B00BD54E7 /* Bar.swift in Sources */,
-				FAF517B727232B4400BD54E7 /* BarGraphBackground.swift in Sources */,
-				FAC7DEF327D3F7D400006BE1 /* Persistence.swift in Sources */,
-				FA43D72027B4988000A709B3 /* JsonResponseView.swift in Sources */,
-				FAF517BD27232F3B00BD54E7 /* CapsuleMacroView.swift in Sources */,
-				FA0081CB27207039004719BE /* MacroLabel.swift in Sources */,
-				FAAC72C827A3252600508702 /* WelcomeView.swift in Sources */,
-				FA8E989927BEAB8E00EA297B /* MatchedView.swift in Sources */,
-				FAF517C327232F9400BD54E7 /* CompleteGraph.swift in Sources */,
-				FAFEC33627DA7BBA009BEAE2 /* VisualEffectBlur.swift in Sources */,
-				FA844A0227EA81BC00323570 /* AppDelegate.swift in Sources */,
-				FAB25D2127D9767500033377 /* LottieView.swift in Sources */,
-				FA0081D227207226004719BE /* MealCard.swift in Sources */,
-				FAD1ADCF272125EA00785223 /* GoalSettings.swift in Sources */,
-				FAC091C627D9143C00679C75 /* BarcodeButton.swift in Sources */,
-				FA95577727B57B1A009FFE27 /* DiaryViewBackground.swift in Sources */,
-				FAD16A08271E07E400C21397 /* ColorHex.swift in Sources */,
-				FAB2BEEB27AC8A38009DA8E4 /* AddingFoodScreen.swift in Sources */,
-				FAD169F7271DFCAA00C21397 /* DateExtension.swift in Sources */,
-				FAD169FA271DFCD400C21397 /* HKBiologicalSex.swift in Sources */,
-				FA0081E127209831004719BE /* DateChanger.swift in Sources */,
-				FA0081D827207286004719BE /* SnackCard.swift in Sources */,
-				FAF517CC27232FCB00BD54E7 /* ArrowViewGraph.swift in Sources */,
-				FA80108227D95C77000CADD9 /* PlanView.swift in Sources */,
-				FAD16A02271DFEFB00C21397 /* DietDetailView.swift in Sources */,
-				FAD169BD271DFAAE00C21397 /* ContentView.swift in Sources */,
-				FAD169BB271DFAAE00C21397 /* Dietic.swift in Sources */,
-				FAF517BA27232B6400BD54E7 /* DashedLine.swift in Sources */,
-				FA1E35C527ECD20E007864F6 /* ListStyleTest.swift in Sources */,
-				FA0081D527207259004719BE /* MealsToday.swift in Sources */,
-				FAD169F4271DFC9100C21397 /* Calorie.swift in Sources */,
-				FA90011927D80CC8003A8F81 /* InstantQueryResponseView.swift in Sources */,
-				FAD169FF271DFD1C00C21397 /* Home.swift in Sources */,
-				FA0081CF272071F6004719BE /* RoundedCorners.swift in Sources */,
-				FA0081C527206FDA004719BE /* DietCard.swift in Sources */,
-				FA0081C82720700E004719BE /* DietCardMainLabel.swift in Sources */,
-				FAF517C927232FBC00BD54E7 /* TextGraph.swift in Sources */,
-				FA0081DB272072B5004719BE /* ShadowLevels.swift in Sources */,
-				FA0081DE27209455004719BE /* WeightCard.swift in Sources */,
-				FA0081C227206F9B004719BE /* DietTitle.swift in Sources */,
-				FAFEC33927DA7C90009BEAE2 /* BlurView.swift in Sources */,
-				FAF517C027232F6D00BD54E7 /* MacronutrientAnalysis.swift in Sources */,
-				FAD16A05271E042B00C21397 /* ProgressRingView.swift in Sources */,
-				FA17BF4927C0528C00F662C6 /* EditingResultsView.swift in Sources */,
-				FAF517C627232FA500BD54E7 /* BarGraph.swift in Sources */,
-				FAC7DEF027D3F75200006BE1 /* SavedFoodsHistory.xcdatamodeld in Sources */,
-				FA72D58527D2E76C00EFFCC4 /* AddMoreFoodView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -688,8 +544,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Dietic (iOS).entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = YVJLT6Y577;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -705,14 +562,15 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yotzincastrejon.Dietic;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = co.yotzin.Dietic;
 				PRODUCT_NAME = Dietic;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -726,8 +584,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Dietic (iOS).entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = YVJLT6Y577;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -743,77 +602,20 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.yotzincastrejon.Dietic;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = co.yotzin.Dietic;
 				PRODUCT_NAME = Dietic;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		FAD169C6271DFAAE00C21397 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = YVJLT6Y577;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.yotzincastrejon.Deficit2-0";
-				PRODUCT_NAME = Dietic;
-				SDKROOT = macosx;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		FAD169C7271DFAAE00C21397 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = YVJLT6Y577;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.yotzincastrejon.Deficit2-0";
-				PRODUCT_NAME = Dietic;
-				SDKROOT = macosx;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -834,15 +636,6 @@
 			buildConfigurations = (
 				FAD169C3271DFAAE00C21397 /* Debug */,
 				FAD169C4271DFAAE00C21397 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		FAD169C5271DFAAE00C21397 /* Build configuration list for PBXNativeTarget "Dietic (macOS)" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FAD169C6271DFAAE00C21397 /* Debug */,
-				FAD169C7271DFAAE00C21397 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
