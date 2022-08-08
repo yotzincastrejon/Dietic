@@ -10,12 +10,6 @@ import SwiftUI
 struct WeightCard: View {
     @ObservedObject var fastingManager: FastingManager
     var body: some View {
-        
-        
-     
-            
-            
-            
             VStack(spacing: 0) {
                 HStack {
                     Text("Weight")

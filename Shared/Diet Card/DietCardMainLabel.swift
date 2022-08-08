@@ -43,3 +43,5 @@ struct DietCardMainLabel_Previews: PreviewProvider {
         DietCardMainLabel(barColor: .blue, text: "Eaten", image: "Eaten", amount: Binding.constant(0.45))
     }
 }
+
+

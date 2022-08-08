@@ -17,8 +17,7 @@ struct DietCard: View {
                 VStack(alignment: .leading) {
                     
                     HStack {
-                        DietCardMainLabel(barColor: .blue.opacity(0.5), text: "Eaten", image: "Eaten", amount: $fastingManager.consumedCalories)
-                        
+                            DietCardEatenLabel(fastingManager: fastingManager)
                         //Simulation view to show what you have simulated that you've eaten.
                         if fastingManager.simulatedCaloriesBool {
                             SimulatedView(fastingManager: fastingManager)
@@ -145,7 +144,9 @@ struct DietCard: View {
 
 struct DietCard_Previews: PreviewProvider {
     static var previews: some View {
-        DietCard(fastingManager: FastingManager())
+//        DietCard(fastingManager: FastingManager())
+//            .background(Color(uiColor: .systemGroupedBackground))
+            
         ContentView(fastingManager: FastingManager())
     }
 }

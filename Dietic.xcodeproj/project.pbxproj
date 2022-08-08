@@ -30,6 +30,7 @@
 		FA8E989827BEAB8E00EA297B /* MatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E989727BEAB8E00EA297B /* MatchedView.swift */; };
 		FA90011827D80CC8003A8F81 /* InstantQueryResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */; };
 		FA95577627B57B1A009FFE27 /* DiaryViewBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */; };
+		FAA2BD4128A0CBDC000E3D86 /* DietCardEatenLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA2BD4028A0CBDC000E3D86 /* DietCardEatenLabel.swift */; };
 		FAAC72C727A3252600508702 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAC72C627A3252600508702 /* WelcomeView.swift */; };
 		FAB25D1E27D9758900033377 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = FAB25D1D27D9758900033377 /* Lottie */; };
 		FAB25D2027D9767500033377 /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB25D1F27D9767500033377 /* LottieView.swift */; };
@@ -86,6 +87,7 @@
 		FA8E989727BEAB8E00EA297B /* MatchedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedView.swift; sourceTree = "<group>"; };
 		FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstantQueryResponseView.swift; sourceTree = "<group>"; };
 		FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewBackground.swift; sourceTree = "<group>"; };
+		FAA2BD4028A0CBDC000E3D86 /* DietCardEatenLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietCardEatenLabel.swift; sourceTree = "<group>"; };
 		FAAC72C627A3252600508702 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		FAB25D1F27D9767500033377 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		FAB2BEE927AC8A38009DA8E4 /* AddingFoodScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingFoodScreen.swift; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 			children = (
 				FA0081C327206FDA004719BE /* DietCard.swift */,
 				FA0081C62720700E004719BE /* DietCardMainLabel.swift */,
+				FAA2BD4028A0CBDC000E3D86 /* DietCardEatenLabel.swift */,
 				FAD16A03271E042B00C21397 /* ProgressRingView.swift */,
 				FA0081C927207039004719BE /* MacroLabel.swift */,
 			);
@@ -398,6 +401,7 @@
 				FA0081D727207286004719BE /* SnackCard.swift in Sources */,
 				FAF517CB27232FCB00BD54E7 /* ArrowViewGraph.swift in Sources */,
 				FA80108127D95C77000CADD9 /* PlanView.swift in Sources */,
+				FAA2BD4128A0CBDC000E3D86 /* DietCardEatenLabel.swift in Sources */,
 				FAD16A01271DFEFB00C21397 /* DietDetailView.swift in Sources */,
 				FAD169BC271DFAAE00C21397 /* ContentView.swift in Sources */,
 				FAD169BA271DFAAE00C21397 /* Dietic.swift in Sources */,
