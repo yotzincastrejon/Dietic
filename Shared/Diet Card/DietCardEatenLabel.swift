@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DietCardEatenLabel: View {
     @ObservedObject var fastingManager: FastingManager
+    @State var isOnTrack: Bool = true
     var body: some View {
         HStack {
             RoundedRectangle(cornerRadius: 2, style: .continuous)
@@ -37,11 +38,42 @@ struct DietCardEatenLabel: View {
                     
                 }
             }
+            VStack {
+                
+                Text(String(format: "%0.0f", remainingCalories()))
+                    .font(.caption)
+                .foregroundColor(isOnTrack ? .green : .red)
+                .onChange(of: fastingManager.consumedCalories) { newValue in
+                    let goal = goalBMR()
+                    let eaten = fastingManager.consumedCalories
+                    let remainingCalories = goal - eaten
+                    
+                    if remainingCalories < 0 {
+                        //change color to red and make the number positive
+                        isOnTrack = false
+                    }
+                    if remainingCalories >= 0 && isOnTrack == false {
+                        isOnTrack = true
+                    }
+                }
+            }
         }
     }
     func goalBMR() -> Double {
         let goal = fastingManager.BMR(age: fastingManager.age, weightinPounds: 160, heightinInches: fastingManager.height)
         return goal
+    }
+    
+    func remainingCalories() -> Double {
+        let goal = goalBMR()
+        let eaten = fastingManager.consumedCalories
+        let remainingCalories = goal - eaten
+        
+        if remainingCalories < 0 {
+            //change color to red and make the number positive
+            return remainingCalories * -1
+        }
+        return remainingCalories
     }
 }
 
