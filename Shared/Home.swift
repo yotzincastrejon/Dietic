@@ -10,88 +10,75 @@ import CoreData
 
 struct Home: View {
     @ObservedObject var fastingManager: FastingManager
-    @State var plusButtonTapped = false
     @State var accentColor: Color = .blue
     @State var appear = [false, false, false]
-    var body: some View { 
+    var body: some View {
         ZStack {
             NavigationView {
-                    ZStack {
-                        
-                        Color(uiColor: .systemGroupedBackground)
-                            .ignoresSafeArea()
-                        
-                            ScrollView(showsIndicators: false) {
-                                ZStack {
-                                    VStack {
-                                        
-//                                        PlanView(isTapped: $isTapped)
-//                                            .opacity(appear[0] ? 1 : 0)
-                                        
-                                        DietCard(fastingManager: fastingManager)
-                                            
-                                        DietTitle(title: "Meals today", view: AnyView(DietDetailView()), imageStringText: "Customize", imageSystemName: "arrow.right")
-                                            .padding(.top)
-                                            .opacity(appear[1] ? 1 : 0)
-                                        
-                                        MealsToday(fastingManager: fastingManager, accentColor: $accentColor)
-                                            .zIndex(-1)
-                                            .opacity(appear[1] ? 1 : 0)
-                                            
-                                            
-                                        DietTitle(title: "Body measurement", view: AnyView(DietDetailView()), imageStringText: "Today", imageSystemName: "arrow.right")
-                                            .opacity(appear[2] ? 1 : 0)
-                                        
-                                        WeightCard(fastingManager: fastingManager)
-                                            .opacity(appear[2] ? 1 : 0)
-                                    }
-                                    .padding()
-                                    
-                                }
+                ZStack {
+                    Color(uiColor: .systemGroupedBackground)
+                        .ignoresSafeArea()
+                    ScrollView(showsIndicators: false) {
+                        ZStack {
+                            VStack {
+                                DietCard(fastingManager: fastingManager)
+                                
+                                DietTitle(title: "Meals today", view: AnyView(DietDetailView()), imageStringText: "Customize", imageSystemName: "arrow.right")
+                                    .padding(.top)
+                                    .opacity(appear[1] ? 1 : 0)
+                                
+                                MealsToday(fastingManager: fastingManager, accentColor: $accentColor)
+                                    .zIndex(-1)
+                                    .opacity(appear[1] ? 1 : 0)
+                                
+                                
+                                DietTitle(title: "Body measurement", view: AnyView(DietDetailView()), imageStringText: "Today", imageSystemName: "arrow.right")
+                                    .opacity(appear[2] ? 1 : 0)
+                                
+                                WeightCard(fastingManager: fastingManager)
+                                    .opacity(appear[2] ? 1 : 0)
                             }
-                            .onAppear {
-                                accentColor = .blue
-                            }
+                            .padding()
+                            
+                        }
                     }
-                    .navigationTitle("My Diary")
-                    .toolbar {
-
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                    DateChanger(fastingManager: fastingManager)
-                            }
-
-                            ToolbarItem(placement: .navigationBarLeading) {
-                                Button(action: {
-                                    Task {
-                                        await fastingManager.requestAuthorization()
-                                    }
-                                }) {
-                                    Text("Refresh")
-                                }
-
-                            }
+                    .onAppear {
+                        accentColor = .blue
                     }
                 }
-                .navigationViewStyle(StackNavigationViewStyle())
+                .navigationTitle("My Diary")
+                .toolbar {
+                    
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        DateChanger(fastingManager: fastingManager)
+                    }
+                    
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
+                            Task {
+                                await fastingManager.requestAuthorization()
+                            }
+                        }) {
+                            Text("Refresh")
+                        }
+                    }
+                }
+            }
+            .navigationViewStyle(StackNavigationViewStyle())
             .accentColor(accentColor)
             .onAppear {
                 Task {
-                fadeIn()
+                    fadeIn()
                 }
             }
             .ignoresSafeArea()
-        
+            
         }
         .onAppear {
             Task {
                 await fastingManager.requestAuthorization()
             }
         }
-            
-            
-
-            
-        
     }
     func fadeIn() {
         withAnimation(.easeOut(duration: 0.6).delay(0.3)) {
@@ -110,7 +97,7 @@ struct Home: View {
         appear[1] = false
         appear[2] = false
     }
-   
+    
 }
 
 struct Home_Previews: PreviewProvider {
@@ -129,10 +116,3 @@ struct Home_Previews: PreviewProvider {
         }
     }
 }
-
-
-
-
-
-
-

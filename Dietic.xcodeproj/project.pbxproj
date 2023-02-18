@@ -30,6 +30,7 @@
 		FA8E989827BEAB8E00EA297B /* MatchedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8E989727BEAB8E00EA297B /* MatchedView.swift */; };
 		FA90011827D80CC8003A8F81 /* InstantQueryResponseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */; };
 		FA95577627B57B1A009FFE27 /* DiaryViewBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */; };
+		FA97110029A189FD002ADC78 /* DietOptionsSegementedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9710FF29A189FD002ADC78 /* DietOptionsSegementedControl.swift */; };
 		FAA2BD4128A0CBDC000E3D86 /* DietCardEatenLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA2BD4028A0CBDC000E3D86 /* DietCardEatenLabel.swift */; };
 		FAAC72C727A3252600508702 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAC72C627A3252600508702 /* WelcomeView.swift */; };
 		FAB25D1E27D9758900033377 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = FAB25D1D27D9758900033377 /* Lottie */; };
@@ -87,6 +88,7 @@
 		FA8E989727BEAB8E00EA297B /* MatchedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedView.swift; sourceTree = "<group>"; };
 		FA90011727D80CC8003A8F81 /* InstantQueryResponseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstantQueryResponseView.swift; sourceTree = "<group>"; };
 		FA95577527B57B1A009FFE27 /* DiaryViewBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewBackground.swift; sourceTree = "<group>"; };
+		FA9710FF29A189FD002ADC78 /* DietOptionsSegementedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietOptionsSegementedControl.swift; sourceTree = "<group>"; };
 		FAA2BD4028A0CBDC000E3D86 /* DietCardEatenLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietCardEatenLabel.swift; sourceTree = "<group>"; };
 		FAAC72C627A3252600508702 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		FAB25D1F27D9767500033377 /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 				FAD169AA271DFAAD00C21397 /* Dietic.swift */,
 				FA844A0027EA81BC00323570 /* AppDelegate.swift */,
 				FAD169AB271DFAAD00C21397 /* ContentView.swift */,
+				FA9710FF29A189FD002ADC78 /* DietOptionsSegementedControl.swift */,
 				FAD169FD271DFD1C00C21397 /* Home.swift */,
 				FA0081C027206F9B004719BE /* DietTitle.swift */,
 				FA0081DF27209831004719BE /* DateChanger.swift */,
@@ -399,6 +402,7 @@
 				FAD169F9271DFCD400C21397 /* HKBiologicalSex.swift in Sources */,
 				FA0081E027209831004719BE /* DateChanger.swift in Sources */,
 				FA0081D727207286004719BE /* SnackCard.swift in Sources */,
+				FA97110029A189FD002ADC78 /* DietOptionsSegementedControl.swift in Sources */,
 				FAF517CB27232FCB00BD54E7 /* ArrowViewGraph.swift in Sources */,
 				FA80108127D95C77000CADD9 /* PlanView.swift in Sources */,
 				FAA2BD4128A0CBDC000E3D86 /* DietCardEatenLabel.swift in Sources */,
