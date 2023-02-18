@@ -17,6 +17,7 @@ struct PlanView: View {
                 isTapped = true
             }) {
                 ZStack {
+                    Color(hex: "FFFFFF")
                     Capsule()
                         .fill(Color(uiColor: .secondarySystemGroupedBackground))
                         .frame(height: 58)

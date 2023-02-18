@@ -11,8 +11,6 @@ struct DateChanger: View {
     @ObservedObject var fastingManager: FastingManager
     @State var dateDay = 0
     var body: some View {
-        HStack {
-            Spacer()
             HStack {
                 Button(action: {
                     dateDay -= 1
@@ -50,7 +48,6 @@ struct DateChanger: View {
                         .font(.subheadline)
                 }
             }
-        }
     }
     
     

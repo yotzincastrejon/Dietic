@@ -55,21 +55,21 @@ struct Home: View {
                     }
                     .navigationTitle("My Diary")
                     .toolbar {
-                        
-                        ToolbarItem(placement: .navigationBarTrailing) {
-                            DateChanger(fastingManager: fastingManager)
-                        }
-                        
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            Button(action: {
-                                Task {
-                                    await fastingManager.requestAuthorization()
-                                }
-                            }) {
-                                Text("Refresh")
+
+                            ToolbarItem(placement: .navigationBarTrailing) {
+                                    DateChanger(fastingManager: fastingManager)
                             }
-                            
-                        }
+
+                            ToolbarItem(placement: .navigationBarLeading) {
+                                Button(action: {
+                                    Task {
+                                        await fastingManager.requestAuthorization()
+                                    }
+                                }) {
+                                    Text("Refresh")
+                                }
+
+                            }
                     }
                 }
                 .navigationViewStyle(StackNavigationViewStyle())
