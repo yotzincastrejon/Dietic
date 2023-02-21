@@ -89,6 +89,7 @@ class FastingManager: ObservableObject {
     @Published var poundsPerWeekYouWantToLose: Double = 0
     @Published var day: Int = 0
     @Published var todaysDate = Date.now
+    @Published var bmr: Double = 0
     
     /// - Tag: Weight loss goal
     @Published var weightLossGoalInPounds = 50
@@ -405,7 +406,7 @@ class FastingManager: ObservableObject {
     }
     
     func determineCaloricStanding() {
-        let bmr = BMR(age: age, weightinPounds: weight, heightinInches: height)
+        bmr = BMR(age: age, weightinPounds: weight, heightinInches: height)
         let eatenCalories = consumedCalories
         let burnedCalories = activeCalories
         leftToBurn = eatenCalories - bmr - burnedCalories

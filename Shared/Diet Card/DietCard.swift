@@ -20,7 +20,7 @@ struct DietCard: View {
                 VStack(alignment: .leading) {
                     
                     HStack {
-                            DietCardEatenLabel(fastingManager: fastingManager)
+                            DietCardEatenLabel(fastingManager: fastingManager, dietGoal: $dietGoal, deficitLevel: $deficitLevel)
                         //Simulation view to show what you have simulated that you've eaten.
                         if fastingManager.simulatedCaloriesBool {
                             SimulatedView(fastingManager: fastingManager)
@@ -88,15 +88,72 @@ struct DietCard: View {
         
     }
     
+//    @ViewBuilder
+//    func caloriesLeft(bool: Bool) -> some View {
+//        if fastingManager.leftToBurn < 0 {
+//
+//            VStack {
+//                if hasTimeElapsed {
+//                    ZStack {
+//                        VStack {
+//                            Text(String(format: "%0.2f", (fastingManager.leftToBurn * -1) / 3500))
+//                                .font(.title)
+//                                .foregroundColor(.green)
+//                            Text("lbs")
+//                                .font(.caption)
+//                                .foregroundColor(Color(uiColor: .secondaryLabel))
+//                        }
+//                        .offset(x: 0, y: fastingManager.isShowingDeficitByMass ? 0 : -100)
+//
+//                        VStack {
+//                            Text(String(format: "%0.0f", fastingManager.leftToBurn * -1))
+//                                .font(.title)
+//                                .foregroundColor(.green)
+//                            Text("Deficit")
+//                                .font(.caption)
+//                                .foregroundColor(Color(uiColor: .secondaryLabel))
+//                        }
+//                        .offset(x: 0, y: fastingManager.isShowingDeficitByMass ? 100 : 0)
+//                    }
+//                    .frame(height: 100)
+//                    .padding(20)
+//                    .clipShape(Circle())
+//
+//                } else {
+//                    //                Image(systemName: "checkmark.seal.fill")
+//                    //                    .font(.title)
+//                    //                    .foregroundColor(.green)
+//                    //                Text("You did it!")
+//                    //                    .font(.caption)
+//                    //                    .foregroundColor(Color(uiColor: .secondaryLabel))
+//                    LottieView(filename: "congrats", loopMode: .playOnce)
+//                }
+//            }
+//            .task {
+//                await delayText()
+//            }
+//            .animation(.easeIn, value: hasTimeElapsed)
+//        } else {
+//            VStack {
+//                Text(String(format: "%0.0f",fastingManager.leftToBurn))
+//                    .font(.title)
+//                Text("kcal")
+//                    .font(.caption)
+//                    .foregroundColor(Color(uiColor: .secondaryLabel))
+//            }
+//        }
+//    }
+
     @ViewBuilder
     func caloriesLeft(bool: Bool) -> some View {
-        if fastingManager.leftToBurn < 0 {
-            
+        let calories = calculateCurrentStanding()
+        if calories < 0 {
+
             VStack {
                 if hasTimeElapsed {
                     ZStack {
                         VStack {
-                            Text(String(format: "%0.2f", (fastingManager.leftToBurn * -1) / 3500))
+                            Text(String(format: "%0.2f", (calories * -1) / 3500))
                                 .font(.title)
                                 .foregroundColor(.green)
                             Text("lbs")
@@ -104,9 +161,9 @@ struct DietCard: View {
                                 .foregroundColor(Color(uiColor: .secondaryLabel))
                         }
                         .offset(x: 0, y: fastingManager.isShowingDeficitByMass ? 0 : -100)
-                        
+
                         VStack {
-                            Text(String(format: "%0.0f", fastingManager.leftToBurn * -1))
+                            Text(String(format: "%0.0f", calories * -1))
                                 .font(.title)
                                 .foregroundColor(.green)
                             Text("Deficit")
@@ -135,7 +192,7 @@ struct DietCard: View {
             .animation(.easeIn, value: hasTimeElapsed)
         } else {
             VStack {
-                Text(String(format: "%0.0f",fastingManager.leftToBurn))
+                Text(String(format: "%0.0f",calories))
                     .font(.title)
                 Text("kcal")
                     .font(.caption)
@@ -143,7 +200,15 @@ struct DietCard: View {
             }
         }
     }
-    
+
+    func calculateCurrentStanding() ->  Double {
+        let bmr = fastingManager.bmr
+        let consumedCalories = fastingManager.consumedCalories
+        let activeCalories = fastingManager.activeCalories
+        let totalNeededToEat = (bmr + activeCalories) * dietMultiplier(dietGoal, deficitLevel)
+
+        return consumedCalories - totalNeededToEat
+    }
     
     func delayText() async {
         try? await Task.sleep(nanoseconds: 2_000_000_000)
@@ -165,6 +230,24 @@ struct DietCard: View {
             return [Color.green, Color.mint]
         case .gain:
             return [Color.red, Color.orange]
+        }
+    }
+
+    func dietMultiplier(_ goal: DietGoal, _ level: DietDeficitLevel) -> Double {
+        switch goal {
+        case .deficit(_):
+            switch level {
+            case .light:
+                return 0.90
+            case .normal:
+                return 0.80
+            case .aggressive:
+                return 0.70
+            }
+        case .maintaining:
+            return 1
+        case .gain:
+            return 1.10
         }
     }
 }
