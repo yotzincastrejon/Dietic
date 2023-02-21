@@ -21,6 +21,7 @@ struct Home: View {
                     ScrollView(showsIndicators: false) {
                         ZStack {
                             VStack {
+                                DietOptionsSegementedControl()
                                 DietCard(fastingManager: fastingManager)
                                 
                                 DietTitle(title: "Meals today", view: AnyView(DietDetailView()), imageStringText: "Customize", imageSystemName: "arrow.right")
