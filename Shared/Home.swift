@@ -12,6 +12,8 @@ struct Home: View {
     @ObservedObject var fastingManager: FastingManager
     @State var accentColor: Color = .blue
     @State var appear = [false, false, false]
+    @State var dietGoal: DietGoal = .maintaining
+    @State var deficitLevel: DietDeficitLevel = .normal
     var body: some View {
         ZStack {
             NavigationView {
@@ -21,8 +23,9 @@ struct Home: View {
                     ScrollView(showsIndicators: false) {
                         ZStack {
                             VStack {
-                                DietOptionsSegementedControl()
-                                DietCard(fastingManager: fastingManager)
+                                
+                                DietCard(fastingManager: fastingManager, dietGoal: $dietGoal, deficitLevel: $deficitLevel)
+
                                 
                                 DietTitle(title: "Meals today", view: AnyView(DietDetailView()), imageStringText: "Customize", imageSystemName: "arrow.right")
                                     .padding(.top)

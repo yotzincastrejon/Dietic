@@ -10,9 +10,12 @@ import SwiftUI
 struct DietCard: View {
     @ObservedObject var fastingManager: FastingManager
     @State private var hasTimeElapsed = false
+    @Binding var dietGoal: DietGoal
+    @Binding var deficitLevel: DietDeficitLevel
     var body: some View {
         VStack {
             Spacer()
+            DietOptionsSegementedControl(dietGoal: $dietGoal, deficitLevel: $deficitLevel)
             HStack {
                 VStack(alignment: .leading) {
                     
@@ -70,8 +73,15 @@ struct DietCard: View {
         .padding()
         //        .frame(height: 236)
         .frame(maxWidth: .infinity)
-        .background(Color(uiColor: .secondarySystemGroupedBackground))
+        .background(RoundedRectangle(cornerRadius: 20)
+            .fill(Color(uiColor: .secondarySystemGroupedBackground))
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(LinearGradient(colors: dietGoalColor(dietGoal, deficitLevel), startPoint: .topLeading, endPoint: .bottomTrailing), lineWidth: 2)
+            ))
+//        .background(Color(uiColor: .secondarySystemGroupedBackground))
         .cornerRadius(20)
+
         
         
         
@@ -139,7 +149,24 @@ struct DietCard: View {
         try? await Task.sleep(nanoseconds: 2_000_000_000)
         hasTimeElapsed = true
     }
-    
+
+    func dietGoalColor(_ goal: DietGoal, _ level: DietDeficitLevel) -> [Color] {
+        switch goal {
+        case .deficit(_):
+            switch level {
+            case .light:
+                return [Color(hex: "B9B7E3"), Color(hex: "FFE1E6")]
+            case .normal:
+                return [Color.purple, Color(hex: "7D7BDB")]
+            case .aggressive:
+                return [Color.purple, Color(hex: "FF4500")]
+            }
+        case .maintaining:
+            return [Color.green, Color.mint]
+        case .gain:
+            return [Color.red, Color.orange]
+        }
+    }
 }
 
 struct DietCard_Previews: PreviewProvider {

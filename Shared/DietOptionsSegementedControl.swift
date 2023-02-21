@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct DietOptionsSegementedControl: View {
-    @State var dietGoal: DietGoal = .maintaining
-    @State var deficitLevel: DietDeficitLevel = .normal
+    @Binding var dietGoal: DietGoal
+    @Binding var deficitLevel: DietDeficitLevel
     @State private var previousDietGoalTitle = ""
     @State private var deficitOffset: CGFloat = -100
     @State private var maintainingOffset: CGFloat = 0
@@ -15,14 +15,24 @@ struct DietOptionsSegementedControl: View {
         VStack {
             VStack {
                 ZStack {
-                    Text("Deficit")
-                        .font(.headline)
+                    if deficitLevel == .light {
+                        Text("Deficit")
+                            .font(.headline)
+                            .foregroundColor(.black)
                         .offset(x: 0, y: deficitOffset)
+                    } else {
+                        Text("Deficit")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                        .offset(x: 0, y: deficitOffset)
+                    }
                     Text("Maintaining")
                         .font(.headline)
+                        .foregroundColor(.white)
                         .offset(x: 0, y: maintainingOffset)
                     Text("Gain")
                         .font(.headline)
+                        .foregroundColor(.white)
                         .offset(x: 0, y: gainOffset)
                 }
 
@@ -30,12 +40,15 @@ struct DietOptionsSegementedControl: View {
                     ZStack {
                         Text("Light")
                             .font(.caption)
+                            .foregroundColor(.black)
                             .offset(x: lightOffset, y: 0)
                         Text("Normal")
                             .font(.caption)
+                            .foregroundColor(.white)
                             .offset(x: normalOffset, y: 0)
                         Text("Aggressive")
                             .font(.caption)
+                            .foregroundColor(.white)
                             .offset(x: agressiveOffset, y: 0)
                     }
                     .onChange(of: deficitLevel) { level in
@@ -98,16 +111,16 @@ struct DietOptionsSegementedControl: View {
         case .deficit(_):
             switch level {
             case .light:
-                return [Color.yellow]
+                return [Color(hex: "B9B7E3"), Color(hex: "FFE1E6")]
             case .normal:
-                return [Color.red]
+                return [Color.purple, Color(hex: "7D7BDB")]
             case .aggressive:
-                return [Color.purple, Color.green]
+                return [Color.purple, Color(hex: "FF4500")]
             }
         case .maintaining:
-            return [Color.green]
+            return [Color.green, Color.mint]
         case .gain:
-            return [Color.orange]
+            return [Color.red, Color.orange]
         }
     }
 }
@@ -115,7 +128,7 @@ struct DietOptionsSegementedControl: View {
 struct DietOptionsSegementedControl_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            DietOptionsSegementedControl()
+            DietOptionsSegementedControl(dietGoal: Binding.constant(.maintaining), deficitLevel: Binding.constant(.normal))
             Spacer()
         }
     }
