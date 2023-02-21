@@ -39,7 +39,7 @@ struct DietCard: View {
                 //                Spacer()
                 
                         
-                        ProgressRingView(progress: $fastingManager.percentageAccomplished,thickness: 12, dotOnTip: false, width: 110,gradient: Gradient(colors: [Color(hex: "53b7db"),Color(hex: "75f9d1")]),  backgroundCircleWidth: 12, backgroundCircleColor: Color(hex: "53b7db").opacity(0.1))
+                        ProgressRingView(progress: $fastingManager.percentageAccomplished,thickness: 12, dotOnTip: false, width: 110,gradient: Gradient(colors: dietGoalColor(dietGoal, deficitLevel)),  backgroundCircleWidth: 12, backgroundCircleColor: Color(hex: "53b7db").opacity(0.1))
                             .overlay(
                                 caloriesLeft(bool: hasTimeElapsed)
     

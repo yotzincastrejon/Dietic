@@ -11,100 +11,137 @@ struct DietOptionsSegementedControl: View {
     @State private var normalOffset: CGFloat = 0
     @State private var lightOffset: CGFloat = -100
     @State private var isShowingSheet = false
+    @State private var expandedBackgroundIsShowing = true
+    @State private var isWorkItemCancelled = false
+    @State private var hasFinished = true
+    @State private var subcategoryChanged = false
     var body: some View {
-        VStack {
-            VStack {
-                ZStack {
+        VStack(spacing: 0) {
+            ZStack {
+                Capsule()
+                    .foregroundStyle(.linearGradient(colors: dietGoalColor(dietGoal, deficitLevel), startPoint: .topLeading, endPoint: .bottomTrailing))
+                    .opacity(expandedBackgroundIsShowing ? 1 : 0)
+                Capsule()
+                    .stroke(.linearGradient(colors: dietGoalColor(dietGoal, deficitLevel), startPoint: .topLeading, endPoint: .bottomTrailing))
+                VStack {
                     if deficitLevel == .light {
                         Text("Deficit")
                             .font(.headline)
-                            .foregroundColor(.black)
-                        .offset(x: 0, y: deficitOffset)
+                            .foregroundStyle(.linearGradient(colors: expandedBackgroundIsShowing ? [Color.black] : dietGoalColor(dietGoal, deficitLevel), startPoint: .topLeading, endPoint: .bottomTrailing))
+                            .offset(x: 0, y: deficitOffset)
                     } else {
                         Text("Deficit")
                             .font(.headline)
-                            .foregroundColor(.white)
-                        .offset(x: 0, y: deficitOffset)
+                            .foregroundStyle(.linearGradient(colors: expandedBackgroundIsShowing ? [Color.white] : dietGoalColor(dietGoal, deficitLevel), startPoint: .topLeading, endPoint: .bottomTrailing))
+                            .offset(x: 0, y: deficitOffset)
                     }
-                    Text("Maintaining")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .offset(x: 0, y: maintainingOffset)
-                    Text("Gain")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .offset(x: 0, y: gainOffset)
-                }
 
-                if case .deficit = dietGoal {
-                    ZStack {
-                        Text("Light")
-                            .font(.caption)
-                            .foregroundColor(.black)
-                            .offset(x: lightOffset, y: 0)
-                        Text("Normal")
-                            .font(.caption)
-                            .foregroundColor(.white)
-                            .offset(x: normalOffset, y: 0)
-                        Text("Aggressive")
-                            .font(.caption)
-                            .foregroundColor(.white)
-                            .offset(x: agressiveOffset, y: 0)
-                    }
-                    .onChange(of: deficitLevel) { level in
-                        withAnimation(.spring(response:0.35, dampingFraction:0.70, blendDuration:0)) {
-                            switch deficitLevel {
-                            case .light:
-                                lightOffset = 0
-                                normalOffset = 100
-                                agressiveOffset = 100
-                            case .normal:
-                                lightOffset = -100
-                                normalOffset = 0
-                                agressiveOffset = 100
-                            case .aggressive:
-                                lightOffset = -100
-                                normalOffset = -100
-                                agressiveOffset = 0
+                    if case .deficit = dietGoal {
+                        ZStack {
+                            Text("Light")
+                                .font(.caption)
+                                .foregroundStyle(.linearGradient(colors: expandedBackgroundIsShowing ? [Color.black] : dietGoalColor(dietGoal, deficitLevel), startPoint: .topLeading, endPoint: .bottomTrailing))
+                                .offset(x: lightOffset, y: 0)
+                            Text("Normal")
+                                .font(.caption)
+                                .foregroundStyle(.linearGradient(colors: expandedBackgroundIsShowing ? [Color.white] : dietGoalColor(dietGoal, deficitLevel), startPoint: .topLeading, endPoint: .bottomTrailing))
+                                .offset(x: normalOffset, y: 0)
+                            Text("Aggressive")
+                                .font(.caption)
+                                .foregroundStyle(.linearGradient(colors: expandedBackgroundIsShowing ? [Color.white] : dietGoalColor(dietGoal, deficitLevel), startPoint: .topLeading, endPoint: .bottomTrailing))
+                                .offset(x: agressiveOffset, y: 0)
+                        }
+                        .onChange(of: deficitLevel) { level in
+                            withAnimation(.spring(response:0.35, dampingFraction:0.8, blendDuration:0)) {
+                                switch deficitLevel {
+                                case .light:
+                                    lightOffset = 0
+                                    normalOffset = 100
+                                    agressiveOffset = 100
+                                    if !hasFinished {
+                                        isWorkItemCancelled = true
+                                    }
+                                    toggleExpandedBackgroundForSubCategories()
+                                    //                                        toggleExpandedBackground()
+                                case .normal:
+                                    lightOffset = -100
+                                    normalOffset = 0
+                                    agressiveOffset = 100
+                                    if !hasFinished {
+                                        isWorkItemCancelled = true
+                                    }
+                                    toggleExpandedBackgroundForSubCategories()
+
+                                    //                                        toggleExpandedBackground()
+                                case .aggressive:
+                                    lightOffset = -100
+                                    normalOffset = -100
+                                    agressiveOffset = 0
+                                    if !hasFinished {
+                                        isWorkItemCancelled = true
+                                    }
+                                    toggleExpandedBackgroundForSubCategories()
+
+                                    //                                        toggleExpandedBackground()
+                                }
                             }
                         }
                     }
                 }
+                Text("Maintaining")
+                    .font(.headline)
+                    .foregroundStyle(.linearGradient(colors: expandedBackgroundIsShowing ? [Color.white] : dietGoalColor(dietGoal, deficitLevel), startPoint: .topLeading, endPoint: .bottomTrailing))
+                    .offset(x: 0, y: maintainingOffset)
+                Text("Gain")
+                    .font(.headline)
+                    .foregroundStyle(.linearGradient(colors: expandedBackgroundIsShowing ? [Color.white] : dietGoalColor(dietGoal, deficitLevel), startPoint: .topLeading, endPoint: .bottomTrailing))
+                    .offset(x: 0, y: gainOffset)
             }
-            .padding()
-            .background(LinearGradient(colors: dietGoalColor(dietGoal, deficitLevel), startPoint: .topLeading, endPoint: .bottomTrailing))
-            .clipShape(Capsule())
-            .onChange(of: dietGoal.title) { title in
-                withAnimation(.spring(response:0.55, dampingFraction:0.70, blendDuration:0)) {
-                    switch dietGoal {
-                    case .deficit(_):
-                        deficitOffset = 0
-                        maintainingOffset = 100
-                        gainOffset = 100
-                    case .maintaining:
-                        deficitOffset = -100
-                        maintainingOffset = 0
-                        gainOffset = 100
-                    case .gain:
-                        deficitOffset = -100
-                        maintainingOffset = -100
-                        gainOffset = 0
+
+
+        }.onAppear(perform: toggleExpandedBackground)
+
+        //            .padding(expandedBackgroundIsShowing ? 15 : 0)
+        .clipShape(Capsule())
+        .onChange(of: dietGoal.title) { title in
+            withAnimation(.spring(response:0.55, dampingFraction:0.8, blendDuration:0)) {
+                switch dietGoal {
+                case .deficit(_):
+                    deficitOffset = 0
+                    maintainingOffset = 100
+                    gainOffset = 100
+                    if !hasFinished {
+                        isWorkItemCancelled = true
                     }
+                    toggleExpandedBackground()
+                case .maintaining:
+                    deficitOffset = -100
+                    maintainingOffset = 0
+                    gainOffset = 100
+                    if !hasFinished {
+                        isWorkItemCancelled = true
+                    }
+                    toggleExpandedBackground()
+                case .gain:
+                    deficitOffset = -100
+                    maintainingOffset = -100
+                    gainOffset = 0
+                    if !hasFinished {
+                        isWorkItemCancelled = true
+                    }
+                    toggleExpandedBackground()
                 }
             }
-            .animation(.spring(response:0.55, dampingFraction:0.70, blendDuration:0), value: dietGoal)
-            .onTapGesture {
-                isShowingSheet.toggle()
-            }
-            .sheet(isPresented: $isShowingSheet) {
-                DietGoalPicker(dietGoal: $dietGoal, deficitLevel: $deficitLevel)
-                    .presentationDetents([.medium])
-            }
-
-
-
-
         }
+        //            .animation(.spring(response:0.55, dampingFraction:0.70, blendDuration:0), value: dietGoal)
+        .onTapGesture {
+            isShowingSheet.toggle()
+        }
+        .sheet(isPresented: $isShowingSheet) {
+            DietGoalPicker(dietGoal: $dietGoal, deficitLevel: $deficitLevel)
+                .presentationDetents([.medium])
+        }
+        .frame(width: 120, height: 50)
     }
     func dietGoalColor(_ goal: DietGoal, _ level: DietDeficitLevel) -> [Color] {
         switch goal {
@@ -123,12 +160,56 @@ struct DietOptionsSegementedControl: View {
             return [Color.red, Color.orange]
         }
     }
+
+    func toggleExpandedBackground() {
+        hasFinished = false
+        expandedBackgroundIsShowing = true
+        let workItem = DispatchWorkItem {
+            if !isWorkItemCancelled {
+                withAnimation(.linear(duration: 0.6)) {
+                    expandedBackgroundIsShowing = false
+                }
+                hasFinished = true
+            } else {
+                isWorkItemCancelled = false
+                hasFinished = true
+            }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: workItem)
+    }
+
+    func toggleExpandedBackgroundForSubCategories() {
+        hasFinished = false
+
+        expandedBackgroundIsShowing = true
+
+        let workItem = DispatchWorkItem {
+            if !isWorkItemCancelled {
+                withAnimation(.linear(duration: 0.6)) {
+                    expandedBackgroundIsShowing = false
+                }
+                hasFinished = true
+            } else {
+                isWorkItemCancelled = false
+                hasFinished = true
+            }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: workItem)
+    }
+}
+
+struct DietOptionsSegementedControlPreview: View {
+    @State var dietGoal: DietGoal = .maintaining
+    @State var deficitLevel: DietDeficitLevel = .normal
+    var body: some View {
+        DietOptionsSegementedControl(dietGoal: $dietGoal, deficitLevel: $deficitLevel)
+    }
 }
 
 struct DietOptionsSegementedControl_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            DietOptionsSegementedControl(dietGoal: Binding.constant(.maintaining), deficitLevel: Binding.constant(.normal))
+            DietOptionsSegementedControlPreview()
             Spacer()
         }
     }
