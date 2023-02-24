@@ -87,7 +87,7 @@ struct DietCardEatenLabel: View {
 
     func dietMultiplier(_ goal: DietGoal, _ level: DietDeficitLevel) -> Double {
         switch goal {
-        case .deficit(_):
+        case .deficit:
             switch level {
             case .light:
                 return 0.90

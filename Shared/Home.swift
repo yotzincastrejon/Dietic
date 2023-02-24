@@ -12,8 +12,8 @@ struct Home: View {
     @ObservedObject var fastingManager: FastingManager
     @State var accentColor: Color = .blue
     @State var appear = [false, false, false]
-    @State var dietGoal: DietGoal = .maintaining
-    @State var deficitLevel: DietDeficitLevel = .normal
+    @Binding var dietGoal: DietGoal
+    @Binding var deficitLevel: DietDeficitLevel
     var body: some View {
         ZStack {
             NavigationView {
@@ -107,16 +107,7 @@ struct Home: View {
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            Home(fastingManager: FastingManager())
-                .preferredColorScheme(.light)
-            Home(fastingManager: FastingManager())
-                .preferredColorScheme(.dark)
-            Home(fastingManager: FastingManager())
-                .previewDevice("iPhone 8")
-                .preferredColorScheme(.dark)
-                .previewInterfaceOrientation(.portrait)
-            
-            
+            Home(fastingManager: FastingManager(), dietGoal: .constant(.maintaining), deficitLevel: .constant(.normal))
         }
     }
 }

@@ -9,9 +9,11 @@ import SwiftUI
 
 
 struct ContentView: View {
-    @StateObject var fastingManager = FastingManager()
+    @ObservedObject var fastingManager: FastingManager
+    @Binding var dietGoal: DietGoal
+    @Binding var deficitLevel: DietDeficitLevel
     var body: some View {
-        Home(fastingManager: fastingManager)
+        Home(fastingManager: fastingManager, dietGoal: $dietGoal, deficitLevel: $deficitLevel)
     }
     
 }
@@ -19,7 +21,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ContentView()
+            ContentView(fastingManager: FastingManager(), dietGoal: .constant(.maintaining), deficitLevel: .constant(.normal))
         }
     }
 }

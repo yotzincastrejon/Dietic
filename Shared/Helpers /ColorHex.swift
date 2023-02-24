@@ -35,6 +35,3 @@ extension Color {
         )
     }
 }
-
-
-

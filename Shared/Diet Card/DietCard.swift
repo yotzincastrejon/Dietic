@@ -217,7 +217,7 @@ struct DietCard: View {
 
     func dietGoalColor(_ goal: DietGoal, _ level: DietDeficitLevel) -> [Color] {
         switch goal {
-        case .deficit(_):
+        case .deficit:
             switch level {
             case .light:
                 return [Color(hex: "B9B7E3"), Color(hex: "FFE1E6")]
@@ -235,7 +235,7 @@ struct DietCard: View {
 
     func dietMultiplier(_ goal: DietGoal, _ level: DietDeficitLevel) -> Double {
         switch goal {
-        case .deficit(_):
+        case .deficit:
             switch level {
             case .light:
                 return 0.90
@@ -257,7 +257,7 @@ struct DietCard_Previews: PreviewProvider {
 //        DietCard(fastingManager: FastingManager())
 //            .background(Color(uiColor: .systemGroupedBackground))
             
-        ContentView(fastingManager: FastingManager())
+        ContentView(fastingManager: FastingManager(), dietGoal: .constant(.maintaining), deficitLevel: .constant(.normal))
     }
 }
 

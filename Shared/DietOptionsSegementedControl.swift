@@ -4,23 +4,25 @@ struct DietOptionsSegementedControl: View {
     @Binding var dietGoal: DietGoal
     @Binding var deficitLevel: DietDeficitLevel
     @State private var previousDietGoalTitle = ""
-    @State private var deficitOffset: CGFloat = -100
-    @State private var maintainingOffset: CGFloat = 0
-    @State private var gainOffset: CGFloat = 100
-    @State private var agressiveOffset: CGFloat = 100
-    @State private var normalOffset: CGFloat = 0
-    @State private var lightOffset: CGFloat = -100
+    @AppStorage("deficitOffset") var deficitOffset: Double = -100
+    @AppStorage("maintainingOffset") var maintainingOffset: Double = 0
+    @AppStorage("gainOffset") var gainOffset: Double = 100
+    @AppStorage("agressiveOffset") var agressiveOffset: Double = 100
+    @AppStorage("normalOffset") var normalOffset: Double = 0
+    @AppStorage("lightOffset") var lightOffset: Double = -100
     @State private var isShowingSheet = false
     @State private var expandedBackgroundIsShowing = true
     @State private var isWorkItemCancelled = false
     @State private var hasFinished = true
     @State private var subcategoryChanged = false
+
     var body: some View {
         VStack(spacing: 0) {
             ZStack {
                 Capsule()
                     .foregroundStyle(.linearGradient(colors: dietGoalColor(dietGoal, deficitLevel), startPoint: .topLeading, endPoint: .bottomTrailing))
                     .opacity(expandedBackgroundIsShowing ? 1 : 0)
+
                 Capsule()
                     .stroke(.linearGradient(colors: dietGoalColor(dietGoal, deficitLevel), startPoint: .topLeading, endPoint: .bottomTrailing))
                 VStack {
@@ -106,7 +108,7 @@ struct DietOptionsSegementedControl: View {
         .onChange(of: dietGoal.title) { title in
             withAnimation(.spring(response:0.55, dampingFraction:0.8, blendDuration:0)) {
                 switch dietGoal {
-                case .deficit(_):
+                case .deficit:
                     deficitOffset = 0
                     maintainingOffset = 100
                     gainOffset = 100
@@ -142,13 +144,15 @@ struct DietOptionsSegementedControl: View {
                 .presentationDetents([.medium])
         }
         .frame(width: 120, height: 50)
+
     }
     func dietGoalColor(_ goal: DietGoal, _ level: DietDeficitLevel) -> [Color] {
         switch goal {
-        case .deficit(_):
+        case .deficit:
             switch level {
             case .light:
-                return [Color(hex: "B9B7E3"), Color(hex: "FFE1E6")]
+                return [Color(hex: "B9B7E3"),
+                        Color(hex: "FFE1E6")]
             case .normal:
                 return [Color.purple, Color(hex: "7D7BDB")]
             case .aggressive:
@@ -215,8 +219,43 @@ struct DietOptionsSegementedControl_Previews: PreviewProvider {
     }
 }
 
-enum DietGoal: Hashable {
-    case deficit(DietDeficitLevel)
+
+struct DietGoalPicker: View {
+    @Binding var dietGoal: DietGoal
+    @Binding var deficitLevel: DietDeficitLevel
+
+    var body: some View {
+        VStack {
+            Text("Select your diet goal: \(dietGoal.title)")
+            Picker("", selection: $dietGoal) {
+                ForEach(DietGoal.allCases, id: \.self) { goal in
+                    Text(goal.title).tag(goal)
+                }
+            }
+            .pickerStyle(SegmentedPickerStyle())
+
+            if case .deficit = dietGoal {
+                Group {
+                    Text("Select your deficit level:")
+                    Picker("",selection: $deficitLevel) {
+                        ForEach(DietDeficitLevel.allCases, id: \.self) { level in
+                            Text(level.title).tag(level)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                }
+                Text("Selected Level: \(deficitLevel.title)")
+            }
+
+            Spacer()
+        }
+        .padding(.top)
+    }
+}
+
+
+enum DietGoal: String, Hashable, CaseIterable {
+    case deficit
     case maintaining
     case gain
 
@@ -232,11 +271,11 @@ enum DietGoal: Hashable {
     }
 
     static var allCases: [DietGoal] {
-        [.deficit(.normal),.maintaining, .gain]
+        [.deficit,.maintaining, .gain]
     }
 }
 
-enum DietDeficitLevel: Hashable, CaseIterable {
+enum DietDeficitLevel: String, Hashable, CaseIterable {
     case light
     case normal
     case aggressive
@@ -252,34 +291,3 @@ enum DietDeficitLevel: Hashable, CaseIterable {
         }
     }
 }
-
-struct DietGoalPicker: View {
-    @Binding var dietGoal: DietGoal
-    @Binding var deficitLevel: DietDeficitLevel
-    var body: some View {
-        VStack {
-            Text("Select your diet goal: \(dietGoal.title)")
-            Picker(selection: $dietGoal, label: Text("")) {
-                ForEach(DietGoal.allCases, id: \.self) { goal in
-                    Text(goal.title).tag(goal)
-                }
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            if case .deficit = dietGoal {
-                Group {
-                    Text("Select your deficit level:")
-                    Picker(selection: $deficitLevel, label: Text("")) {
-                        ForEach(DietDeficitLevel.allCases, id: \.self) { level in
-                            Text(level.title).tag(level)
-                        }
-                    }
-                    .pickerStyle(SegmentedPickerStyle())
-                }
-                Text("Selected Level: \(deficitLevel.title)")
-            }
-            Spacer()
-        }
-        .padding(.top)
-    }
-}
-

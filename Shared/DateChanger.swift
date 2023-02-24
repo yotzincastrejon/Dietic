@@ -68,6 +68,6 @@ struct DateChanger: View {
 struct DateChanger_Previews: PreviewProvider {
     static var previews: some View {
         DateChanger(fastingManager: FastingManager())
-        Home(fastingManager: FastingManager())
+//        Home(fastingManager: FastingManager())
     }
 }
