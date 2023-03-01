@@ -10,6 +10,7 @@ import CoreData
 
 @main
 struct Dietic: App {
+//    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     let persistenceController = PersistenceController.shared
     @State var dietGoal: DietGoal
     @State var deficitLevel: DietDeficitLevel
