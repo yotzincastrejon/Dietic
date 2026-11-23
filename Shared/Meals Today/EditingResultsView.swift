@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct EditingResultsView: View {
+    @State private var saving = false
+    @State private var saveError = ""
+    @State private var showSaveError = false
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 //    @Binding var selection: EatingTime
     private enum Field: Hashable {
@@ -75,7 +78,7 @@ struct EditingResultsView: View {
                     }
                     
                     HStack {
-                        Text("\(Int(sample?.servingQuantity ?? 0)) \(sample?.servingUnit ?? "g")")
+                        Text("\((sample?.servingQuantity ?? 0).formatted()) \(sample?.servingUnit ?? "g")")
                             .font(.caption)
                             .foregroundColor(.secondary)
                         Spacer()
@@ -83,7 +86,7 @@ struct EditingResultsView: View {
                     
                     if sample?.servingWeightGrams != 0 {
                     HStack {
-                        Text("Serving weight in grams: \(Int(sample?.servingWeightGrams ?? 0))g")
+                        Text("Serving weight in grams: \((sample?.servingWeightGrams ?? 0).formatted())g")
                             .font(.caption)
                             .foregroundColor(.secondary)
                         Spacer()
@@ -176,11 +179,7 @@ struct EditingResultsView: View {
                 
                 HStack(spacing: 15) {
                     Button(action: {
-//                        fastingManager.deleteTheCorrelationObject(uuid: sample?.uuid ?? "")
                         presentationMode.wrappedValue.dismiss()
-                        Task {
-                            await fastingManager.requestAuthorization()
-                        }
                     }){
                         Text("Cancel")
                             .fontWeight(.medium)
@@ -195,13 +194,22 @@ struct EditingResultsView: View {
                     
                     
                     Button(action: {
-                        fastingManager.deleteTheCorrelationObject(uuid: sample?.uuid ?? "")
+                        guard !saving, let original = sample else { return }
+                        saving = true
                         saveNewValue()
-                        
-                        fastingManager.saveCorrelation(sample: sample!, editing: true)
-                        presentationMode.wrappedValue.dismiss()
-                        Task {
-                            await fastingManager.requestAuthorization()
+                        guard let replacement = sample else { saving = false; return }
+                        Task { @MainActor in
+                            defer { saving = false }
+                            do {
+                                try await fastingManager.saveMeal(replacement)
+                                fastingManager.deleteTheCorrelationObject(uuid: original.uuid)
+                                presentationMode.wrappedValue.dismiss()
+                                await fastingManager.requestAuthorization()
+                            } catch {
+                                sample = original
+                                saveError = error.localizedDescription
+                                showSaveError = true
+                            }
                         }
                     }){
                         Text("Save")
@@ -223,6 +231,10 @@ struct EditingResultsView: View {
             
             
         }
+        .disabled(saving)
+        .alert("Couldn’t save meal", isPresented: $showSaveError) {
+            Button("OK") {}
+        } message: { Text(saveError) }
         .navigationTitle("Edit Entry")
         .navigationBarTitleDisplayMode(.inline)
         

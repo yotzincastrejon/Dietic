@@ -1,6 +1,11 @@
 # Dietic
 Dietic is a nutrition tracking app that allows users to scan, search, and save their meals. 
 
+### Food lookup
+Food search and barcode scans use USDA FoodData Central through the personal Cloudflare Worker in `worker/`. The Worker accepts authenticated food searches and food detail requests. Its secrets are `USDA_API_KEY` and `DIETIC_ACCESS_TOKEN`.
+
+For a personal Xcode build, set `DIETIC_ACCESS_TOKEN = your-personal-token` in the Git-ignored `Dietic.local.xcconfig` beside the project. The token must match the Worker secret. Only distribute this build to your own devices. Deploy Worker code updates with `npx wrangler@4 deploy --config worker/wrangler.toml`. Existing secrets are retained. [USDA FoodData Central](https://fdc.nal.usda.gov/)
+
 ### Frameworks
 * SwiftUI
 * Swift

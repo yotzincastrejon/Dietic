@@ -1,0 +1,2 @@
+// Personal Worker credentials are supplied by the local build.
+#include? "Dietic.local.xcconfig"

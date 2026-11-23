@@ -806,314 +806,13 @@ class FastingManager: ObservableObject {
         return (currentAmount / goal,Int(goal - currentAmount))
     }
     
-    // MARK: - Requesting Instant Response from Nutrionix
-    @Published var instantResponse = [InstantSearchModel]()
-    func instantRequestToNutrionix(string: String) async {
-        var queryString = string
-        queryString = queryString.filter { $0.isPunctuation == false }
-        queryString = queryString.applyingTransform(.stripDiacritics, reverse: false)!
-        queryString = queryString.trimmingCharacters(in: .whitespaces)
-        queryString = queryString.replacingOccurrences(of: " ", with: "-")
-        
-        print("String: \(queryString)")
-        let url = URL(string: "https://trackapi.nutritionix.com/v2/search/instant?query=\(queryString)")! //PUT your string
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("f806ed02", forHTTPHeaderField: "x-app-id")
-        request.setValue("37f6225583fc587c2f9a3d8e772e865d", forHTTPHeaderField: "x-app-key")
-        let task = URLSession.shared.dataTask(with: request) { [self] data, response, error in
-            guard let safeData = data,
-                  let response = response as? HTTPURLResponse,
-                  error == nil else {                                              // check for fundamental networking error
-                      print("error", error ?? "Unknown error")
-                      return
-                  }
-            //            guard response.statusCode != 404  else {                        // check if item is missing or doesn't exist in the database.
-            //                print("item is missing/doesn't exist")
-            //                DispatchQueue.main.async {
-            //                itemIsMissingBool = true
-            //                }
-            //                return
-            //            }
-            guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
-                print("statusCode should be 2xx, but is \(response.statusCode)")
-                print("response = \(response)")
-                return
-            }
-            
-            
-            
-            //                    var responseString = String(data: safeData, encoding: .utf8)
-            //                    print(responseString)
-            //                    responseString = (responseString as! NSString).replacingOccurrences(of: "\"", with: "")
-            //                    print(responseString)
-            print("We are decoding directly from the response")
-            //                    decode(json: data!)
-            
-            decodeInstantReponse(data: safeData)
-            
-            //Or the current working model is decodeJSONResponse(json: data!)
-        }
-        task.resume()
-    }
-    
-    func instantQueryFullRequest(string: String) async {
-        let url = URL(string: "https://trackapi.nutritionix.com/v2/search/item?nix_item_id=\(string)")! //PUT your string
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("f806ed02", forHTTPHeaderField: "x-app-id")
-        request.setValue("37f6225583fc587c2f9a3d8e772e865d", forHTTPHeaderField: "x-app-key")
-        let task = URLSession.shared.dataTask(with: request) { [self] data, response, error in
-            guard let safeData = data,
-                  let response = response as? HTTPURLResponse,
-                  error == nil else {                                              // check for fundamental networking error
-                      print("error", error ?? "Unknown error")
-                      return
-                  }
-            //            guard response.statusCode != 404  else {                        // check if item is missing or doesn't exist in the database.
-            //                print("item is missing/doesn't exist")
-            //                DispatchQueue.main.async {
-            //                itemIsMissingBool = true
-            //                }
-            //                return
-            //            }
-            guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
-                print("statusCode should be 2xx, but is \(response.statusCode)")
-                print("response = \(response)")
-                return
-            }
-            
-            
-            
-            //                    var responseString = String(data: safeData, encoding: .utf8)
-            //                    print(responseString)
-            //                    responseString = (responseString as! NSString).replacingOccurrences(of: "\"", with: "")
-            //                    print(responseString)
-            print("We are decoding directly from the response")
-            //                    decode(json: data!)
-            
-            decodeJSONResponse(json: safeData)
-            DispatchQueue.main.async {
-                self.currentScannedItemJSON = safeData
-            }
-            //Or the current working model is decodeJSONResponse(json: data!)
-        }
-        task.resume()
-    }
-    
-    func printTest() {
-        print("Submitted From Fasting Manager")
-    }
-    
-    
-    func decodeInstantReponse(data: Data) {
-        DispatchQueue.main.async { [self] in
-            do {
-                let response = try JSONDecoder().decode(Instant.self,from: data)
-                //            print(response)
-                //            print(response?.branded)
-                //            print(response?.branded?.count)
-                instantResponse.removeAll()
-                guard response.branded!.count > 0 else { return }
-                for i in 0..<((response.branded?.count)!) {
-                    let title = response.branded?[i].foodName
-                    let brandName = response.branded?[i].brandName
-                    let calories = response.branded?[i].nfCalories
-                    let id = response.branded?[i].nixItemID
-                    instantResponse.append(InstantSearchModel(title: title ?? "", brandName: brandName ?? "" , calories: Int(calories ?? 0), nixID: id ?? ""))
-                }
-            } catch {
-                print(String(describing: error))
-            }
-        }
-    }
-    
-    // MARK: - Requesting JSON from Nutrionix
-    @Published var itemIsMissingBool: Bool = false
-    func jsonRequestToNutrionix(upc: String) {
-        let url = URL(string: "https://trackapi.nutritionix.com/v2/search/item?upc=\(upc)")! //PUT your URL
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("f806ed02", forHTTPHeaderField: "x-app-id")
-        request.setValue("37f6225583fc587c2f9a3d8e772e865d", forHTTPHeaderField: "x-app-key")
-        let task = URLSession.shared.dataTask(with: request) { [self] data, response, error in
-            guard let safeData = data,
-                  let response = response as? HTTPURLResponse,
-                  error == nil else {                                              // check for fundamental networking error
-                      print("error", error ?? "Unknown error")
-                      return
-                  }
-            guard response.statusCode != 404  else {                        // check if item is missing or doesn't exist in the database.
-                print("item is missing/doesn't exist")
-                DispatchQueue.main.async {
-                    self.itemIsMissingBool = true
-                }
-                return
-            }
-            guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
-                print("statusCode should be 2xx, but is \(response.statusCode)")
-                print("response = \(response)")
-                return
-            }
-            
-            
-            
-            //                    var responseString = String(data: safeData, encoding: .utf8)
-            //                    print(responseString)
-            //                    responseString = (responseString as! NSString).replacingOccurrences(of: "\"", with: "")
-            //                    print(responseString)
-            print("We are decoding directly from the response")
-            //                    decode(json: data!)
-            
-            decodeJSONResponse(json: safeData)
-            DispatchQueue.main.async {
-                self.currentScannedItemJSON = safeData
-            }
-            //Or the current working model is decodeJSONResponse(json: data!)
-        }
-        task.resume()
-    }
-    @Published var currentScannedItem: HKSampleWithDescription?
-    @Published var currentScannedItemJSON: Data?
-    var fullNutrientArray = [FullNutrient]()
-    
-    
-    func decodeJSONResponse(json: Data) {
-        do {
-            let product = try JSONDecoder().decode(GroceryProduct.self, from: json)
-            let info = product.foods[0]
-            let nutrient = info.fullNutrients
-            print("decoding From JSON Response")
-            //            print(nutrient)
-            fullNutrientArray.removeAll()
-            fullNutrientArray = nutrient
-            DispatchQueue.main.async { [self] in
-                
-                
-                currentScannedItem = HKSampleWithDescription(foodName: info.foodName ?? "",
-                                                             brandName: info.brandName ?? "",
-                                                             servingQuantity: info.servingQuantity ?? 0,
-                                                             servingUnit: info.servingUnit ?? "",
-                                                             servingWeightGrams: info.servingWeightGrams ?? 0,
-                                                             calories: info.calories ?? 0,
-                                                             sugars: info.sugars ?? 0,
-                                                             totalFat: info.totalFat ?? 0,
-                                                             saturatedFat: info.saturatedFat ?? 0,
-                                                             cholesterol: info.cholesterol ?? 0,
-                                                             sodium: info.sodium ?? 0,
-                                                             totalCarbohydrate: info.totalCarbohydrate ?? 0,
-                                                             dietaryFiber: info.dietaryFiber ?? 0,
-                                                             protein: info.protein ?? 0,
-                                                             potassium: info.potassium ?? 0,
-                                                             calcium: nutrient.filter { $0.attrID == 301 }.map { $0.value }.first ?? 0,
-                                                             iron: nutrient.filter { $0.attrID == 303 }.map { $0.value }.first ?? 0,
-                                                             monounsaturatedFat: nutrient.filter { $0.attrID == 645 }.map { $0.value }.first ?? 0,
-                                                             polyunsaturatedFat: nutrient.filter { $0.attrID == 646 }.map { $0.value }.first ?? 0,
-                                                             caffeine: nutrient.filter { $0.attrID == 262 }.map { $0.value }.first ?? 0,
-                                                             copper: nutrient.filter { $0.attrID == 312 }.map { $0.value }.first ?? 0,
-                                                             folate: nutrient.filter { $0.attrID == 417 }.map { $0.value }.first ?? 0,
-                                                             magnesium: nutrient.filter { $0.attrID == 304 }.map { $0.value }.first ?? 0,
-                                                             manganese: nutrient.filter { $0.attrID == 315 }.map { $0.value }.first ?? 0,
-                                                             niacin: nutrient.filter { $0.attrID == 406 }.map { $0.value }.first ?? 0,
-                                                             phosphorus: nutrient.filter { $0.attrID == 305 }.map { $0.value }.first ?? 0,
-                                                             riboflavin: nutrient.filter { $0.attrID == 405 }.map { $0.value }.first ?? 0,
-                                                             selenium: nutrient.filter { $0.attrID == 317 }.map { $0.value }.first ?? 0,
-                                                             thiamin: nutrient.filter { $0.attrID == 404 }.map { $0.value }.first ?? 0,
-                                                             vitaminA: nutrient.filter { $0.attrID == 320 }.map { $0.value }.first ?? 0,
-                                                             vitaminC: nutrient.filter { $0.attrID == 401 }.map { $0.value }.first ?? 0,
-                                                             vitaminB6: nutrient.filter { $0.attrID == 415 }.map { $0.value }.first ?? 0,
-                                                             vitaminB12: nutrient.filter { $0.attrID == 418 }.map { $0.value }.first ?? 0,
-                                                             vitaminD: nutrient.filter { $0.attrID == 328 }.map { $0.value }.first ?? 0,
-                                                             vitaminE: nutrient.filter { $0.attrID == 323 }.map { $0.value }.first ?? 0,
-                                                             vitaminK: nutrient.filter { $0.attrID == 430 }.map { $0.value }.first ?? 0,
-                                                             zinc: nutrient.filter { $0.attrID == 309 }.map { $0.value }.first ?? 0,
-                                                             mealPeriod: "",
-                                                             numberOfServings: 1, servingSelection: "",
-                                                             uuid: UUID().uuidString, date: Date.now,
-                                                             attrIDArray: [Int]()
-                )
-            }
-        } catch {
-            print("Decoding the JSON failed \(error.localizedDescription)")
-            print(String(describing: error))
-        }
-    }
-    
-    func decodeJsonFromCoreData(data: Data) -> HKSampleWithDescription {
-        var sample: HKSampleWithDescription?
-        do {
-            
-            let product = try JSONDecoder().decode(GroceryProduct.self, from: data)
-            let info = product.foods[0]
-            let nutrient = info.fullNutrients
-            print("Decoding from JSON provided from Core Data \(info.foodName ?? "")")
-            //            print(nutrient)
-            fullNutrientArray.removeAll()
-            fullNutrientArray = nutrient
-            
-            
-            
-            sample =  HKSampleWithDescription(foodName: info.foodName ?? "",
-                                              brandName: info.brandName ?? "",
-                                              servingQuantity: info.servingQuantity ?? 0,
-                                              servingUnit: info.servingUnit ?? "",
-                                              servingWeightGrams: info.servingWeightGrams ?? 0,
-                                              calories: info.calories ?? 0,
-                                              sugars: info.sugars ?? 0,
-                                              totalFat: info.totalFat ?? 0,
-                                              saturatedFat: info.saturatedFat ?? 0,
-                                              cholesterol: info.cholesterol ?? 0,
-                                              sodium: info.sodium ?? 0,
-                                              totalCarbohydrate: info.totalCarbohydrate ?? 0,
-                                              dietaryFiber: info.dietaryFiber ?? 0,
-                                              protein: info.protein ?? 0,
-                                              potassium: info.potassium ?? 0,
-                                              calcium: nutrient.filter { $0.attrID == 301 }.map { $0.value }.first ?? 0,
-                                              iron: nutrient.filter { $0.attrID == 303 }.map { $0.value }.first ?? 0,
-                                              monounsaturatedFat: nutrient.filter { $0.attrID == 645 }.map { $0.value }.first ?? 0,
-                                              polyunsaturatedFat: nutrient.filter { $0.attrID == 646 }.map { $0.value }.first ?? 0,
-                                              caffeine: nutrient.filter { $0.attrID == 262 }.map { $0.value }.first ?? 0,
-                                              copper: nutrient.filter { $0.attrID == 312 }.map { $0.value }.first ?? 0,
-                                              folate: nutrient.filter { $0.attrID == 417 }.map { $0.value }.first ?? 0,
-                                              magnesium: nutrient.filter { $0.attrID == 304 }.map { $0.value }.first ?? 0,
-                                              manganese: nutrient.filter { $0.attrID == 315 }.map { $0.value }.first ?? 0,
-                                              niacin: nutrient.filter { $0.attrID == 406 }.map { $0.value }.first ?? 0,
-                                              phosphorus: nutrient.filter { $0.attrID == 305 }.map { $0.value }.first ?? 0,
-                                              riboflavin: nutrient.filter { $0.attrID == 405 }.map { $0.value }.first ?? 0,
-                                              selenium: nutrient.filter { $0.attrID == 317 }.map { $0.value }.first ?? 0,
-                                              thiamin: nutrient.filter { $0.attrID == 404 }.map { $0.value }.first ?? 0,
-                                              vitaminA: nutrient.filter { $0.attrID == 320 }.map { $0.value }.first ?? 0,
-                                              vitaminC: nutrient.filter { $0.attrID == 401 }.map { $0.value }.first ?? 0,
-                                              vitaminB6: nutrient.filter { $0.attrID == 415 }.map { $0.value }.first ?? 0,
-                                              vitaminB12: nutrient.filter { $0.attrID == 418 }.map { $0.value }.first ?? 0,
-                                              vitaminD: nutrient.filter { $0.attrID == 328 }.map { $0.value }.first ?? 0,
-                                              vitaminE: nutrient.filter { $0.attrID == 323 }.map { $0.value }.first ?? 0,
-                                              vitaminK: nutrient.filter { $0.attrID == 430 }.map { $0.value }.first ?? 0,
-                                              zinc: nutrient.filter { $0.attrID == 309 }.map { $0.value }.first ?? 0,
-                                              mealPeriod: "",
-                                              numberOfServings: 1, servingSelection: "",
-                                              uuid: UUID().uuidString, date: Date.now,
-                                              attrIDArray: [Int]()
-            )
-            
-            
-            return sample!
-        } catch {
-            print("Decoding the JSON failed \(error.localizedDescription)")
-            print(String(describing: error))
-        }
-        
-        
-        return sample ??  HKSampleWithDescription(foodName: "", brandName: "", servingQuantity: 0, servingUnit: "", servingWeightGrams: 0, calories: 0, sugars: 0, totalFat: 0, saturatedFat: 0, cholesterol: 0, sodium: 0, totalCarbohydrate: 0, dietaryFiber: 0, protein: 0, potassium: 0, calcium: 0, iron: 0, monounsaturatedFat: 0, polyunsaturatedFat: 0, caffeine: 0, copper: 0, folate: 0, magnesium: 0, manganese: 0, niacin: 0, phosphorus: 0, riboflavin: 0, selenium: 0, thiamin: 0, vitaminA: 0, vitaminC: 0, vitaminB6: 0, vitaminB12: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0, zinc: 0, mealPeriod: "", numberOfServings: 1, servingSelection: "", uuid: "", date: Date.now, attrIDArray: [Int]())
-    }
-    
     // MARK: - Eaten Foods Entry
     //Create an empty array to store food samples
     @Published var theSamples = [HKSampleWithDescription]()
     
     
     
-    func saveCorrelation(sample: HKSampleWithDescription, editing: Bool) {
+    private func foodCorrelation(for sample: HKSampleWithDescription) throws -> HKCorrelation {
         
         let foodType: HKCorrelationType = HKCorrelationType.correlationType(forIdentifier: .food)!
         let foodCorrelationMetadata: [String: Any] = [HKMetadataKeyFoodType: sample.uuid, "Food Name": sample.foodName, "Brand Name": sample.brandName, "Serving Quantity": sample.servingQuantity, "Serving Unit": sample.servingUnit, "Serving Weight Grams":sample.servingWeightGrams, "Meal Period": sample.mealPeriod, "Number Of Servings": sample.numberOfServings, "Serving Selection": sample.servingSelection]
@@ -1154,41 +853,22 @@ class FastingManager: ObservableObject {
         ]
         
         
-        if editing {
-            for i in 0..<sample.attrIDArray.count {
-                guard attrIDArray[sample.attrIDArray[i]] != nil else { continue }
-                guard healthStore.authorizationStatus(for: attrIDArray[sample.attrIDArray[i]]!.sampleType) == .sharingAuthorized else { continue }
-                fromNutrientArray.insert(attrIDArray[sample.attrIDArray[i]]!)
-            }
-        } else {
-            for i in 0..<fullNutrientArray.count {
-                guard attrIDArray[fullNutrientArray[i].attrID] != nil else { continue }
-                guard healthStore.authorizationStatus(for: attrIDArray[fullNutrientArray[i].attrID]!.sampleType) == .sharingAuthorized else { continue }
-                fromNutrientArray.insert(attrIDArray[fullNutrientArray[i].attrID]!)
-            }
+        for id in sample.attrIDArray {
+            guard let nutrient = attrIDArray[id],
+                  healthStore.authorizationStatus(for: nutrient.sampleType) == .sharingAuthorized else { continue }
+            fromNutrientArray.insert(nutrient)
         }
 
-        let foodCorrelation: HKCorrelation = HKCorrelation(type: foodType, start: sample.date, end: sample.date, objects: fromNutrientArray, metadata: foodCorrelationMetadata)
-
-        healthStore.save(foodCorrelation) { (success, error) in
-            if let error = error {
-                
-                print("Error Saving Correlation Sample \(error.localizedDescription)")
-                print(String(describing: error))
-            } else {
-                print("Success in saving correlation sample")
-                DispatchQueue.main.async {
-                    if self.currentScannedItem != nil {
-                    self.currentScannedItem = nil
-                    }
-                    if self.currentScannedItemJSON != nil {
-                    self.currentScannedItemJSON = nil
-                    }
-                }
-            }
-        }
+        guard !fromNutrientArray.isEmpty else { throw MealLogError.healthPermission }
+        return HKCorrelation(type: foodType, start: sample.date, end: sample.date,
+                             objects: fromNutrientArray, metadata: foodCorrelationMetadata)
     }
-    
+
+    func saveMeal(_ sample: HKSampleWithDescription) async throws {
+        let correlation = try foodCorrelation(for: sample)
+        try await healthStore.save(correlation)
+    }
+
     func HKSampleReturn(type: HKQuantityTypeIdentifier, value: Double, quantity: HKUnit, metadata: [String: Any], date: Date) -> HKSample {
         
         return HKQuantitySample(type: HKQuantityType.quantityType(forIdentifier: type)!, quantity: HKQuantity(unit: quantity, doubleValue: value), start: date, end: date, metadata: metadata)
@@ -1742,48 +1422,6 @@ struct HKSampleWithDescription: Identifiable {
     var attrIDArray: [Int]
 }
 
-struct GroceryProduct: Codable {
-    let foods: [Food]
-}
-// MARK: - Food
-struct Food: Codable {
-    let foodName: String?
-    let brandName: String?
-    let servingQuantity: Double?
-    let servingUnit: String?
-    let servingWeightGrams: Double?
-    let calories: Double?
-    let totalFat: Double?
-    let saturatedFat: Double?
-    let cholesterol: Double?
-    let sodium: Double?
-    let totalCarbohydrate: Double?
-    let dietaryFiber: Double?
-    let sugars: Double?
-    let protein: Double?
-    let potassium: Double?
-    let fullNutrients: [FullNutrient]
-    
-    enum CodingKeys: String, CodingKey {
-        case foodName = "food_name"
-        case brandName = "brand_name"
-        case servingQuantity = "serving_qty"
-        case servingUnit = "serving_unit"
-        case servingWeightGrams = "serving_weight_grams"
-        case calories = "nf_calories"
-        case totalFat = "nf_total_fat"
-        case saturatedFat = "nf_saturated_fat"
-        case cholesterol = "nf_cholesterol"
-        case sodium = "nf_sodium"
-        case totalCarbohydrate = "nf_total_carbohydrate"
-        case dietaryFiber = "nf_dietary_fiber"
-        case sugars = "nf_sugars"
-        case protein = "nf_protein"
-        case potassium = "nf_potassium"
-        case fullNutrients = "full_nutrients"
-    }
-}
-
 enum EatingTime: CustomStringConvertible, CaseIterable {
     case breakfast
     case lunch
@@ -1825,66 +1463,6 @@ enum ServingType: CaseIterable {
             case .gram: return "Per gram"
         }
     }
-}
-
-struct FullNutrient: Codable {
-    let attrID: Int
-    let value: Double
-    
-    enum CodingKeys: String, CodingKey {
-        case attrID = "attr_id"
-        case value
-    }
-}
-
-
-struct Instant: Codable {
-    let branded: [Branded]?
-    let common: [Common]?
-}
-
-struct Branded: Codable {
-    let foodName: String?
-    let image: String?
-    let servingUnit, nixBrandID, brandNameItemName: String?
-    let servingQty, nfCalories: Double?
-    let brandName: String?
-    let brandType: Double?
-    let nixItemID: String?
-    
-    enum CodingKeys: String, CodingKey {
-        case foodName = "food_name"
-        case image
-        case servingUnit = "serving_unit"
-        case nixBrandID = "nix_brand_id"
-        case brandNameItemName = "brand_name_item_name"
-        case servingQty = "serving_qty"
-        case nfCalories = "nf_calories"
-        case brandName = "brand_name"
-        case brandType = "brand_type"
-        case nixItemID = "nix_item_id"
-    }
-}
-
-struct Common: Codable {
-    let foodName: String?
-    let image: String?
-    let tagID, tagName: String?
-    
-    enum CodingKeys: String, CodingKey {
-        case foodName = "food_name"
-        case image
-        case tagID = "tag_id"
-        case tagName = "tag_name"
-    }
-}
-
-struct InstantSearchModel: Identifiable {
-    let id = UUID()
-    let title: String
-    let brandName: String
-    let calories: Int
-    let nixID: String
 }
 
 extension String {
