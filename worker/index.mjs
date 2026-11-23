@@ -1,3 +1,5 @@
+import { packageLabelResponse } from "./package-labels.mjs";
+
 function upstreamURL(url) {
   if (/^\/v1\/food\/[1-9]\d{0,9}$/.test(url.pathname)) {
     return new URL("https://api.nal.usda.gov/fdc" + url.pathname);
@@ -24,7 +26,11 @@ export default {
     }
     if (request.method !== "GET") return new Response(null, { status: 405, headers: { Allow: "GET" } });
 
-    const url = upstreamURL(new URL(request.url));
+    const requestURL = new URL(request.url);
+    const label = packageLabelResponse(requestURL);
+    if (label) return label;
+
+    const url = upstreamURL(requestURL);
     if (!url) return new Response(null, { status: 400 });
 
     try {
