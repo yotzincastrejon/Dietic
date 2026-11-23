@@ -245,7 +245,7 @@ struct FoodServingView: View {
         do {
             let encoded = try JSONEncoder().encode(food)
             let sample = food.sample(multiplier: multiplier, quantity: quantity, unit: servingTypeSelection,
-                                     meal: selection, date: fastingManager.todaysDate)
+                                     meal: selection, date: fastingManager.mealTimestamp)
             try await fastingManager.saveMeal(sample)
             logged = true
             let item = historyItem ?? SearchedFoods(context: viewContext)
@@ -265,6 +265,5 @@ struct FoodServingView: View {
     private func finish() {
         isShowing = false
         rootIsActive = false
-        Task { await fastingManager.requestAuthorization() }
     }
 }

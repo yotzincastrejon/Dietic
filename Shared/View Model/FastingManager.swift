@@ -32,8 +32,6 @@ class FastingManager: ObservableObject {
     // - age
     
     /// - Tag: Caloric Calculations
-    var caloriesFromEating = [Calorie]()
-    var caloriesFromWorkout = [Calorie]()
     var weight: Double = 0
     var height: Double = 0
     var sex: String = ""
@@ -41,9 +39,6 @@ class FastingManager: ObservableObject {
     var bodyFat: Double = 0
     
     /// - Tag: Macros Calculations
-    var carbs = [Calorie]()
-    var proteinArray = [Calorie]()
-    var fatArray = [Calorie]()
     @Published var carbPercentage: Double = 0
     @Published var proteinPercentage: Double = 0
     @Published var fatPercentage: Double = 0
@@ -87,7 +82,7 @@ class FastingManager: ObservableObject {
     @Published var protein: Double = 0
     @Published var fat: Double = 0
     @Published var poundsPerWeekYouWantToLose: Double = 0
-    @Published var day: Int = 0
+    private var followsToday = true
     @Published var todaysDate = Date.now
     @Published var bmr: Double = 0
     
@@ -109,26 +104,15 @@ class FastingManager: ObservableObject {
     //    var end: Date = Date.now
     var cancellable: Cancellable?
     
-    func start() -> Date {
-        DispatchQueue.main.async { [self] in
-            todaysDate = Calendar.current.date(byAdding: .day, value: day, to: Date.now)!
-        }
-        return Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .day, value: day,to: Date())!)
+    var mealTimestamp: Date { followsToday ? Date() : todaysDate }
+
+    @MainActor func moveDay(by offset: Int) {
+        guard let next = Calendar.current.date(byAdding: .day, value: offset, to: mealTimestamp) else { return }
+        followsToday = Calendar.current.isDateInToday(next)
+        todaysDate = next
+        scheduleDiaryUpdate()
     }
-    
-    func end() -> Date {
-        return Calendar.current.date(byAdding: .hour, value: 24, to: Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .day, value: day,to: Date())!))!
-    }
-    
-    func addDate() {
-        day += 1
-    }
-    
-    func subtractDate() {
-        day -= 1
-    }
-    
-    /// - Tag: Diet Card Variables
+
     @Published var isShowingDeficitByMass: Bool = true
     init() {
         isShowingDeficitByMass = UserDefaults.standard.bool(forKey: "IsShowingMass")
@@ -167,229 +151,79 @@ class FastingManager: ObservableObject {
 //    }
     
     
-    func requestAuthorization() async {
-//        let queue = DispatchQueue.global()
-//        let group = DispatchGroup()
-        
-        let typesToRead: Set = [
-            HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
-            HKObjectType.quantityType(forIdentifier: .bodyMass)!,
-            HKObjectType.quantityType(forIdentifier: .height)!,
-            HKObjectType.characteristicType(forIdentifier: .dateOfBirth)!,
-            HKObjectType.characteristicType(forIdentifier: .biologicalSex)!,
-            typeToRead(type: .bodyFatPercentage),
-            typeToRead(type: .dietaryEnergyConsumed),
-            typeToRead(type: .dietaryCholesterol),
-            typeToRead(type: .dietarySugar),
-            typeToRead(type: .dietaryFatTotal),
-            typeToRead(type: .dietaryFatSaturated),
-            typeToRead(type: .dietarySodium),
-            typeToRead(type: .dietaryCarbohydrates),
-            typeToRead(type: .dietaryFiber),
-            typeToRead(type: .dietaryProtein),
-            typeToRead(type: .dietaryPotassium),
-            typeToRead(type: .dietaryCalcium),
-            typeToRead(type: .dietaryIron),
-            typeToRead(type: .dietaryFatMonounsaturated),
-            typeToRead(type: .dietaryFatPolyunsaturated),
-            typeToRead(type: .dietaryCaffeine),
-            typeToRead(type: .dietaryCopper),
-            typeToRead(type: .dietaryFolate),
-            typeToRead(type: .dietaryMagnesium),
-            typeToRead(type: .dietaryManganese),
-            typeToRead(type: .dietaryNiacin),
-            typeToRead(type: .dietaryPhosphorus),
-            typeToRead(type: .dietaryRiboflavin),
-            typeToRead(type: .dietarySelenium),
-            typeToRead(type: .dietaryThiamin),
-            typeToRead(type: .dietaryVitaminA),
-            typeToRead(type: .dietaryVitaminC),
-            typeToRead(type: .dietaryVitaminB6),
-            typeToRead(type: .dietaryVitaminB12),
-            typeToRead(type: .dietaryVitaminD),
-            typeToRead(type: .dietaryVitaminE),
-            typeToRead(type: .dietaryVitaminK),
-            typeToRead(type: .dietaryZinc)
-        ]
-        
-        //We can't set the Date of Birth or Sex the user must enter it in the health app. We should deal with missing information another way.
-        let typesToShare: Set = [
-            typeToSet(type: .activeEnergyBurned),
-            typeToSet(type: .bodyMass),
-            typeToSet(type: .height),
-            typeToSet(type: .bodyFatPercentage),
-            typeToSet(type: .dietaryCholesterol),
-            typeToSet(type: .dietaryEnergyConsumed),
-            typeToSet(type: .dietarySugar),
-            typeToSet(type: .dietaryFatTotal),
-            typeToSet(type: .dietaryFatSaturated),
-            typeToSet(type: .dietarySodium),
-            typeToSet(type: .dietaryCarbohydrates),
-            typeToSet(type: .dietaryFiber),
-            typeToSet(type: .dietaryProtein),
-            typeToSet(type: .dietaryPotassium),
-            typeToSet(type: .dietaryCalcium),
-            typeToSet(type: .dietaryIron),
-            typeToSet(type: .dietaryFatMonounsaturated),
-            typeToSet(type: .dietaryFatPolyunsaturated),
-            typeToSet(type: .dietaryCaffeine),
-            typeToSet(type: .dietaryCopper),
-            typeToSet(type: .dietaryFolate),
-            typeToSet(type: .dietaryMagnesium),
-            typeToSet(type: .dietaryManganese),
-            typeToSet(type: .dietaryNiacin),
-            typeToSet(type: .dietaryPhosphorus),
-            typeToSet(type: .dietaryRiboflavin),
-            typeToSet(type: .dietarySelenium),
-            typeToSet(type: .dietaryThiamin),
-            typeToSet(type: .dietaryVitaminA),
-            typeToSet(type: .dietaryVitaminC),
-            typeToSet(type: .dietaryVitaminB6),
-            typeToSet(type: .dietaryVitaminB12),
-            typeToSet(type: .dietaryVitaminD),
-            typeToSet(type: .dietaryVitaminE),
-            typeToSet(type: .dietaryVitaminK),
-            typeToSet(type: .dietaryZinc)
-        ]
-        
-        func typeToSet(type: HKQuantityTypeIdentifier) -> HKSampleType {
-            return HKQuantityType.quantityType(forIdentifier: type)!
-        }
-        
-        func typeToRead(type: HKQuantityTypeIdentifier) -> HKObjectType {
-            return HKQuantityType.quantityType(forIdentifier: type)!
-        }
-        
-//        queue.async(group: group) {
-//            Task {
-//                do {
-//                    try await self.healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead)
-//                } catch {
-//                    print("\(error.localizedDescription)")
-//                    print(String(describing: error))
-//                }
-//            }
-//        }
-//        
-//        group.wait()
-//        
-//        queue.async(group: group) { [self] in
-//            Task {
-//                try await printTheCorrelation(results: getCorrelationQuery())
-//            }
-//        }
-//        
-//        queue.async(group: group) { [self] in
-//            Task {
-//                await getWeight()
-//                await getHeight()
-//                await getBodyFat()
-//                await loadandDisplayAge()
-//                await getActiveEnergy()
-//                await getDietaryEnergy()
-//                await getProtein()
-//                await getFat()
-//                await getCarbohydrates()
-//            }
-//        }
-//        
-//        group.wait()
-//        
-////        queue.async(group: group) { [self] in
-////            Task {
-////                self.getWeekLongStats(start: Date.mondayAt12AM())
-////                await caloriesGoalwithDeficit()
-////                await caloriesRemaining()
-////
-////
-////            }
-////        }
-////
-////        group.wait()
-//        
-//        queue.async(group: group) {
-//            Task {
-//                await MainActor.run {
-//                    //                caloriesNeededToReachGoalWeight()
-//                    self.determineCaloricStanding()
-//                }
-//            }
-//        }
-//        
-//        queue.async(group: group) {
-//            checkingAuthorization(type: .dietaryProtein)
-//            checkingAuthorization(type: .dietaryFatTotal)
-//            checkingAuthorization(type: .dietaryCarbohydrates)
-//            checkingAuthorization(type: .dietaryEnergyConsumed)
-//            checkingAuthorization(type: .dietaryCaffeine)
-//            checkingAuthorization(type: .dietarySugar)
-//            checkingAuthorization(type: .dietaryFiber)
-//            checkingAuthorization(type: .dietaryCalcium)
-//            checkingAuthorization(type: .dietaryIron)
-//            checkingAuthorization(type: .dietaryMagnesium)
-//            checkingAuthorization(type: .dietaryPhosphorus)
-//            checkingAuthorization(type: .dietaryPotassium)
-//            checkingAuthorization(type: .dietarySodium)
-//            checkingAuthorization(type: .dietaryZinc)
-//            checkingAuthorization(type: .dietaryCopper)
-//            checkingAuthorization(type: .dietaryManganese)
-//            checkingAuthorization(type: .dietarySelenium)
-//            checkingAuthorization(type: .dietaryVitaminA)
-//            checkingAuthorization(type: .dietaryVitaminE)
-//            checkingAuthorization(type: .dietaryVitaminD)
-//            checkingAuthorization(type: .dietaryVitaminC)
-//            checkingAuthorization(type: .dietaryThiamin)
-//            checkingAuthorization(type: .dietaryRiboflavin)
-//            checkingAuthorization(type: .dietaryNiacin)
-//            checkingAuthorization(type: .dietaryVitaminB6)
-//            checkingAuthorization(type: .dietaryFolate)
-//            checkingAuthorization(type: .dietaryVitaminB12)
-//            checkingAuthorization(type: .dietaryVitaminK)
-//            checkingAuthorization(type: .dietaryCholesterol)
-//            checkingAuthorization(type: .dietaryFatSaturated)
-//            checkingAuthorization(type: .dietaryFatMonounsaturated)
-//            checkingAuthorization(type: .dietaryFatPolyunsaturated)
-//            checkingAuthorization(type: .dietaryProtein)
-//            checkingAuthorization(type: .dietaryFatTotal)
-//            checkingAuthorization(type: .dietaryCarbohydrates)
-//        }
-        
-        @Sendable func checkingAuthorization(type: HKQuantityTypeIdentifier) {
-            if self.healthStore.authorizationStatus(for: HKObjectType.quantityType(forIdentifier: type)!) == .sharingAuthorized {
-                print("Permission Granted to \(type)")
-            } else {
-                print("Permission Denied to \(type)")
+    private static let quantityIDs: [HKQuantityTypeIdentifier] = [
+        .activeEnergyBurned, .bodyMass, .height, .bodyFatPercentage,
+        .dietaryCholesterol, .dietaryEnergyConsumed, .dietarySugar, .dietaryFatTotal,
+        .dietaryFatSaturated, .dietarySodium, .dietaryCarbohydrates, .dietaryFiber,
+        .dietaryProtein, .dietaryPotassium, .dietaryCalcium, .dietaryIron,
+        .dietaryFatMonounsaturated, .dietaryFatPolyunsaturated, .dietaryCaffeine, .dietaryCopper,
+        .dietaryFolate, .dietaryMagnesium, .dietaryManganese, .dietaryNiacin,
+        .dietaryPhosphorus, .dietaryRiboflavin, .dietarySelenium, .dietaryThiamin,
+        .dietaryVitaminA, .dietaryVitaminC, .dietaryVitaminB6, .dietaryVitaminB12,
+        .dietaryVitaminD, .dietaryVitaminE, .dietaryVitaminK, .dietaryZinc,
+    ]
+
+    private var diaryObserver: HKObserverQuery?
+    private var diaryActive = false
+    private var updatePending = false
+    private var updating = false
+
+    deinit {
+        if let diaryObserver { healthStore.stop(diaryObserver) }
+    }
+
+    @MainActor func setDiaryActive(_ active: Bool) {
+        diaryActive = active
+        if active { calendarChanged() }
+    }
+
+    @MainActor func calendarChanged() {
+        if followsToday { todaysDate = Date() }
+        scheduleDiaryUpdate()
+    }
+
+    @MainActor func scheduleDiaryUpdate() {
+        guard diaryActive, HKHealthStore.isHealthDataAvailable() else { return }
+        updatePending = true
+        guard !updating else { return }
+        updating = true
+        Task {
+            defer { updating = false }
+            do {
+                if diaryObserver == nil {
+                    let quantities = Set(Self.quantityIDs.map { HKQuantityType($0) as HKSampleType })
+                    var readTypes = Set<HKObjectType>(quantities)
+                    readTypes.insert(HKObjectType.characteristicType(forIdentifier: .dateOfBirth)!)
+                    readTypes.insert(HKObjectType.characteristicType(forIdentifier: .biologicalSex)!)
+                    try await healthStore.requestAuthorization(toShare: quantities, read: readTypes)
+                    observeDiaryChanges()
+                }
+                while diaryActive && updatePending {
+                    updatePending = false
+                    do { try await loadSelectedDay() }
+                    catch { print("Diary update failed: \(error.localizedDescription)") }
+                }
+            } catch {
+                print("Health access failed: \(error.localizedDescription)")
             }
-        }
-        
-        do {
-                        try await healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead)
-                        try await printTheCorrelation(results: getCorrelationQuery())
-            //This order matters!
-                        await getWeight()
-                        await getHeight()
-                        await getBodyFat()
-                        await loadandDisplayAge()
-                        await getActiveEnergy()
-                        await getDietaryEnergy()
-                        await getProtein()
-                        await getFat()
-                        await getCarbohydrates()
-//            self.getWeekLongStats(start: Date.mondayAt12AM())
-//            await caloriesGoalwithDeficit()
-//            await caloriesRemaining()
-
-            await MainActor.run {
-                //                caloriesNeededToReachGoalWeight()
-                determineCaloricStanding()
-            }
-
-
-        } catch let error {
-            print("An error occurred while requesting HealthKit Authorization: \(error.localizedDescription)")
         }
     }
-    
+
+    @MainActor private func observeDiaryChanges() {
+        let ids: [HKQuantityTypeIdentifier] = [.dietaryEnergyConsumed, .dietaryCarbohydrates, .dietaryProtein,
+                                               .dietaryFatTotal, .activeEnergyBurned, .bodyMass, .height, .bodyFatPercentage]
+        let descriptors = ids.map { HKQueryDescriptor(sampleType: HKQuantityType($0), predicate: nil) }
+        let observer = HKObserverQuery(queryDescriptors: descriptors) { [weak self] _, _, complete, error in
+            Task { @MainActor in
+                defer { complete() }
+                guard error == nil else { return }
+                self?.scheduleDiaryUpdate()
+            }
+        }
+        diaryObserver = observer
+        healthStore.execute(observer)
+    }
+
     func saveThing() {
         guard let quantityType = HKQuantityType.quantityType(forIdentifier: .dietaryEnergyConsumed) else { fatalError("It's not available anymore") }
         let value = 20.0
@@ -503,307 +337,79 @@ class FastingManager: ObservableObject {
     // MARK: - Health Kit Queries
     
     //Reusable query for getting the most recent sample. It takes a sample type of whatever you want to query and returns a recent sample.
-    private func queryHealthKitForMostRecentSample(for sampleType: HKSampleType) async throws -> (HKQuantitySample?) {
+    private static func isEmptyRead(_ error: Error) -> Bool {
+        guard let healthError = error as? HKError else { return false }
+        return [.errorNoData, .errorAuthorizationDenied, .errorAuthorizationNotDetermined].contains(healthError.code)
+    }
+
+    private func latestSample(_ id: HKQuantityTypeIdentifier, before end: Date) async throws -> HKQuantitySample? {
+        let predicate = HKQuery.predicateForSamples(withStart: nil, end: end, options: .strictEndDate)
+        let sort = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
         return try await withCheckedThrowingContinuation { continuation in
-            let mostRecentPredicate = HKQuery.predicateForSamples(withStart: Date.distantPast, end: end(), options: .strictEndDate)
-            let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
-            let limit = 1
-            let sampleQuery = HKSampleQuery(sampleType: sampleType, predicate: mostRecentPredicate, limit: limit, sortDescriptors: [sortDescriptor]) { (query, samples, error) in
-                if let error = error {
+            let query = HKSampleQuery(sampleType: HKQuantityType(id), predicate: predicate, limit: 1,
+                                      sortDescriptors: [sort]) { _, samples, error in
+                if let error, !Self.isEmptyRead(error) { continuation.resume(throwing: error) }
+                else { continuation.resume(returning: samples?.first as? HKQuantitySample) }
+            }
+            healthStore.execute(query)
+        }
+    }
+
+    private func dailySum(_ id: HKQuantityTypeIdentifier, unit: HKUnit, predicate: NSPredicate) async throws -> Double {
+        try await withCheckedThrowingContinuation { continuation in
+            let query = HKStatisticsQuery(quantityType: HKQuantityType(id), quantitySamplePredicate: predicate,
+                                          options: .cumulativeSum) { _, statistics, error in
+                if let error, !Self.isEmptyRead(error) {
                     continuation.resume(throwing: error)
                 } else {
-                    continuation.resume(returning: (samples?.first as? HKQuantitySample))
+                    continuation.resume(returning: statistics?.sumQuantity()?.doubleValue(for: unit) ?? 0)
                 }
             }
-            healthStore.execute(sampleQuery)
+            healthStore.execute(query)
         }
     }
-    
-    //FIXME: We need to create a pop up when a user have no data input.
-    //Weight
-    public func getWeight() async {
-        do {
-            let sample = try await queryHealthKitForMostRecentSample(for: HKSampleType.quantityType(forIdentifier: .bodyMass)!)
-            let weightInPounds = sample?.quantity.doubleValue(for: HKUnit.pound())
-            let source = sample?.sourceRevision.source.name
-            let start = sample?.startDate
-            self.sampleSourceName = source ?? "Placeholder! You have not entered a weight prior to this date."
-            self.sampleSourceDate = start ?? Date()
-            self.weight = weightInPounds ?? 120
-        } catch {
-            print("An error occured while querying for Weight: \(error.localizedDescription)")
+
+    @MainActor private func loadSelectedDay() async throws {
+        let calendar = Calendar.current
+        guard let interval = calendar.dateInterval(of: .day, for: todaysDate) else { return }
+        let predicate = HKQuery.predicateForSamples(withStart: interval.start, end: interval.end, options: .strictStartDate)
+        async let meals = getCorrelationQuery(for: predicate)
+        async let eaten = dailySum(.dietaryEnergyConsumed, unit: .kilocalorie(), predicate: predicate)
+        async let burned = dailySum(.activeEnergyBurned, unit: .kilocalorie(), predicate: predicate)
+        async let carbs = dailySum(.dietaryCarbohydrates, unit: .gram(), predicate: predicate)
+        async let proteins = dailySum(.dietaryProtein, unit: .gram(), predicate: predicate)
+        async let fats = dailySum(.dietaryFatTotal, unit: .gram(), predicate: predicate)
+        async let weightSample = latestSample(.bodyMass, before: interval.end)
+        async let heightSample = latestSample(.height, before: interval.end)
+        async let fatSample = latestSample(.bodyFatPercentage, before: interval.end)
+
+        let totals = try await (eaten, burned, carbs, proteins, fats)
+        let measurements = try await (weightSample, heightSample, fatSample)
+        let correlations = try await meals
+        guard diaryActive, interval == Calendar.current.dateInterval(of: .day, for: todaysDate) else { return }
+
+        (consumedCalories, activeCalories, carbohydrates, protein, fat) = totals
+        weight = measurements.0?.quantity.doubleValue(for: .pound()) ?? 120
+        height = measurements.1?.quantity.doubleValue(for: .inch()) ?? 0
+        bodyFat = measurements.2?.quantity.doubleValue(for: .percent()) ?? 0
+        sampleSourceName = measurements.0?.sourceRevision.source.name ?? "You have not entered a weight prior to this date."
+        sampleSourceDate = measurements.0?.startDate ?? todaysDate
+        if let birthYear = try? healthStore.dateOfBirthComponents().year {
+            age = calendar.component(.year, from: Date()) - birthYear
         }
+        sex = (try? healthStore.biologicalSex().biologicalSex.stringRepresentation) ?? ""
+        (proteinPercentage, proteinRemaining) = macroPercentage(multiple: 0.7, currentAmount: protein)
+        (fatPercentage, fatRemaining) = macroPercentage(multiple: 0.5, currentAmount: fat)
+        let carbGoal = (caloricConsumptionGoal - weight * 0.5 * 9 - weight * 0.7 * 4) / 4
+        carbPercentage = carbGoal > 0 ? carbohydrates / carbGoal : 1
+        carbRemaining = carbGoal > 0 ? Int(carbGoal - carbohydrates) : 0
+        determineCaloricStanding()
+        theSamples = mealSamples(from: correlations)
     }
-    
-    //Height
-    public func getHeight() async {
-        do {
-            let sample = try await queryHealthKitForMostRecentSample(for: HKSampleType.quantityType(forIdentifier: .height)!)
-            let rawHeight = sample?.quantity.doubleValue(for: HKUnit.inch())
-            self.height = rawHeight ?? 0
-        } catch {
-            print("An error occured while querying for Height: \(error.localizedDescription)")
-        }
-    }
-    
-    //Body Fat
-    public func getBodyFat() async {
-        do {
-            let sample = try await queryHealthKitForMostRecentSample(for: HKSampleType.quantityType(forIdentifier: .bodyFatPercentage)!)
-            let rawBFP = sample?.quantity.doubleValue(for: HKUnit.percent())
-            self.bodyFat = rawBFP ?? 0
-        } catch {
-            print("An error occured while querying for Body Fat: \(error.localizedDescription)")
-        }
-    }
-    
-    //Age and Sex
-    func getAgeandSex() async throws -> (age: Int, biologicalSex: HKBiologicalSex) {
-        do {
-            let birthdayComponents = try healthStore.dateOfBirthComponents()
-            let biologicalSex = try healthStore.biologicalSex()
-            
-            let today = Date()
-            let calendar = Calendar.current
-            let todayDateComponents = calendar.dateComponents([.year], from: today)
-            
-            let thisYear = todayDateComponents.year!
-            let age = thisYear - birthdayComponents.year!
-            
-            let unwrappedBiologicalSex = biologicalSex.biologicalSex
-            return (age, unwrappedBiologicalSex)
-        }
-    }
-    
-    func loadandDisplayAge() async {
-        do {
-            let getAge = try await getAgeandSex()
-            age = getAge.age
-            sex = getAge.biologicalSex.stringRepresentation
-            
-            // The cases for biological sex can go as follows in String
-            //Unknown
-            //Female
-            //Male
-            //Other
-        } catch let error {
-            print("error in Load and Display Age \(error.localizedDescription)")
-        }
-    }
-    
-    //Active Energy
-    public func getActiveEnergy() async {
-        do {
-            caloriesFromWorkout.removeAll()
-            let sample = try await queryActiveEnergy()
-            sample!.enumerateStatistics(from: start(), to: end()) { (statistics, stop) in
-                let count = statistics.sumQuantity()?.doubleValue(for: .kilocalorie())
-                let step = Calorie(calories: count ?? 0, date: statistics.startDate)
-                self.caloriesFromWorkout.append(step)
-            }
-            await MainActor.run {
-                self.activeCalories = self.caloriesFromWorkout.map { $0.calories }.reduce(0, +)
-            }
-        } catch {
-            print("An error occured while querying for Active Energy: \(error.localizedDescription)")
-        }
-    }
-    
-    
-    private func queryActiveEnergy() async throws -> (HKStatisticsCollection?) {
-        return try await withCheckedThrowingContinuation { continuation in
-            let activeEnergy = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!
-            let anchorDate = Date.mondayAt12AM()
-            let daily = DateComponents(day: 1)
-            let predicate = HKQuery.predicateForSamples(withStart: start(), end: end(), options: .strictStartDate)
-            query = HKStatisticsCollectionQuery(quantityType: activeEnergy, quantitySamplePredicate: predicate, options: .cumulativeSum, anchorDate: anchorDate, intervalComponents: daily)
-            
-            query!.initialResultsHandler = { query, statisticsCollection, error in
-                if let error = error {
-                    continuation.resume(throwing: error)
-                } else {
-                    continuation.resume(returning: (statisticsCollection))
-                }
-            }
-            healthStore.execute(query!)
-        }
-    }
-    
-    //Dietary Energy
-    public func getDietaryEnergy() async {
-        do {
-            caloriesFromEating.removeAll()
-            let sample = try await queryDietaryEnergy()
-            sample!.enumerateStatistics(from: start(), to: end()) { (statistics, stop) in
-                let count = statistics.sumQuantity()?.doubleValue(for: .kilocalorie())
-                let step = Calorie(calories: count ?? 0, date: statistics.startDate)
-                self.caloriesFromEating.append(step)
-            }
-            await MainActor.run {
-                self.consumedCalories = self.caloriesFromEating.map { $0.calories }.reduce(0, +)
-                //Here we add simulated calories on top of consumed.
-                //                if simulatedCaloriesBool {
-                //                    self.consumedCalories += Double(simulatedCalories)
-                //                }
-            }
-        } catch {
-            print("An error occured while querying for Active Energy: \(error.localizedDescription)")
-        }
-    }
-    
-    
-    private func queryDietaryEnergy() async throws -> (HKStatisticsCollection?) {
-        return try await withCheckedThrowingContinuation { continuation in
-            let activeEnergy = HKQuantityType.quantityType(forIdentifier: .dietaryEnergyConsumed)!
-            let anchorDate = Date.mondayAt12AM()
-            let daily = DateComponents(day: 1)
-            let predicate = HKQuery.predicateForSamples(withStart: start(), end: end(), options: .strictStartDate)
-            query = HKStatisticsCollectionQuery(quantityType: activeEnergy, quantitySamplePredicate: predicate, options: .cumulativeSum, anchorDate: anchorDate, intervalComponents: daily)
-            
-            query!.initialResultsHandler = { query, statisticsCollection, error in
-                if let error = error {
-                    continuation.resume(throwing: error)
-                } else {
-                    continuation.resume(returning: (statisticsCollection))
-                }
-            }
-            healthStore.execute(query!)
-        }
-    }
-    
-    //Carbohydrates
-    public func getCarbohydrates() async {
-        do {
-            carbs.removeAll()
-            let sample = try await queryCarbohydrates()
-            sample!.enumerateStatistics(from: start(), to: end()) { (statistics, stop) in
-                let count = statistics.sumQuantity()?.doubleValue(for: .gram())
-                let step = Calorie(calories: count ?? 0, date: statistics.startDate)
-                self.carbs.append(step)
-            }
-            await MainActor.run {
-                self.carbohydrates = self.carbs.map { $0.calories }.reduce(0, +)
-                //Remaining Available Calories = Total cal - Fat in cal - Protein in cal
-                let remainingAvailableCalories = caloricConsumptionGoal - ((weight * 0.5)*9) - ((weight * 0.7)*4)
-                if remainingAvailableCalories < 0 {
-                    carbPercentage = 1
-                    carbRemaining = 0
-                } else {
-                    let inGrams = remainingAvailableCalories / 4
-                    carbPercentage = carbohydrates / inGrams
-                    carbRemaining = Int(inGrams - carbohydrates)
-                }
-            }
-        } catch {
-            print("An error occured while querying for Carbohydrates: \(error.localizedDescription)")
-        }
-    }
-    
-    
-    private func queryCarbohydrates() async throws -> (HKStatisticsCollection?) {
-        return try await withCheckedThrowingContinuation { continuation in
-            let activeEnergy = HKQuantityType.quantityType(forIdentifier: .dietaryCarbohydrates)!
-            let anchorDate = Date.mondayAt12AM()
-            let daily = DateComponents(day: 1)
-            let predicate = HKQuery.predicateForSamples(withStart: start(), end: end(), options: .strictStartDate)
-            query = HKStatisticsCollectionQuery(quantityType: activeEnergy, quantitySamplePredicate: predicate, options: .cumulativeSum, anchorDate: anchorDate, intervalComponents: daily)
-            
-            query!.initialResultsHandler = { query, statisticsCollection, error in
-                if let error = error {
-                    continuation.resume(throwing: error)
-                } else {
-                    continuation.resume(returning: (statisticsCollection))
-                }
-            }
-            healthStore.execute(query!)
-        }
-    }
-    
-    //Protein
-    public func getProtein() async {
-        do {
-            proteinArray.removeAll()
-            let sample = try await queryProtein()
-            sample!.enumerateStatistics(from: start(), to: end()) { (statistics, stop) in
-                let count = statistics.sumQuantity()?.doubleValue(for: .gram())
-                let step = Calorie(calories: count ?? 0, date: statistics.startDate)
-                self.proteinArray.append(step)
-            }
-            await MainActor.run {
-                self.protein = self.proteinArray.map { $0.calories }.reduce(0, +)
-                let result = macroPercentage(multiple: 0.7, currentAmount: protein)
-                proteinPercentage = result.percentage
-                proteinRemaining = result.remaining
-            }
-        } catch {
-            print("An error occured while querying for Protein: \(error.localizedDescription)")
-        }
-    }
-    
-    
-    private func queryProtein() async throws -> (HKStatisticsCollection?) {
-        return try await withCheckedThrowingContinuation { continuation in
-            let activeEnergy = HKQuantityType.quantityType(forIdentifier: .dietaryProtein)!
-            let anchorDate = Date.mondayAt12AM()
-            let daily = DateComponents(day: 1)
-            let predicate = HKQuery.predicateForSamples(withStart: start(), end: end(), options: .strictStartDate)
-            query = HKStatisticsCollectionQuery(quantityType: activeEnergy, quantitySamplePredicate: predicate, options: .cumulativeSum, anchorDate: anchorDate, intervalComponents: daily)
-            
-            query!.initialResultsHandler = { query, statisticsCollection, error in
-                if let error = error {
-                    continuation.resume(throwing: error)
-                } else {
-                    continuation.resume(returning: (statisticsCollection))
-                }
-            }
-            healthStore.execute(query!)
-        }
-    }
-    
-    //Fat
-    public func getFat() async {
-        do {
-            fatArray.removeAll()
-            let sample = try await queryFat()
-            sample!.enumerateStatistics(from: start(), to: end()) { (statistics, stop) in
-                let count = statistics.sumQuantity()?.doubleValue(for: .gram())
-                let step = Calorie(calories: count ?? 0, date: statistics.startDate)
-                self.fatArray.append(step)
-            }
-            await MainActor.run {
-                self.fat = self.fatArray.map { $0.calories }.reduce(0, +)
-                let result = macroPercentage(multiple: 0.5, currentAmount: fat)
-                fatPercentage = result.percentage
-                fatRemaining = result.remaining
-            }
-        } catch {
-            print("An error occured while querying for Fat: \(error.localizedDescription)")
-        }
-    }
-    
-    
-    private func queryFat() async throws -> (HKStatisticsCollection?) {
-        return try await withCheckedThrowingContinuation { continuation in
-            let activeEnergy = HKQuantityType.quantityType(forIdentifier: .dietaryFatTotal)!
-            let anchorDate = Date.mondayAt12AM()
-            let daily = DateComponents(day: 1)
-            let predicate = HKQuery.predicateForSamples(withStart: start(), end: end(), options: .strictStartDate)
-            query = HKStatisticsCollectionQuery(quantityType: activeEnergy, quantitySamplePredicate: predicate, options: .cumulativeSum, anchorDate: anchorDate, intervalComponents: daily)
-            
-            query!.initialResultsHandler = { query, statisticsCollection, error in
-                if let error = error {
-                    continuation.resume(throwing: error)
-                } else {
-                    continuation.resume(returning: (statisticsCollection))
-                }
-            }
-            healthStore.execute(query!)
-        }
-    }
-    
+
     func macroPercentage(multiple: Double, currentAmount: Double) -> (percentage: Double, remaining: Int) {
         let goal = weight * multiple
-        return (currentAmount / goal,Int(goal - currentAmount))
+        return (goal > 0 ? currentAmount / goal : 0, Int(goal - currentAmount))
     }
     
     // MARK: - Eaten Foods Entry
@@ -867,6 +473,7 @@ class FastingManager: ObservableObject {
     func saveMeal(_ sample: HKSampleWithDescription) async throws {
         let correlation = try foodCorrelation(for: sample)
         try await healthStore.save(correlation)
+        await scheduleDiaryUpdate()
     }
 
     func HKSampleReturn(type: HKQuantityTypeIdentifier, value: Double, quantity: HKUnit, metadata: [String: Any], date: Date) -> HKSample {
@@ -876,63 +483,26 @@ class FastingManager: ObservableObject {
     }
     
     //Read Correlation Samples
-    var correlationQuery: HKCorrelationQuery?
-    func getCorrelationQuery() async throws -> ([HKCorrelation]) {
+    private func getCorrelationQuery(for predicate: NSPredicate) async throws -> [HKCorrelation] {
         return try await withCheckedThrowingContinuation { continuation in
             let foodType = HKCorrelationType.correlationType(forIdentifier: .food)!
-            let mostRecentPredicate = HKQuery.predicateForSamples(withStart: start(), end: end(), options: .strictStartDate)
             let myAppPredicate = HKQuery.predicateForObjects(from: HKSource.default()) //This retrieve's only my app
                                                                                        //            let notMyAppPredicate = NSCompoundPredicate(notPredicateWithSubpredicate: myAppPredicate) // This would retrieve everything aside from my app
-            let queryPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [mostRecentPredicate, myAppPredicate])
-            correlationQuery = HKCorrelationQuery(type: foodType, predicate: queryPredicate, samplePredicates: nil) { query, results, error in
-                if let error = error {
-                    print("Reading correlation query wasn't completed.")
+            let queryPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate, myAppPredicate])
+            let correlationQuery = HKCorrelationQuery(type: foodType, predicate: queryPredicate, samplePredicates: nil) { query, results, error in
+                if let error, !Self.isEmptyRead(error) {
                     continuation.resume(throwing: error)
                 } else {
-                    print("Success in reading correlation query")
-                    continuation.resume(returning: results!)
+                    continuation.resume(returning: results ?? [])
                 }
             }
-            healthStore.execute(correlationQuery!)
+            healthStore.execute(correlationQuery)
         }
     }
     
     
     //Manipulating the results from the Correlation Query
-    func printTheCorrelation(results: [HKCorrelation]?) async {
-        let quantityIdentifierArray: [HKQuantityTypeIdentifier] = [ .dietaryEnergyConsumed,
-                                                                    .dietarySugar,
-                                                                    .dietaryFatTotal,
-                                                                    .dietaryFatSaturated,
-                                                                    .dietaryCholesterol,
-                                                                    .dietarySodium,
-                                                                    .dietaryCarbohydrates,
-                                                                    .dietaryFiber,
-                                                                    .dietaryProtein,
-                                                                    .dietaryPotassium,
-                                                                    .dietaryCalcium,
-                                                                    .dietaryIron,
-                                                                    .dietaryFatMonounsaturated,
-                                                                    .dietaryFatPolyunsaturated,
-                                                                    .dietaryCaffeine,
-                                                                    .dietaryCopper,
-                                                                    .dietaryFolate,
-                                                                    .dietaryMagnesium,
-                                                                    .dietaryManganese,
-                                                                    .dietaryNiacin,
-                                                                    .dietaryPhosphorus,
-                                                                    .dietaryRiboflavin,
-                                                                    .dietarySelenium,
-                                                                    .dietaryThiamin,
-                                                                    .dietaryVitaminA,
-                                                                    .dietaryVitaminC,
-                                                                    .dietaryVitaminB6,
-                                                                    .dietaryVitaminB12,
-                                                                    .dietaryVitaminD,
-                                                                    .dietaryVitaminE,
-                                                                    .dietaryVitaminK,
-                                                                    .dietaryZinc]
-        
+    private func mealSamples(from results: [HKCorrelation]) -> [HKSampleWithDescription] {
         let dictionaryForHKQuantity: [HKQuantityTypeIdentifier: Int] = [
             .dietaryProtein:203,
             .dietaryFatTotal:204,
@@ -968,172 +538,119 @@ class FastingManager: ObservableObject {
             .dietaryFatPolyunsaturated:646
         ]
         
-        DispatchQueue.main.async { [self] in
-            var correlationArrayWithAttrID = [Int]()
-            correlationArrayWithAttrID.removeAll()
-            theSamples.removeAll()
-            for i in 0..<results!.count {
-                let currentData: HKCorrelation = results![i]
-                
-                correlationArrayWithAttrID.removeAll()
-                for j in 0..<quantityIdentifierArray.count {
-                    if !currentData.objects(for: HKQuantityType.quantityType(forIdentifier: quantityIdentifierArray[j])!).isEmpty {
-                        correlationArrayWithAttrID.append(dictionaryForHKQuantity[quantityIdentifierArray[j]]!)
-                    }
-                }
-                
-                let foodName = currentData.metadata?["Food Name"]
-                let brandName = currentData.metadata?["Brand Name"]
-                let servingQuantity = currentData.metadata?["Serving Quantity"]
-                let servingUnit = currentData.metadata?["Serving Unit"]
-                let servingWeightGrams = currentData.metadata?["Serving Weight Grams"]
-                let mealPeriod = currentData.metadata?["Meal Period"]
-                let numberOfServings = currentData.metadata?["Number Of Servings"]
-                let servingSelection = currentData.metadata?["Serving Selection"]
-                let uuid = currentData.metadata?[HKMetadataKeyFoodType]
-                let time = currentData.startDate
-                let calories = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryEnergyConsumed)!).first as! HKQuantitySample?
-                let sugars = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietarySugar)!).first as! HKQuantitySample?
-                let totalFat = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryFatTotal)!).first as! HKQuantitySample?
-                let saturatedFat = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryFatSaturated)!).first as! HKQuantitySample?
-                let cholesterol = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryCholesterol)!).first as! HKQuantitySample?
-                let sodium = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietarySodium)!).first as! HKQuantitySample?
-                let totalCarbohydrate = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryCarbohydrates)!).first as! HKQuantitySample?
-                let dietaryFiber = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryFiber)!).first as! HKQuantitySample?
-                let protein = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryProtein)!).first as! HKQuantitySample?
-                let potassium = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryPotassium)!).first as! HKQuantitySample?
-                let calcium = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryCalcium)!).first as! HKQuantitySample?
-                let iron = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryIron)!).first as! HKQuantitySample?
-                let monounsaturatedFat = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryFatMonounsaturated)!).first as! HKQuantitySample?
-                let polyunsaturatedFat = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryFatPolyunsaturated)!).first as! HKQuantitySample?
-                let caffeine = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryCaffeine)!).first as! HKQuantitySample?
-                let copper = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryCopper)!).first as! HKQuantitySample?
-                let folate = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryFolate)!).first as! HKQuantitySample?
-                let magnesium = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryMagnesium)!).first as! HKQuantitySample?
-                let manganese = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryManganese)!).first as! HKQuantitySample?
-                let niacin = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryNiacin)!).first as! HKQuantitySample?
-                let phosphorus = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryPhosphorus)!).first as! HKQuantitySample?
-                let riboflavin = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryRiboflavin)!).first as! HKQuantitySample?
-                let selenium = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietarySelenium)!).first as! HKQuantitySample?
-                let thiamin = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryThiamin)!).first as! HKQuantitySample?
-                let vitaminA = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminA)!).first as! HKQuantitySample?
-                let vitaminC = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminC)!).first as! HKQuantitySample?
-                let vitaminB6 = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminB6)!).first as! HKQuantitySample?
-                let vitaminB12 = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminB12)!).first as! HKQuantitySample?
-                let vitaminD = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminD)!).first as! HKQuantitySample?
-                let vitaminE = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminE)!).first as! HKQuantitySample?
-                let vitaminK = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminK)!).first as! HKQuantitySample?
-                let zinc = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryZinc)!).first as! HKQuantitySample?
-                
-                
-                theSamples.append(HKSampleWithDescription(foodName: foodName as! String,
-                                                          brandName: brandName as! String,
-                                                          servingQuantity: servingQuantity as! Double,
-                                                          servingUnit: servingUnit as! String,
-                                                          servingWeightGrams: servingWeightGrams as! Double,
-                                                          calories: calories?.quantity.doubleValue(for: .kilocalorie()) ?? 0,
-                                                          sugars: sugars?.quantity.doubleValue(for: .gram()) ?? 0,
-                                                          totalFat: totalFat?.quantity.doubleValue(for: .gram()) ?? 0,
-                                                          saturatedFat: saturatedFat?.quantity.doubleValue(for: .gram()) ?? 0,
-                                                          cholesterol: cholesterol?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
-                                                          sodium: sodium?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
-                                                          totalCarbohydrate: totalCarbohydrate?.quantity.doubleValue(for: .gram()) ?? 0,
-                                                          dietaryFiber: dietaryFiber?.quantity.doubleValue(for: .gram()) ?? 0,
-                                                          protein: protein?.quantity.doubleValue(for: .gram()) ?? 0,
-                                                          potassium: potassium?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
-                                                          calcium: calcium?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
-                                                          iron: iron?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
-                                                          monounsaturatedFat: monounsaturatedFat?.quantity.doubleValue(for: .gram()) ?? 0,
-                                                          polyunsaturatedFat: polyunsaturatedFat?.quantity.doubleValue(for: .gram()) ?? 0,
-                                                          caffeine: caffeine?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
-                                                          copper: copper?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
-                                                          folate: folate?.quantity.doubleValue(for: .gramUnit(with: .micro)) ?? 0,
-                                                          magnesium: magnesium?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
-                                                          manganese: manganese?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
-                                                          niacin: niacin?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
-                                                          phosphorus: phosphorus?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
-                                                          riboflavin: riboflavin?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
-                                                          selenium: selenium?.quantity.doubleValue(for: .gramUnit(with: .micro)) ?? 0,
-                                                          thiamin: thiamin?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
-                                                          vitaminA: vitaminA?.quantity.doubleValue(for: .gramUnit(with: .micro)) ?? 0,
-                                                          vitaminC: vitaminC?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
-                                                          vitaminB6: vitaminB6?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
-                                                          vitaminB12: vitaminB12?.quantity.doubleValue(for: .gramUnit(with: .micro)) ?? 0,
-                                                          vitaminD: vitaminD?.quantity.doubleValue(for: .gramUnit(with: .micro)) ?? 0,
-                                                          vitaminE: vitaminE?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
-                                                          vitaminK: vitaminK?.quantity.doubleValue(for: .gramUnit(with: .micro)) ?? 0,
-                                                          zinc: zinc?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
-                                                          mealPeriod: mealPeriod as! String,
-                                                          numberOfServings: numberOfServings as! Double,
-                                                          servingSelection: servingSelection as! String,
-                                                          uuid: uuid as! String,
-                                                          date: time,
-                                                          attrIDArray: correlationArrayWithAttrID
-                                                         ))
-            }
+        return results.compactMap { currentData in
+            let nutrientIDs = dictionaryForHKQuantity.compactMap { type, id in
+                currentData.objects(for: HKQuantityType(type)).isEmpty ? nil : id
+            }.sorted()
+            guard let foodName = currentData.metadata?["Food Name"] as? String,
+                  let brandName = currentData.metadata?["Brand Name"] as? String,
+                  let servingQuantity = currentData.metadata?["Serving Quantity"] as? Double,
+                  let servingUnit = currentData.metadata?["Serving Unit"] as? String,
+                  let servingWeightGrams = currentData.metadata?["Serving Weight Grams"] as? Double,
+                  let mealPeriod = currentData.metadata?["Meal Period"] as? String,
+                  let numberOfServings = currentData.metadata?["Number Of Servings"] as? Double,
+                  let servingSelection = currentData.metadata?["Serving Selection"] as? String,
+                  let uuid = currentData.metadata?[HKMetadataKeyFoodType] as? String else { return nil }
+            let time = currentData.startDate
+            let calories = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryEnergyConsumed)!).first as? HKQuantitySample
+            let sugars = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietarySugar)!).first as? HKQuantitySample
+            let totalFat = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryFatTotal)!).first as? HKQuantitySample
+            let saturatedFat = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryFatSaturated)!).first as? HKQuantitySample
+            let cholesterol = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryCholesterol)!).first as? HKQuantitySample
+            let sodium = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietarySodium)!).first as? HKQuantitySample
+            let totalCarbohydrate = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryCarbohydrates)!).first as? HKQuantitySample
+            let dietaryFiber = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryFiber)!).first as? HKQuantitySample
+            let protein = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryProtein)!).first as? HKQuantitySample
+            let potassium = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryPotassium)!).first as? HKQuantitySample
+            let calcium = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryCalcium)!).first as? HKQuantitySample
+            let iron = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryIron)!).first as? HKQuantitySample
+            let monounsaturatedFat = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryFatMonounsaturated)!).first as? HKQuantitySample
+            let polyunsaturatedFat = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryFatPolyunsaturated)!).first as? HKQuantitySample
+            let caffeine = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryCaffeine)!).first as? HKQuantitySample
+            let copper = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryCopper)!).first as? HKQuantitySample
+            let folate = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryFolate)!).first as? HKQuantitySample
+            let magnesium = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryMagnesium)!).first as? HKQuantitySample
+            let manganese = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryManganese)!).first as? HKQuantitySample
+            let niacin = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryNiacin)!).first as? HKQuantitySample
+            let phosphorus = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryPhosphorus)!).first as? HKQuantitySample
+            let riboflavin = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryRiboflavin)!).first as? HKQuantitySample
+            let selenium = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietarySelenium)!).first as? HKQuantitySample
+            let thiamin = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryThiamin)!).first as? HKQuantitySample
+            let vitaminA = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminA)!).first as? HKQuantitySample
+            let vitaminC = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminC)!).first as? HKQuantitySample
+            let vitaminB6 = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminB6)!).first as? HKQuantitySample
+            let vitaminB12 = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminB12)!).first as? HKQuantitySample
+            let vitaminD = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminD)!).first as? HKQuantitySample
+            let vitaminE = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminE)!).first as? HKQuantitySample
+            let vitaminK = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryVitaminK)!).first as? HKQuantitySample
+            let zinc = currentData.objects(for: HKQuantityType.quantityType(forIdentifier: .dietaryZinc)!).first as? HKQuantitySample
             
+
+            return HKSampleWithDescription(foodName: foodName,
+                                                      brandName: brandName,
+                                                      servingQuantity: servingQuantity,
+                                                      servingUnit: servingUnit,
+                                                      servingWeightGrams: servingWeightGrams,
+                                                      calories: calories?.quantity.doubleValue(for: .kilocalorie()) ?? 0,
+                                                      sugars: sugars?.quantity.doubleValue(for: .gram()) ?? 0,
+                                                      totalFat: totalFat?.quantity.doubleValue(for: .gram()) ?? 0,
+                                                      saturatedFat: saturatedFat?.quantity.doubleValue(for: .gram()) ?? 0,
+                                                      cholesterol: cholesterol?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
+                                                      sodium: sodium?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
+                                                      totalCarbohydrate: totalCarbohydrate?.quantity.doubleValue(for: .gram()) ?? 0,
+                                                      dietaryFiber: dietaryFiber?.quantity.doubleValue(for: .gram()) ?? 0,
+                                                      protein: protein?.quantity.doubleValue(for: .gram()) ?? 0,
+                                                      potassium: potassium?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
+                                                      calcium: calcium?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
+                                                      iron: iron?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
+                                                      monounsaturatedFat: monounsaturatedFat?.quantity.doubleValue(for: .gram()) ?? 0,
+                                                      polyunsaturatedFat: polyunsaturatedFat?.quantity.doubleValue(for: .gram()) ?? 0,
+                                                      caffeine: caffeine?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
+                                                      copper: copper?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
+                                                      folate: folate?.quantity.doubleValue(for: .gramUnit(with: .micro)) ?? 0,
+                                                      magnesium: magnesium?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
+                                                      manganese: manganese?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
+                                                      niacin: niacin?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
+                                                      phosphorus: phosphorus?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
+                                                      riboflavin: riboflavin?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
+                                                      selenium: selenium?.quantity.doubleValue(for: .gramUnit(with: .micro)) ?? 0,
+                                                      thiamin: thiamin?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
+                                                      vitaminA: vitaminA?.quantity.doubleValue(for: .gramUnit(with: .micro)) ?? 0,
+                                                      vitaminC: vitaminC?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
+                                                      vitaminB6: vitaminB6?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
+                                                      vitaminB12: vitaminB12?.quantity.doubleValue(for: .gramUnit(with: .micro)) ?? 0,
+                                                      vitaminD: vitaminD?.quantity.doubleValue(for: .gramUnit(with: .micro)) ?? 0,
+                                                      vitaminE: vitaminE?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
+                                                      vitaminK: vitaminK?.quantity.doubleValue(for: .gramUnit(with: .micro)) ?? 0,
+                                                      zinc: zinc?.quantity.doubleValue(for: .gramUnit(with: .milli)) ?? 0,
+                                                      mealPeriod: mealPeriod,
+                                                      numberOfServings: numberOfServings,
+                                                      servingSelection: servingSelection,
+                                                      uuid: uuid,
+                                                      date: time,
+                                                      attrIDArray: nutrientIDs
+                                                     )
+
         }
     }
-    
+
     //Deleting the correlation object
     func deleteTheCorrelationObject(uuid: String) {
         let predicate = HKQuery.predicateForObjects(withMetadataKey: HKMetadataKeyFoodType, allowedValues: [uuid])
-        healthStore.deleteObjects(of: HKCorrelationType.correlationType(forIdentifier: .food)!, predicate: predicate) { success, _, error in
-            if success {
-                print("Delete of correlation was successful for \(HKCorrelationType.correlationType(forIdentifier: .food)!)")
-            } else {
-                print("Deletion of correlation failed for \(HKCorrelationType.correlationType(forIdentifier: .food)!)")
+        var types: [HKSampleType] = Self.quantityIDs.filter { $0.rawValue.hasPrefix("HKQuantityTypeIdentifierDietary") }
+            .map { HKQuantityType($0) }
+        types.append(HKCorrelationType(.food))
+        let group = DispatchGroup()
+        for type in types {
+            group.enter()
+            healthStore.deleteObjects(of: type, predicate: predicate) { _, _, error in
+                if let error { print("Meal deletion failed: \(error.localizedDescription)") }
+                group.leave()
             }
         }
-        
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryEnergyConsumed)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietarySugar)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryFatTotal)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryFatSaturated)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryCholesterol)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietarySodium)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryCarbohydrates)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryFiber)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryProtein)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryPotassium)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryIron)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryCalcium)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryFatMonounsaturated)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryFatPolyunsaturated)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryVitaminC)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryCaffeine)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryCopper)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryFolate)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryMagnesium)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryManganese)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryNiacin)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryPhosphorus)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryRiboflavin)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietarySelenium)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryThiamin)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryVitaminA)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryVitaminB6)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryVitaminB12)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryVitaminD)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryVitaminE)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryVitaminK)
-        correlationObjectDeletion(predicate: predicate, identifier: .dietaryZinc)
+        group.notify(queue: .main) { Task { @MainActor in self.scheduleDiaryUpdate() } }
     }
-    
-    func correlationObjectDeletion(predicate: NSPredicate, identifier: HKQuantityTypeIdentifier) {
-        healthStore.deleteObjects(of: HKQuantityType.quantityType(forIdentifier: identifier)!, predicate: predicate) { success, _, error in
-            if success {
-                print("Delete of correlation was successful for \(HKQuantityType.quantityType(forIdentifier: identifier)!)")
-            } else {
-                print("Deletion of correlation failed for \(HKQuantityType.quantityType(forIdentifier: identifier)!)")
-            }
-        }
-    }
-    
-    
-    
-    
-    
+
     // MARK: - Caloric Calculations
     func BMR(age: Int, weightinPounds: Double, heightinInches: Double) -> Double {
         //For men
@@ -1158,7 +675,7 @@ class FastingManager: ObservableObject {
         let hourlyBMR = bmr / 24
         let minuteBMR = hourlyBMR / 60
         let secondBMR = minuteBMR / 60
-        let timePassed = Date().timeIntervalSince(start())
+        let timePassed = Date().timeIntervalSince(Calendar.current.startOfDay(for: todaysDate))
         
         let totalPassiveCalories = timePassed * secondBMR
         passiveCalories = totalPassiveCalories
@@ -1376,7 +893,7 @@ class FastingManager: ObservableObject {
 
 
 struct HKSampleWithDescription: Identifiable {
-    let id = UUID()
+    var id: String { uuid }
     let foodName: String
     let brandName: String
     let servingQuantity: Double

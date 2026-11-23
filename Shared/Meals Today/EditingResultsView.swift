@@ -204,7 +204,6 @@ struct EditingResultsView: View {
                                 try await fastingManager.saveMeal(replacement)
                                 fastingManager.deleteTheCorrelationObject(uuid: original.uuid)
                                 presentationMode.wrappedValue.dismiss()
-                                await fastingManager.requestAuthorization()
                             } catch {
                                 sample = original
                                 saveError = error.localizedDescription

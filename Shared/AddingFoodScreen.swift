@@ -25,30 +25,6 @@ struct AddingFoodScreen: View {
          
         NavigationView {
             VStack {
-                    HStack {
-                    Button(action: {
-                        Task {
-                        await fastingManager.requestAuthorization()
-                        }
-                    }) {
-                        Text("Refresh")
-                    }
-                    .padding()
-                    .buttonStyle(.bordered)
-                    .tint(.blue)
-                    
-                    Button(action: {
-                        //WE will call in a new view to handle scanning
-
-                        Task {
-                        await fastingManager.requestAuthorization()
-                        }
-                    }) {
-                        Text("Add")
-                    }.padding()
-                        .buttonStyle(.bordered)
-                        .tint(.green)
-                    }
                 Button(action: {
                     showingImagePicker = true
                 }) {
@@ -147,15 +123,8 @@ struct AddingFoodScreen: View {
         
     }
     func delete(at offsets: IndexSet) {
-        print("Deleting sample")
-        let index = offsets.first
-        fastingManager.deleteTheCorrelationObject(uuid: fastingManager.theSamples[index!].uuid)
-//        healthkitManager.correlationArray.remove(atOffsets: offsets)
-//        healthkitManager.deleteIT(uuid: healthkitManager.theSamples[index!].meta["HKMetadataKeySyncIdentifier"] as! String)
-        fastingManager.theSamples.remove(atOffsets: offsets)
-        Task {
-            await fastingManager.requestAuthorization()
-        }
+        let meals = fastingManager.theSamples
+        for index in offsets { fastingManager.deleteTheCorrelationObject(uuid: meals[index].uuid) }
     }
     
     func handleScan(result: Result<ScanResult, ScanError>) {

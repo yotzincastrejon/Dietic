@@ -394,12 +394,11 @@ struct PlusToCheckMark: View {
         }
         do {
             let sample = food.sample(multiplier: 1, quantity: 1, unit: .serving,
-                                     meal: mealPeriod, date: fastingManager.todaysDate)
+                                     meal: mealPeriod, date: fastingManager.mealTimestamp)
             try await fastingManager.saveMeal(sample)
             isTapped = true
             fetched.timestamp = Date()
             try viewContext.save()
-            await fastingManager.requestAuthorization()
         } catch {
             errorMessage = isTapped ? "The meal was logged, but food history could not be updated." : error.localizedDescription
             showError = true

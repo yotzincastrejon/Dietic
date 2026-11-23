@@ -26,11 +26,17 @@ struct Dietic: App {
         _deficitLevel = State(initialValue: storedDeficitLevel)
     }
 
+    @Environment(\.scenePhase) private var scenePhase
     @StateObject var fastingManager = FastingManager()
     var body: some Scene {
         WindowGroup {
             ContentView(fastingManager: fastingManager, dietGoal: $dietGoal, deficitLevel: $deficitLevel)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .onAppear { fastingManager.setDiaryActive(scenePhase == .active) }
+                .onChange(of: scenePhase) { phase in fastingManager.setDiaryActive(phase == .active) }
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
+                    fastingManager.calendarChanged()
+                }
                 .onChange(of: dietGoal) { value in
                     UserDefaults.standard.set(value.rawValue, forKey: "dietGoal")
                 }

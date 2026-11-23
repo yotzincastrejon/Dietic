@@ -86,15 +86,7 @@ struct Home: View {
                         DateChanger(fastingManager: fastingManager)
                     }
                     
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button(action: {
-                            Task {
-                                await fastingManager.requestAuthorization()
-                            }
-                        }) {
-                            Text("Refresh")
-                        }
-                    }
+
                 }
             }
             .navigationViewStyle(StackNavigationViewStyle())
@@ -107,11 +99,7 @@ struct Home: View {
             .ignoresSafeArea()
             
         }
-        .onAppear {
-            Task {
-                await fastingManager.requestAuthorization()
-            }
-        }
+
     }
     func fadeIn() {
         withAnimation(.easeOut(duration: 0.6).delay(0.3)) {
