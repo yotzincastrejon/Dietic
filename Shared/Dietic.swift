@@ -1,50 +1,14 @@
-//
-//  Deficit2_0App.swift
-//  Shared
-//
-//  Created by Yotzin Castrejon on 10/18/21.
-//
-
 import SwiftUI
-import CoreData
 
 @main
 struct Dietic: App {
-//    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     let persistenceController = PersistenceController.shared
-    @State var dietGoal: DietGoal
-    @State var deficitLevel: DietDeficitLevel
+    @StateObject private var fastingManager = FastingManager()
 
-    init() {
-        let storedDietGoalString = UserDefaults.standard.string(forKey: "dietGoal") ?? ""
-        let storedDeficitLevelString = UserDefaults.standard.string(forKey: "deficitLevel") ?? ""
-
-        let storedDietGoal = DietGoal(rawValue: storedDietGoalString) ?? .maintaining
-        let storedDeficitLevel = DietDeficitLevel(rawValue: storedDeficitLevelString) ?? .normal
-
-        _dietGoal = State(initialValue: storedDietGoal)
-        _deficitLevel = State(initialValue: storedDeficitLevel)
-    }
-
-    @Environment(\.scenePhase) private var scenePhase
-    @StateObject var fastingManager = FastingManager()
     var body: some Scene {
         WindowGroup {
-            ContentView(fastingManager: fastingManager, dietGoal: $dietGoal, deficitLevel: $deficitLevel)
+            ContentView(fastingManager: fastingManager)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .onAppear { fastingManager.setDiaryActive(scenePhase == .active) }
-                .onChange(of: scenePhase) { phase in fastingManager.setDiaryActive(phase == .active) }
-                .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
-                    fastingManager.calendarChanged()
-                }
-                .onChange(of: dietGoal) { value in
-                    UserDefaults.standard.set(value.rawValue, forKey: "dietGoal")
-                }
-                .onChange(of: deficitLevel) { value in
-                    UserDefaults.standard.set(value.rawValue, forKey: "deficitLevel")
-                }
         }
     }
 }
-
-

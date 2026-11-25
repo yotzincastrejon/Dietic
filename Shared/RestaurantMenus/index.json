@@ -1,0 +1,360 @@
+[
+  {
+    "id": "7-brew",
+    "name": "7 Brew",
+    "count": 1165,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "arby-s",
+    "name": "Arby’s",
+    "count": 216,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "bojangles",
+    "name": "Bojangles",
+    "count": 123,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "burger-king",
+    "name": "Burger King",
+    "count": 200,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "carl-s-jr",
+    "name": "Carl’s Jr.",
+    "count": 117,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "cava",
+    "name": "CAVA",
+    "count": 119,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "chick-fil-a",
+    "name": "Chick-fil-A",
+    "count": 452,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "chipotle",
+    "name": "Chipotle",
+    "count": 62,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "church-s-chicken",
+    "name": "Church’s Chicken",
+    "count": 141,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "crumbl",
+    "name": "Crumbl",
+    "count": 30,
+    "source": "Crumbl",
+    "url": "https://crumblcookies.com/products/12-pack"
+  },
+  {
+    "id": "culver-s",
+    "name": "Culver’s",
+    "count": 296,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "dairy-queen",
+    "name": "Dairy Queen",
+    "count": 413,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "dave-s-hot-chicken",
+    "name": "Dave’s Hot Chicken",
+    "count": 139,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "del-taco",
+    "name": "Del Taco",
+    "count": 171,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "domino-s",
+    "name": "Domino’s",
+    "count": 503,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "dunkin-donuts",
+    "name": "Dunkin’",
+    "count": 1741,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "dutch-bros",
+    "name": "Dutch Bros",
+    "count": 453,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "el-pollo-loco",
+    "name": "El Pollo Loco",
+    "count": 173,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "fire-wings",
+    "name": "Fire Wings",
+    "count": 103,
+    "source": "Fire Wings",
+    "url": "https://www.firewings.com/nutrition-information",
+    "note": "Wing totals include the chicken and flavor. Add dips, sides, and drinks separately."
+  },
+  {
+    "id": "firehouse-subs",
+    "name": "Firehouse Subs",
+    "count": 869,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "five-guys",
+    "name": "Five Guys",
+    "count": 31,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "freddy-s-frozen-custard-steakburgers",
+    "name": "Freddy’s Frozen Custard & Steakburgers",
+    "count": 306,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "hardee-s",
+    "name": "Hardee’s",
+    "count": 115,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "in-n-out-burger",
+    "name": "In-N-Out Burger",
+    "count": 49,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "jack-in-the-box",
+    "name": "Jack in the Box",
+    "count": 241,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "jersey-mike-s-subs",
+    "name": "Jersey Mike’s Subs",
+    "count": 963,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "jimmy-john-s",
+    "name": "Jimmy John’s",
+    "count": 42,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "kfc",
+    "name": "KFC",
+    "count": 203,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "little-caesars",
+    "name": "Little Caesars",
+    "count": 69,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "marco-s-pizza",
+    "name": "Marco’s Pizza",
+    "count": 224,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "mcalister-s-deli",
+    "name": "McAlister’s Deli",
+    "count": 190,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "mcdonald-s",
+    "name": "McDonald’s",
+    "count": 302,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "nothing-bundt-cakes",
+    "name": "Nothing Bundt Cakes",
+    "count": 72,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "panda-express",
+    "name": "Panda Express",
+    "count": 129,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "panera-bread",
+    "name": "Panera Bread",
+    "count": 294,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "papa-john-s",
+    "name": "Papa Johns",
+    "count": 928,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "pizza-hut",
+    "name": "Pizza Hut",
+    "count": 236,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "popeyes",
+    "name": "Popeyes",
+    "count": 95,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "qdoba",
+    "name": "QDOBA",
+    "count": 81,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "raising-cane-s",
+    "name": "Raising Cane’s",
+    "count": 117,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "scooters-coffee",
+    "name": "Scooter’s Coffee",
+    "count": 737,
+    "source": "Scooter’s Coffee",
+    "url": "https://www.scooterscoffee.com/media/wysiwyg/nutrition-and-allergen-information.pdf"
+  },
+  {
+    "id": "shake-shack",
+    "name": "Shake Shack",
+    "count": 129,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "sonic",
+    "name": "Sonic Drive-In",
+    "count": 573,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "starbucks",
+    "name": "Starbucks",
+    "count": 796,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "subway",
+    "name": "Subway",
+    "count": 400,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "taco-bell",
+    "name": "Taco Bell",
+    "count": 791,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "tropical-smoothie-cafe",
+    "name": "Tropical Smoothie Cafe",
+    "count": 98,
+    "source": "Tropical Smoothie Cafe",
+    "url": "https://d1yg02isjcwtyb.cloudfront.net/wp-content/uploads/2026/06/Promo-4-2026-Nutrition-with-Nutrition-Guide-5.2026_8th-Jun.pdf"
+  },
+  {
+    "id": "wendy-s",
+    "name": "Wendy’s",
+    "count": 228,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "whataburger",
+    "name": "Whataburger",
+    "count": 274,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "wingstop",
+    "name": "Wingstop",
+    "count": 57,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  },
+  {
+    "id": "zaxby-s",
+    "name": "Zaxby’s",
+    "count": 313,
+    "source": "FastFuel",
+    "url": "https://fastfuel-c.pages.dev/api/"
+  }
+]

@@ -8,7 +8,40 @@
 import Foundation
 import HealthKit
 import Combine
+import WidgetKit
 
+
+struct DailyEnergy {
+    var bmr: Double?
+    var active: Double?
+    var consumed: Double?
+    var resting: Double?
+    var activeReadFailed = false
+    var recordedWeightPounds: Double?
+
+    var activeForEstimate: Double? {
+        activeReadFailed ? nil : (active ?? 0)
+    }
+
+    var recordedBurn: Double? {
+        guard let active, let resting else { return nil }
+        return active + resting
+    }
+
+    var estimatedMaintenance: Double? {
+        guard let bmr, let activeForEstimate else { return nil }
+        return bmr + activeForEstimate
+    }
+
+    var deficit: Double? {
+        guard let estimatedMaintenance, let consumed else { return nil }
+        return estimatedMaintenance - consumed
+    }
+
+    func targetDeficit(intakeMultiplier: Double) -> Double? {
+        estimatedMaintenance.map { $0 - $0 * intakeMultiplier }
+    }
+}
 
 class FastingManager: ObservableObject {
     
@@ -36,6 +69,7 @@ class FastingManager: ObservableObject {
     var height: Double = 0
     var sex: String = ""
     var age: Int = 0
+    private(set) var hasRecordedWeight = false
     var bodyFat: Double = 0
     
     /// - Tag: Macros Calculations
@@ -71,7 +105,8 @@ class FastingManager: ObservableObject {
     
     
     /// - Tag: Publishers
-    @Published var activeCalories: Double = 0
+    @Published private(set) var dailyEnergy = DailyEnergy()
+    var activeCalories: Double { dailyEnergy.active ?? 0 }
     @Published var passiveCalories: Double = 0
     @Published var totalCalories: Double = 0
     @Published var fatLoss: Double = 0
@@ -83,7 +118,18 @@ class FastingManager: ObservableObject {
     @Published var fat: Double = 0
     @Published var poundsPerWeekYouWantToLose: Double = 0
     private var followsToday = true
-    @Published var todaysDate = Date.now
+    @Published var todaysDate = Date.now {
+        didSet {
+            if !Calendar.current.isDate(oldValue, inSameDayAs: todaysDate) {
+                dailyEnergy = DailyEnergy()
+                theSamples = []
+                consumedCalories = 0
+                carbohydrates = 0
+                protein = 0
+                fat = 0
+            }
+        }
+    }
     @Published var bmr: Double = 0
     
     /// - Tag: Weight loss goal
@@ -107,7 +153,13 @@ class FastingManager: ObservableObject {
     var mealTimestamp: Date { followsToday ? Date() : todaysDate }
 
     @MainActor func moveDay(by offset: Int) {
-        guard let next = Calendar.current.date(byAdding: .day, value: offset, to: mealTimestamp) else { return }
+        let calendar = Calendar.current
+        guard let next = calendar.date(byAdding: .day, value: offset, to: mealTimestamp),
+              calendar.compare(next, to: Date(), toGranularity: .day) != .orderedDescending else { return }
+        selectDay(next)
+    }
+
+    @MainActor func selectDay(_ next: Date) {
         followsToday = Calendar.current.isDateInToday(next)
         todaysDate = next
         scheduleDiaryUpdate()
@@ -165,6 +217,7 @@ class FastingManager: ObservableObject {
 
     private var diaryObserver: HKObserverQuery?
     private var diaryActive = false
+    @MainActor private var movingMeal = false
     private var updatePending = false
     private var updating = false
 
@@ -193,9 +246,11 @@ class FastingManager: ObservableObject {
                 if diaryObserver == nil {
                     let quantities = Set(Self.quantityIDs.map { HKQuantityType($0) as HKSampleType })
                     var readTypes = Set<HKObjectType>(quantities)
+                    readTypes.insert(HKQuantityType(.basalEnergyBurned))
                     readTypes.insert(HKObjectType.characteristicType(forIdentifier: .dateOfBirth)!)
                     readTypes.insert(HKObjectType.characteristicType(forIdentifier: .biologicalSex)!)
-                    try await healthStore.requestAuthorization(toShare: quantities, read: readTypes)
+                    let initialWrites = quantities.subtracting([HKQuantityType(.bodyMass)])
+                    try await healthStore.requestAuthorization(toShare: initialWrites, read: readTypes)
                     observeDiaryChanges()
                 }
                 while diaryActive && updatePending {
@@ -211,7 +266,7 @@ class FastingManager: ObservableObject {
 
     @MainActor private func observeDiaryChanges() {
         let ids: [HKQuantityTypeIdentifier] = [.dietaryEnergyConsumed, .dietaryCarbohydrates, .dietaryProtein,
-                                               .dietaryFatTotal, .activeEnergyBurned, .bodyMass, .height, .bodyFatPercentage]
+                                               .dietaryFatTotal, .activeEnergyBurned, .basalEnergyBurned, .bodyMass, .height, .bodyFatPercentage]
         let descriptors = ids.map { HKQueryDescriptor(sampleType: HKQuantityType($0), predicate: nil) }
         let observer = HKObserverQuery(queryDescriptors: descriptors) { [weak self] _, _, complete, error in
             Task { @MainActor in
@@ -239,8 +294,11 @@ class FastingManager: ObservableObject {
         }
     }
     
-    func determineCaloricStanding() {
+    private func determineCaloricStanding(recordedActive: Double?, recordedResting: Double?, activeReadFailed: Bool) {
         bmr = BMR(age: age, weightinPounds: weight, heightinInches: height)
+        let hasProfile = hasRecordedWeight && weight > 0 && height > 0 && age > 0 && ["Male", "Female"].contains(sex)
+        dailyEnergy = DailyEnergy(bmr: hasProfile && bmr > 0 ? bmr : nil, active: recordedActive, consumed: consumedCalories, resting: recordedResting, activeReadFailed: activeReadFailed,
+                                  recordedWeightPounds: hasRecordedWeight ? weight : nil)
         let eatenCalories = consumedCalories
         let burnedCalories = activeCalories
         leftToBurn = eatenCalories - bmr - burnedCalories
@@ -369,13 +427,41 @@ class FastingManager: ObservableObject {
         }
     }
 
+    // A calendar-day bucket lets HealthKit apportion energy samples that span midnight.
+    private func recordedEnergy(_ id: HKQuantityTypeIdentifier, during day: DateInterval) async throws -> Double? {
+        let end = min(day.end, Date())
+        guard day.start < end else { return nil }
+        let predicate = HKQuery.predicateForSamples(withStart: day.start, end: end)
+        return try await withCheckedThrowingContinuation { continuation in
+            let query = HKStatisticsCollectionQuery(quantityType: HKQuantityType(id), quantitySamplePredicate: predicate,
+                                                    options: .cumulativeSum, anchorDate: day.start,
+                                                    intervalComponents: DateComponents(day: 1))
+            query.initialResultsHandler = { _, collection, error in
+                if let error, (error as? HKError)?.code != .errorNoData {
+                    continuation.resume(throwing: error)
+                    return
+                }
+                let quantity = collection?.statistics(for: day.start)?.sumQuantity()
+                continuation.resume(returning: quantity?.doubleValue(for: .kilocalorie()))
+            }
+            healthStore.execute(query)
+        }
+    }
+
     @MainActor private func loadSelectedDay() async throws {
+        if !movingMeal {
+            movingMeal = true
+            do { _ = try await finishPendingMealMove() }
+            catch { print("Meal move cleanup pending: \(error.localizedDescription)") }
+            movingMeal = false
+        }
         let calendar = Calendar.current
         guard let interval = calendar.dateInterval(of: .day, for: todaysDate) else { return }
         let predicate = HKQuery.predicateForSamples(withStart: interval.start, end: interval.end, options: .strictStartDate)
         async let meals = getCorrelationQuery(for: predicate)
         async let eaten = dailySum(.dietaryEnergyConsumed, unit: .kilocalorie(), predicate: predicate)
-        async let burned = dailySum(.activeEnergyBurned, unit: .kilocalorie(), predicate: predicate)
+        async let active = recordedEnergy(.activeEnergyBurned, during: interval)
+        async let resting = recordedEnergy(.basalEnergyBurned, during: interval)
         async let carbs = dailySum(.dietaryCarbohydrates, unit: .gram(), predicate: predicate)
         async let proteins = dailySum(.dietaryProtein, unit: .gram(), predicate: predicate)
         async let fats = dailySum(.dietaryFatTotal, unit: .gram(), predicate: predicate)
@@ -383,33 +469,78 @@ class FastingManager: ObservableObject {
         async let heightSample = latestSample(.height, before: interval.end)
         async let fatSample = latestSample(.bodyFatPercentage, before: interval.end)
 
-        let totals = try await (eaten, burned, carbs, proteins, fats)
+        let recordedActive: Double?
+        let activeReadFailed: Bool
+        do {
+            recordedActive = try await active
+            activeReadFailed = false
+        } catch {
+            recordedActive = nil
+            activeReadFailed = true
+        }
+        let recordedResting = try? await resting
+        let totals = try await (eaten, carbs, proteins, fats)
         let measurements = try await (weightSample, heightSample, fatSample)
         let correlations = try await meals
         guard diaryActive, interval == Calendar.current.dateInterval(of: .day, for: todaysDate) else { return }
 
-        (consumedCalories, activeCalories, carbohydrates, protein, fat) = totals
+        (consumedCalories, carbohydrates, protein, fat) = totals
+        hasRecordedWeight = measurements.0 != nil
         weight = measurements.0?.quantity.doubleValue(for: .pound()) ?? 120
         height = measurements.1?.quantity.doubleValue(for: .inch()) ?? 0
         bodyFat = measurements.2?.quantity.doubleValue(for: .percent()) ?? 0
         sampleSourceName = measurements.0?.sourceRevision.source.name ?? "You have not entered a weight prior to this date."
         sampleSourceDate = measurements.0?.startDate ?? todaysDate
-        if let birthYear = try? healthStore.dateOfBirthComponents().year {
-            age = calendar.component(.year, from: Date()) - birthYear
-        }
+        let birth = try? healthStore.dateOfBirthComponents()
+        age = birth.flatMap { calendar.date(from: $0) }
+            .flatMap { calendar.dateComponents([.year], from: $0, to: interval.start).year } ?? 0
         sex = (try? healthStore.biologicalSex().biologicalSex.stringRepresentation) ?? ""
-        (proteinPercentage, proteinRemaining) = macroPercentage(multiple: 0.7, currentAmount: protein)
-        (fatPercentage, fatRemaining) = macroPercentage(multiple: 0.5, currentAmount: fat)
-        let carbGoal = (caloricConsumptionGoal - weight * 0.5 * 9 - weight * 0.7 * 4) / 4
-        carbPercentage = carbGoal > 0 ? carbohydrates / carbGoal : 1
-        carbRemaining = carbGoal > 0 ? Int(carbGoal - carbohydrates) : 0
-        determineCaloricStanding()
+        determineCaloricStanding(recordedActive: recordedActive, recordedResting: recordedResting, activeReadFailed: activeReadFailed)
+        let targets = nutritionPlan.targets(for: dailyEnergy)
+        (proteinPercentage, proteinRemaining) = macroProgress(target: targets.protein, consumed: protein)
+        (fatPercentage, fatRemaining) = macroProgress(target: targets.fat, consumed: fat)
+        (carbPercentage, carbRemaining) = macroProgress(target: targets.carbs, consumed: carbohydrates)
         theSamples = mealSamples(from: correlations)
+        if calendar.isDateInToday(interval.start) {
+            let data = DiaryWidgetData(day: interval.start, maintenance: dailyEnergy.estimatedMaintenance,
+                                       calories: consumedCalories, carbs: carbohydrates, protein: protein, fat: fat,
+                                       proteinTarget: targets.protein, fatTarget: targets.fat,
+                                       multiplier: nutritionPlan.multiplier, focus: nutritionPlan.focus,
+                                       weightPounds: dailyEnergy.recordedWeightPounds, overrides: nutritionPlan.overrides,
+                                       fixedDeficit: nutritionPlan.selectedFixedDeficit)
+            saveWidgetData(data)
+        }
+
     }
 
-    func macroPercentage(multiple: Double, currentAmount: Double) -> (percentage: Double, remaining: Int) {
-        let goal = weight * multiple
-        return (goal > 0 ? currentAmount / goal : 0, Int(goal - currentAmount))
+    private var nutritionPlan = NutritionPlan.legacy()
+
+    @MainActor func applyPlan(_ plan: NutritionPlan) {
+        nutritionPlan = plan
+        if var data = DiaryWidgetRecord.today()?.data,
+           data.multiplier != plan.multiplier || (data.focus ?? .balanced) != plan.focus || data.overrides != plan.overrides || data.fixedDeficit != plan.selectedFixedDeficit {
+            data.apply(multiplier: plan.multiplier, focus: plan.focus, overrides: plan.overrides, fixedDeficit: plan.selectedFixedDeficit)
+            saveWidgetData(data)
+        }
+        let targets = plan.targets(for: dailyEnergy)
+        (proteinPercentage, proteinRemaining) = macroProgress(target: targets.protein, consumed: protein)
+        (fatPercentage, fatRemaining) = macroProgress(target: targets.fat, consumed: fat)
+        (carbPercentage, carbRemaining) = macroProgress(target: targets.carbs, consumed: carbohydrates)
+    }
+
+    private func saveWidgetData(_ data: DiaryWidgetData) {
+        do {
+            if try DiaryWidgetRecord.save(data) {
+                WidgetCenter.shared.reloadTimelines(ofKind: DiaryWidgetRecord.kind)
+            }
+        } catch {
+            print("Could not update the diary widget: \(error.localizedDescription)")
+        }
+    }
+
+    private func macroProgress(target: Double?, consumed: Double) -> (percentage: Double, remaining: Int) {
+        guard let target, target > 0 else { return (0, 0) }
+        return (consumed / target, Int(target - consumed))
     }
     
     // MARK: - Eaten Foods Entry
@@ -418,10 +549,14 @@ class FastingManager: ObservableObject {
     
     
     
-    private func foodCorrelation(for sample: HKSampleWithDescription) throws -> HKCorrelation {
+    private func foodCorrelation(for sample: HKSampleWithDescription, importID: UUID? = nil) throws -> HKCorrelation {
         
         let foodType: HKCorrelationType = HKCorrelationType.correlationType(forIdentifier: .food)!
-        let foodCorrelationMetadata: [String: Any] = [HKMetadataKeyFoodType: sample.uuid, "Food Name": sample.foodName, "Brand Name": sample.brandName, "Serving Quantity": sample.servingQuantity, "Serving Unit": sample.servingUnit, "Serving Weight Grams":sample.servingWeightGrams, "Meal Period": sample.mealPeriod, "Number Of Servings": sample.numberOfServings, "Serving Selection": sample.servingSelection]
+        var foodCorrelationMetadata: [String: Any] = [HKMetadataKeyFoodType: sample.uuid, "Food Name": sample.foodName, "Brand Name": sample.brandName, "Serving Quantity": sample.servingQuantity, "Serving Unit": sample.servingUnit, "Serving Weight Grams":sample.servingWeightGrams, "Meal Period": sample.mealPeriod, "Number Of Servings": sample.numberOfServings, "Serving Selection": sample.servingSelection]
+        if let importID { foodCorrelationMetadata["Dietic Meal Import"] = importID.uuidString }
+        if let household = sample.householdServing {
+            foodCorrelationMetadata["Household Serving"] = household
+        }
         var fromNutrientArray = Set<HKSample>()
         let attrIDArray:[Int: HKSample] = [
             203:HKSampleReturn(type: .dietaryProtein, value: sample.protein, quantity: .gram(), metadata: foodCorrelationMetadata, date: sample.date),
@@ -471,9 +606,35 @@ class FastingManager: ObservableObject {
     }
 
     func saveMeal(_ sample: HKSampleWithDescription) async throws {
-        let correlation = try foodCorrelation(for: sample)
-        try await healthStore.save(correlation)
+        try await saveMeals([sample])
+    }
+
+    func saveMeals(_ samples: [HKSampleWithDescription]) async throws {
+        let correlations = try samples.map { try foodCorrelation(for: $0) }
+        try await healthStore.save(correlations)
         await scheduleDiaryUpdate()
+    }
+
+    @MainActor private var importsInProgress = Set<UUID>()
+
+    func hasImportedMeal(_ id: UUID) -> Bool {
+        UserDefaults.standard.bool(forKey: "importedMeal." + id.uuidString)
+    }
+
+    @MainActor func importMeal(_ samples: [HKSampleWithDescription], id: UUID) async throws {
+        guard !samples.isEmpty else { throw SharedMeal.ShareError.invalid }
+        guard !hasImportedMeal(id), importsInProgress.insert(id).inserted else { throw SharedMeal.ShareError.alreadyAdded }
+        defer { importsInProgress.remove(id) }
+        // Recover if HealthKit committed the batch just before the app stopped.
+        let predicate = HKQuery.predicateForObjects(withMetadataKey: "Dietic Meal Import", allowedValues: [id.uuidString])
+        if try await !getCorrelationQuery(for: predicate).isEmpty {
+            UserDefaults.standard.set(true, forKey: "importedMeal." + id.uuidString)
+            throw SharedMeal.ShareError.alreadyAdded
+        }
+        let correlations = try samples.map { try foodCorrelation(for: $0, importID: id) }
+        try await healthStore.save(correlations)
+        UserDefaults.standard.set(true, forKey: "importedMeal." + id.uuidString)
+        scheduleDiaryUpdate()
     }
 
     func HKSampleReturn(type: HKQuantityTypeIdentifier, value: Double, quantity: HKUnit, metadata: [String: Any], date: Date) -> HKSample {
@@ -482,15 +643,28 @@ class FastingManager: ObservableObject {
         
     }
     
+    func loggedDays(from start: Date, until end: Date) async throws -> Set<Date> {
+        let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
+        let records = try await getCorrelationQuery(for: predicate, requireAccess: true)
+        return Set(records.filter { $0.startDate < end }.map { Calendar.current.startOfDay(for: $0.startDate) })
+    }
+
+    func diaryEntries(from start: Date, until end: Date) async throws -> [HKSampleWithDescription] {
+        let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
+        let results = try await getCorrelationQuery(for: predicate, requireAccess: true)
+        return mealSamples(from: results).filter { $0.date >= start && $0.date < end }
+            .sorted { $0.date == $1.date ? $0.uuid < $1.uuid : $0.date > $1.date }
+    }
+
     //Read Correlation Samples
-    private func getCorrelationQuery(for predicate: NSPredicate) async throws -> [HKCorrelation] {
+    private func getCorrelationQuery(for predicate: NSPredicate, requireAccess: Bool = false) async throws -> [HKCorrelation] {
         return try await withCheckedThrowingContinuation { continuation in
             let foodType = HKCorrelationType.correlationType(forIdentifier: .food)!
             let myAppPredicate = HKQuery.predicateForObjects(from: HKSource.default()) //This retrieve's only my app
                                                                                        //            let notMyAppPredicate = NSCompoundPredicate(notPredicateWithSubpredicate: myAppPredicate) // This would retrieve everything aside from my app
             let queryPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate, myAppPredicate])
             let correlationQuery = HKCorrelationQuery(type: foodType, predicate: queryPredicate, samplePredicates: nil) { query, results, error in
-                if let error, !Self.isEmptyRead(error) {
+                if let error, (error as? HKError)?.code != .errorNoData, requireAccess || !Self.isEmptyRead(error) {
                     continuation.resume(throwing: error)
                 } else {
                     continuation.resume(returning: results ?? [])
@@ -628,7 +802,8 @@ class FastingManager: ObservableObject {
                                                       servingSelection: servingSelection,
                                                       uuid: uuid,
                                                       date: time,
-                                                      attrIDArray: nutrientIDs
+                                                      attrIDArray: nutrientIDs,
+                                                      householdServing: currentData.metadata?["Household Serving"] as? String
                                                      )
 
         }
@@ -653,21 +828,11 @@ class FastingManager: ObservableObject {
 
     // MARK: - Caloric Calculations
     func BMR(age: Int, weightinPounds: Double, heightinInches: Double) -> Double {
-        //For men
-        //TODO: We need to differentiate from Men to Women when calculating BMR as it can be different for each group.
-        //TODO: Set a switch statement based on possibilities. Also set a fail safe to make sure all data that is necessary to calculate is available.
-        
-        //The Mifflin - St Jeor BMR Equation
-        if sex == "Male" {
-            let imperialFormulaForMen = (4.536 * weightinPounds) + (15.88 * heightinInches)
-            let imp2 = imperialFormulaForMen - (5.0 * Double(age)) + 5.0
-            
-            return imp2
-        } else {
-            let imperialFormulaForWomen = (4.536 * weightinPounds) + (15.88 * heightinInches)
-            let imp2 = imperialFormulaForWomen - (5 * Double(age)) - 161
-            return imp2
-        }
+        Self.basalMetabolicRate(age: age, pounds: weightinPounds, inches: heightinInches, male: sex == "Male")
+    }
+
+    static func basalMetabolicRate(age: Int, pounds: Double, inches: Double, male: Bool) -> Double {
+        4.536 * pounds + 15.88 * inches - 5 * Double(age) + (male ? 5 : -161)
     }
     
     func totalPassive() {
@@ -896,9 +1061,9 @@ struct HKSampleWithDescription: Identifiable {
     var id: String { uuid }
     let foodName: String
     let brandName: String
-    let servingQuantity: Double
-    let servingUnit: String
-    let servingWeightGrams: Double
+    var servingQuantity: Double
+    var servingUnit: String
+    var servingWeightGrams: Double
     var calories: Double
     var sugars: Double
     var totalFat: Double
@@ -937,6 +1102,11 @@ struct HKSampleWithDescription: Identifiable {
     var uuid: String
     var date: Date
     var attrIDArray: [Int]
+    var householdServing: String? = nil
+
+    var portion: FoodPortion {
+        FoodPortion(quantity: servingQuantity, unit: servingUnit, grams: servingWeightGrams, household: householdServing)
+    }
 }
 
 enum EatingTime: CustomStringConvertible, CaseIterable {
@@ -985,5 +1155,136 @@ enum ServingType: CaseIterable {
 extension String {
     func trimmed() -> String {
         self.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+}
+
+// HealthKit timestamps are immutable. Save the replacement batch before deleting the
+// original correlations and their nutrients. Record the IDs first so a relaunch can finish.
+extension FastingManager {
+    private struct PendingMealMove: Codable {
+        let foodIDs: Set<String>
+        let destination: Date
+        var editID: UUID? = nil
+        let originalByReplacement: [UUID: UUID]
+    }
+
+    private enum MoveError: LocalizedError {
+        case busy, changed, missingNutrition
+        var errorDescription: String? {
+            switch self {
+            case .busy: return "A meal move is finishing. Please try again."
+            case .changed: return "The foods in this meal have changed. Reopen the meal and try again."
+            case .missingNutrition: return "Allow Dietic to write the nutrients in this meal in Health, then try again."
+            }
+        }
+    }
+
+    private func pendingMoveURL() throws -> URL {
+        let dir = try FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask,
+                                              appropriateFor: nil, create: true)
+        return dir.appendingPathComponent("PendingMealMove.json")
+    }
+
+    @MainActor private func finishPendingMealMove() async throws -> PendingMealMove? {
+        let url = try pendingMoveURL()
+        let data: Data
+        do { data = try Data(contentsOf: url) }
+        catch let error as CocoaError where error.code == .fileReadNoSuchFile { return nil }
+        let move = try JSONDecoder().decode(PendingMealMove.self, from: data)
+        let replacementIDs = Set(move.originalByReplacement.keys)
+        let replacements = try await getCorrelationQuery(for: HKQuery.predicateForObjects(with: replacementIDs), requireAccess: true)
+        // Only remove originals whose replacements still exist. A crash before save
+        // leaves the original meal intact, as does a replacement deleted in Health.
+        let sourceIDs = Set(replacements.compactMap { move.originalByReplacement[$0.uuid] })
+        if !sourceIDs.isEmpty {
+            let originals = try await getCorrelationQuery(for: HKQuery.predicateForObjects(with: sourceIDs), requireAccess: true)
+            if !originals.isEmpty { try await deleteMealOriginals(originals) }
+        }
+        try FileManager.default.removeItem(at: url)
+        return sourceIDs.count == replacementIDs.count ? move : nil
+    }
+
+    private func deleteMealOriginals(_ originals: [HKCorrelation]) async throws {
+        let members = Set(originals.flatMap(\.objects))
+        try await healthStore.delete((originals as [HKObject]) + Array(members))
+    }
+
+    @MainActor func removeDiaryEntry(id: String) async throws {
+        guard !movingMeal else { throw MoveError.busy }
+        movingMeal = true
+        defer { movingMeal = false; scheduleDiaryUpdate() }
+        _ = try await finishPendingMealMove()
+        let predicate = HKQuery.predicateForObjects(withMetadataKey: HKMetadataKeyFoodType, allowedValues: [id])
+        let originals = try await getCorrelationQuery(for: predicate, requireAccess: true)
+        guard originals.count <= 1 else { throw MoveError.changed }
+        if !originals.isEmpty { try await deleteMealOriginals(originals) }
+    }
+
+    @MainActor func moveMeal(_ entries: [HKSampleWithDescription], from sourceDay: Date, to destination: Date,
+                             timestamp: (Date) -> Date) async throws {
+        try await replaceEntries(entries, from: sourceDay, to: destination) { source in
+            let foodID = UUID().uuidString
+            func metadata(_ original: HKObject) -> [String: Any] {
+                var result = original.metadata ?? [:]
+                result[HKMetadataKeyFoodType] = foodID
+                return result
+            }
+            guard !source.objects.isEmpty else { throw MoveError.missingNutrition }
+            let nutrients = try source.objects.map { object -> HKSample in
+                guard let sample = object as? HKQuantitySample,
+                      healthStore.authorizationStatus(for: sample.quantityType) == .sharingAuthorized else {
+                    throw MoveError.missingNutrition
+                }
+                return HKQuantitySample(type: sample.quantityType, quantity: sample.quantity,
+                                        start: timestamp(sample.startDate), end: timestamp(sample.endDate),
+                                        metadata: metadata(sample))
+            }
+            return HKCorrelation(type: source.correlationType, start: timestamp(source.startDate),
+                                 end: timestamp(source.endDate), objects: Set(nutrients), metadata: metadata(source))
+        }
+    }
+
+    @MainActor func editEntry(_ original: HKSampleWithDescription, replacing updated: HKSampleWithDescription,
+                              operationID: UUID) async throws {
+        try await replaceEntries([original], from: original.date, to: updated.date, editID: operationID) { source in
+            let importID = (source.metadata?["Dietic Meal Import"] as? String).flatMap(UUID.init(uuidString:))
+            let replacement = try foodCorrelation(for: updated, importID: importID)
+            let originalTypes = Set(source.objects.map(\.sampleType))
+            guard originalTypes == Set(replacement.objects.map(\.sampleType)),
+                  originalTypes.allSatisfy({ healthStore.authorizationStatus(for: $0) == .sharingAuthorized }) else {
+                throw MoveError.missingNutrition
+            }
+            return replacement
+        }
+    }
+
+    @MainActor private func replaceEntries(_ entries: [HKSampleWithDescription], from sourceDay: Date,
+                                           to destination: Date, editID: UUID? = nil,
+                                           makeReplacement: (HKCorrelation) throws -> HKCorrelation) async throws {
+        guard !movingMeal else { throw MoveError.busy }
+        movingMeal = true
+        defer { movingMeal = false; scheduleDiaryUpdate() }
+        let ids = Set(entries.map(\.uuid))
+        let calendar = Calendar.current
+        if let finished = try await finishPendingMealMove(), finished.foodIDs == ids, finished.editID == editID,
+           calendar.isDate(finished.destination, inSameDayAs: destination) { return }
+
+        let predicate = HKQuery.predicateForObjects(withMetadataKey: HKMetadataKeyFoodType, allowedValues: Array(ids))
+        let originals = try await getCorrelationQuery(for: predicate, requireAccess: true)
+        guard !ids.isEmpty, originals.count == entries.count,
+              Set(originals.compactMap { $0.metadata?[HKMetadataKeyFoodType] as? String }) == ids,
+              originals.allSatisfy({ calendar.isDate($0.startDate, inSameDayAs: sourceDay) }) else {
+            throw MoveError.changed
+        }
+
+        let replacements = try originals.map(makeReplacement)
+        let pairs = zip(replacements, originals).map { ($0.uuid, $1.uuid) }
+        let move = PendingMealMove(foodIDs: ids, destination: destination, editID: editID,
+                                   originalByReplacement: Dictionary(uniqueKeysWithValues: pairs))
+        let url = try pendingMoveURL()
+        try JSONEncoder().encode(move).write(to: url, options: .atomic)
+        try await healthStore.save(replacements)
+        try await deleteMealOriginals(originals)
+        try FileManager.default.removeItem(at: url)
     }
 }

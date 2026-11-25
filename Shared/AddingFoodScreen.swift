@@ -44,7 +44,7 @@ struct AddingFoodScreen: View {
                 // MARK: - The Samples
                     List {
                         ForEach(fastingManager.theSamples) { sample in
-                            NavigationLink(destination: EditingResultsView(fastingManager: fastingManager, isShowing: .constant(false), sample: sample)) {
+                            NavigationLink(destination: EditingResultsView(fastingManager: fastingManager, sample: sample)) {
                                 HStack {
                                     VStack(alignment: .leading) {
                                         Text("\(sample.foodName)")

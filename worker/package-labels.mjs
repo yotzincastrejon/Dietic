@@ -25,16 +25,41 @@ const spriteMini = {
   },
 };
 
+// Costco item 637598. The 24-count carton has one large egg per serving.
+const kirklandEggs = {
+  fdcId: -2,
+  gtinUpc: "096619635917",
+  description: "Cage-Free Grade AA Large Eggs",
+  brandName: "Kirkland Signature",
+  dataType: "Manufacturer label",
+  source: "https://sameday.costco.com/store/costco/products/3308878-kirkland-signature-cage-free-eggs-24-ct-24-ct",
+  servingSize: 50,
+  servingSizeUnit: "g",
+  householdServingFullText: "1 egg",
+  foodNutrients: [],
+  labelNutrients: {
+    calories: { value: 70 },
+    fat: { value: 5 },
+    saturatedFat: { value: 1.5 },
+    cholesterol: { value: 185 },
+    sodium: { value: 70 },
+    carbohydrates: { value: 0 },
+    protein: { value: 6 },
+  },
+};
+
+const labels = [spriteMini, kirklandEggs];
+
 export function packageLabelResponse(url) {
-  if (url.pathname === "/v1/food/" + spriteMini.fdcId) {
-    return Response.json(spriteMini);
-  }
+  const detail = labels.find(label => url.pathname === "/v1/food/" + label.fdcId);
+  if (detail) return Response.json(detail);
+
   if (url.pathname !== "/v1/foods/search" || url.searchParams.get("dataType") !== "Branded") {
     return null;
   }
   const barcode = url.searchParams.get("query") ?? "";
-  if (/^\d{12,14}$/.test(barcode) && barcode.padStart(14, "0") === spriteMini.gtinUpc.padStart(14, "0")) {
-    return Response.json({ foods: [spriteMini] });
-  }
-  return null;
+  if (!/^\d{12,14}$/.test(barcode)) return null;
+  const gtin = barcode.padStart(14, "0");
+  const label = labels.find(item => item.gtinUpc.padStart(14, "0") === gtin);
+  return label ? Response.json({ foods: [label] }) : null;
 }

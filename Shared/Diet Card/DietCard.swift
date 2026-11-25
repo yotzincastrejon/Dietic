@@ -28,7 +28,7 @@ struct DietCard: View {
                         
                     }
                     
-                    DietCardMainLabel(barColor: .red.opacity(0.5), text: "Burned", image: "Burned", amount: $fastingManager.activeCalories)
+                    DietCardMainLabel(barColor: .red.opacity(0.5), text: "Burned", image: "Burned", amount: fastingManager.activeCalories)
                 }
                 Spacer()
                 //                VStack(alignment: .leading, spacing: 4) {
@@ -205,7 +205,7 @@ struct DietCard: View {
         let bmr = fastingManager.bmr
         let consumedCalories = fastingManager.consumedCalories
         let activeCalories = fastingManager.activeCalories
-        let totalNeededToEat = (bmr + activeCalories) * dietMultiplier(dietGoal, deficitLevel)
+        let totalNeededToEat = (bmr + activeCalories) * dietGoal.multiplier(for: deficitLevel)
 
         return consumedCalories - totalNeededToEat
     }
@@ -233,23 +233,7 @@ struct DietCard: View {
         }
     }
 
-    func dietMultiplier(_ goal: DietGoal, _ level: DietDeficitLevel) -> Double {
-        switch goal {
-        case .deficit:
-            switch level {
-            case .light:
-                return 0.90
-            case .normal:
-                return 0.80
-            case .aggressive:
-                return 0.70
-            }
-        case .maintaining:
-            return 1
-        case .gain:
-            return 1.10
-        }
-    }
+
 }
 
 struct DietCard_Previews: PreviewProvider {
@@ -257,7 +241,7 @@ struct DietCard_Previews: PreviewProvider {
 //        DietCard(fastingManager: FastingManager())
 //            .background(Color(uiColor: .systemGroupedBackground))
             
-        ContentView(fastingManager: FastingManager(), dietGoal: .constant(.maintaining), deficitLevel: .constant(.normal))
+        Home(fastingManager: FastingManager(), plan: .legacy(), savePlan: { _ in }, incoming: .constant(nil), shortcut: .constant(nil), chooseMealFile: {})
     }
 }
 

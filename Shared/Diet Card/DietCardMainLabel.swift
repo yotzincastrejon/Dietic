@@ -11,7 +11,7 @@ struct DietCardMainLabel: View {
     let barColor: Color
     let text: String
     let image: String
-    @Binding var amount: Double
+    let amount: Double
     var body: some View {
         HStack {
             RoundedRectangle(cornerRadius: 2, style: .continuous)
@@ -40,7 +40,7 @@ struct DietCardMainLabel: View {
 
 struct DietCardMainLabel_Previews: PreviewProvider {
     static var previews: some View {
-        DietCardMainLabel(barColor: .blue, text: "Eaten", image: "Eaten", amount: Binding.constant(0.45))
+        DietCardMainLabel(barColor: .blue, text: "Eaten", image: "Eaten", amount: 0.45)
     }
 }
 

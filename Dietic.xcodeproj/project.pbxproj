@@ -19,12 +19,22 @@
 		FA0081DD27209455004719BE /* WeightCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DC27209455004719BE /* WeightCard.swift */; };
 		FA0081E027209831004719BE /* DateChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0081DF27209831004719BE /* DateChanger.swift */; };
 		FA17BF4827C0528C00F662C6 /* EditingResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA17BF4727C0528C00F662C6 /* EditingResultsView.swift */; };
+		B717BF4827C0528C00F662C6 /* SharedMeal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B717BF4727C0528C00F662C6 /* SharedMeal.swift */; };
+		B917BF4827C0528C00F662C6 /* PlateScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = B917BF4727C0528C00F662C6 /* PlateScan.swift */; };
+		BB17BF4827C0528C00F662C6 /* MealDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB17BF4727C0528C00F662C6 /* MealDateView.swift */; };
+		E10400000000000000000002 /* SavedMeals.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10400000000000000000001 /* SavedMeals.swift */; };
+		E10500000000000000000002 /* QuickAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10500000000000000000001 /* QuickAddView.swift */; };
+		E11400000000000000000002 /* GroceryBackup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11400000000000000000001 /* GroceryBackup.swift */; };
+		E11000000000000000000002 /* MealPlanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11000000000000000000001 /* MealPlanner.swift */; };
+		E10900000000000000000002 /* NutritionLabelScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10900000000000000000001 /* NutritionLabelScan.swift */; };
+		BA17BF4827C0528C00F662C6 /* PlateRecognition.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA17BF4727C0528C00F662C6 /* PlateRecognition.swift */; };
 		FA1E35C427ECD20E007864F6 /* ListStyleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1E35C327ECD20E007864F6 /* ListStyleTest.swift */; };
 		FA24FDCD27D3F9B9003EE197 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA24FDCC27D3F9B9003EE197 /* CloudKit.framework */; };
 		FA35DA9E29A3DC9200D0A811 /* CustomSegementedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA35DA9D29A3DC9200D0A811 /* CustomSegementedControl.swift */; };
 		FA43D71F27B4988000A709B3 /* FoodLookupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA43D71E27B4988000A709B3 /* FoodLookupView.swift */; };
 		FA719621279B1E6400A50598 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA719620279B1E6400A50598 /* LaunchScreen.storyboard */; };
 		FA72D58427D2E76C00EFFCC4 /* AddMoreFoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA72D58327D2E76C00EFFCC4 /* AddMoreFoodView.swift */; };
+		BCDED0010000000000000001 /* RestaurantMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDED0010000000000000002 /* RestaurantMenu.swift */; };
 		FA7BC5BA27C9822500816E59 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = FA7BC5B927C9822500816E59 /* CodeScanner */; };
 		FA80108127D95C77000CADD9 /* PlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA80108027D95C77000CADD9 /* PlanView.swift */; };
 		FA844A0127EA81BC00323570 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA844A0027EA81BC00323570 /* AppDelegate.swift */; };
@@ -42,6 +52,7 @@
 		FAD169BA271DFAAE00C21397 /* Dietic.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AA271DFAAD00C21397 /* Dietic.swift */; };
 		FAD169BC271DFAAE00C21397 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169AB271DFAAD00C21397 /* ContentView.swift */; };
 		FAD169BE271DFAAE00C21397 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAD169AC271DFAAE00C21397 /* Assets.xcassets */; };
+		BCDED0010000000000000003 /* RestaurantMenus in Resources */ = {isa = PBXBuildFile; fileRef = BCDED0010000000000000004 /* RestaurantMenus */; };
 		FAD169E2271DFB1000C21397 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAD169E1271DFB1000C21397 /* HealthKit.framework */; };
 		FAD169F0271DFC5A00C21397 /* FastingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169EF271DFC5A00C21397 /* FastingManager.swift */; };
 		C0DA10000000000000000001 /* FoodDataCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DA10000000000000000002 /* FoodDataCentral.swift */; };
@@ -50,6 +61,17 @@
 		FAD169F6271DFCAA00C21397 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169F5271DFCAA00C21397 /* DateExtension.swift */; };
 		FAD169F9271DFCD400C21397 /* HKBiologicalSex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169F8271DFCD400C21397 /* HKBiologicalSex.swift */; };
 		FAD169FE271DFD1C00C21397 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD169FD271DFD1C00C21397 /* Home.swift */; };
+		E10100000000000000000002 /* DiaryTrends.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10100000000000000000001 /* DiaryTrends.swift */; };
+		E10200000000000000000002 /* DiaryArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10200000000000000000001 /* DiaryArchive.swift */; };
+		E11600000000000000000002 /* JournalTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11600000000000000000001 /* JournalTools.swift */; };
+		E11500000000000000000002 /* DiaryCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11500000000000000000001 /* DiaryCalendar.swift */; };
+		E11300000000000000000002 /* JournalNotesBackup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11300000000000000000001 /* JournalNotesBackup.swift */; };
+		E11200000000000000000002 /* DieticShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11200000000000000000001 /* DieticShortcuts.swift */; };
+		E11100000000000000000002 /* WeightDiary.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11100000000000000000001 /* WeightDiary.swift */; };
+		E10800000000000000000002 /* MacroTargetEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10800000000000000000001 /* MacroTargetEditor.swift */; };
+		E10700000000000000000002 /* WaterDiary.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10700000000000000000001 /* WaterDiary.swift */; };
+		E10600000000000000000002 /* MealReminders.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10600000000000000000001 /* MealReminders.swift */; };
+		E10300000000000000000002 /* DiaryDayDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10300000000000000000001 /* DiaryDayDetails.swift */; };
 		FAD16A01271DFEFB00C21397 /* DietDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD16A00271DFEFB00C21397 /* DietDetailView.swift */; };
 		FAD16A04271E042B00C21397 /* ProgressRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD16A03271E042B00C21397 /* ProgressRingView.swift */; };
 		FAD16A07271E07E400C21397 /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD16A06271E07E400C21397 /* ColorHex.swift */; };
@@ -65,6 +87,14 @@
 		FAF517CB27232FCB00BD54E7 /* ArrowViewGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF517CA27232FCB00BD54E7 /* ArrowViewGraph.swift */; };
 		FAFEC33527DA7BBA009BEAE2 /* VisualEffectBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEC33427DA7BBA009BEAE2 /* VisualEffectBlur.swift */; };
 		FAFEC33827DA7C90009BEAE2 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFEC33727DA7C90009BEAE2 /* BlurView.swift */; };
+		D4857D72EC0E495AA3F410BB /* DiaryWidgetData.swift in App Sources */ = {isa = PBXBuildFile; fileRef = 6F8D3FFC89A345BABC449C9B /* DiaryWidgetData.swift */; };
+		58548742480141FB8C5C9C3D /* IntakeChart.swift in App Sources */ = {isa = PBXBuildFile; fileRef = A859C9F8C40D403B8953ADFA /* IntakeChart.swift */; };
+		8A0B246057C849D69C7BF2ED /* DiaryWidgetData.swift in Widget Sources */ = {isa = PBXBuildFile; fileRef = 6F8D3FFC89A345BABC449C9B /* DiaryWidgetData.swift */; };
+		1DDAC6353BA04ACA99B8AC4A /* IntakeChart.swift in Widget Sources */ = {isa = PBXBuildFile; fileRef = A859C9F8C40D403B8953ADFA /* IntakeChart.swift */; };
+		9CA851FD98F84755A4DD3B28 /* DieticWidget.swift in Widget Sources */ = {isa = PBXBuildFile; fileRef = 62837E44918241AE892AED7D /* DieticWidget.swift */; };
+		7B75BB9692874E6798FE799E /* DieticWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8054C7F87ED0496DBEC1C0ED /* DieticWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D31700000000000000000000 /* DiaryRegressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31700000000000000000001; };
+		D31800000000000000000000 /* JournalNotesArchiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D31800000000000000000001; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,12 +111,22 @@
 		FA0081DC27209455004719BE /* WeightCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightCard.swift; sourceTree = "<group>"; };
 		FA0081DF27209831004719BE /* DateChanger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateChanger.swift; sourceTree = "<group>"; };
 		FA17BF4727C0528C00F662C6 /* EditingResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingResultsView.swift; sourceTree = "<group>"; };
+		B717BF4727C0528C00F662C6 /* SharedMeal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedMeal.swift; sourceTree = "<group>"; };
+		B917BF4727C0528C00F662C6 /* PlateScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlateScan.swift; sourceTree = "<group>"; };
+		BB17BF4727C0528C00F662C6 /* MealDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealDateView.swift; sourceTree = "<group>"; };
+		E10400000000000000000001 /* SavedMeals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedMeals.swift; sourceTree = "<group>"; };
+		E10500000000000000000001 /* QuickAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAddView.swift; sourceTree = "<group>"; };
+		E11400000000000000000001 /* GroceryBackup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryBackup.swift; sourceTree = "<group>"; };
+		E11000000000000000000001 /* MealPlanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanner.swift; sourceTree = "<group>"; };
+		E10900000000000000000001 /* NutritionLabelScan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NutritionLabelScan.swift; sourceTree = "<group>"; };
+		BA17BF4727C0528C00F662C6 /* PlateRecognition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlateRecognition.swift; sourceTree = "<group>"; };
 		FA1E35C327ECD20E007864F6 /* ListStyleTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListStyleTest.swift; sourceTree = "<group>"; };
 		FA24FDCC27D3F9B9003EE197 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.2.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		FA35DA9D29A3DC9200D0A811 /* CustomSegementedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSegementedControl.swift; sourceTree = "<group>"; };
 		FA43D71E27B4988000A709B3 /* FoodLookupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodLookupView.swift; sourceTree = "<group>"; };
 		FA719620279B1E6400A50598 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FA72D58327D2E76C00EFFCC4 /* AddMoreFoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMoreFoodView.swift; sourceTree = "<group>"; };
+		BCDED0010000000000000002 /* RestaurantMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantMenu.swift; sourceTree = "<group>"; };
 		FA80108027D95C77000CADD9 /* PlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanView.swift; sourceTree = "<group>"; };
 		FA844A0027EA81BC00323570 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA8E989727BEAB8E00EA297B /* MatchedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchedView.swift; sourceTree = "<group>"; };
@@ -103,6 +143,7 @@
 		FAD169AA271DFAAD00C21397 /* Dietic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dietic.swift; sourceTree = "<group>"; };
 		FAD169AB271DFAAD00C21397 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FAD169AC271DFAAE00C21397 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BCDED0010000000000000004 /* RestaurantMenus */ = {isa = PBXFileReference; lastKnownFileType = folder; path = RestaurantMenus; sourceTree = "<group>"; };
 		FAD169B1271DFAAE00C21397 /* Dietic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dietic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAD169B9271DFAAE00C21397 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		FAD169DF271DFB1000C21397 /* Dietic (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Dietic (iOS).entitlements"; sourceTree = "<group>"; };
@@ -114,6 +155,17 @@
 		FAD169F5271DFCAA00C21397 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		FAD169F8271DFCD400C21397 /* HKBiologicalSex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HKBiologicalSex.swift; sourceTree = "<group>"; };
 		FAD169FD271DFD1C00C21397 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		E10100000000000000000001 /* DiaryTrends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTrends.swift; sourceTree = "<group>"; };
+		E10200000000000000000001 /* DiaryArchive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryArchive.swift; sourceTree = "<group>"; };
+		E11600000000000000000001 /* JournalTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalTools.swift; sourceTree = "<group>"; };
+		E11500000000000000000001 /* DiaryCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCalendar.swift; sourceTree = "<group>"; };
+		E11300000000000000000001 /* JournalNotesBackup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalNotesBackup.swift; sourceTree = "<group>"; };
+		E11200000000000000000001 /* DieticShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DieticShortcuts.swift; sourceTree = "<group>"; };
+		E11100000000000000000001 /* WeightDiary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightDiary.swift; sourceTree = "<group>"; };
+		E10800000000000000000001 /* MacroTargetEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacroTargetEditor.swift; sourceTree = "<group>"; };
+		E10700000000000000000001 /* WaterDiary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterDiary.swift; sourceTree = "<group>"; };
+		E10600000000000000000001 /* MealReminders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealReminders.swift; sourceTree = "<group>"; };
+		E10300000000000000000001 /* DiaryDayDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDayDetails.swift; sourceTree = "<group>"; };
 		FAD16A00271DFEFB00C21397 /* DietDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietDetailView.swift; sourceTree = "<group>"; };
 		FAD16A03271E042B00C21397 /* ProgressRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressRingView.swift; sourceTree = "<group>"; };
 		FAD16A06271E07E400C21397 /* ColorHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHex.swift; sourceTree = "<group>"; };
@@ -129,6 +181,15 @@
 		FAF517CA27232FCB00BD54E7 /* ArrowViewGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowViewGraph.swift; sourceTree = "<group>"; };
 		FAFEC33427DA7BBA009BEAE2 /* VisualEffectBlur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectBlur.swift; sourceTree = "<group>"; };
 		FAFEC33727DA7C90009BEAE2 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
+		6F8D3FFC89A345BABC449C9B /* DiaryWidgetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryWidgetData.swift; sourceTree = "<group>"; };
+		A859C9F8C40D403B8953ADFA /* IntakeChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntakeChart.swift; sourceTree = "<group>"; };
+		62837E44918241AE892AED7D /* DieticWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DieticWidget.swift; sourceTree = "<group>"; };
+		D516A65C1F2D4560AA29BB3E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3462EFA1123B4A21AF632430 /* Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Widget.entitlements; sourceTree = "<group>"; };
+		8054C7F87ED0496DBEC1C0ED /* DieticWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DieticWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		D31700000000000000000001 /* DiaryRegressionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryRegressionTests.swift; sourceTree = "<group>"; };
+		D31700000000000000000003 /* DieticTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = DieticTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D31800000000000000000001 /* JournalNotesArchiveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalNotesArchiveTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +204,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D31700000000000000000006 /* Test Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -165,6 +227,8 @@
 		FAD169A4271DFAAD00C21397 = {
 			isa = PBXGroup;
 			children = (
+				D31700000000000000000002 /* DieticTests */,
+				02626C757DE3471EAE58DF0C /* Widget */,
 				C0DA10000000000000000003 /* Dietic.xcconfig */,
 				FAC7DEF427D3F81A00006BE1 /* Dietic--iOS--Info.plist */,
 				FAD169DF271DFB1000C21397 /* Dietic (iOS).entitlements */,
@@ -178,12 +242,25 @@
 		FAD169A9271DFAAD00C21397 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				6F8D3FFC89A345BABC449C9B /* DiaryWidgetData.swift */,
+				A859C9F8C40D403B8953ADFA /* IntakeChart.swift */,
 				FAD169AA271DFAAD00C21397 /* Dietic.swift */,
 				FA844A0027EA81BC00323570 /* AppDelegate.swift */,
 				FAD169AB271DFAAD00C21397 /* ContentView.swift */,
 				FA9710FF29A189FD002ADC78 /* DietOptionsSegementedControl.swift */,
 				FA35DA9D29A3DC9200D0A811 /* CustomSegementedControl.swift */,
 				FAD169FD271DFD1C00C21397 /* Home.swift */,
+				E10100000000000000000001 /* DiaryTrends.swift */,
+				E10200000000000000000001 /* DiaryArchive.swift */,
+				E11600000000000000000001 /* JournalTools.swift */,
+				E11500000000000000000001 /* DiaryCalendar.swift */,
+				E11300000000000000000001 /* JournalNotesBackup.swift */,
+				E11200000000000000000001 /* DieticShortcuts.swift */,
+				E11100000000000000000001 /* WeightDiary.swift */,
+				E10800000000000000000001 /* MacroTargetEditor.swift */,
+				E10700000000000000000001 /* WaterDiary.swift */,
+				E10600000000000000000001 /* MealReminders.swift */,
+				E10300000000000000000001 /* DiaryDayDetails.swift */,
 				FA0081C027206F9B004719BE /* DietTitle.swift */,
 				FA0081DF27209831004719BE /* DateChanger.swift */,
 				FAFEC33127DA5F45009BEAE2 /* Diet Card */,
@@ -203,6 +280,7 @@
 				FAD169FC271DFD0900C21397 /* View Model */,
 				FAD169FB271DFCF700C21397 /* Helpers  */,
 				FAD169AC271DFAAE00C21397 /* Assets.xcassets */,
+				BCDED0010000000000000004 /* RestaurantMenus */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -210,6 +288,8 @@
 		FAD169B2271DFAAE00C21397 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				D31700000000000000000003 /* DieticTests.xctest */,
+				8054C7F87ED0496DBEC1C0ED /* DieticWidget.appex */,
 				FAD169B1271DFAAE00C21397 /* Dietic.app */,
 			);
 			name = Products;
@@ -293,9 +373,19 @@
 				FA0081D027207226004719BE /* MealCard.swift */,
 				FA0081D627207286004719BE /* SnackCard.swift */,
 				FA72D58327D2E76C00EFFCC4 /* AddMoreFoodView.swift */,
+				BCDED0010000000000000002 /* RestaurantMenu.swift */,
 				FA1E35C327ECD20E007864F6 /* ListStyleTest.swift */,
 				FA43D71E27B4988000A709B3 /* FoodLookupView.swift */,
 				FA17BF4727C0528C00F662C6 /* EditingResultsView.swift */,
+				B717BF4727C0528C00F662C6 /* SharedMeal.swift */,
+				B917BF4727C0528C00F662C6 /* PlateScan.swift */,
+				BB17BF4727C0528C00F662C6 /* MealDateView.swift */,
+				E10400000000000000000001 /* SavedMeals.swift */,
+				E10500000000000000000001 /* QuickAddView.swift */,
+				E11400000000000000000001 /* GroceryBackup.swift */,
+				E11000000000000000000001 /* MealPlanner.swift */,
+				E10900000000000000000001 /* NutritionLabelScan.swift */,
+				BA17BF4727C0528C00F662C6 /* PlateRecognition.swift */,
 				FAC091C427D9143C00679C75 /* BarcodeButton.swift */,
 			);
 			path = "Meals Today";
@@ -309,6 +399,17 @@
 			path = "Weight Card";
 			sourceTree = "<group>";
 		};
+		02626C757DE3471EAE58DF0C /* Widget */ = {
+			isa = PBXGroup;
+			children = (
+				62837E44918241AE892AED7D /* DieticWidget.swift */,
+				D516A65C1F2D4560AA29BB3E /* Info.plist */,
+				3462EFA1123B4A21AF632430 /* Widget.entitlements */,
+			);
+			path = Widget;
+			sourceTree = "<group>";
+		};
+		D31700000000000000000002 /* DieticTests */ = {isa = PBXGroup; children = (D31700000000000000000001, D31800000000000000000001,); path = DieticTests; sourceTree = "<group>"; };
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -319,10 +420,12 @@
 				FAD169AD271DFAAE00C21397 /* Sources */,
 				FAD169AE271DFAAE00C21397 /* Frameworks */,
 				FAD169AF271DFAAE00C21397 /* Resources */,
+				AF514496BC504399B472E529 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				AC42B5125E8148EDA2F0F991 /* Widget dependency */,
 			);
 			name = "Dietic (iOS)";
 			packageProductDependencies = (
@@ -333,7 +436,65 @@
 			productReference = FAD169B1271DFAAE00C21397 /* Dietic.app */;
 			productType = "com.apple.product-type.application";
 		};
+		B97A3E8D2419402490ACD957 /* DieticWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 316C99E2328D4126B3E93090 /* Widget configurations */;
+			buildPhases = (
+				246283223334433D8DBB4838 /* Widget Sources */,
+			);
+			buildRules = ();
+			dependencies = ();
+			name = DieticWidget;
+			productName = DieticWidget;
+			productReference = 8054C7F87ED0496DBEC1C0ED /* DieticWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		D31700000000000000000004 /* DieticTests */ = {
+            isa = PBXNativeTarget;
+            buildConfigurationList = D3170000000000000000000B;
+            buildPhases = (D31700000000000000000005, D31700000000000000000006,);
+            buildRules = ();
+            dependencies = (D31700000000000000000008,);
+            name = DieticTests;
+            productName = DieticTests;
+            productReference = D31700000000000000000003;
+            productType = "com.apple.product-type.bundle.unit-test";
+        };
 /* End PBXNativeTarget section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AF514496BC504399B472E529 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				7B75BB9692874E6798FE799E /* DieticWidget.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXContainerItemProxy section */
+		BA733D3CA8D44A6A96F35B4F /* Widget proxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FAD169A5271DFAAD00C21397 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B97A3E8D2419402490ACD957;
+			remoteInfo = DieticWidget;
+		};
+		D31700000000000000000007 = {isa = PBXContainerItemProxy; containerPortal = FAD169A5271DFAAD00C21397; proxyType = 1; remoteGlobalIDString = FAD169B0271DFAAE00C21397; remoteInfo = "Dietic (iOS)"; };
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXTargetDependency section */
+		AC42B5125E8148EDA2F0F991 /* Widget dependency */ = {
+			isa = PBXTargetDependency;
+			target = B97A3E8D2419402490ACD957 /* DieticWidget */;
+			targetProxy = BA733D3CA8D44A6A96F35B4F /* Widget proxy */;
+		};
+		D31700000000000000000008 = {isa = PBXTargetDependency; target = FAD169B0271DFAAE00C21397; targetProxy = D31700000000000000000007; };
+/* End PBXTargetDependency section */
 
 /* Begin PBXProject section */
 		FAD169A5271DFAAD00C21397 /* Project object */ = {
@@ -365,6 +526,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				D31700000000000000000004 /* DieticTests */,
+				B97A3E8D2419402490ACD957 /* DieticWidget */,
 				FAD169B0271DFAAE00C21397 /* Dietic (iOS) */,
 			);
 		};
@@ -376,6 +539,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAD169BE271DFAAE00C21397 /* Assets.xcassets in Resources */,
+				BCDED0010000000000000003 /* RestaurantMenus in Resources */,
 				FA719621279B1E6400A50598 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -387,6 +551,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4857D72EC0E495AA3F410BB /* DiaryWidgetData.swift in App Sources */,
+				58548742480141FB8C5C9C3D /* IntakeChart.swift in App Sources */,
 				FAD169F0271DFC5A00C21397 /* FastingManager.swift in Sources */,
 				C0DA10000000000000000001 /* FoodDataCentral.swift in Sources */,
 				C0DA10000000000000000004 /* SavedFood.swift in Sources */,
@@ -425,6 +591,17 @@
 				FA0081D427207259004719BE /* MealsToday.swift in Sources */,
 				FAD169F3271DFC9100C21397 /* Calorie.swift in Sources */,
 				FAD169FE271DFD1C00C21397 /* Home.swift in Sources */,
+				E10100000000000000000002 /* DiaryTrends.swift in Sources */,
+				E10200000000000000000002 /* DiaryArchive.swift in Sources */,
+				E11600000000000000000002 /* JournalTools.swift in Sources */,
+				E11500000000000000000002 /* DiaryCalendar.swift in Sources */,
+				E11300000000000000000002 /* JournalNotesBackup.swift in Sources */,
+				E11200000000000000000002 /* DieticShortcuts.swift in Sources */,
+				E11100000000000000000002 /* WeightDiary.swift in Sources */,
+				E10800000000000000000002 /* MacroTargetEditor.swift in Sources */,
+				E10700000000000000000002 /* WaterDiary.swift in Sources */,
+				E10600000000000000000002 /* MealReminders.swift in Sources */,
+				E10300000000000000000002 /* DiaryDayDetails.swift in Sources */,
 				FA0081CE272071F6004719BE /* RoundedCorners.swift in Sources */,
 				FA0081C427206FDA004719BE /* DietCard.swift in Sources */,
 				FA0081C72720700E004719BE /* DietCardMainLabel.swift in Sources */,
@@ -436,12 +613,33 @@
 				FAF517BF27232F6D00BD54E7 /* MacronutrientAnalysis.swift in Sources */,
 				FAD16A04271E042B00C21397 /* ProgressRingView.swift in Sources */,
 				FA17BF4827C0528C00F662C6 /* EditingResultsView.swift in Sources */,
+				B717BF4827C0528C00F662C6 /* SharedMeal.swift in Sources */,
+				B917BF4827C0528C00F662C6 /* PlateScan.swift in Sources */,
+				BB17BF4827C0528C00F662C6 /* MealDateView.swift in Sources */,
+				E10400000000000000000002 /* SavedMeals.swift in Sources */,
+				E10500000000000000000002 /* QuickAddView.swift in Sources */,
+				E11400000000000000000002 /* GroceryBackup.swift in Sources */,
+				E11000000000000000000002 /* MealPlanner.swift in Sources */,
+				E10900000000000000000002 /* NutritionLabelScan.swift in Sources */,
+				BA17BF4827C0528C00F662C6 /* PlateRecognition.swift in Sources */,
 				FAF517C527232FA500BD54E7 /* BarGraph.swift in Sources */,
 				FAC7DEEF27D3F75200006BE1 /* SavedFoodsHistory.xcdatamodeld in Sources */,
 				FA72D58427D2E76C00EFFCC4 /* AddMoreFoodView.swift in Sources */,
+				BCDED0010000000000000001 /* RestaurantMenu.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		246283223334433D8DBB4838 /* Widget Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A0B246057C849D69C7BF2ED /* DiaryWidgetData.swift in Widget Sources */,
+				1DDAC6353BA04ACA99B8AC4A /* IntakeChart.swift in Widget Sources */,
+				9CA851FD98F84755A4DD3B28 /* DieticWidget.swift in Widget Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D31700000000000000000005 /* Test Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (D31700000000000000000000, D31800000000000000000000,); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
@@ -565,14 +763,14 @@
 				CODE_SIGN_ENTITLEMENTS = "Dietic (iOS).entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 33;
 				DEVELOPMENT_TEAM = YVJLT6Y577;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Dietic--iOS--Info.plist";
-				INFOPLIST_KEY_NSCameraUsageDescription = "To scan your barcodes";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Take a photo of your plate or scan a grocery barcode.";
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "To read your health data to do calculations";
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "Dietic will use these metrics for calculations";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Dietic reads nutrition, active and resting energy, and body measurements for your daily diary and goals.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Dietic will sync all the data entered to the Health App";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -606,14 +804,14 @@
 				CODE_SIGN_ENTITLEMENTS = "Dietic (iOS).entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 33;
 				DEVELOPMENT_TEAM = YVJLT6Y577;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Dietic--iOS--Info.plist";
-				INFOPLIST_KEY_NSCameraUsageDescription = "To scan your barcodes";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Take a photo of your plate or scan a grocery barcode.";
 				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "To read your health data to do calculations";
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "Dietic will use these metrics for calculations";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Dietic reads nutrition, active and resting energy, and body measurements for your daily diary and goals.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Dietic will sync all the data entered to the Health App";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -639,6 +837,88 @@
 			};
 			name = Release;
 		};
+		43434E02420840B49510AFC2 /* DieticWidget Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Widget/Widget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 33;
+				DEVELOPMENT_TEAM = YVJLT6Y577;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Widget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Dietic;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@executable_path/../../Frameworks", );
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = co.yotzin.Dietic.Widget;
+				PRODUCT_NAME = DieticWidget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		EC40D7FDD3444E6395D2ABA4 /* DieticWidget Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Widget/Widget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 33;
+				DEVELOPMENT_TEAM = YVJLT6Y577;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Widget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Dietic;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@executable_path/../../Frameworks", );
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = co.yotzin.Dietic.Widget;
+				PRODUCT_NAME = DieticWidget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		D31700000000000000000009 /* DieticTests Debug */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                BUNDLE_LOADER = "$(TEST_HOST)";
+                CODE_SIGN_STYLE = Automatic;
+                DEVELOPMENT_TEAM = YVJLT6Y577;
+                GENERATE_INFOPLIST_FILE = YES;
+                IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+                PRODUCT_BUNDLE_IDENTIFIER = co.yotzin.DieticTests;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SDKROOT = iphoneos;
+                SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+                SWIFT_VERSION = 5.0;
+                TARGETED_DEVICE_FAMILY = 1;
+                TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dietic.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Dietic";
+            };
+            name = Debug;
+        };
+		D3170000000000000000000A /* DieticTests Release */ = {
+            isa = XCBuildConfiguration;
+            buildSettings = {
+                BUNDLE_LOADER = "$(TEST_HOST)";
+                CODE_SIGN_STYLE = Automatic;
+                DEVELOPMENT_TEAM = YVJLT6Y577;
+                GENERATE_INFOPLIST_FILE = YES;
+                IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+                PRODUCT_BUNDLE_IDENTIFIER = co.yotzin.DieticTests;
+                PRODUCT_NAME = "$(TARGET_NAME)";
+                SDKROOT = iphoneos;
+                SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+                SWIFT_VERSION = 5.0;
+                TARGETED_DEVICE_FAMILY = 1;
+                TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dietic.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Dietic";
+            };
+            name = Release;
+        };
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -660,6 +940,16 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		316C99E2328D4126B3E93090 /* Widget configurations */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43434E02420840B49510AFC2 /* DieticWidget Debug */,
+				EC40D7FDD3444E6395D2ABA4 /* DieticWidget Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D3170000000000000000000B /* DieticTests configurations */ = {isa = XCConfigurationList; buildConfigurations = (D31700000000000000000009, D3170000000000000000000A,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */

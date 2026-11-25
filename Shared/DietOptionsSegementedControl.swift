@@ -254,7 +254,7 @@ struct DietGoalPicker: View {
 }
 
 
-enum DietGoal: String, Hashable, CaseIterable {
+enum DietGoal: String, Codable, Hashable, CaseIterable {
     case deficit
     case maintaining
     case gain
@@ -270,12 +270,30 @@ enum DietGoal: String, Hashable, CaseIterable {
         }
     }
 
+    func multiplier(for level: DietDeficitLevel) -> Double {
+        switch self {
+        case .deficit:
+            switch level {
+            case .light:
+                return 0.90
+            case .normal:
+                return 0.80
+            case .aggressive:
+                return 0.70
+            }
+        case .maintaining:
+            return 1
+        case .gain:
+            return 1.10
+        }
+    }
+
     static var allCases: [DietGoal] {
         [.deficit,.maintaining, .gain]
     }
 }
 
-enum DietDeficitLevel: String, Hashable, CaseIterable {
+enum DietDeficitLevel: String, Codable, Hashable, CaseIterable {
     case light
     case normal
     case aggressive

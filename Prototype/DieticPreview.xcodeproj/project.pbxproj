@@ -1,0 +1,922 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		03A8ADB443E947B08D677EBB /* Summary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0664CA31AD7422EB03521D19 /* Summary.swift */; };
+		059CEC5A025725316A88458B /* FoodForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9215D37471EB5DC287F80578 /* FoodForm.swift */; };
+		09E95C0FDC1F607024A6612B /* DiaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102D8B90D22CA6B3C66778AF /* DiaryData.swift */; };
+		0B2CDFEEF14C774112A87D26 /* JournalInk.swift in Sources */ = {isa = PBXBuildFile; fileRef = B891F076EDF6D7054801A8FB /* JournalInk.swift */; };
+		186A82FDCACAF36F0800579A /* MarketAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E2EA8CEF3198277BD48992D /* MarketAssets.xcassets */; };
+		1A8C029F4E6E50286D9E49D3 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596CD0CD8E1E52408D0836F4 /* Diary.swift */; };
+		2AA886331DF472557A54EBFD /* NutritionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF162B11EF3D47B45C0DD92 /* NutritionCard.swift */; };
+		2F92BA057433349CF4D35017 /* JournalInk.swift in Sources */ = {isa = PBXBuildFile; fileRef = B891F076EDF6D7054801A8FB /* JournalInk.swift */; };
+		30E452AA19665D203568A136 /* Journal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320150571C4896F577301451 /* Journal.swift */; };
+		35C223DB24B9BE74D40D56AA /* CoconutTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 405277DA2C7277FC53169069 /* CoconutTable.swift */; };
+		39A75A6015435867B9D47717 /* MealOrbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA81D1C2180CBE02F73DE44 /* MealOrbit.swift */; };
+		3A7CAC0747DA2C506D886849 /* JournalLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC17D6A127D819128BFF2861 /* JournalLogger.swift */; };
+		49AC7D3FD408367CD9589984 /* OrbitAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E52F935346D337D6869BD95 /* OrbitAssets.xcassets */; };
+		5A0F040300F03F4C52C33AAC /* MarketDiary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A10762C4354B336B3DF0E1 /* MarketDiary.swift */; };
+		61BD6C41DD1C8925C7C5B1C7 /* CoconutStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DA12AAC8ED0608E2CFA707 /* CoconutStyle.swift */; };
+		80208A7BDCE33A9CD8AEEFA1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5444A6B54F584D8CF4FAC377 /* Assets.xcassets */; };
+		84FBF17EE0439B4A054BEB78 /* JournalInk.swift in Sources */ = {isa = PBXBuildFile; fileRef = B891F076EDF6D7054801A8FB /* JournalInk.swift */; };
+		8833A689E43ECF2998E0ECE9 /* JournalLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC17D6A127D819128BFF2861 /* JournalLogger.swift */; };
+		967C0DD1C0E8D933A372AC12 /* JournalInk.swift in Sources */ = {isa = PBXBuildFile; fileRef = B891F076EDF6D7054801A8FB /* JournalInk.swift */; };
+		99CBC0BF4F95C9D5DC5FC911 /* PhotoCredit.txt in Resources */ = {isa = PBXBuildFile; fileRef = B78ABD22785D940D3756F374 /* PhotoCredit.txt */; };
+		9AC875E747BD1E50BBA96734 /* DiaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102D8B90D22CA6B3C66778AF /* DiaryData.swift */; };
+		9E552D4EA31480C94D7CB80C /* JournalInk.swift in Sources */ = {isa = PBXBuildFile; fileRef = B891F076EDF6D7054801A8FB /* JournalInk.swift */; };
+		A78BECB1F580FA745F186F85 /* DiaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102D8B90D22CA6B3C66778AF /* DiaryData.swift */; };
+		A79CECA97A823961F10F5D7B /* FoodLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57256D9EB085AC37F63F9244 /* FoodLogger.swift */; };
+		B0F83DED91515F0AE29748C8 /* DiaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102D8B90D22CA6B3C66778AF /* DiaryData.swift */; };
+		B2A91827A01E2C40EF65986F /* DiaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102D8B90D22CA6B3C66778AF /* DiaryData.swift */; };
+		C14C5DFD296173FEA0D8E86A /* CardFoil.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F458B7411E40B0F9D2E6F7 /* CardFoil.swift */; };
+		C81DC63EB8BB5D35BDB8CB58 /* DiaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102D8B90D22CA6B3C66778AF /* DiaryData.swift */; };
+		D75BA79EFAD94B80120A528C /* JournalLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC17D6A127D819128BFF2861 /* JournalLogger.swift */; };
+		DD36DD5846A5BFEF442E0F69 /* OrbitLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3198AFCB0AD2B8B92DB8AB /* OrbitLogger.swift */; };
+		E41D55DF85D0FA4D9D81504D /* CoconutDiary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADE88B7CCD4A6E884A18B5C /* CoconutDiary.swift */; };
+		EA52607EBCEF0B9E7DEB28FC /* DiaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102D8B90D22CA6B3C66778AF /* DiaryData.swift */; };
+		F33D24A4CFD14101FCF354A2 /* CoconutStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DA12AAC8ED0608E2CFA707 /* CoconutStyle.swift */; };
+		F50CDE9997F28B51D3858346 /* JournalAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B26FA86895C16C3E6AEA40CC /* JournalAssets.xcassets */; };
+		F9A242EAA28B2C967C1DADC0 /* OrbitDiary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F8D5D9C2164D522B226AF8 /* OrbitDiary.swift */; };
+		FF09A0D6395210577EB5906D /* JournalLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC17D6A127D819128BFF2861 /* JournalLogger.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0664CA31AD7422EB03521D19 /* Summary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Summary.swift; sourceTree = "<group>"; };
+		102D8B90D22CA6B3C66778AF /* DiaryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryData.swift; sourceTree = "<group>"; };
+		224A6D57E207558C4D1D27E0 /* DieticJournal.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = DieticJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		320150571C4896F577301451 /* Journal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Journal.swift; sourceTree = "<group>"; };
+		32A10762C4354B336B3DF0E1 /* MarketDiary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDiary.swift; sourceTree = "<group>"; };
+		3EF162B11EF3D47B45C0DD92 /* NutritionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NutritionCard.swift; sourceTree = "<group>"; };
+		405277DA2C7277FC53169069 /* CoconutTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoconutTable.swift; sourceTree = "<group>"; };
+		5444A6B54F584D8CF4FAC377 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		57256D9EB085AC37F63F9244 /* FoodLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodLogger.swift; sourceTree = "<group>"; };
+		596CD0CD8E1E52408D0836F4 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
+		5F3198AFCB0AD2B8B92DB8AB /* OrbitLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrbitLogger.swift; sourceTree = "<group>"; };
+		6B6CB7408ED1CC8CD6FCEED7 /* DieticCoconut.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = DieticCoconut.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		770FDAC7635FAAE70BB88FFB /* DieticNourish.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = DieticNourish.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8ADE88B7CCD4A6E884A18B5C /* CoconutDiary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoconutDiary.swift; sourceTree = "<group>"; };
+		8E2EA8CEF3198277BD48992D /* MarketAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = MarketAssets.xcassets; sourceTree = "<group>"; };
+		8E52F935346D337D6869BD95 /* OrbitAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = OrbitAssets.xcassets; sourceTree = "<group>"; };
+		9215D37471EB5DC287F80578 /* FoodForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodForm.swift; sourceTree = "<group>"; };
+		98F8D5D9C2164D522B226AF8 /* OrbitDiary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrbitDiary.swift; sourceTree = "<group>"; };
+		9B1A4289588E9FFD338B3C2C /* DieticCoconutTable.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = DieticCoconutTable.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC17D6A127D819128BFF2861 /* JournalLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalLogger.swift; sourceTree = "<group>"; };
+		B26FA86895C16C3E6AEA40CC /* JournalAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = JournalAssets.xcassets; sourceTree = "<group>"; };
+		B5ED3545D473948652D63A82 /* DieticPreview.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = DieticPreview.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B78ABD22785D940D3756F374 /* PhotoCredit.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = PhotoCredit.txt; sourceTree = "<group>"; };
+		B891F076EDF6D7054801A8FB /* JournalInk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalInk.swift; sourceTree = "<group>"; };
+		BFA81D1C2180CBE02F73DE44 /* MealOrbit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealOrbit.swift; sourceTree = "<group>"; };
+		C1F458B7411E40B0F9D2E6F7 /* CardFoil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardFoil.swift; sourceTree = "<group>"; };
+		D5DA12AAC8ED0608E2CFA707 /* CoconutStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoconutStyle.swift; sourceTree = "<group>"; };
+		E9913F391ACF42B52B5F89AB /* DieticMarket.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = DieticMarket.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F6589C3CE7E617FC8A86C873 /* DieticOrbit.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = DieticOrbit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0F0EA6E1F9F95FD7909ADF12 /* Orbit */ = {
+			isa = PBXGroup;
+			children = (
+				BFA81D1C2180CBE02F73DE44 /* MealOrbit.swift */,
+				8E52F935346D337D6869BD95 /* OrbitAssets.xcassets */,
+				98F8D5D9C2164D522B226AF8 /* OrbitDiary.swift */,
+				5F3198AFCB0AD2B8B92DB8AB /* OrbitLogger.swift */,
+			);
+			path = Orbit;
+			sourceTree = "<group>";
+		};
+		110EAA265CC4D3595B734F63 /* Journal */ = {
+			isa = PBXGroup;
+			children = (
+				320150571C4896F577301451 /* Journal.swift */,
+				B26FA86895C16C3E6AEA40CC /* JournalAssets.xcassets */,
+				B891F076EDF6D7054801A8FB /* JournalInk.swift */,
+				AC17D6A127D819128BFF2861 /* JournalLogger.swift */,
+			);
+			path = Journal;
+			sourceTree = "<group>";
+		};
+		15499F2FEB6DF991FA96EFA1 /* CoconutTable */ = {
+			isa = PBXGroup;
+			children = (
+				405277DA2C7277FC53169069 /* CoconutTable.swift */,
+			);
+			path = CoconutTable;
+			sourceTree = "<group>";
+		};
+		2EFD5EB6D6B53292FD1B441A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6B6CB7408ED1CC8CD6FCEED7 /* DieticCoconut.app */,
+				9B1A4289588E9FFD338B3C2C /* DieticCoconutTable.app */,
+				224A6D57E207558C4D1D27E0 /* DieticJournal.app */,
+				E9913F391ACF42B52B5F89AB /* DieticMarket.app */,
+				770FDAC7635FAAE70BB88FFB /* DieticNourish.app */,
+				F6589C3CE7E617FC8A86C873 /* DieticOrbit.app */,
+				B5ED3545D473948652D63A82 /* DieticPreview.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2F9C04016EB732A502B6C5F2 /* Market */ = {
+			isa = PBXGroup;
+			children = (
+				8E2EA8CEF3198277BD48992D /* MarketAssets.xcassets */,
+				32A10762C4354B336B3DF0E1 /* MarketDiary.swift */,
+				B78ABD22785D940D3756F374 /* PhotoCredit.txt */,
+			);
+			path = Market;
+			sourceTree = "<group>";
+		};
+		9991A6494DF7EE6D409C1881 /* Nourish */ = {
+			isa = PBXGroup;
+			children = (
+				C1F458B7411E40B0F9D2E6F7 /* CardFoil.swift */,
+				9215D37471EB5DC287F80578 /* FoodForm.swift */,
+				3EF162B11EF3D47B45C0DD92 /* NutritionCard.swift */,
+				0664CA31AD7422EB03521D19 /* Summary.swift */,
+			);
+			path = Nourish;
+			sourceTree = "<group>";
+		};
+		9D2B708E55E723EB8F979468 /* Coconut */ = {
+			isa = PBXGroup;
+			children = (
+				8ADE88B7CCD4A6E884A18B5C /* CoconutDiary.swift */,
+				D5DA12AAC8ED0608E2CFA707 /* CoconutStyle.swift */,
+			);
+			path = Coconut;
+			sourceTree = "<group>";
+		};
+		BE92F9A9C5A3570AF3F90B1E /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				5444A6B54F584D8CF4FAC377 /* Assets.xcassets */,
+			);
+			name = Shared;
+			path = ../Shared;
+			sourceTree = "<group>";
+		};
+		D16DD60FE8619ACF63D47BAE /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				596CD0CD8E1E52408D0836F4 /* Diary.swift */,
+				102D8B90D22CA6B3C66778AF /* DiaryData.swift */,
+				57256D9EB085AC37F63F9244 /* FoodLogger.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		FCC62850B9E1D4C4EC833CA0 = {
+			isa = PBXGroup;
+			children = (
+				9D2B708E55E723EB8F979468 /* Coconut */,
+				15499F2FEB6DF991FA96EFA1 /* CoconutTable */,
+				110EAA265CC4D3595B734F63 /* Journal */,
+				2F9C04016EB732A502B6C5F2 /* Market */,
+				9991A6494DF7EE6D409C1881 /* Nourish */,
+				0F0EA6E1F9F95FD7909ADF12 /* Orbit */,
+				BE92F9A9C5A3570AF3F90B1E /* Shared */,
+				D16DD60FE8619ACF63D47BAE /* Sources */,
+				2EFD5EB6D6B53292FD1B441A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		11D45A47E5EC24A872D02B89 /* DieticOrbit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA1F17B872AF946F02B89EEB /* Build configuration list for PBXNativeTarget "DieticOrbit" */;
+			buildPhases = (
+				D5F928B31A43694D684F1A27 /* Sources */,
+				3C6020D1DD61FB60DD4740D3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DieticOrbit;
+			packageProductDependencies = (
+			);
+			productName = DieticOrbit;
+			productReference = F6589C3CE7E617FC8A86C873 /* DieticOrbit.app */;
+			productType = "com.apple.product-type.application";
+		};
+		13CBE3682C915C0F0DE42EB7 /* DieticJournal */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9404C45AA2ED8578C4737D78 /* Build configuration list for PBXNativeTarget "DieticJournal" */;
+			buildPhases = (
+				37222B3471B7F9F421464730 /* Sources */,
+				FAE28B6802762B17C02ED574 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DieticJournal;
+			packageProductDependencies = (
+			);
+			productName = DieticJournal;
+			productReference = 224A6D57E207558C4D1D27E0 /* DieticJournal.app */;
+			productType = "com.apple.product-type.application";
+		};
+		41C8D34BD03000F97A31F4A1 /* DieticCoconutTable */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 995C2E0C0249A4396DB8466F /* Build configuration list for PBXNativeTarget "DieticCoconutTable" */;
+			buildPhases = (
+				034048B84375187B44B686DB /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DieticCoconutTable;
+			packageProductDependencies = (
+			);
+			productName = DieticCoconutTable;
+			productReference = 9B1A4289588E9FFD338B3C2C /* DieticCoconutTable.app */;
+			productType = "com.apple.product-type.application";
+		};
+		5D3CCCF46206EDABB8DB8034 /* DieticNourish */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AFF6C7A0B8208F27E3C1ED83 /* Build configuration list for PBXNativeTarget "DieticNourish" */;
+			buildPhases = (
+				91E17659AF061CA02C7DA9C7 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DieticNourish;
+			packageProductDependencies = (
+			);
+			productName = DieticNourish;
+			productReference = 770FDAC7635FAAE70BB88FFB /* DieticNourish.app */;
+			productType = "com.apple.product-type.application";
+		};
+		640D66AE86989EB357303300 /* DieticCoconut */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9B59776C002E3B132E94C814 /* Build configuration list for PBXNativeTarget "DieticCoconut" */;
+			buildPhases = (
+				357B5DE4E50999086B494B6F /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DieticCoconut;
+			packageProductDependencies = (
+			);
+			productName = DieticCoconut;
+			productReference = 6B6CB7408ED1CC8CD6FCEED7 /* DieticCoconut.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8E68D42902BA294CC2BB6F16 /* DieticPreview */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 44AE568C4C2F4AACE71DF86C /* Build configuration list for PBXNativeTarget "DieticPreview" */;
+			buildPhases = (
+				B2737D196EFAE9AA71BD8E2D /* Sources */,
+				2FAB92F8C20B456EECF0663B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DieticPreview;
+			packageProductDependencies = (
+			);
+			productName = DieticPreview;
+			productReference = B5ED3545D473948652D63A82 /* DieticPreview.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E818223C776AE9E733344252 /* DieticMarket */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 030D42E9BE44B5EE83DBEA4A /* Build configuration list for PBXNativeTarget "DieticMarket" */;
+			buildPhases = (
+				71A7BA50403C9FDA02453731 /* Sources */,
+				1F59150B8ED8176406CC7F0D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DieticMarket;
+			packageProductDependencies = (
+			);
+			productName = DieticMarket;
+			productReference = E9913F391ACF42B52B5F89AB /* DieticMarket.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E76217A2BA29034339FD20A4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = A832D282D791354580CD5727 /* Build configuration list for PBXProject "DieticPreview" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = FCC62850B9E1D4C4EC833CA0;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 2EFD5EB6D6B53292FD1B441A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8E68D42902BA294CC2BB6F16 /* DieticPreview */,
+				13CBE3682C915C0F0DE42EB7 /* DieticJournal */,
+				11D45A47E5EC24A872D02B89 /* DieticOrbit */,
+				640D66AE86989EB357303300 /* DieticCoconut */,
+				41C8D34BD03000F97A31F4A1 /* DieticCoconutTable */,
+				E818223C776AE9E733344252 /* DieticMarket */,
+				5D3CCCF46206EDABB8DB8034 /* DieticNourish */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1F59150B8ED8176406CC7F0D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				186A82FDCACAF36F0800579A /* MarketAssets.xcassets in Resources */,
+				99CBC0BF4F95C9D5DC5FC911 /* PhotoCredit.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2FAB92F8C20B456EECF0663B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				80208A7BDCE33A9CD8AEEFA1 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3C6020D1DD61FB60DD4740D3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49AC7D3FD408367CD9589984 /* OrbitAssets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FAE28B6802762B17C02ED574 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F50CDE9997F28B51D3858346 /* JournalAssets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		034048B84375187B44B686DB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				61BD6C41DD1C8925C7C5B1C7 /* CoconutStyle.swift in Sources */,
+				35C223DB24B9BE74D40D56AA /* CoconutTable.swift in Sources */,
+				B2A91827A01E2C40EF65986F /* DiaryData.swift in Sources */,
+				0B2CDFEEF14C774112A87D26 /* JournalInk.swift in Sources */,
+				8833A689E43ECF2998E0ECE9 /* JournalLogger.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		357B5DE4E50999086B494B6F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E41D55DF85D0FA4D9D81504D /* CoconutDiary.swift in Sources */,
+				F33D24A4CFD14101FCF354A2 /* CoconutStyle.swift in Sources */,
+				09E95C0FDC1F607024A6612B /* DiaryData.swift in Sources */,
+				2F92BA057433349CF4D35017 /* JournalInk.swift in Sources */,
+				FF09A0D6395210577EB5906D /* JournalLogger.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		37222B3471B7F9F421464730 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C81DC63EB8BB5D35BDB8CB58 /* DiaryData.swift in Sources */,
+				30E452AA19665D203568A136 /* Journal.swift in Sources */,
+				84FBF17EE0439B4A054BEB78 /* JournalInk.swift in Sources */,
+				D75BA79EFAD94B80120A528C /* JournalLogger.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		71A7BA50403C9FDA02453731 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA52607EBCEF0B9E7DEB28FC /* DiaryData.swift in Sources */,
+				967C0DD1C0E8D933A372AC12 /* JournalInk.swift in Sources */,
+				3A7CAC0747DA2C506D886849 /* JournalLogger.swift in Sources */,
+				5A0F040300F03F4C52C33AAC /* MarketDiary.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91E17659AF061CA02C7DA9C7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C14C5DFD296173FEA0D8E86A /* CardFoil.swift in Sources */,
+				A78BECB1F580FA745F186F85 /* DiaryData.swift in Sources */,
+				059CEC5A025725316A88458B /* FoodForm.swift in Sources */,
+				2AA886331DF472557A54EBFD /* NutritionCard.swift in Sources */,
+				03A8ADB443E947B08D677EBB /* Summary.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B2737D196EFAE9AA71BD8E2D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A8C029F4E6E50286D9E49D3 /* Diary.swift in Sources */,
+				9AC875E747BD1E50BBA96734 /* DiaryData.swift in Sources */,
+				A79CECA97A823961F10F5D7B /* FoodLogger.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5F928B31A43694D684F1A27 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0F83DED91515F0AE29748C8 /* DiaryData.swift in Sources */,
+				9E552D4EA31480C94D7CB80C /* JournalInk.swift in Sources */,
+				39A75A6015435867B9D47717 /* MealOrbit.swift in Sources */,
+				F9A242EAA28B2C967C1DADC0 /* OrbitDiary.swift in Sources */,
+				DD36DD5846A5BFEF442E0F69 /* OrbitLogger.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0D887D4964CF6CCC508997BC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Dietic Preview";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = co.yotzin.Dietic.DesignPreview;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		25D4EA229ECD30E5408A07AF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Dietic Orbit";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = co.yotzin.Dietic.OrbitPreview;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		2A28C3B039D1F6533D8AFC24 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		3D37203C5ADD1A3AD1A49409 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Dietic Coconut";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = co.yotzin.Dietic.CoconutPreview;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		4F6B4B3983F1B53E4E4EF40D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Dietic Journal";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = co.yotzin.Dietic.JournalPreview;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		500EE7CC791151D58D55FB6D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Dietic Orbit";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = co.yotzin.Dietic.OrbitPreview;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		6C90C23E6F4172FB5C9F5077 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Dietic Journal";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = co.yotzin.Dietic.JournalPreview;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		7718458D9F84CCC37396EA9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Dietic Coconut";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = co.yotzin.Dietic.CoconutPreview;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		90E311CAEB1C9BEF742AEB53 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Dietic Market";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = co.yotzin.Dietic.MarketPreview;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		A56EC5BEE9934787748A5CD6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Dietic Nourish";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = co.yotzin.Dietic.NourishPreview;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		AC53F28FAB745B0846FCDDC4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Coconut Table";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = co.yotzin.Dietic.CoconutTablePreview;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		B287D541E68F3728F5EED26D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Dietic Preview";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = co.yotzin.Dietic.DesignPreview;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		B8BDCC898D428A8CFBE60E0A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		DEEAFB7EFBC2F4857772BD77 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Dietic Nourish";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = co.yotzin.Dietic.NourishPreview;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		F5F09003B3F563A53606BE64 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Coconut Table";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = co.yotzin.Dietic.CoconutTablePreview;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		F79502D5A0D5A5AF468461F8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Dietic Market";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = co.yotzin.Dietic.MarketPreview;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		030D42E9BE44B5EE83DBEA4A /* Build configuration list for PBXNativeTarget "DieticMarket" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F79502D5A0D5A5AF468461F8 /* Debug */,
+				90E311CAEB1C9BEF742AEB53 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		44AE568C4C2F4AACE71DF86C /* Build configuration list for PBXNativeTarget "DieticPreview" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0D887D4964CF6CCC508997BC /* Debug */,
+				B287D541E68F3728F5EED26D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9404C45AA2ED8578C4737D78 /* Build configuration list for PBXNativeTarget "DieticJournal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F6B4B3983F1B53E4E4EF40D /* Debug */,
+				6C90C23E6F4172FB5C9F5077 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		995C2E0C0249A4396DB8466F /* Build configuration list for PBXNativeTarget "DieticCoconutTable" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F5F09003B3F563A53606BE64 /* Debug */,
+				AC53F28FAB745B0846FCDDC4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9B59776C002E3B132E94C814 /* Build configuration list for PBXNativeTarget "DieticCoconut" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3D37203C5ADD1A3AD1A49409 /* Debug */,
+				7718458D9F84CCC37396EA9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A832D282D791354580CD5727 /* Build configuration list for PBXProject "DieticPreview" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A28C3B039D1F6533D8AFC24 /* Debug */,
+				B8BDCC898D428A8CFBE60E0A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		AFF6C7A0B8208F27E3C1ED83 /* Build configuration list for PBXNativeTarget "DieticNourish" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A56EC5BEE9934787748A5CD6 /* Debug */,
+				DEEAFB7EFBC2F4857772BD77 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		EA1F17B872AF946F02B89EEB /* Build configuration list for PBXNativeTarget "DieticOrbit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				25D4EA229ECD30E5408A07AF /* Debug */,
+				500EE7CC791151D58D55FB6D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E76217A2BA29034339FD20A4 /* Project object */;
+}

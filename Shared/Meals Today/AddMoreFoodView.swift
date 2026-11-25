@@ -1,343 +1,274 @@
-//
-//  AddMoreFoodView.swift
-//  Dietic
-//
-//  Created by Yotzin Castrejon on 3/4/22.
-//
-
 import SwiftUI
-import CoreData
 import CodeScanner
+import CoreData
 
 struct AddMoreFoodView: View {
     @ObservedObject var fastingManager: FastingManager
-    @Environment(\.managedObjectContext) private var viewContext
-    @Environment(\.isSearching) var isSearching
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \SearchedFoods.timestamp, ascending: false)],
-                  animation: .default)
-    private var items: FetchedResults<SearchedFoods>
-    @State var mealPeriod: EatingTime
-    @State var topHeaderColors: [Color]
+    let mealPeriod: EatingTime
     @Binding var rootIsActive: Bool
-    @State private var searchText = ""
-    @State private var submittedQuery: String?
-    @State private var searchRequest = UUID()
-    @State private var matches = [FoodDataCentral.Match]()
-    @State private var searchStatus = ""
+    var scan = false
+
+    @Environment(\.managedObjectContext) private var context
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \SearchedFoods.timestamp, ascending: false)])
+    private var history: FetchedResults<SearchedFoods>
+    @ObservedObject private var favorites = FavoriteFoods.shared
+    @State private var favoriteInput: PortionInput?
+    @State private var search = ""
+    @State private var restaurantsOnly = false
+    @StateObject private var groceries = GroceryNameSearch()
     @State private var lookup: FoodLookup?
-    @State private var isShowingBarcodeView: Bool = false
-    @State private var isTorchOn = false
-    @State private var dragAmount: CGPoint?
-    @State private var showingAddingView = false
-    @State private var selectedFood: SavedFood?
-    @State private var invalidHistory = false
-    @State private var coreDataElement: FetchedResults<SearchedFoods>.Element?
-    @State private var addingFromCoreDataIsShowing = false
-    @Binding var accentColor: Color
-    init(fastingManager: FastingManager, mealPeriod: EatingTime, topHeaderColors: [Color], rootIsActive: Binding<Bool>, accentColor: Binding<Color>) {
-        self.fastingManager = fastingManager
-        _mealPeriod = State(initialValue: mealPeriod)
-        _topHeaderColors = State(initialValue: topHeaderColors)
-        self._rootIsActive = rootIsActive
-        self._accentColor = accentColor
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = .systemGroupedBackground
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = .label
-    }
-    var body: some View {
-        ZStack {
-            Color(uiColor: .systemGroupedBackground)
-                .ignoresSafeArea()
-            SearchableListView(topHeaderColors: topHeaderColors)
-                .navigationTitle(mealPeriod.description)
-                .navigationBarTitleDisplayMode(.inline)
-            
-            
-            
-            if submittedQuery == nil {
-                List {
-                    Section("History") {
-                        ForEach(items) { item in
-                            ZStack {
-                                Button(action: {
-                                    Task {
-                                        guard let food = SavedFood.readHistory(item.jsonData) else {
-                                            invalidHistory = true
-                                            return
-                                        }
-                                        selectedFood = food
-                                        coreDataElement = item
-                                        addingFromCoreDataIsShowing = true
-                                        accentColor = .blue
-                                    }
-                                }) {
-                                    HStack {
-                                        VStack(alignment: .leading) {
-                                            Text("\(item.name ?? "No Name")")
-                                                .font(.subheadline)
-                                                .fontWeight(.semibold)
-                                                .foregroundColor(Color(uiColor: .label))
-                                                .multilineTextAlignment(.leading)
-                                            Text("\(item.brandName ??  "No brand")")
-                                                .font(.caption2)
-                                                .foregroundColor(Color(uiColor: .secondaryLabel))
-                                        }
-                                        Spacer()
-                                        Text("\(Int(item.calories)) kcal")
-                                            .font(.subheadline)
-                                            .foregroundColor(Color("B10"))
-                                        
-                                    }
-                                    .padding(.leading)
-                                    .padding(.trailing, 60)
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 60)
-                                    .background(Color(uiColor: .secondarySystemGroupedBackground))
-                                    
-                                }
-                                
-                                PlusToCheckMark(fastingManager: fastingManager, mealPeriod: mealPeriod, fetched: item)
-                                //
-                            }
-                            
-                        }
-                        .onDelete(perform: deleteItems)
-                        .cornerRadius(10)
-                        .listRowSeparator(.hidden)
-                        .listRowBackground(Color(uiColor: .systemGroupedBackground))
-                        .buttonStyle(BorderlessButtonStyle())
-                    }
-                }
-                .listStyle(.plain)
-                .searchable(text: $searchText)
-                .onSubmit(of: .search) {
-                    submitSearch()
+    @State private var historyFood: SavedFood?
+    @State private var historyItem: SearchedFoods?
+    @State private var showingFood = false
+    @State private var torch = false
+    @State private var scanError: String?
+    @State private var historyError = ""
+    @State private var showHistoryError = false
 
-                }
-                .onChange(of: searchText, perform: { newValue in
-                    items.nsPredicate = newValue.isEmpty ? nil : NSPredicate(format: "name CONTAINS[cd] %@", newValue)
-                })
-                
-                //                .environment(\.defaultMinListRowHeight, 52)
-                //                .frame(minHeight: 52 * CGFloat(items.count))
-                .padding(.top, 80)
-                BarcodeButton(themeColor: topHeaderColors, isActive: $isShowingBarcodeView)
-                
-                
-                NavigationLink(isActive: $addingFromCoreDataIsShowing) {
-                    if let selectedFood, let coreDataElement {
-                        FoodServingView(fastingManager: fastingManager, isShowing: $addingFromCoreDataIsShowing,
-                                        rootIsActive: $rootIsActive, selection: mealPeriod, food: selectedFood,
-                                        historyItem: coreDataElement)
-                            .navigationBarBackButtonHidden(true)
-                    }
-                } label: { EmptyView() }
-                .isDetailLink(false)
-            } else {
-                VStack {
-                    List {
-                        Section("USDA FoodData Central") {
-                            if !searchStatus.isEmpty { Text(searchStatus) }
-                            ForEach(matches) { item in
-                                Button {
-                                    lookup = .food(item.id)
-                                    showingAddingView = true
-                                } label: {
-                                    HStack {
-                                        VStack(alignment: .leading) {
-                                            Text(item.description)
-                                                .font(.subheadline)
-                                                .fontWeight(.semibold)
-                                                .foregroundColor(.primary)
-                                            Text(item.subtitle)
-                                                .font(.caption2)
-                                                .foregroundColor(.secondary)
-                                        }
-                                        Spacer()
-                                        if let energy = item.energyDescription {
-                                            Text(energy)
-                                                .font(.subheadline)
-                                                .foregroundColor(Color("B10"))
-                                        }
-                                    }
-                                }
+    private var query: String { search.trimmingCharacters(in: .whitespacesAndNewlines) }
+
+    private var matchingFavorites: [FavoriteFood] {
+        favorites.entries.filter { $0.matches(search: query) }
+    }
+
+    private var otherPersonalMatches: [FavoriteFood] {
+        guard !query.isEmpty else { return [] }
+        return favorites.personalFoods.filter { $0.pinned == false && $0.matches(search: query) }
+    }
+
+    private var matchingRestaurants: [Restaurant] {
+        Restaurant.directory.filter { (restaurantsOnly && query.isEmpty) || $0.matches(query) }
+    }
+
+    private var typedFood: String { scan || restaurantsOnly ? "" : query }
+
+    private var groceryQuery: String {
+        guard !scan, !restaurantsOnly, !query.isEmpty else { return "" }
+        // A recognized chain belongs in its own menu. Partial matches can coexist with groceries.
+        let namedChain = matchingRestaurants.contains { $0.menuQuery(for: query) != nil }
+        return namedChain ? "" : query
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            JournalHeading(title: scan ? "Scan barcode" : "Log food")
+            VStack(alignment: .leading, spacing: 14) {
+                if scan {
+                    if !showingFood && scanError == nil {
+                        CodeScannerView(codeTypes: [.ean13, .ean8, .upce, .itf14, .code128, .code39, .code39Mod43,
+                                                    .code93, .interleaved2of5, .pdf417], showViewfinder: true,
+                                        simulatedData: "0049000061062", isTorchOn: torch) { result in
+                            switch result {
+                            case .success(let code):
+                                guard !showingFood else { return }
+                                open(.barcode(code.string, compressed: code.type == .upce))
+                            case .failure:
+                                scanError = "Check camera access for Dietic in Settings, or enter the barcode below."
                             }
                         }
-                    }
-                    .searchable(text: $searchText)
-                    .onSubmit(of: .search, submitSearch)
-                    .onChange(of: searchText) { value in
-                        submittedQuery = nil
-                        items.nsPredicate = value.isEmpty ? nil : NSPredicate(format: "name CONTAINS[cd] %@", value)
-                    }
-                    .task(id: searchRequest) {
-                        guard let query = submittedQuery else { return }
-                        do {
-                            let results = try await FoodDataCentral().search(query)
-                            try Task.checkCancellation()
-                            matches = results
-                            searchStatus = results.isEmpty ? "No matching foods." : ""
-                        } catch {
-                            if !Task.isCancelled { searchStatus = error.localizedDescription }
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .overlay(alignment: .bottomTrailing) {
+                            Button { torch.toggle() } label: {
+                                Image(systemName: torch ? "flashlight.on.fill" : "flashlight.off.fill")
+                                    .frame(width: 44, height: 44).background(.thinMaterial, in: Circle())
+                            }.padding().accessibilityLabel(torch ? "Turn flashlight off" : "Turn flashlight on")
                         }
+                    } else if let scanError {
+                        Text(scanError).font(.callout)
+                        Button("Try camera again") { self.scanError = nil }
                     }
-                    .environment(\.defaultMinListRowHeight, 52)
-                    .listStyle(.plain)
-                    .padding(.top, 80)
-                }
-            }
-            NavigationLink(isActive: $showingAddingView) {
-                if let lookup {
-                    FoodLookupView(isShowing: $showingAddingView, rootIsActive: $rootIsActive,
-                                     fastingManager: fastingManager, lookup: lookup, mealPeriod: mealPeriod)
-                        .navigationBarBackButtonHidden(true)
-                }
-            } label: { EmptyView() }
-        }
-        .alert("This saved food could not be read.", isPresented: $invalidHistory) {
-            Button("OK") {}
-        }
-        .sheet(isPresented: $isShowingBarcodeView) {
-            CodeScannerView(codeTypes: [.code128,
-                                        .code39,
-                                        .code39Mod43,
-                                        .code93,
-                                        .ean13,
-                                        .ean8,
-                                        .interleaved2of5,
-                                        .itf14,
-                                        .pdf417,
-                                        .upce],showViewfinder: true, simulatedData: "0016000275287",isTorchOn: isTorchOn, completion: handleScan)
-            .overlay(
-                GeometryReader { g in
                     HStack {
-                        Button(action: {
-                            isTorchOn.toggle()
-                        }) {
-                            Image(systemName: isTorchOn ? "lightbulb.circle.fill" : "lightbulb.circle")
-                                .renderingMode(.template)
-                                .resizable()
-                                .foregroundColor(isTorchOn ? .yellow : .gray)
-                                .frame(width: 70, height: 70)
+                        TextField("Barcode digits", text: $search).keyboardType(.numberPad)
+                        Button("Look up") { open(.barcode(query, compressed: false)) }
+                            .disabled(![8, 12, 13, 14].contains(query.count) || !query.allSatisfy({ $0.isASCII && $0.isNumber }))
+                    }.padding(.horizontal, 14).frame(minHeight: 48)
+                        .background(WarmInk.apricot.opacity(0.20), in: RoundedRectangle(cornerRadius: 12))
+                } else {
+                    Picker("Search in", selection: $restaurantsOnly) {
+                        Text("Foods").tag(false)
+                        Text("Restaurants").tag(true)
+                    }.pickerStyle(.segmented)
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                        TextField(restaurantsOnly ? "Find a restaurant" : "Find a food", text: $search).autocorrectionDisabled().submitLabel(.search)
+                    }.padding(.horizontal, 14).frame(minHeight: 48)
+                        .background(WarmInk.apricot.opacity(0.20), in: RoundedRectangle(cornerRadius: 12))
+                    List {
+                        if !restaurantsOnly && !matchingFavorites.isEmpty {
+                            Section("Favorites") {
+                                ForEach(matchingFavorites) { entry in
+                                    savedPortionRow(entry).swipeActions {
+                                        Button("Unfavorite", role: .destructive) {
+                                            do { try favorites.remove(entry.id) }
+                                            catch { historyError = error.localizedDescription; showHistoryError = true }
+                                        }
+                                    }
+                                }
+                            }.listRowBackground(WarmInk.paper)
                         }
-                        .animation(.linear(duration: 0.15), value: dragAmount)
-                        .position(dragAmount ?? CGPoint(x: g.size.width / 2, y: g.size.height / 2))
-                        .highPriorityGesture(
-                            DragGesture()
-                                .onChanged { dragAmount = $0.location }
-                        )
-                        .offset(y: 200)
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        if !restaurantsOnly && !otherPersonalMatches.isEmpty {
+                            Section("Personal foods") {
+                                ForEach(otherPersonalMatches) { savedPortionRow($0) }
+                            }.listRowBackground(WarmInk.paper)
+                        }
+                        if !typedFood.isEmpty && groceries.matches.contains(where: { $0.isSaved }) {
+                            Section("Your groceries") {
+                                groceryRows(groceries.matches.filter { $0.isSaved })
+                            }.listRowBackground(WarmInk.paper)
+                        }
+                        if restaurantsOnly || !matchingRestaurants.isEmpty {
+                            Section("Restaurants") {
+                                if matchingRestaurants.isEmpty {
+                                    Text("No matching restaurants.").foregroundStyle(WarmInk.muted)
+                                }
+                                ForEach(matchingRestaurants) { chain in
+                                    NavigationLink {
+                                        RestaurantMenu(chain: chain, query: chain.menuQuery(for: query) ?? "",
+                                                       manager: fastingManager, meal: mealPeriod, root: $rootIsActive)
+                                    } label: {
+                                        row(chain.name, "", nil)
+                                    }.accessibilityIdentifier("restaurant-" + chain.id)
+                                }
+                            }.listRowBackground(WarmInk.paper)
+                        }
+                        if !restaurantsOnly && query.isEmpty {
+                            Section("Recent foods") {
+                                if history.isEmpty { Text("Search for a food to log your first meal.").foregroundStyle(WarmInk.muted) }
+                                ForEach(history) { item in
+                                    HStack {
+                                        Button {
+                                            guard let food = SavedFood.readHistory(item.jsonData) else {
+                                                historyError = "This saved food could not be read."
+                                                showHistoryError = true
+                                                return
+                                            }
+                                            historyFood = food
+                                            historyItem = item
+                                            showingFood = true
+                                        } label: {
+                                            row(item.name ?? "Food", item.brandName ?? "", "\(Int(item.calories.rounded())) kcal")
+                                        }
+                                        PlusToCheckMark(fastingManager: fastingManager, mealPeriod: mealPeriod, fetched: item)
+                                            .buttonStyle(.borderless).fixedSize()
+                                            .accessibilityLabel("Add one serving to \(mealPeriod.description)")
+                                    }
+                                }
+                                .onDelete { offsets in
+                                    let deleted = offsets.map { history[$0] }
+                                    deleted.forEach(context.delete)
+                                    do { try context.save() }
+                                    catch { context.rollback(); historyError = error.localizedDescription; showHistoryError = true }
+                                }
+                            }.listRowBackground(WarmInk.paper)
+                        } else if !groceryQuery.isEmpty && (!groceries.status.isEmpty || groceries.matches.contains(where: { !$0.isSaved })) {
+                            Section("Foods") {
+                                if !groceries.status.isEmpty { Text(groceries.status).foregroundStyle(WarmInk.muted) }
+                                groceryRows(groceries.matches.filter { !$0.isSaved })
+                            }.listRowBackground(WarmInk.paper)
+                        }
+                    }.listStyle(.plain).scrollContentBackground(.hidden).scrollDismissesKeyboard(.interactively)
                 }
-            )
+                Spacer(minLength: 0)
+            }.padding(.horizontal, 22).padding(.vertical, 14)
         }
-    }
-    private func submitSearch() {
-        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !query.isEmpty else { return }
-        matches = []
-        searchStatus = "Searching…"
-        submittedQuery = query
-        searchRequest = UUID()
+        .journalPage()
+        .task(id: typedFood) {
+            await groceries.search(typedFood, online: !groceryQuery.isEmpty)
+        }
+        .navigationDestination(isPresented: $showingFood) {
+            if let lookup {
+                FoodLookupView(isShowing: $showingFood, rootIsActive: $rootIsActive, fastingManager: fastingManager,
+                               lookup: lookup, mealPeriod: mealPeriod)
+            } else if let historyFood {
+                FoodServingView(fastingManager: fastingManager, isShowing: $showingFood, rootIsActive: $rootIsActive,
+                                selection: mealPeriod, food: historyFood, historyItem: historyItem, initialInput: favoriteInput)
+            }
+        }
+        .onChange(of: showingFood) { active in
+            if !active { lookup = nil; historyFood = nil; historyItem = nil; favoriteInput = nil }
+        }
+        .task {
+            do { try favorites.loadIfNeeded() }
+            catch { historyError = error.localizedDescription; showHistoryError = true }
+        }
+        .alert("Saved foods", isPresented: $showHistoryError) { Button("OK") {} } message: { Text(historyError) }
     }
 
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+    private func savedPortionRow(_ entry: FavoriteFood) -> some View {
+        HStack {
+            Button {
+                favoriteInput = entry.input
+                historyFood = entry.food
+                historyItem = nil
+                showingFood = true
+            } label: {
+                row(entry.food.name, [entry.food.brand, entry.portionLabel].compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: " · "), entry.caloriesLabel)
+            }.buttonStyle(.plain)
+            SavedPortionAdd(food: entry.food.using(entry.portion), input: entry.input, manager: fastingManager, meal: mealPeriod)
+        }
+    }
+
+    private func groceryRows(_ matches: [GroceryMatch]) -> some View {
+        ForEach(matches) { match in
+            Button { open(match.id) } label: {
+                row(match.name, match.subtitle, match.energy)
             }
         }
     }
-    
-    
-    func handleScan(result: Result<ScanResult, ScanError>) {
-        isShowingBarcodeView = false
-        
-        switch result {
-            case .success(let result):
-                //            something = result.string
-                //            request(upc: result.string)
-                lookup = .barcode(result.string, compressed: result.type == .upce)
-                showingAddingView = true
-                print(result.string)
-            case .failure(let error):
-                print("Scanning failed: \(error.localizedDescription)")
-        }
-    }
-    
-    
-}
 
-struct AddMoreFoodView_Previews: PreviewProvider {
-    
-    static var previews: some View {
-        Group {
-            
-            NavigationView {
-                AddMoreFoodView(fastingManager: FastingManager(), mealPeriod: .lunch, topHeaderColors: [Color("B10"), Color("B00")], rootIsActive: Binding.constant(false), accentColor: Binding.constant(.blue))
-                    .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-                
+    private func open(_ value: FoodLookup) {
+        lookup = value
+        showingFood = true
+    }
+
+    private func row(_ name: String, _ subtitle: String, _ calories: String?) -> some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(name).font(.headline)
+                if !subtitle.isEmpty { Text(subtitle).font(.caption).foregroundStyle(WarmInk.muted) }
             }
-            
-            
-        }
+            Spacer()
+            if let calories { Text(calories).font(.caption.monospacedDigit()).foregroundStyle(WarmInk.muted) }
+        }.frame(minHeight: 44).contentShape(Rectangle())
     }
 }
 
-struct SearchableListView: View {
-    @Environment(\.isSearching) var isSearching
-    @State var topHeaderColors: [Color]
-    @Namespace private var animation
+private struct SavedPortionAdd: View {
+    @Environment(\.managedObjectContext) private var viewContext
+    let food: SavedFood
+    let input: PortionInput
+    let manager: FastingManager
+    let meal: EatingTime
+
+    @State private var saving = false
+    @State private var added = false
+    @State private var errorMessage: String?
+
     var body: some View {
-        ZStack {
-            VStack {
-                LinearGradient(colors: topHeaderColors, startPoint: .topLeading, endPoint: .bottomTrailing)
-                //                    .opacity(isSearching ? 0.6 : 1)
-                    .frame(height: 180)
-                    .mask(RoundedCorners(color: topHeaderColors, tl: 0, tr: 0, bl: 64, br: 0, startPoint: .topLeading, endPoint: .bottomTrailing))
-                
-                Spacer()
+        Button {
+            guard !saving, !added, let multiplier = input.servings, let quantity = input.savedQuantity else { return }
+            let sample = food.sample(multiplier: multiplier, quantity: quantity,
+                                     unit: input.savedUnit, meal: meal, date: manager.mealTimestamp)
+            saving = true
+            Task {
+                defer { saving = false }
+                do {
+                    try await manager.saveMeal(sample)
+                    added = true
+                    try food.recordHistory(in: viewContext)
+                } catch {
+                    errorMessage = added ? "The meal was logged, but recent foods could not be updated." : error.localizedDescription
+                }
             }
-            .ignoresSafeArea()
-            
-            //            if !isSearching {
-            //            VStack {
-            //                Rectangle()
-            //                    .fill(.white)
-            //                    .frame(height: 34)
-            //                    .cornerRadius(8)
-            //                    .offset(x: 0, y: -50)
-            //                    .padding(.horizontal, 20)
-            //                    .matchedGeometryEffect(id: "Bar", in: animation)
-            //
-            //                Spacer()
-            //            }
-            //            } else {
-            //                VStack {
-            //                    Rectangle()
-            //                        .fill(.white)
-            //                        .frame(height: 34)
-            //                        .cornerRadius(8)
-            //                        .offset(x: 0, y: -44)
-            //                        .padding(.leading, 20)
-            //                        .padding(.trailing, 84)
-            //                        .matchedGeometryEffect(id: "Bar", in: animation)
-            //                        .transition(.asymmetric(
-            //                            insertion: .opacity.animation(.easeInOut(duration: 1).delay(2)),
-            //                            removal: .opacity.animation(.easeInOut(duration: 0.3).delay(0.2))))
-            //                    Spacer()
-            //                }
-            //
-            //            }
+        } label: {
+            Image(systemName: added ? "checkmark.circle.fill" : "plus.circle.fill")
+                .font(.title).foregroundStyle(WarmInk.action).frame(width: 44, height: 44)
         }
-        
-        
+        .buttonStyle(.borderless).disabled(saving || added || input.servings == nil)
+        .accessibilityLabel(added ? "Added \(food.name)" : "Add \(food.portion.description(servings: input.servings ?? 0)) of \(food.name) to \(meal.description)")
+        .alert("Meal log", isPresented: Binding(get: { errorMessage != nil }, set: { if !$0 { errorMessage = nil } })) {
+            Button("OK") { errorMessage = nil }
+        } message: { Text(errorMessage ?? "") }
     }
 }
 
@@ -351,35 +282,18 @@ struct PlusToCheckMark: View {
     @State private var showError = false
     let fetched: SearchedFoods
     var body: some View {
-        HStack {
-            Spacer()
-            Button(action: {
-                
-                guard !saving, !isTapped else { return }
-                saving = true
-                Task { await addServing() }
-            }) {
-                ZStack {
-                    if isTapped {
-                        LottieView(filename: "checkmark", loopMode: .playOnce)
-                            .frame(width: 60)
-                            .transition(.opacity.animation(.easeInOut(duration: 0.2)))
-                    } else {
-                        ZStack {
-                            Circle()
-                                .fill(Color(uiColor: .systemGray2))
-                            Image(systemName: "plus")
-                                .font(.system(.body).bold())
-                                .foregroundColor(.white)
-                            
-                        }
-                        .frame(width: 30)
-                        .transition(.opacity.animation(.easeInOut(duration: 0.2)))                    }
-                }
-            }
-            
+        Button {
+            guard !saving, !isTapped else { return }
+            saving = true
+            Task { await addServing() }
+        } label: {
+            Image(systemName: isTapped ? "checkmark" : "plus")
+                .font(.body.weight(.semibold)).foregroundStyle(isTapped ? WarmInk.action : WarmInk.paper)
+                .frame(width: 32, height: 32)
+                .background(isTapped ? WarmInk.apricot.opacity(0.4) : WarmInk.action, in: Circle())
+                .frame(width: 44, height: 44)
         }
-        .padding(.trailing, isTapped ? 5 : 20)
+        .disabled(saving || isTapped)
         .alert("Meal log", isPresented: $showError) {
             Button("OK") {}
         } message: { Text(errorMessage) }
@@ -403,5 +317,161 @@ struct PlusToCheckMark: View {
             errorMessage = isTapped ? "The meal was logged, but food history could not be updated." : error.localizedDescription
             showError = true
         }
+    }
+}
+
+struct GroceryLibraryView: View {
+    let manager: FastingManager
+    @Environment(\.dismiss) private var dismiss
+    @State private var query = ""
+    @State private var entries: [String: BarcodeFoods.Entry] = [:]
+    @State private var selected: String?
+    @State private var detail = false
+    @State private var removal: Removal?
+    @ObservedObject private var favorites = FavoriteFoods.shared
+    @State private var personalSelection: FavoriteFood?
+    @State private var creating = false
+    @State private var backup = false
+    @State private var errorMessage: String?
+    @State private var meal = EatingTime.current
+
+    private enum Removal {
+        case barcode(String, String)
+        case personal(UUID, String)
+
+        var title: String {
+            switch self {
+            case .barcode: return "Forget this barcode?"
+            case .personal: return "Remove this personal food?"
+            }
+        }
+
+        var message: String {
+            switch self {
+            case .barcode(_, let name): return "The next scan of \(name) will look up the barcode again."
+            case .personal(_, let name): return "This removes \(name) from your saved foods and favorites."
+            }
+        }
+    }
+
+    private var matchingPersonalFoods: [FavoriteFood] {
+        favorites.personalFoods.filter { $0.matches(search: query) }
+    }
+
+    private var matches: [String] {
+        let words = query.split(whereSeparator: \.isWhitespace)
+        let filtered = entries.filter { key, entry in
+            let text = [entry.food.name, entry.food.brand, key].compactMap { $0 }.joined(separator: " ")
+            return words.allSatisfy { text.localizedStandardContains(String($0)) }
+        }
+        return filtered.sorted {
+            if $0.value.lastScan != $1.value.lastScan { return $0.value.lastScan > $1.value.lastScan }
+            return $0.key < $1.key
+        }.map(\.key)
+    }
+
+    var body: some View {
+        NavigationStack {
+            List {
+                if entries.isEmpty && favorites.personalFoods.isEmpty {
+                    Text("Scan a grocery barcode or create a food to keep its nutrition here for offline logging.")
+                        .foregroundStyle(WarmInk.muted)
+                } else if matches.isEmpty && matchingPersonalFoods.isEmpty {
+                    Text("No matching groceries.").foregroundStyle(WarmInk.muted)
+                } else {
+                    if !matchingPersonalFoods.isEmpty {
+                        Section("Personal foods") {
+                            ForEach(matchingPersonalFoods) { item in
+                                HStack {
+                                    Button {
+                                        selected = nil
+                                        personalSelection = item
+                                        detail = true
+                                    } label: {
+                                        VStack(alignment: .leading, spacing: 3) {
+                                            Text(item.food.name).font(.headline)
+                                            Text(item.portionLabel).font(.caption).foregroundStyle(WarmInk.muted)
+                                        }.frame(maxWidth: .infinity, minHeight: 44, alignment: .leading).contentShape(Rectangle())
+                                    }.buttonStyle(.plain)
+                                    SavedPortionAdd(food: item.food.using(item.portion), input: item.input, manager: manager, meal: meal).id(meal)
+                                }.swipeActions {
+                                    Button("Remove", role: .destructive) { removal = .personal(item.id, item.food.name) }
+                                }
+                            }
+                        }.listRowBackground(WarmInk.paper)
+                    }
+                    ForEach(matches, id: \.self) { key in
+                        if let entry = entries[key] {
+                            HStack(spacing: 6) {
+                                Button { personalSelection = nil; selected = key; detail = true } label: {
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text(entry.food.name).font(.headline)
+                                        Text([entry.food.brand, entry.food.portion.description(servings: 1)]
+                                            .compactMap { $0 }.filter { !$0.isEmpty }.joined(separator: " · "))
+                                            .font(.subheadline).foregroundStyle(WarmInk.muted)
+                                        if entry.scans > 0 {
+                                            Text("\(entry.scans) \(entry.scans == 1 ? "scan" : "scans") · \(entry.lastScan.formatted(date: .abbreviated, time: .omitted))")
+                                                .font(.caption).foregroundStyle(WarmInk.muted)
+                                        }
+                                    }.frame(maxWidth: .infinity, minHeight: 44, alignment: .leading).contentShape(Rectangle())
+                                }.buttonStyle(.plain)
+                                SavedPortionAdd(food: entry.food, input: PortionInput(portion: entry.food.portion), manager: manager, meal: meal).id(meal)
+                            }.swipeActions {
+                                Button("Forget", role: .destructive) { removal = .barcode(key, entry.food.name) }
+                            }
+                        }
+                    }.listRowBackground(WarmInk.paper)
+                }
+            }
+            .searchable(text: $query, prompt: "Food, brand or barcode")
+            .scrollContentBackground(.hidden).background(WarmInk.paper)
+            .navigationTitle("My groceries")
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) { Button("Done") { dismiss() } }
+                ToolbarItemGroup(placement: .primaryAction) {
+                    Button { creating = true } label: { Label("Create food", systemImage: "plus") }
+                    Button { backup = true } label: { Label("Back up groceries", systemImage: "externaldrive") }
+                    Picker("Meal", selection: $meal) {
+                        ForEach(EatingTime.allCases, id: \.self) { Text($0.description).tag($0) }
+                    }.pickerStyle(.menu)
+                }
+            }
+            .navigationDestination(isPresented: $detail) {
+                if let item = personalSelection {
+                    FoodServingView(fastingManager: manager, isShowing: $detail, rootIsActive: .constant(true),
+                                    selection: meal, food: item.food, initialInput: item.input, onLogged: { meal = $0 })
+                } else if let selected, let entry = entries[selected] {
+                    FoodServingView(fastingManager: manager, isShowing: $detail, rootIsActive: .constant(true),
+                                    selection: meal, food: entry.food, barcodeKey: selected, onLogged: { meal = $0 })
+                }
+            }
+            .sheet(isPresented: $creating) { PersonalFoodEditorView() }
+            .sheet(isPresented: $backup) { GroceryBackupView() }
+            .alert(removal?.title ?? "Remove food?", isPresented: Binding(get: { removal != nil }, set: { if !$0 { removal = nil } }),
+                   presenting: removal) { action in
+                switch action {
+                case .barcode(let key, _):
+                    Button("Forget saved match", role: .destructive) {
+                        do { try BarcodeFoods.shared.forget(key) }
+                        catch { errorMessage = error.localizedDescription }
+                    }
+                case .personal(let id, _):
+                    Button("Remove personal food", role: .destructive) {
+                        do { try favorites.deletePersonal(id) }
+                        catch { errorMessage = error.localizedDescription }
+                    }
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: { action in Text(action.message) }
+            .alert("Saved groceries", isPresented: Binding(get: { errorMessage != nil }, set: { if !$0 { errorMessage = nil } })) {
+                Button("OK") { errorMessage = nil }
+            } message: { Text(errorMessage ?? "") }
+            .onAppear {
+                entries = BarcodeFoods.shared.entries
+                do { try favorites.loadIfNeeded() }
+                catch { errorMessage = error.localizedDescription }
+            }
+            .onReceive(BarcodeFoods.shared.changes) { entries = BarcodeFoods.shared.entries }
+        }.tint(WarmInk.action).preferredColorScheme(.light)
     }
 }

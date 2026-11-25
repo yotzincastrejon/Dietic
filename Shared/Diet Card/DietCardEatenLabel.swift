@@ -82,26 +82,10 @@ struct DietCardEatenLabel: View {
         let bmr = fastingManager.bmr
         let consumedCalories = fastingManager.consumedCalories
         let activeCalories = fastingManager.activeCalories
-        return (bmr + activeCalories) * dietMultiplier(dietGoal, deficitLevel)
+        return (bmr + activeCalories) * dietGoal.multiplier(for: deficitLevel)
     }
 
-    func dietMultiplier(_ goal: DietGoal, _ level: DietDeficitLevel) -> Double {
-        switch goal {
-        case .deficit:
-            switch level {
-            case .light:
-                return 0.90
-            case .normal:
-                return 0.80
-            case .aggressive:
-                return 0.70
-            }
-        case .maintaining:
-            return 1
-        case .gain:
-            return 1.10
-        }
-    }
+
 }
 
 

@@ -105,3 +105,31 @@ struct PersistenceController {
 
     
 }
+
+extension SavedFood {
+    @MainActor
+    func recordHistory(in context: NSManagedObjectContext, updating existing: SearchedFoods? = nil) throws {
+        let data = try JSONEncoder().encode(self)
+        var match = existing
+        if match == nil {
+            let request = SearchedFoods.fetchRequest()
+            request.predicate = NSPredicate(format: "name == %@", name)
+            match = try context.fetch(request).first {
+                $0.brandName == brand && SavedFood.readHistory($0.jsonData) == self
+            }
+        }
+        let item = match ?? SearchedFoods(context: context)
+        item.timestamp = Date()
+        item.name = name
+        item.brandName = brand
+        item.calories = nutrients[208] ?? 0
+        item.jsonData = data
+        do {
+            try context.save()
+        } catch {
+            if item.isInserted { context.delete(item) }
+            else { context.refresh(item, mergeChanges: false) }
+            throw error
+        }
+    }
+}
